@@ -22,8 +22,10 @@ import android.util.TypedValue;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.justchill.android.learnachord.chord.Chord;
 import com.justchill.android.learnachord.chord.ChordsList;
 import com.justchill.android.learnachord.chord.Interval;
 import com.justchill.android.learnachord.chord.IntervalsList;
@@ -42,7 +44,7 @@ public class MyApplication extends Application {
     public interface ChangeListener {
         void onIsPlayingChange();
         void onActivityResumed();
-        void onPlayChordChange(Interval[] interval);
+        void onPlayChordChange(Interval[] interval, int lowestKey);
         void onPlayKey(Integer keyId);
     }
 
@@ -185,11 +187,11 @@ public class MyApplication extends Application {
         return MyApplication.playingChordOrInterval;
     }
 
-    public static void playChord(Interval[] interval) {
+    public static void playChord(Interval[] interval, int lowestKey) {
         MyApplication.playingChordOrInterval = true;
 
         if(listener != null) {
-            listener.onPlayChordChange(interval);
+            listener.onPlayChordChange(interval, lowestKey);
         }
     }
 
@@ -201,7 +203,7 @@ public class MyApplication extends Application {
         MyApplication.playingChordOrInterval = false;
 
         if(listener != null) {
-            listener.onPlayChordChange(null);
+            listener.onPlayChordChange(null, 0);
         }
     }
 
@@ -376,6 +378,10 @@ public class MyApplication extends Application {
     // For pausing quiz
     public static boolean quizPlayingPaused = false;
 
+    public static boolean quizModeOneCorrectAnswer = true;
+    public static Interval quizIntervalToPlay;
+    public static Chord quizChordToPlay;
+    public static int quizLowestKey;
 
     public static String getKeyName(int key) {
         key--; // 0 to 60 (and not 1 - 61)
@@ -403,6 +409,41 @@ public class MyApplication extends Application {
             stringBuilder.append((key/12) + 2);
 
             return stringBuilder.toString();
+        }
+    }
+
+    public static void updateTextView(final TextView chordTV, final String chordName, final TextView numberOneTV,
+                               final String chordNumberOne, final TextView numberTwoTV, final String chordNumberTwo) {
+        if(MyApplication.getActivity() == null) {
+            return;
+        }
+        try {
+            MyApplication.getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        chordTV.setText(chordName);
+
+                        // Copy-pasted from ChordAdapter.GetView
+                        if(chordNumberTwo == null) {
+                            if(chordNumberOne != null) {
+                                chordTV.setText(chordTV.getText() + chordNumberOne);
+                            }
+
+                            numberOneTV.setVisibility(View.GONE);
+                            numberTwoTV.setVisibility(View.GONE);
+                        } else {
+                            numberOneTV.setVisibility(View.VISIBLE);
+                            numberTwoTV.setVisibility(View.VISIBLE);
+                            numberOneTV.setText(chordNumberOne);
+                            numberTwoTV.setText(chordNumberTwo);
+                        }
+                    } catch (Exception e) {}
+
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 

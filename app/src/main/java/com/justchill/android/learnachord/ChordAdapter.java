@@ -81,7 +81,8 @@ public class ChordAdapter extends ArrayAdapter<Chord> {
             @Override
             public void onClick(View view) {
                 if(currentChord != null) {
-                    MyApplication.playChord(currentChord.getAllIntervals());
+                    // 25 == middle c
+                    MyApplication.playChord(currentChord.getAllIntervals(), 25);
                 }
             }
         });

@@ -252,4 +252,37 @@ public final class IntervalsList {
         }
     }
 
+    public static Interval getRandomCheckedInterval(Interval exception) {
+        int checkedIntervals = getCheckedIntervalCount();
+        if(exception != null) {
+            checkedIntervals--; // -1 for exception
+        }
+        if(checkedIntervals <= 0) {
+            return null;
+        }
+
+        // Get checked interval that is numbered as randomNumb (not counting unchecked ones)
+        Random random = new Random();
+        int randomNumb = random.nextInt(checkedIntervals);
+        int counter = 0;
+        for(int i = 0; i < getIntervalsCount(); i++) {
+            if(getInterval(i).getIsChecked() && getInterval(i) != exception) {
+                if(randomNumb == counter) {
+                    return getInterval(i);
+                }
+                counter++;
+            }
+        }
+
+        // If nothing was returned, return first checked interval that is not exception
+        for(int i = 0; i < getIntervalsCount(); i++) {
+            if(getInterval(i).getIsChecked() && getInterval(i) != exception) {
+                return getInterval(i);
+            }
+        }
+
+        // Otherwise, return null
+        return null;
+    }
+
 }

@@ -68,6 +68,11 @@ public class ServicePlayer extends Service {
     private int milisecPassed = 0;
     private int maxMilisecToPass = 0;
 
+    // For settings what to play next
+    final int PLAY_INTERVAL = 0;
+    final int PLAY_CHORD = 1;
+    final int PLAY_TONE = 2;
+
     private ProgressBar progressBar = null;
 
     private ProgressBarAnimation progressBarAnimation;
@@ -230,15 +235,22 @@ public class ServicePlayer extends Service {
             }
 
             @Override
-            public void onPlayChordChange(final Interval[] interval) {
+            public void onPlayChordChange(final Interval[] interval, final int lowestKey) {
                 stop();
                 if(interval != null) {
                     thread = new Thread(new Runnable() {
                         @Override
                         public void run() {
-                            // 25 == middle c
+                            // Try to show progress bar
+                            maxMilisecToPass = (int)MyApplication.tonesSeparationTime * (interval.length+1) + (int)MyApplication.delayBetweenChords;
+                            milisecPassed = 0;
+                            if(MyApplication.playingMode == DataContract.UserPrefEntry.PLAYING_MODE_CUSTOM) {
+                                maxMilisecToPass *= MyApplication.directionsCount;
+                            }
+                            updateProgressBarAnimation(null, null); // Start animation
+
                             playChord((int)MyApplication.tonesSeparationTime, (int)MyApplication.delayBetweenChords, interval,
-                                    MyApplication.directionUpID, ++playingID, 25, null, null, null, false);
+                                    MyApplication.directionUpID, ++playingID, lowestKey, null, null, null, false);
                         }
                     });
                     thread.start();
@@ -255,6 +267,11 @@ public class ServicePlayer extends Service {
                         thread = new Thread(new Runnable() {
                             @Override
                             public void run() {
+                                // Try to show progress bar
+                                maxMilisecToPass = (int)(MyApplication.tonesSeparationTime + MyApplication.delayBetweenChords);
+                                milisecPassed = 0;
+                                updateProgressBarAnimation(null, null); // Start animation
+
                                 playChord((int)MyApplication.tonesSeparationTime, (int)MyApplication.delayBetweenChords,
                                         new Interval[]{IntervalsList.getInterval(0)}, 0, ++playingID, keyId,
                                         null, null, null, false);
@@ -457,9 +474,6 @@ public class ServicePlayer extends Service {
             public void run() {
 //                Log.d(ServicePlayer.class.getSimpleName(), "run######################################################run");
 
-                final int PLAY_INTERVAL = 0;
-                final int PLAY_CHORD = 1;
-                final int PLAY_TONE = 2;
 
                 int whatToPlay;
 
@@ -507,57 +521,15 @@ public class ServicePlayer extends Service {
                     }
 
 
-                    // TODO: maybe add weight for not 50/50 chances, then change code below
-                    // Random sets what to play (interval or chord)
-                    if(MyApplication.directionsCount <= 0) {
-                        if(!MyApplication.playWhatTone && !MyApplication.playWhatOctave) {
-                            showToast(readResource(R.string.no_checked_playing_type_error));
-                            MyApplication.setIsPlaying(false);
-                            ServicePlayer.this.stop();
-                            return;
-                        } else {
-                            whatToPlay = PLAY_TONE;
-                        }
-                    } else if(toneNotPlayedFor >= ((IntervalsList.getCheckedIntervalCount() + ChordsList.getCheckedChordsCount()) / 2 + 1) && (MyApplication.playWhatTone || MyApplication.playWhatOctave)) {
-                        whatToPlay = PLAY_TONE;
-                    } else if(intervalsPlayedFor-chordsPlayedFor > (IntervalsList.getCheckedIntervalCount() / (ChordsList.getCheckedChordsCount()+1) + 1) * 3) {
-                        whatToPlay = PLAY_CHORD;
-                        intervalsPlayedFor = (intervalsPlayedFor+chordsPlayedFor) / 2;
-                    } else if(chordsPlayedFor-intervalsPlayedFor > (ChordsList.getCheckedChordsCount() / (IntervalsList.getCheckedIntervalCount()+1) + 1) * 3) {
-                        whatToPlay = PLAY_INTERVAL;
-                        chordsPlayedFor = (intervalsPlayedFor+chordsPlayedFor) / 2;
-                    } else {
-                        // Is there any selected interval or chord
-                        if(IntervalsList.getCheckedIntervalCount() + ChordsList.getCheckedChordsCount() <= 0) {
-                            if(!MyApplication.playWhatTone && !MyApplication.playWhatOctave) {
-                                showToast(readResource(R.string.no_checked_intervals_error));
-                                MyApplication.setIsPlaying(false);
-                                ServicePlayer.this.stop();
-                                return;
-                            } else {
-                                whatToPlay = PLAY_TONE;
-                            }
-
-                        } else {
-                            // in rand.nextInt(bound) bound is excluded
-                            int tempRandNumb;
-                            if(MyApplication.playWhatTone || MyApplication.playWhatOctave) {
-                                // 12 tones in one octave
-                                tempRandNumb = rand.nextInt(IntervalsList.getCheckedIntervalCount() + ChordsList.getCheckedChordsCount() + 12);
-                            } else {
-                                tempRandNumb = rand.nextInt(IntervalsList.getCheckedIntervalCount() + ChordsList.getCheckedChordsCount());
-                            }
-                            if(tempRandNumb >= IntervalsList.getCheckedIntervalCount()) {
-                                if(tempRandNumb >= IntervalsList.getCheckedIntervalCount() + ChordsList.getCheckedChordsCount() && (MyApplication.playWhatTone || MyApplication.playWhatOctave)) {
-                                    whatToPlay = PLAY_TONE;
-                                } else {
-                                    whatToPlay = PLAY_CHORD;
-                                }
-                            } else {
-                                whatToPlay = PLAY_INTERVAL;
-                            }
-                        }
+                    try {
+                        whatToPlay = setupWhatToPlay(rand);
+                    } catch (Exception e) {
+                        // If exception is thrown stop playing
+                        MyApplication.setIsPlaying(false);
+                        ServicePlayer.this.stop();
+                        break;
                     }
+
 
                     if(whatToPlay == PLAY_INTERVAL) {
                         currentInterval = IntervalsList.getRandomPlayableInterval();
@@ -771,6 +743,58 @@ public class ServicePlayer extends Service {
         thread.start();
     }
 
+    private int setupWhatToPlay(Random rand) throws Exception {
+        int whatToPlay;
+        // TODO: maybe add weight for not 50/50 chances, then change code below
+        // Random sets what to play (interval or chord)
+        if(MyApplication.directionsCount <= 0) {
+            if(!MyApplication.playWhatTone && !MyApplication.playWhatOctave) {
+                showToast(readResource(R.string.no_checked_playing_type_error));
+                throw new Exception();
+            } else {
+                whatToPlay = PLAY_TONE;
+            }
+        } else if(toneNotPlayedFor >= ((IntervalsList.getCheckedIntervalCount() + ChordsList.getCheckedChordsCount()) / 2 + 1) && (MyApplication.playWhatTone || MyApplication.playWhatOctave)) {
+            whatToPlay = PLAY_TONE;
+        } else if(intervalsPlayedFor-chordsPlayedFor > (IntervalsList.getCheckedIntervalCount() / (ChordsList.getCheckedChordsCount()+1) + 1) * 3) {
+            whatToPlay = PLAY_CHORD;
+            intervalsPlayedFor = (intervalsPlayedFor+chordsPlayedFor) / 2;
+        } else if(chordsPlayedFor-intervalsPlayedFor > (ChordsList.getCheckedChordsCount() / (IntervalsList.getCheckedIntervalCount()+1) + 1) * 3) {
+            whatToPlay = PLAY_INTERVAL;
+            chordsPlayedFor = (intervalsPlayedFor+chordsPlayedFor) / 2;
+        } else {
+            // Is there any selected interval or chord
+            if(IntervalsList.getCheckedIntervalCount() + ChordsList.getCheckedChordsCount() <= 0) {
+                if(!MyApplication.playWhatTone && !MyApplication.playWhatOctave) {
+                    showToast(readResource(R.string.no_checked_intervals_error));
+                    throw new Exception();
+                } else {
+                    whatToPlay = PLAY_TONE;
+                }
+
+            } else {
+                // in rand.nextInt(bound) bound is excluded
+                int tempRandNumb;
+                if(MyApplication.playWhatTone || MyApplication.playWhatOctave) {
+                    // 12 tones in one octave
+                    tempRandNumb = rand.nextInt(IntervalsList.getCheckedIntervalCount() + ChordsList.getCheckedChordsCount() + 12);
+                } else {
+                    tempRandNumb = rand.nextInt(IntervalsList.getCheckedIntervalCount() + ChordsList.getCheckedChordsCount());
+                }
+                if(tempRandNumb >= IntervalsList.getCheckedIntervalCount()) {
+                    if(tempRandNumb >= IntervalsList.getCheckedIntervalCount() + ChordsList.getCheckedChordsCount() && (MyApplication.playWhatTone || MyApplication.playWhatOctave)) {
+                        whatToPlay = PLAY_TONE;
+                    } else {
+                        whatToPlay = PLAY_CHORD;
+                    }
+                } else {
+                    whatToPlay = PLAY_INTERVAL;
+                }
+            }
+        }
+        return whatToPlay;
+    }
+
     public void stopSounds() {
         try {
             soundPool.autoPause();
@@ -853,7 +877,8 @@ public class ServicePlayer extends Service {
     }
 
     public void updateTextView(final String chordName, final String chordNumberOne, final String chordNumberTwo) {
-        if(MyApplication.getActivity() == null) {
+        // Update it only in MainActivity
+        if(MyApplication.getActivity() == null || !(MyApplication.getActivity() instanceof MainActivity)) {
             return;
         }
         try {
@@ -864,22 +889,7 @@ public class ServicePlayer extends Service {
                     TextView numberOneTV = MyApplication.getActivity().findViewById(R.id.chord_number_one);
                     TextView numberTwoTV = MyApplication.getActivity().findViewById(R.id.chord_number_two);
 
-                    chordTV.setText(chordName);
-
-                    // Copy-pasted from ChordAdapter.GetView
-                    if(chordNumberTwo == null) {
-                        if(chordNumberOne != null) {
-                            chordTV.setText(chordTV.getText() + chordNumberOne);
-                        }
-
-                        numberOneTV.setVisibility(View.GONE);
-                        numberTwoTV.setVisibility(View.GONE);
-                    } else {
-                        numberOneTV.setVisibility(View.VISIBLE);
-                        numberTwoTV.setVisibility(View.VISIBLE);
-                        numberOneTV.setText(chordNumberOne);
-                        numberTwoTV.setText(chordNumberTwo);
-                    }
+                    MyApplication.updateTextView(chordTV, chordName, numberOneTV, chordNumberOne, numberTwoTV, chordNumberTwo);
 
                     if(MyApplication.showProgressBar) {
                         progressBar = (ProgressBar) MyApplication.getActivity().findViewById(R.id.ring_playing_progress_bar);
@@ -913,7 +923,7 @@ public class ServicePlayer extends Service {
     }
 
     public void setWhatIntervalsListViewVisibility(final int visibility) {
-        if(MyApplication.getActivity() == null) {
+        if(MyApplication.getActivity() == null || !(MyApplication.getActivity() instanceof MainActivity)) {
             return;
         }
         try {
@@ -945,22 +955,29 @@ public class ServicePlayer extends Service {
                 public void run() {
                     try {
                         progressBar = (ProgressBar) MyApplication.getActivity().findViewById(R.id.ring_playing_progress_bar);
-                        ProgressBar backgroundProgresBar = (ProgressBar) MyApplication.getActivity().
-                                findViewById(R.id.background_ring_progress_bar);
+                        if(MyApplication.getActivity() instanceof MainActivity) {
+                            // background progress bar exist only in MainActivity
+                            ProgressBar backgroundProgresBar = (ProgressBar) MyApplication.getActivity().
+                                    findViewById(R.id.background_ring_progress_bar);
+                            if(!MyApplication.showProgressBar && MyApplication.isLoadingFinished) {
+                                backgroundProgresBar.setVisibility(View.INVISIBLE);
+                            } else {
+                                backgroundProgresBar.setVisibility(View.VISIBLE);
+                            }
+                        }
+
                         if(!MyApplication.showProgressBar && MyApplication.isLoadingFinished) {
                             progressBar.setVisibility(View.INVISIBLE);
-                            backgroundProgresBar.setVisibility(View.INVISIBLE);
                             return;
                         } else {
                             progressBar.setVisibility(View.VISIBLE);
-                            backgroundProgresBar.setVisibility(View.VISIBLE);
                         }
 
                         if(MyApplication.isPlaying() && setToPercent == null) {
                             if(setFromPercent != null) {
-                                progressBarAnimation = new ProgressBarAnimation(progressBar, setFromPercent, 75);
+                                progressBarAnimation = new ProgressBarAnimation(progressBar, setFromPercent, max);
                             } else {
-                                progressBarAnimation = new ProgressBarAnimation(progressBar, 0, 75);
+                                progressBarAnimation = new ProgressBarAnimation(progressBar, 0, max);
                             }
                             progressBarAnimation.setDuration(maxMilisecToPass-milisecPassed);
                         } else {
@@ -968,7 +985,7 @@ public class ServicePlayer extends Service {
                                 progressBarAnimation.cancel();
                             }
                             if(setToPercent == null) {
-                                progressBarAnimation = new ProgressBarAnimation(progressBar, 75, 75);
+                                progressBarAnimation = new ProgressBarAnimation(progressBar, max, max);
                             } else {
                                 if(setFromPercent == null) {
                                     progressBarAnimation = new ProgressBarAnimation(progressBar, progressBar.getProgress(), setToPercent);

@@ -76,7 +76,8 @@ public class IntervalAdapter extends ArrayAdapter<Interval> {
             @Override
             public void onClick(View view) {
 //                Toast.makeText(getContext(), "play: " + position, Toast.LENGTH_SHORT).show();
-                MyApplication.playChord(new Interval[]{currentInterval});
+                // 25 == middle c
+                MyApplication.playChord(new Interval[]{currentInterval}, 25);
             }
         });
 

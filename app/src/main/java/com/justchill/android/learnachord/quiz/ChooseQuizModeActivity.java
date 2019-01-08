@@ -20,6 +20,8 @@ import com.justchill.android.learnachord.settings.SettingsActivity;
 
 public class ChooseQuizModeActivity extends AppCompatActivity {
 
+    // TODO: add reset each mode's high score
+
     private View[] quizModeParentLayout;
     private View[] quizModeLinearLayout;
     private TextView[] quizModeTitleTV;
@@ -151,7 +153,7 @@ public class ChooseQuizModeActivity extends AppCompatActivity {
         super.onResume();
 
         MyApplication.activityResumed(ChooseQuizModeActivity.this);
-
+        MyApplication.quizPlayingPaused = true;
     }
 
     @Override

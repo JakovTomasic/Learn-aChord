@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/quizBackgroundColor"
+    android:padding="20dp">
+
+    <!--IDs are same as in MainActivity for code reusability-->
+
+
+
+    <ProgressBar
+        android:id="@+id/ring_playing_progress_bar"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        style="?android:progressBarStyleHorizontal"
+        android:progress="0"
+        tools:progress="75"
+        android:progressDrawable="@drawable/quiz_progress_ring"
+        android:indeterminate="false"
+        android:rotation="270"/>
+
+    <TextView
+        android:id="@+id/quiz_score_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:textColor="@color/darkTextColor"
+        android:layout_marginLeft="20dp"
+        tools:text="16"/>
+
+    <ImageView
+        android:id="@+id/pause_clickable_image_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_quiz_circle_pause"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:visibility="invisible"
+        android:clickable="true"
+        android:focusable="true"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <!--For equal positioning-->
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1px"
+            android:visibility="invisible"
+            android:layout_weight="3"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:id="@+id/chord_text_view_linear_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:orientation="horizontal">
+
+                <!--For equal positioning-->
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="1px"
+                    android:visibility="invisible"
+                    android:layout_weight="1"/>
+
+                <TextView
+                    android:id="@+id/chord_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="58sp"
+                    android:textAllCaps="false"
+                    android:gravity="center"
+                    style="@style/chordTextStyle"
+                    tools:text="MD"/>
+
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/chord_number_one"
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        android:textSize="27sp"
+                        android:textAllCaps="false"
+                        android:gravity="bottom|center_horizontal"
+                        android:layout_weight="1"
+                        android:includeFontPadding="false"
+                        android:text=""
+                        style="@style/chordTextStyle"
+                        tools:text="6"/>
+
+                    <TextView
+                        android:id="@+id/chord_number_two"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:textSize="27sp"
+                        android:textAllCaps="false"
+                        android:gravity="top|center_horizontal"
+                        android:layout_weight="1"
+                        android:includeFontPadding="false"
+                        android:text=""
+                        style="@style/chordTextStyle"
+                        tools:text="5"/>
+
+
+                </LinearLayout>
+
+                <!--For equal positioning-->
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="1px"
+                    android:visibility="invisible"
+                    android:layout_weight="1"/>
+
+            </LinearLayout>
+
+            <!--TODO: add contentDescription everywhere-->
+            <!--TODO: maybe remove this outside this layout (move to parent layout)-->
+            <ImageView
+                android:id="@+id/start_clickable_image_view"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:layout_centerInParent="true"
+                android:scaleType="centerCrop"
+                android:clickable="true"
+                android:focusable="true"
+                android:padding="60dp"
+                android:contentDescription="@string/start_button_content_description"
+                android:src="@drawable/ic_play_arrow"
+                android:background="@drawable/quiz_round_button"
+                android:visibility="visible"/>
+
+        </RelativeLayout>
+
+
+
+        <!--For equal positioning-->
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1px"
+            android:visibility="invisible"
+            android:layout_weight="2"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <!--For equal positioning-->
+            <View
+                android:layout_width="0dp"
+                android:layout_height="1px"
+                android:visibility="invisible"
+                android:layout_weight="1"/>
+
+            <RelativeLayout
+                android:id="@+id/true_answer_parent_layout"
+                android:layout_width="75dp"
+                android:layout_height="75dp"
+                android:clickable="true"
+                android:focusable="true">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/ic_quiz_true"/>
+
+                <!--For showing click animation-->
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="?android:attr/selectableItemBackground"/>
+
+            </RelativeLayout>
+
+
+            <!--For equal positioning-->
+            <View
+                android:layout_width="0dp"
+                android:layout_height="1px"
+                android:visibility="invisible"
+                android:layout_weight="2"/>
+
+
+            <RelativeLayout
+                android:id="@+id/false_answer_parent_layout"
+                android:layout_width="75dp"
+                android:layout_height="75dp"
+                android:clickable="true"
+                android:focusable="true">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/ic_quiz_false"/>
+
+                <!--For showing click animation-->
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="?android:attr/selectableItemBackground"/>
+
+            </RelativeLayout>
+
+            <!--For equal positioning-->
+            <View
+                android:layout_width="0dp"
+                android:layout_height="1px"
+                android:visibility="invisible"
+                android:layout_weight="1"/>
+
+
+        </LinearLayout>
+
+        <!--For equal positioning-->
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1px"
+            android:visibility="invisible"
+            android:layout_weight="1"/>
+
+    </LinearLayout>
+
+
+
+
+
+
+
+</RelativeLayout>

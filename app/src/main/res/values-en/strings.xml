@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--<string name="app_name" translatable="false">Learn aChord</string>-->
+    <string name="options">Options</string>
+    <string name="reset_options">Reset options</string>
+    <string name="quiz">Quiz</string>
+
+
+    <!--Interval names(marks):-->
+    <string name="interval_cista_prima">P1</string>
+    <string name="interval_mala_sekunda">m2</string>
+    <string name="interval_velika_sekunda">M2</string>
+    <string name="interval_mala_terca">m3</string>
+    <string name="interval_velika_terca">M3</string>
+    <!--<string name="interval_smanjena_kvarta">d4</string>-->
+    <string name="interval_cista_kvarta">P4</string>
+    <string name="interval_povecana_kvarta">A4</string>
+    <string name="interval_smanjena_kvinta">d5</string>
+    <string name="interval_cista_kvinta">P5</string>
+    <!--<string name="interval_povecana_kvinta">A5</string>-->
+    <string name="interval_mala_seksta">m6</string>
+    <string name="interval_velika_seksta">M6</string>
+    <string name="interval_mala_septima">m7</string>
+    <string name="interval_velika_septima">M7</string>
+    <string name="interval_cista_oktava">P8</string>
+
+    <string name="interval_mala_nona">m9</string>
+    <string name="interval_velika_nona">M9</string>
+    <string name="interval_mala_decima">m10</string>
+    <string name="interval_velika_decima">M10</string>
+    <string name="interval_cista_undecima">P11</string>
+    <string name="interval_povecana_undecima">A11</string>
+    <string name="interval_smanjena_duodecima">d12</string>
+    <string name="interval_cista_duodecima">P12</string>
+    <string name="interval_mala_tercdecima">m13</string>
+    <string name="interval_velika_tercdecima">M13</string>
+    <string name="interval_mala_kvartdecima">m14</string>
+    <string name="interval_velika_kvartdecima">M14</string>
+    <string name="interval_cista_kvintdecima">P15</string>
+
+
+
+    <!--Chord names(marks):-->
+    <string name="chord_durski">M</string> <!-- 5 3 -->
+    <string name="chord_molski">m</string> <!-- 5 3 -->
+    <string name="chord_smanjeni_kvintakord">dim</string> <!-- 5 3 -->
+    <string name="chord_povecani">aug</string> <!-- 5 3 -->
+    <string name="chord_dominantni"></string> <!-- 7 -->
+    <string name="chord_veliki_durski">maj</string> <!-- 7 -->
+    <string name="chord_mali_molski">min</string> <!-- 7 -->
+    <string name="chord_mali_smanjeni">hdim</string> <!-- 7 -->
+    <string name="chord_veliki_molski">mM</string> <!-- 7 -->
+    <string name="chord_veliki_povecani">aug</string> <!-- 7 -->
+    <string name="chord_smanjeni_septakord">dim</string> <!-- 7 -->
+    <string name="chord_veliki_dominantni"></string> <!-- 9 -->
+    <string name="chord_mali_durski_nonakord"></string> <!-- 9 -->
+    <string name="chord_mali_molski_nonakord">min</string> <!-- 9 -->
+    <string name="chord_veliki_durski_nonakord">maj</string> <!-- 9 -->
+
+    <!--&lt;!&ndash;Interval full names&ndash;&gt;-->
+    <!--<string name="full_interval_cista_prima">čista prima</string>-->
+    <!--<string name="full_interval_mala_sekunda">mala sekunda</string>-->
+    <!--<string name="full_interval_velika_sekunda">v2</string>-->
+    <!--<string name="full_interval_mala_terca">m3</string>-->
+    <!--<string name="full_interval_velika_terca">v3</string>-->
+    <!--<string name="full_interval_smanjena_kvarta">sm4</string>-->
+    <!--<string name="full_interval_cista_kvarta">č4</string>-->
+    <!--<string name="full_interval_povecana_kvarta">pov4</string>-->
+    <!--<string name="full_interval_smanjena_kvinta">sm5</string>-->
+    <!--<string name="full_interval_cista_kvinta">č5</string>-->
+    <!--<string name="full_interval_povecana_kvinta">pov5</string>-->
+    <!--<string name="full_interval_mala_seksta">m6</string>-->
+    <!--<string name="full_interval_velika_seksta">v6</string>-->
+    <!--<string name="full_interval_mala_septima">m7</string>-->
+    <!--<string name="full_interval_velika_septima">v7</string>-->
+    <!--<string name="full_interval_cista_oktava">č8</string>-->
+
+    <!--Settings section titles:-->
+    <string name="settings_intervals">Intervals:</string>
+    <string name="settings_chords">Chords:</string>
+
+    <string name="no_checked_intervals_error">There is no selected interval or chord</string>
+    <string name="no_intervals_inside_borders">Playing range is too small to play selected intervals and chords</string>
+
+    <string name="start_button_content_description">Start playing</string>
+
+    <string name="settings_0_title">Intervals</string>
+    <string name="settings_1_title">Chords</string>
+    <string name="settings_2_title">Tones</string>
+    <string name="settings_3_title">Settings</string>
+
+    <!--Options settings-->
+    <string name="playing_type">Playing mode</string>
+    <string name="direction_up">Ascending</string>
+    <string name="direction_down">Descending</string>
+    <string name="direction_simultaneously">Simultaneously</string>
+    <string name="second_sound_delay">Tones separation</string>
+    <string name="between_chord_delay">Delay between intervals</string>
+    <string name="second">s</string>
+    <!--<string name="second_sound_delay_default_hint">0.00</string>-->
+    <string name="language">Language</string>
+    <string name="select_tones_range">Playing range</string>
+    <string name="choose_colors">Choose colors</string>
+    <string name="update_to_pro_remove_ads">Remove ads</string>
+    <string name="range">Range</string>
+    <!--<string name="range_keys_separator" translatable="false">-</string>-->
+    <string name="show_progress_bar">Show progress circle</string>
+    <string name="show_what_intervals">Show chord\'s intervals</string>
+    <string name="chord_text_size">Text size</string>
+
+    <!--Tones option settings-->
+    <string name="play_what_tone">Tone</string>
+    <string name="play_what_octave">Octave</string>
+
+    <!--Direction explanation dialog-->
+    <string name="direction_explanation_dialog"> \tRandom mode randomly plays intervals and chords in one of the selected playing modes.\n\t
+    Custom mode plays intervals and chords in all selected modes by order (top to bottom).\n\t
+    To change order press and hold on one of the modes and choose action.</string>
+
+    <!--Language options-->
+    <string name="english">English</string>
+    <string name="croatian">Croatian</string>
+
+    <!--Playing mode options-->
+    <string name="random">Random</string>
+    <string name="custom">Custom</string>
+
+    <!--Chord text size options-->
+    <string name="auto">Auto</string>
+    <string name="small">Small</string>
+    <string name="normal">Normal</string>
+    <string name="large">Large</string>
+
+    <!--Warning dialogs-->
+    <string name="all_directions_unchecked_error">None of the playing directions are selected! Playing won\'t be possible.</string>
+    <string name="all_intervals_and_chords_unchecked_error">None of the intervals or chords are selected! Playing won\'t be possible.</string>
+    <string name="too_small_range_error">Selected range is too small for some intervals or chords! Unplayable intervals and chords will be unselected</string>
+    <string name="no_checked_playing_type_error">There is no selected playing type</string>
+    <!--<string name="ok">OK</string>-->
+    <string name="cancel">Cancel</string>
+
+    <!--Playing mode context menu options-->
+    <string name="move_up">Move up</string>
+    <string name="move_down">Move down</string>
+
+    <!--Quiz-->
+    <string name="quiz_menu_details">Help</string>
+    <string name="quiz_mode_one_title">Easy</string>
+    <string name="quiz_mode_two_title">Medium</string>
+    <string name="quiz_mode_three_title">Hard</string>
+    <string name="highscore">High Score</string>
+
+    <!--Keys-->
+    <string name="c">"c"</string>
+    <string name="cis">"c#"</string>
+    <string name="d">"d"</string>
+    <string name="dis">"d#"</string>
+    <string name="e">"e"</string>
+    <string name="f">"f"</string>
+    <string name="fis">"f#"</string>
+    <string name="g">"g"</string>
+    <string name="gis">"g#"</string>
+    <string name="a">"a"</string>
+    <string name="ais">"a#"</string>
+    <string name="h">"b"</string>
+
+</resources>

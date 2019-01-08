@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Keys for intervals under one octave, column names in db -->
+    <string-array name="interval_keys">
+        <item>"cista_prima"</item>
+        <item>"mala_sekunda"</item>
+        <item>"velika_sekunda"</item>
+        <item>"mala_terca"</item>
+        <item>"velika_terca"</item>
+        <item>"cista_kvarta"</item>
+        <item>"povecana_kvarta_smanjena_kvinta"</item>
+        <item>"cista_kvinta"</item>
+        <item>"mala_seksta"</item>
+        <item>"velika_seksta"</item>
+        <item>"mala_septima"</item>
+        <item>"velika_septima"</item>
+        <item>"cista_oktava"</item>
+    </string-array>
+
+    <!-- Keys for intervals above octave, column names in db -->
+    <string-array name="interval_keys_above_octave">
+        <item>"mala_nona"</item>
+        <item>"velika_nona"</item>
+        <item>"mala_decima"</item>
+        <item>"velika_decima"</item>
+        <item>"cista_undecima"</item>
+        <item>"povecana_undecima_smanjena_duodecima"</item>
+        <item>"cista_duodecima"</item>
+        <item>"mala_tercdecima"</item>
+        <item>"velika_tercdecima"</item>
+        <item>"mala_kvartdecima"</item>
+        <item>"velika_kvartdecima"</item>
+        <item>"cista_kvintdecima"</item>
+    </string-array>
+
+    <!-- Keys for chords, column names in db -->
+    <string-array name="chord_keys">
+        <item>"durski_kvintakord"</item>
+        <item>"durski_sekstakord"</item>
+        <item>"durski_kvartsekstakord"</item>
+
+        <item>"molski_kvintakord"</item>
+        <item>"molski_sekstakord"</item>
+        <item>"molski_kvartsekstakord"</item>
+
+        <item>"smanjeni_kvintakord"</item>
+        <item>"smanjeni_sekstakord"</item>
+        <item>"smanjeni_kvartsekstakord"</item>
+
+        <item>"povecani_kvintakord"</item>
+
+
+        <item>"dominantni_septakord"</item>
+        <item>"dominantni_kvintsekstakord"</item>
+        <item>"dominantni_terckvartakord"</item>
+        <item>"dominantni_sekundakord"</item>
+
+        <item>"veliki_durski_septakord"</item>
+        <item>"veliki_durski_kvintsekstakord"</item>
+        <item>"veliki_durski_terckvartakord"</item>
+        <item>"veliki_durski_sekundakord"</item>
+
+        <item>"mali_molski_septakord"</item>
+        <item>"mali_molski_kvintsekstakord"</item>
+        <item>"mali_molski_terckvartakord"</item>
+        <item>"mali_molski_sekundakord"</item>
+
+        <item>"mali_smanjeni_septakord"</item>
+        <item>"mali_smanjeni_kvintsekstakord"</item>
+        <item>"mali_smanjeni_terckvartakord"</item>
+        <item>"mali_smanjeni_sekundakord"</item>
+
+
+        <item>"veliki_molski_septakord"</item>
+        <item>"veliki_molski_kvintsekstakord"</item>
+        <item>"veliki_molski_terckvartakord"</item>
+        <item>"veliki_molski_sekundakord"</item>
+
+        <item>"veliki_povecani_septakord"</item>
+        <item>"veliki_povecani_kvintsekstakord"</item>
+        <item>"veliki_povecani_terckvartakord"</item>
+        <item>"veliki_povecani_sekundakord"</item>
+
+        <item>"smanjeno_smanjeni_septakord"</item>
+
+
+        <item>"veliki_dominantni_nonakord"</item>
+        <item>"mali_durski_nonakord"</item>
+        <item>"mali_molski_nonakord"</item>
+        <item>"veliki_durski_nonakord"</item>
+    </string-array>
+
+    <!-- Keys for settings, column names in db -->
+    <string-array name="preference_keys">
+        <item>"direction_up"</item>
+        <item>"direction_down"</item>
+        <item>"direction_same_time"</item>
+        <item>"tones_separation_time_preference"</item>
+        <item>"chord_delay_preference"</item>
+        <item>"language_preference"</item>
+        <item>"down_border_key</item>
+        <item>"up_border_key</item>
+        <item>"show_progress_bar</item>
+        <item>"show_what_intervals</item>
+        <item>"chord_text_scaling_mode</item>
+        <item>"playing_mode</item>
+        <item>"direction_up_view_index"</item>
+        <item>"direction_down_view_index"</item>
+        <item>"direction_same_time_view_index"</item>
+
+        <item>"play_what_tone"</item>
+        <item>"play_what_octave"</item>
+    </string-array>
+
+    <string-array name="key_symbols">
+        <item>@string/c</item>
+        <item>@string/cis</item>
+        <item>@string/d</item>
+        <item>@string/dis</item>
+        <item>@string/e</item>
+        <item>@string/f</item>
+        <item>@string/fis</item>
+        <item>@string/g</item>
+        <item>@string/gis</item>
+        <item>@string/a</item>
+        <item>@string/ais</item>
+        <item>@string/h</item>
+    </string-array>
+
+    <!--<string-array name="direction_options">-->
+        <!--<item>@string/direction_up</item>-->
+        <!--<item>@string/direction_down</item>-->
+        <!--<item>@string/direction_both</item>-->
+        <!--<item>@string/direction_simultaneously</item>-->
+        <!--<item>@string/direction_all_random</item>-->
+    <!--</string-array>-->
+
+    <string-array name="language_options">
+        <item>@string/english</item>
+        <item>@string/croatian</item>
+    </string-array>
+
+    <string-array name="playing_mode_options">
+        <item>@string/random</item>
+        <item>@string/custom</item>
+    </string-array>
+
+    <string-array name="chord_text_size_options">
+        <item>@string/auto</item>
+        <item>@string/large</item>
+        <item>@string/normal</item>
+        <item>@string/small</item>
+    </string-array>
+
+</resources>

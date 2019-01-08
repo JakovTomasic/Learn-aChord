@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Drawable colors must be hardcoded for backward compatibility -->
+    <!-- Change them in their .xml file -->
+
+    <color name="colorPrimary">#38ac38</color>
+    <color name="colorPrimaryDark">#224225</color>
+    <color name="colorAccent">#397b39</color>
+
+    <color name="TabLayoutBackground">#319631</color>
+    <color name="darkTextColor">#224225</color>
+    <color name="lightTextColor">#60AA60</color>
+
+    <color name="playButton">#38ac38</color>
+    <color name="stopButton">#ab2929</color>
+
+    <color name="mainActivityBackground">#f2fff2</color>
+    <color name="settingsBackground">#f2fff2</color>
+    
+    <color name="grayForProgressBar">#ef595959</color>
+    <color name="progressBarColor">#58FF58</color>
+    
+    <color name="unloadedColor">#797979</color>
+
+    <color name="invisibleColor">#00000000</color>
+    
+    <color name="questionMarkColor">#4b4b4b</color>
+
+
+    <color name="whatIntervalListViewBackground">#38FF38</color>
+    <color name="whatIntervalListViewBorder">#00AA00</color>
+
+
+    <color name="rangeSeekBarBackgroundLineColor">#50224225</color>
+    <color name="rangeSeekBarActiveRangeLineColor">#38ac38</color>
+    <color name="rangeSeekBarThumbCenterColor">#38ac38</color>
+    <color name="rangeSeekBarThumbNormalBackground">#5038ac38</color>
+    <color name="rangeSeekBarThumbDisabledBackground">#40777777</color>
+
+
+    <color name="transparent">#00000000</color>
+
+
+
+    <color name="quizBackgroundColor">#f2fff2</color>
+    <color name="quizTimeLeftToPlayProgressBar">#BB444444</color>
+
+</resources>

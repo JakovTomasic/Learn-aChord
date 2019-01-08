@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.justchill.android.learnachord">
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/learn_achord_icon"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/learn_achord_icon"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme"
+        android:name=".MyApplication"> <!--this is to get context-->
+        <activity
+            android:name=".MainActivity"
+            android:label="@string/app_name"
+            android:resizeableActivity="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <layout android:defaultHeight="500dp"
+                android:defaultWidth="600dp"
+                android:gravity="top|end"
+                android:minHeight="450dp"
+                android:minWidth="300dp" />
+        </activity>
+        <activity
+            android:name=".settings.SettingsActivity"
+            android:label="@string/options"
+            android:parentActivityName=".MainActivity">
+            <!-- To support android 4.0 and lower: -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity"/>
+        </activity>
+        <activity
+            android:name=".quiz.ChooseQuizModeActivity"
+            android:label="@string/quiz"
+            android:parentActivityName=".MainActivity">
+            <!-- To support android 4.0 and lower: -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity"/>
+        </activity>
+        <activity android:name=".quiz.ModeOneActivity"
+            android:label="@string/quiz_mode_one_title"
+            android:parentActivityName=".quiz.ChooseQuizModeActivity">
+            <!-- To support android 4.0 and lower: -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".quiz.ChooseQuizModeActivity"/>
+        </activity>
+        <activity android:name=".quiz.ModeTwoActivity"
+            android:label="@string/quiz_mode_two_title"
+            android:parentActivityName=".quiz.ChooseQuizModeActivity">
+            <!-- To support android 4.0 and lower: -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".quiz.ChooseQuizModeActivity"/>
+        </activity>
+        <activity android:name=".quiz.ModeThreeActivity"
+            android:label="@string/quiz_mode_three_title"
+            android:parentActivityName=".quiz.ChooseQuizModeActivity">
+            <!-- To support android 4.0 and lower: -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".quiz.ChooseQuizModeActivity"/>
+        </activity>
+
+        <!-- android:stopWithTask="true" calls services onDestroy when app is completely closed -->
+        <service
+            android:name="com.justchill.android.learnachord.ServicePlayer"
+            android:stopWithTask="true"
+            android:enabled="true"/>
+        
+        <provider
+            android:authorities="com.justchill.android.learnachord"
+            android:name=".database.DataProvider"
+            android:exported="false"/>
+
+    </application>
+
+</manifest>

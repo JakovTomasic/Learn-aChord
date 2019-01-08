@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/settingsBackground">
+
+    <LinearLayout
+        android:id="@+id/tones_fragment_linear_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+
+        <LinearLayout
+            android:id="@+id/what_tone_parent_layout"
+            android:layout_width="match_parent"
+            android:layout_height="?android:attr/listPreferredItemHeight"
+            android:orientation="horizontal"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?android:attr/selectableItemBackground">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_vertical"
+                android:paddingLeft="8dp"
+                android:minHeight="40dp"
+                style="@style/settingsTextStyle"
+                android:textSize="20sp"
+                android:text="@string/play_what_tone"/>
+
+            <CheckBox
+                android:id="@+id/what_tone_check_box"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginRight="8dp"
+                android:layout_gravity="center_vertical"
+                android:gravity="center"
+                android:clickable="false"
+                android:background="@color/invisibleColor"
+                android:layout_marginLeft="16dp"/>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/what_octave_parent_layout"
+            android:layout_width="match_parent"
+            android:layout_height="?android:attr/listPreferredItemHeight"
+            android:orientation="horizontal"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?android:attr/selectableItemBackground">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_vertical"
+                android:paddingLeft="8dp"
+                android:minHeight="40dp"
+                style="@style/settingsTextStyle"
+                android:textSize="20sp"
+                android:text="@string/play_what_octave"/>
+
+            <CheckBox
+                android:id="@+id/what_octave_check_box"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginRight="8dp"
+                android:layout_gravity="center_vertical"
+                android:gravity="center"
+                android:clickable="false"
+                android:background="@color/invisibleColor"
+                android:layout_marginLeft="16dp"/>
+
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+</ScrollView>

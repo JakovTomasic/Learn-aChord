@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+
+    android:id="@android:id/text1"
+    android:layout_width="match_parent"
+    android:layout_height="?android:attr/listPreferredItemHeight"
+    android:textSize="18sp"
+    android:gravity="left|center_vertical"
+    android:textColor="@color/darkTextColor"
+    android:padding="5dp"
+    tools:text="Test"
+
+    style="?android:attr/dropDownItemStyle"
+    android:textAppearance="?android:attr/textAppearanceLargePopupMenu"
+    android:singleLine="true"
+    android:ellipsize="marquee"/>

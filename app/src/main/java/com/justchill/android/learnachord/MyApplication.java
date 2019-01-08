@@ -44,7 +44,7 @@ public class MyApplication extends Application {
     public interface ChangeListener {
         void onIsPlayingChange();
         void onActivityResumed();
-        void onPlayChordChange(Interval[] interval, int lowestKey);
+        void onPlayChordChange(Interval[] interval, int lowestKey, int directionToPlay);
         void onPlayKey(Integer keyId);
     }
 
@@ -187,11 +187,11 @@ public class MyApplication extends Application {
         return MyApplication.playingChordOrInterval;
     }
 
-    public static void playChord(Interval[] interval, int lowestKey) {
+    public static void playChord(Interval[] interval, int lowestKey, int directionToPlay) {
         MyApplication.playingChordOrInterval = true;
 
         if(listener != null) {
-            listener.onPlayChordChange(interval, lowestKey);
+            listener.onPlayChordChange(interval, lowestKey, directionToPlay);
         }
     }
 
@@ -203,7 +203,7 @@ public class MyApplication extends Application {
         MyApplication.playingChordOrInterval = false;
 
         if(listener != null) {
-            listener.onPlayChordChange(null, 0);
+            listener.onPlayChordChange(null, 0, 0);
         }
     }
 
@@ -382,6 +382,8 @@ public class MyApplication extends Application {
     public static Interval quizIntervalToPlay;
     public static Chord quizChordToPlay;
     public static int quizLowestKey;
+    public static String quizChordNameToShow = "", quizChordNumberOneToShow = "", quizChordNumberTwoToShow = "";
+    public static boolean quizPlayingCurrentThing = false;
 
     public static String getKeyName(int key) {
         key--; // 0 to 60 (and not 1 - 61)

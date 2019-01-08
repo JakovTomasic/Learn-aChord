@@ -72,12 +72,6 @@ public class ChooseQuizModeActivity extends AppCompatActivity {
         }
 
 
-        // Set high scores
-        quizModeDescriptionTV[0].setText(readResource(R.string.highscore) + ":\n" + String.valueOf(MyApplication.quizModeOneHighscore));
-        quizModeDescriptionTV[1].setText(readResource(R.string.highscore) + ":\n" + String.valueOf(MyApplication.quizModeTwoHighscore));
-        quizModeDescriptionTV[2].setText(readResource(R.string.highscore) + ":\n" + String.valueOf(MyApplication.quizModeThreeHighscore));
-
-
         quizModeParentLayout[0].setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -154,6 +148,16 @@ public class ChooseQuizModeActivity extends AppCompatActivity {
 
         MyApplication.activityResumed(ChooseQuizModeActivity.this);
         MyApplication.quizPlayingPaused = true;
+
+        // Set high scores
+        quizModeDescriptionTV[0].setText(readResource(R.string.highscore) + ":\n" + String.valueOf(MyApplication.quizModeOneHighscore));
+        quizModeDescriptionTV[1].setText(readResource(R.string.highscore) + ":\n" + String.valueOf(MyApplication.quizModeTwoHighscore));
+        quizModeDescriptionTV[2].setText(readResource(R.string.highscore) + ":\n" + String.valueOf(MyApplication.quizModeThreeHighscore));
+
+        MyApplication.quizChordNameToShow = "";
+        MyApplication.quizChordNumberOneToShow = "";
+        MyApplication.quizChordNumberTwoToShow = "";
+        MyApplication.waitingForQuizAnswer = false;
     }
 
     @Override

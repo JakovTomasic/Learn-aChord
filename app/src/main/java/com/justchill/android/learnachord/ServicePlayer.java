@@ -235,7 +235,7 @@ public class ServicePlayer extends Service {
             }
 
             @Override
-            public void onPlayChordChange(final Interval[] interval, final int lowestKey) {
+            public void onPlayChordChange(final Interval[] interval, final int lowestKey, final int directionToPlay) {
                 stop();
                 if(interval != null) {
                     thread = new Thread(new Runnable() {
@@ -250,7 +250,7 @@ public class ServicePlayer extends Service {
                             updateProgressBarAnimation(null, null); // Start animation
 
                             playChord((int)MyApplication.tonesSeparationTime, (int)MyApplication.delayBetweenChords, interval,
-                                    MyApplication.directionUpID, ++playingID, lowestKey, null, null, null, false);
+                                    directionToPlay, ++playingID, lowestKey, null, null, null, false);
                         }
                     });
                     thread.start();
@@ -682,7 +682,7 @@ public class ServicePlayer extends Service {
                         } else {
                             int randomNumb = rand.nextInt(MyApplication.directionsCount);
                             int counter = 0;
-                            // Loop through IDs (and numbers in between) until you com to Id that is in place of randomNumb (in order)
+                            // Loop through IDs (and numbers in between) until you come to Id that is in place of randomNumb (in order)
                             for(int i = Math.min(Math.min(MyApplication.directionUpID, MyApplication.directionDownID), MyApplication.directionSameID); i <=
                                     Math.max(Math.max(MyApplication.directionUpID, MyApplication.directionDownID), MyApplication.directionSameID); i++) {
                                 if((MyApplication.directionUp && MyApplication.directionUpID == i) ||
@@ -701,6 +701,7 @@ public class ServicePlayer extends Service {
                         if(directionToPlay == null) {
                             Log.e("ServicePlayer","Random algorithm is not working (ServicePlayer)");
 
+                            // TODO: remove this:
                             showToast("Random algorithm is not working (ServicePlayer)");
                             // Something went wrong, try again
                             continue;

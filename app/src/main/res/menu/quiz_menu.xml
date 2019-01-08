@@ -5,6 +5,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".quiz.ChooseQuizModeActivity">
 
+    <!--TODO: Change help/details icon to 3 horizontal lines-->
+
     <item
         android:id="@+id/action_details"
         android:title="@string/quiz_menu_details"

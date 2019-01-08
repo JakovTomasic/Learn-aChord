@@ -154,6 +154,10 @@
     <!--&#032; for adding regular space, &#160; for non-breakable whitespace-->
     <string name="quiz_mode_title_separator" translatable="false">:&#160;</string>
 
+    <string name="quiz_game_over_message">Wrong</string>
+    <string name="try_again">Try again</string>
+    <string name="exit">Exit</string>
+
     <!--Keys-->
     <string name="c">"c"</string>
     <string name="cis">"c#"</string>

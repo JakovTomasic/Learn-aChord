@@ -3,6 +3,7 @@ package com.justchill.android.learnachord;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Application;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -30,6 +31,7 @@ import com.justchill.android.learnachord.chord.ChordsList;
 import com.justchill.android.learnachord.chord.Interval;
 import com.justchill.android.learnachord.chord.IntervalsList;
 import com.justchill.android.learnachord.database.DataContract;
+import com.justchill.android.learnachord.settings.SettingsActivity;
 
 import java.util.ArrayList;
 import java.util.Locale;
@@ -378,6 +380,8 @@ public class MyApplication extends Application {
     // For pausing quiz
     public static boolean quizPlayingPaused = false;
 
+    public static int quizPlayingID = 0;
+
     public static boolean quizModeOneCorrectAnswer = true;
     public static Interval quizIntervalToPlay;
     public static Chord quizChordToPlay;
@@ -446,6 +450,27 @@ public class MyApplication extends Application {
             });
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    public static void refreshQuizModeOneHighScore() {
+        if(quizScore > quizModeOneHighscore) {
+            quizModeOneHighscore = quizScore;
+            setDoesDbNeedUpdate(true);
+        }
+    }
+
+    public static void refreshQuizModeTwoHighScore() {
+        if(quizScore > quizModeTwoHighscore) {
+            quizModeTwoHighscore = quizScore;
+            setDoesDbNeedUpdate(true);
+        }
+    }
+
+    public static void refreshQuizModeThreeHighScore() {
+        if(quizScore > quizModeThreeHighscore) {
+            quizModeThreeHighscore = quizScore;
+            setDoesDbNeedUpdate(true);
         }
     }
 
@@ -543,6 +568,16 @@ public class MyApplication extends Application {
             }
         };
         userPrefThread3.start();
+    }
+
+    public static void updateDatabaseOnSeparateThread() {
+        Thread userPrefThread4 = new Thread() {
+            @Override
+            public void run() {
+                MyApplication.updateDatabase();
+            }
+        };
+        userPrefThread4.start();
     }
 
     public static void updateIntervals() {
@@ -654,6 +689,9 @@ public class MyApplication extends Application {
                     DataContract.UserPrefEntry.CHECKBOX_CHECKED;
             MyApplication.playWhatOctave = cursor.getInt(cursor.getColumnIndex(preferenceKeys[16])) ==
                     DataContract.UserPrefEntry.CHECKBOX_CHECKED;
+            MyApplication.quizModeOneHighscore = cursor.getInt(cursor.getColumnIndex(preferenceKeys[17]));
+            MyApplication.quizModeTwoHighscore = cursor.getInt(cursor.getColumnIndex(preferenceKeys[18]));
+            MyApplication.quizModeThreeHighscore = cursor.getInt(cursor.getColumnIndex(preferenceKeys[19]));
 
         } finally {
             cursor.close();
@@ -667,6 +705,69 @@ public class MyApplication extends Application {
         // If language changes translate interval and chord names
         IntervalsList.updateAllIntervalsNames(MyApplication.getAppContext());
         ChordsList.updateAllChordsNames(MyApplication.getAppContext());
+    }
+
+
+    public static void updateDatabase() {
+        ContentValues values = new ContentValues();
+
+        String[] intervalKeys = DataContract.concatenateTwoArrays(
+                MyApplication.getAppContext().getResources().getStringArray(R.array.interval_keys),
+                MyApplication.getAppContext().getResources().getStringArray(R.array.interval_keys_above_octave));
+        for (int i = 0; i < intervalKeys.length; i++) {
+            values.put(intervalKeys[i], IntervalsList.getInterval(i).getIsChecked() ? DataContract.UserPrefEntry.CHECKBOX_CHECKED
+                    : DataContract.UserPrefEntry.CHECKBOX_NOT_CHECKED);
+        }
+
+        String[] chordKeys = MyApplication.getAppContext().getResources().getStringArray(R.array.chord_keys);
+        for (int i = 0; i < chordKeys.length; i++) {
+            values.put(chordKeys[i], ChordsList.getChord(i).getIsChecked() ? DataContract.UserPrefEntry.CHECKBOX_CHECKED
+                    : DataContract.UserPrefEntry.CHECKBOX_NOT_CHECKED);
+        }
+
+
+        String[] preferenceKeys = MyApplication.getAppContext().getResources().getStringArray(R.array.preference_keys);
+        values.put(preferenceKeys[0], MyApplication.directionUp ? DataContract.UserPrefEntry.CHECKBOX_CHECKED :
+                DataContract.UserPrefEntry.CHECKBOX_NOT_CHECKED);
+        values.put(preferenceKeys[1], MyApplication.directionDown ? DataContract.UserPrefEntry.CHECKBOX_CHECKED :
+                DataContract.UserPrefEntry.CHECKBOX_NOT_CHECKED);
+        values.put(preferenceKeys[2], MyApplication.directionSameTime ? DataContract.UserPrefEntry.CHECKBOX_CHECKED :
+                DataContract.UserPrefEntry.CHECKBOX_NOT_CHECKED);
+        values.put(preferenceKeys[3], (int) MyApplication.tonesSeparationTime);
+        values.put(preferenceKeys[4], (int) MyApplication.delayBetweenChords);
+        values.put(preferenceKeys[5], MyApplication.appLanguage);
+        values.put(preferenceKeys[6], MyApplication.downKeyBorder);
+        values.put(preferenceKeys[7], MyApplication.upKeyBorder);
+        values.put(preferenceKeys[8], MyApplication.showProgressBar ? DataContract.UserPrefEntry.CHECKBOX_CHECKED :
+                DataContract.UserPrefEntry.CHECKBOX_NOT_CHECKED);
+        values.put(preferenceKeys[9], MyApplication.showWhatIntervals ? DataContract.UserPrefEntry.CHECKBOX_CHECKED :
+                DataContract.UserPrefEntry.CHECKBOX_NOT_CHECKED);
+        values.put(preferenceKeys[10], MyApplication.chordTextScalingMode);
+        values.put(preferenceKeys[11], MyApplication.playingMode);
+        values.put(preferenceKeys[12], MyApplication.directionUpViewIndex);
+        values.put(preferenceKeys[13], MyApplication.directionDownViewIndex);
+        values.put(preferenceKeys[14], MyApplication.directionSameTimeViewIndex);
+        values.put(preferenceKeys[15], MyApplication.playWhatTone ? DataContract.UserPrefEntry.CHECKBOX_CHECKED :
+                DataContract.UserPrefEntry.CHECKBOX_NOT_CHECKED);
+        values.put(preferenceKeys[16], MyApplication.playWhatOctave ? DataContract.UserPrefEntry.CHECKBOX_CHECKED :
+                DataContract.UserPrefEntry.CHECKBOX_NOT_CHECKED);
+        values.put(preferenceKeys[17], MyApplication.quizModeOneHighscore);
+        values.put(preferenceKeys[18], MyApplication.quizModeTwoHighscore);
+        values.put(preferenceKeys[19], MyApplication.quizModeThreeHighscore);
+
+        int newRowUri = MyApplication.getAppContext().getContentResolver().update(DataContract.UserPrefEntry.CONTENT_URI_FIRST_ROW,
+                values, null, null); // returns how many rows were affected
+
+        MyApplication.setDoIntervalsNeedUpdate(false);
+        MyApplication.setDoChordsNeedUpdate(false);
+        MyApplication.setDoSettingsNeedUpdate(false);
+        MyApplication.setDoesDbNeedUpdate(false);
+
+        // If some setting is changed update interval and chord names (in case it is language)
+        if(newRowUri > 0) {
+            IntervalsList.updateAllIntervalsNames(MyApplication.getAppContext());
+            ChordsList.updateAllChordsNames(MyApplication.getAppContext());
+        }
     }
 
 

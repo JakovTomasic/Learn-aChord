@@ -98,9 +98,15 @@ public class IntervalsDbHelper extends SQLiteOpenHelper {
                 .append(DataContract.UserPrefEntry.DIRECTION_SAME_TIME_VIEW_DEFAULT_INDEX).append(endString);
         stringBuilder.append(preferenceKeys[15]).append(" INTEGER NOT NULL DEFAULT ")
                 .append(DataContract.UserPrefEntry.CHECKBOX_NOT_CHECKED).append(endString);
-        endString = ");";
         stringBuilder.append(preferenceKeys[16]).append(" INTEGER NOT NULL DEFAULT ")
                 .append(DataContract.UserPrefEntry.CHECKBOX_NOT_CHECKED).append(endString);
+        stringBuilder.append(preferenceKeys[17]).append(" INTEGER NOT NULL DEFAULT ")
+                .append(0).append(endString);
+        stringBuilder.append(preferenceKeys[18]).append(" INTEGER NOT NULL DEFAULT ")
+                .append(0).append(endString);
+        endString = ");";
+        stringBuilder.append(preferenceKeys[19]).append(" INTEGER NOT NULL DEFAULT ")
+                .append(0).append(endString);
 
         String SQL_CREATE_INTERVALS_TABLE = stringBuilder.toString();
         // Execute the SQL statement
@@ -171,8 +177,11 @@ public class IntervalsDbHelper extends SQLiteOpenHelper {
         stringBuilder.append( Integer.toString(DataContract.UserPrefEntry.DIRECTION_DOWN_VIEW_DEFAULT_INDEX) ).append(endString);
         stringBuilder.append( Integer.toString(DataContract.UserPrefEntry.DIRECTION_SAME_TIME_VIEW_DEFAULT_INDEX) ).append(endString);
         stringBuilder.append( Integer.toString(DataContract.UserPrefEntry.CHECKBOX_NOT_CHECKED) ).append(endString);
-        endString = ");";
         stringBuilder.append( Integer.toString(DataContract.UserPrefEntry.CHECKBOX_NOT_CHECKED) ).append(endString);
+        stringBuilder.append( Integer.toString(0) ).append(endString);
+        stringBuilder.append( Integer.toString(0) ).append(endString);
+        endString = ");";
+        stringBuilder.append( Integer.toString(0) ).append(endString);
 
         String SQL_ADD_FIRST_ROW = stringBuilder.toString();
         // Execute the SQL statement

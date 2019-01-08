@@ -14,10 +14,11 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.justchill.android.learnachord.LocaleHelper;
-import com.justchill.android.learnachord.MainActivity;
 import com.justchill.android.learnachord.MyApplication;
+import com.justchill.android.learnachord.ProgressBarAnimation;
 import com.justchill.android.learnachord.R;
 import com.justchill.android.learnachord.chord.Chord;
 import com.justchill.android.learnachord.chord.ChordsList;
@@ -47,6 +48,11 @@ public class ModeOneActivity extends AppCompatActivity {
     private Random rand;
     private int checkedIntervals, checkedChords;
 
+    Thread quizModeOnePlayThread;
+
+    // Just a little delay between playing
+    private final long addMS = 100;
+
 
     private final int timeLeftToPlayProgressThicknessDB = 4;
 
@@ -60,6 +66,10 @@ public class ModeOneActivity extends AppCompatActivity {
         rand = new Random();
         checkedIntervals = IntervalsList.getCheckedIntervalCount();
         checkedChords = ChordsList.getCheckedChordsCount();
+        if((MyApplication.playWhatTone || MyApplication.playWhatOctave) && IntervalsList.getInterval(0).getIsChecked()) {
+            // If tones can be played, don't count on čista prima
+            checkedIntervals--;
+        }
 
         timeLeftToPlayProgressBar = findViewById(R.id.ring_playing_progress_bar);
 
@@ -115,11 +125,11 @@ public class ModeOneActivity extends AppCompatActivity {
             public void onClick(View view) {
                 resumeQuiz();
 
-                playNextThing();
-
                 // If playing was stopped/paused play it again when resumed
                 if(MyApplication.quizPlayingCurrentThing) {
                     playCurrentThing();
+                } else {
+                    playNextThing(0);
                 }
             }
         });
@@ -151,7 +161,7 @@ public class ModeOneActivity extends AppCompatActivity {
             public void onClick(View view) {
                 pauseQuiz();
 
-                MyApplication.setIsPlaying(false);
+                stopPlaying();
             }
         });
 
@@ -181,11 +191,12 @@ public class ModeOneActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 MyApplication.waitingForQuizAnswer = false;
-                MyApplication.setIsPlaying(false);
+                MyApplication.quizPlayingCurrentThing = false;
+                stopPlaying();
 
                 if(MyApplication.quizModeOneCorrectAnswer) {
                     scoreTextView.setText(String.valueOf(++MyApplication.quizScore));
-                    playNextThing();
+                    playNextThing(0);
                 } else {
                     gameOver();
                 }
@@ -196,11 +207,12 @@ public class ModeOneActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 MyApplication.waitingForQuizAnswer = false;
-                MyApplication.setIsPlaying(false);
+                MyApplication.quizPlayingCurrentThing = false;
+                stopPlaying();
 
                 if(!MyApplication.quizModeOneCorrectAnswer) {
                     scoreTextView.setText(String.valueOf(++MyApplication.quizScore));
-                    playNextThing();
+                    playNextThing(0);
                 } else {
                     gameOver();
                 }
@@ -217,13 +229,26 @@ public class ModeOneActivity extends AppCompatActivity {
     }
 
     // Play next interval, chord or tone
-    private void playNextThing() {
-        if(MyApplication.waitingForQuizAnswer) {
+    private void playNextThing(int numberOfRecursiveRuns) {
+        if(MyApplication.waitingForQuizAnswer || numberOfRecursiveRuns > 5) {
             return;
         }
 
         if(checkedIntervals + checkedChords <= 0 && !MyApplication.playWhatTone && !MyApplication.playWhatOctave) {
-            // TODO: handle this error
+            Toast.makeText(MyApplication.getActivity(), readResource(R.string.no_checked_intervals_error), Toast.LENGTH_SHORT).show();
+            pauseQuiz();
+            return;
+        }
+
+        if(MyApplication.directionsCount <= 0 && !MyApplication.playWhatTone && !MyApplication.playWhatOctave) {
+            Toast.makeText(MyApplication.getActivity(), readResource(R.string.no_checked_playing_type_error), Toast.LENGTH_SHORT).show();
+            pauseQuiz();
+            return;
+        }
+
+        if(MyApplication.upKeyBorder - MyApplication.downKeyBorder <= 12 && MyApplication.playWhatOctave && !MyApplication.playWhatTone) {
+            Toast.makeText(MyApplication.getActivity(), readResource(R.string.key_borders_are_too_small), Toast.LENGTH_SHORT).show();
+            pauseQuiz();
             return;
         }
 
@@ -242,13 +267,19 @@ public class ModeOneActivity extends AppCompatActivity {
         MyApplication.quizLowestKey = getRandomKey();
 
         // 12 tones in one octave
-        int tempRandNumb = rand.nextInt(checkedIntervals + checkedChords + ((MyApplication.playWhatTone || MyApplication.playWhatOctave) ? 12 : 0));
+        int tempRandNumb = rand.nextInt(checkedIntervals + checkedChords + ((MyApplication.playWhatTone || MyApplication.playWhatOctave) ? 13 : 0));
+
+        if(MyApplication.directionsCount <= 0) {
+            // If there is no direction to play, play tone
+            tempRandNumb = rand.nextInt(13) + checkedIntervals + checkedChords;
+        }
 
         if(tempRandNumb < checkedIntervals) { // Play interval
             // Don't play čista prima if tone can be played
             MyApplication.quizIntervalToPlay = IntervalsList.getRandomCheckedInterval((MyApplication.playWhatTone || MyApplication.playWhatOctave) ? IntervalsList.getInterval(0) : null);
             if(MyApplication.quizIntervalToPlay == null) {
-                // TODO: handle error
+                // Something went wrong, try again
+                playNextThing(numberOfRecursiveRuns+1);
                 return;
             }
             MyApplication.quizChordToPlay = null;
@@ -265,7 +296,8 @@ public class ModeOneActivity extends AppCompatActivity {
         } else if(tempRandNumb < checkedIntervals+checkedChords) { // Play chord
             MyApplication.quizChordToPlay = ChordsList.getRandomCheckedChord(null);
             if(MyApplication.quizChordToPlay == null) {
-                // TODO: handle error
+                // Something went wrong, try again
+                playNextThing(numberOfRecursiveRuns+1);
                 return;
             }
             MyApplication.quizIntervalToPlay = null;
@@ -296,7 +328,8 @@ public class ModeOneActivity extends AppCompatActivity {
             playCurrentThing();
 
         } else {
-            // TODO: handle error
+            // Something went wrong, try again
+            playNextThing(numberOfRecursiveRuns+1);
             return;
         }
 
@@ -305,14 +338,31 @@ public class ModeOneActivity extends AppCompatActivity {
         MyApplication.waitingForQuizAnswer = true;
     }
 
-    // TODO: add direction/mode support
     private void playCurrentThing() {
         MyApplication.quizPlayingCurrentThing = true;
 
-        Thread quizModeOnePlayThread = new Thread(new Runnable() {
+        quizModeOnePlayThread = new Thread(new Runnable() {
             @Override
             public void run() {
+                int playingID = ++MyApplication.quizPlayingID;
                 Integer directionToPlay = null;
+
+                int numberOfTones = 1;
+                if(MyApplication.quizIntervalToPlay != null) {
+                    numberOfTones = 2;
+                } else if(MyApplication.quizChordToPlay != null) {
+                    numberOfTones = MyApplication.quizChordToPlay.getToneNumber();
+                }
+                double playingDuration = MyApplication.tonesSeparationTime * numberOfTones + MyApplication.delayBetweenChords + addMS;
+
+                if(MyApplication.playingMode == DataContract.UserPrefEntry.PLAYING_MODE_CUSTOM) {
+                    if(MyApplication.directionsCount > 0) {
+                        playingDuration *= MyApplication.directionsCount;
+                    }
+                }
+
+                updateProgressBarAnimation((long)playingDuration);
+
 
                 // Logic copy-pasted (and changed) from ServicePlayer.Play()
                 if(MyApplication.playingMode == DataContract.UserPrefEntry.PLAYING_MODE_CUSTOM) {
@@ -343,11 +393,16 @@ public class ModeOneActivity extends AppCompatActivity {
                             return;
                         }
 
-                        justPlayThis(directionToPlay);
+                        justPlayThis(directionToPlay, playingID);
                         if(MyApplication.quizIntervalToPlay == null && MyApplication.quizChordToPlay == null) {
                             // If tone is playing break the loop
                             break;
                         }
+                    }
+
+                    if(MyApplication.directionsCount <= 0) {
+                        // If there is no direction to play, try to play an key
+                        justPlayThis(null, playingID);
                     }
                 } else if(MyApplication.playingMode == DataContract.UserPrefEntry.PLAYING_MODE_RANDOM) {
                     int randomNumb = rand.nextInt(MyApplication.directionsCount);
@@ -374,10 +429,10 @@ public class ModeOneActivity extends AppCompatActivity {
                         return;
                     }
 
-                    justPlayThis(directionToPlay);
+                    justPlayThis(directionToPlay, playingID);
                 }
 
-                if(!MyApplication.quizPlayingPaused) {
+                if(!MyApplication.quizPlayingPaused && playingID == MyApplication.quizPlayingID) {
                     // If playing is not paused, it's finished
                     MyApplication.quizPlayingCurrentThing = false;
                 }
@@ -387,21 +442,28 @@ public class ModeOneActivity extends AppCompatActivity {
 
     }
 
-    private void justPlayThis(int directionToPlay) {
-        long addMS = 200;
-        if(MyApplication.quizIntervalToPlay != null) {
+    private void justPlayThis(Integer directionToPlay, int playingID) {
+        try {
+            Thread.sleep(10);
+        } catch (Exception e) {}
+
+        if(playingID != MyApplication.quizPlayingID) {
+            return;
+        }
+
+        if(MyApplication.quizIntervalToPlay != null && directionToPlay != null) {
             MyApplication.playChord(new Interval[]{MyApplication.quizIntervalToPlay}, MyApplication.quizLowestKey, directionToPlay);
 
             try {
                 Thread.sleep((long)MyApplication.tonesSeparationTime * 2 + (long)MyApplication.delayBetweenChords + addMS);
             } catch (Exception e) {}
-        } else if(MyApplication.quizChordToPlay != null) {
+        } else if(MyApplication.quizChordToPlay != null && directionToPlay != null) {
             MyApplication.playChord(MyApplication.quizChordToPlay.getAllIntervals(), MyApplication.quizLowestKey, directionToPlay);
 
             try {
                 Thread.sleep((long)MyApplication.tonesSeparationTime * (MyApplication.quizChordToPlay.getToneNumber()) + (long)MyApplication.delayBetweenChords + addMS);
             } catch (Exception e) {}
-        } else { // TODO: maybe not good to just play key, check if key need to play or not
+        } else if(MyApplication.playWhatTone || MyApplication.playWhatOctave) {
             MyApplication.playKey(MyApplication.quizLowestKey);
 
             try {
@@ -412,18 +474,19 @@ public class ModeOneActivity extends AppCompatActivity {
 
     private void showChord() {
         if(MyApplication.quizChordNameToShow == null) {
-            // TODO: handle error
+            // If chord name that needs to be shown is null, show nothing (empty string)
+            MyApplication.updateTextView(chordTextView, "", chordNumOneTextView, "", chordNumTwoTextView, "");
             return;
         }
         MyApplication.updateTextView(chordTextView, MyApplication.quizChordNameToShow, chordNumOneTextView, MyApplication.quizChordNumberOneToShow, chordNumTwoTextView, MyApplication.quizChordNumberTwoToShow);
+
     }
 
-    // TODO: random key -> key border is not checking if key sound is loaded
+    // TODO: random key uses key borders, it is not checking if key sound is loaded, check if key sound is loaded
     private int getRandomKey() {
         return rand.nextInt(MyApplication.upKeyBorder-MyApplication.downKeyBorder)+MyApplication.downKeyBorder;
     }
 
-    // TODO: add this
     // Are two keys inside same octave
     private boolean keysInSameOctave(int key1, int key2) {
         key1--;
@@ -432,7 +495,6 @@ public class ModeOneActivity extends AppCompatActivity {
         return (key1/12 == key2/12);
     }
 
-    // TODO: add this
     // Are two keys same tones (octave not included)
     private boolean keysAreSameTone(int key1, int key2) {
         key1--;
@@ -483,10 +545,7 @@ public class ModeOneActivity extends AppCompatActivity {
                 }
             }
 
-            if(MyApplication.quizChordNameToShow == null) {
-                // TODO: handle error
-                return;
-            }
+
         }
 
         // TODO: add min and max range support (user preference)
@@ -513,7 +572,8 @@ public class ModeOneActivity extends AppCompatActivity {
         }
 
         if(MyApplication.quizChordNameToShow == null) {
-            // TODO: handle error
+            stopPlaying();
+            playNextThing(0);
             return;
         }
 
@@ -599,7 +659,7 @@ public class ModeOneActivity extends AppCompatActivity {
 
     private void gameOver() {
         // Save high score if greater than current
-        MyApplication.quizModeOneHighscore = Math.max(MyApplication.quizModeOneHighscore, MyApplication.quizScore);
+        MyApplication.refreshQuizModeOneHighScore();
         MyApplication.quizScore = 0;
 
         // Reset everything
@@ -621,6 +681,25 @@ public class ModeOneActivity extends AppCompatActivity {
 //        return (MyApplication.quizCorrectAnswerName.equals(stringBuilder.toString()));
 //    }
 
+    private void updateProgressBarAnimation(long duration) {
+        try {
+            if(!MyApplication.showProgressBar && MyApplication.isLoadingFinished) {
+                timeLeftToPlayProgressBar.setVisibility(View.INVISIBLE);
+                return;
+            } else {
+                timeLeftToPlayProgressBar.setVisibility(View.VISIBLE);
+            }
+
+            ProgressBarAnimation progressBarAnimation = new ProgressBarAnimation(timeLeftToPlayProgressBar, 0, 100);
+            progressBarAnimation.setDuration(duration);
+
+
+            timeLeftToPlayProgressBar.startAnimation(progressBarAnimation);
+        } catch (Exception e2) {
+            e2.printStackTrace();
+        }
+    }
+
     private String readResource(int id) {
         return ModeOneActivity.this.getResources().getString(id);
     }
@@ -637,6 +716,11 @@ public class ModeOneActivity extends AppCompatActivity {
         MyApplication.activityResumed(ModeOneActivity.this);
 
         showChord();
+
+        // If sound is being played, don't show progress bar (animation stops after screen rotation)
+        if(MyApplication.quizPlayingCurrentThing && !MyApplication.quizPlayingPaused) {
+            timeLeftToPlayProgressBar.setVisibility(View.INVISIBLE);
+        }
     }
 
     @Override
@@ -646,7 +730,7 @@ public class ModeOneActivity extends AppCompatActivity {
         MyApplication.activityPaused();
 
         // Save high score if greater than current
-        MyApplication.quizModeOneHighscore = Math.max(MyApplication.quizModeOneHighscore, MyApplication.quizScore);
+        MyApplication.refreshQuizModeOneHighScore();
         MyApplication.quizScore = 0;
 
     }
@@ -662,14 +746,25 @@ public class ModeOneActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             // Respond to a click on the "Up" arrow button in the app bar
             case android.R.id.home:
-                MyApplication.setIsPlaying(false);
+                MyApplication.quizPlayingCurrentThing = false;
+                stopPlaying();
 
                 finish();
                 return true;
-            case R.id.action_options:
-                return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void stopPlaying() {
+        MyApplication.quizPlayingID += 10;
+        if(quizModeOnePlayThread != null) {
+            quizModeOnePlayThread.interrupt();
+            quizModeOnePlayThread = null;
+        }
+        MyApplication.setIsPlaying(false);
+
+        // Set progress bar to 100 immediately
+        updateProgressBarAnimation(0);
     }
 
     private void pauseQuiz() {
@@ -700,7 +795,12 @@ public class ModeOneActivity extends AppCompatActivity {
         // Create an AlertDialog.Builder and set the message, and click listeners for the positive and negative buttons on the dialog.
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage(R.string.quiz_game_over_message);
-        builder.setPositiveButton(R.string.try_again, new DialogInterface.OnClickListener() {
+        builder.setPositiveButton(R.string.exit, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                finish();
+            }
+        });
+        builder.setNegativeButton(R.string.try_again, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 // Refresh UI
                 pauseQuiz();
@@ -711,11 +811,6 @@ public class ModeOneActivity extends AppCompatActivity {
                 if (dialog != null) {
                     dialog.dismiss();
                 }
-            }
-        });
-        builder.setNegativeButton(R.string.exit, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                finish();
             }
         });
 

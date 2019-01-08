@@ -81,6 +81,7 @@
 
     <string name="no_checked_intervals_error">Nema odabranih intervala ili akorda</string>
     <string name="no_intervals_inside_borders">Raspon tonova nedovoljno velik za odabrane intervale i akorde</string>
+    <string name="key_borders_are_too_small">Raspon tonova nedovoljno velik</string>
 
     <string name="start_button_content_description">Započni</string>
 
@@ -94,7 +95,7 @@
     <string name="direction_up">Uzlazno</string>
     <string name="direction_down">Silazno</string>
     <string name="direction_simultaneously">Istovremeno</string>
-    <string name="second_sound_delay">Vremenski razmak tonova</string>
+    <string name="second_sound_delay">Trajanje svakoga tona</string>
     <string name="between_chord_delay">Vremensi razmak između intervala</string>
     <string name="second">s</string>
     <!--<string name="second_sound_delay_default_hint">0.00</string>-->
@@ -153,6 +154,15 @@
     <string name="quiz_game_over_message">Krivo</string>
     <string name="try_again">Pokušaj ponovno</string>
     <string name="exit">Izađi</string>
+
+    <!--Quiz explanation dialog-->
+    <string name="quiz_explanation_dialog_text">\tU laganome načinu biti će odviran i prokazan jedan interval, akord ili ton.
+        Trebati ćete odabrati je li ono što je odsvirano i prikazano, ili je prikazan neki drugi interval, akord ili ton. \n\t
+        Srednje težak način ponuditi će četiri intervala, akorada ili tonova. Vi trebate odabrati onaj koji je odsviran. \n\t
+        U teškom načinu morati ćete točno odabrati ono što je odsvirano. \n\t
+        Samo oni intervali i akordi koji su odabrani u postavkama biti će svirani ili prikazani. Ako ste odabrali tonove trebati ćete znati točno koji
+        je ton sviran. Ako ste odabrali samo oktave, trebati ćete znati u kojoj se oktavi ton nalazi.</string>
+
 
     <!--Keys-->
     <string name="c">"c"</string>

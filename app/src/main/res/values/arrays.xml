@@ -111,6 +111,10 @@
 
         <item>"play_what_tone"</item>
         <item>"play_what_octave"</item>
+
+        <item>"quiz_mode_one_high_score"</item>
+        <item>"quiz_mode_two_high_score"</item>
+        <item>"quiz_mode_three_high_score"</item>
     </string-array>
 
     <string-array name="key_symbols">

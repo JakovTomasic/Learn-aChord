@@ -253,7 +253,7 @@ public class DataProvider extends ContentProvider {
         if(temp == null) {
             throw new IllegalArgumentException("Data cannot be null");
         }
-        if(temp < 1 || temp > 61 || temp > values.getAsInteger(preferenceKeys[7])) {
+        if(temp < 1 || temp > DataContract.UserPrefEntry.NUMBER_OF_KEYS || temp > values.getAsInteger(preferenceKeys[7])) {
             throw new IllegalArgumentException("Integer " + temp + " out of borders");
         }
 
@@ -337,6 +337,30 @@ public class DataProvider extends ContentProvider {
             throw new IllegalArgumentException("Data cannot be any other number than CHECKBOX_CHECKED or CHECKBOX_NOT_CHECKED: " + temp);
         }
 
+        temp = values.getAsInteger(preferenceKeys[17]);
+        if(temp == null) {
+            throw new IllegalArgumentException("Data cannot be null");
+        }
+        if(temp < 0) {
+            throw new IllegalArgumentException("Mode one high score cannot be less than 0. High score: " + temp);
+        }
+
+        temp = values.getAsInteger(preferenceKeys[18]);
+        if(temp == null) {
+            throw new IllegalArgumentException("Data cannot be null");
+        }
+        if(temp < 0) {
+            throw new IllegalArgumentException("Mode two high score cannot be less than 0. High score: " + temp);
+        }
+
+        temp = values.getAsInteger(preferenceKeys[19]);
+        if(temp == null) {
+            throw new IllegalArgumentException("Data cannot be null");
+        }
+        if(temp < 0) {
+            throw new IllegalArgumentException("Mode three high score cannot be less than 0. High score: " + temp);
+        }
+
 
         // If there are no values to update, then don't try to update the database
         if (values.size() == 0) {
@@ -409,6 +433,10 @@ public class DataProvider extends ContentProvider {
                 values.put(preferenceKeys[14], DataContract.UserPrefEntry.DIRECTION_SAME_TIME_VIEW_DEFAULT_INDEX);
                 values.put(preferenceKeys[15], DataContract.UserPrefEntry.CHECKBOX_NOT_CHECKED);
                 values.put(preferenceKeys[16], DataContract.UserPrefEntry.CHECKBOX_NOT_CHECKED);
+                // You cannot delete high scores
+                values.put(preferenceKeys[17], MyApplication.quizModeOneHighscore);
+                values.put(preferenceKeys[18], MyApplication.quizModeTwoHighscore);
+                values.put(preferenceKeys[19], MyApplication.quizModeThreeHighscore);
 
                 // Run update with default data (set data to default)
                 rowsDeleted = update(ContentUris.withAppendedId(DataContract.UserPrefEntry.CONTENT_URI, 1), values, selection, selectionArgs);

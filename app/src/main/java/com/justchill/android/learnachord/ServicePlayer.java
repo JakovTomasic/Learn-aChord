@@ -22,6 +22,7 @@ import com.justchill.android.learnachord.chord.ChordsList;
 import com.justchill.android.learnachord.chord.Interval;
 import com.justchill.android.learnachord.chord.IntervalsList;
 import com.justchill.android.learnachord.database.DataContract;
+import com.justchill.android.learnachord.quiz.ModeOneActivity;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -29,9 +30,7 @@ import java.util.Random;
 
 public class ServicePlayer extends Service {
 
-    // TODO: test if every chord and interval is playing now and then
-    // TODO: handle some UI thing in main activity
-    // TODO: add sound loading quiz support
+    // TODO: add all quiz modes instanceof checkers
 
     private static SoundPool soundPool;
     private int[] keySounds = new int[DataContract.UserPrefEntry.NUMBER_OF_KEYS]; // Now, there are 61 key sounds in raw R directory
@@ -50,6 +49,7 @@ public class ServicePlayer extends Service {
 
     private Thread thread = null;
 
+    // Manages what is being played, ID of current player so all previous know they need to shut the * up
     private int playingID = 0;
 
     private int lastKey = -1;
@@ -182,7 +182,7 @@ public class ServicePlayer extends Service {
                 if(MyApplication.isPlaying()) {
                     play((int)MyApplication.tonesSeparationTime, (int)MyApplication.delayBetweenChords, ++playingID);
                 } else {
-                    if(!MyApplication.isChordOrIntervalPlaying()) {
+                    if(!MyApplication.isChordOrIntervalPlaying() && !MyApplication.quizPlayingCurrentThing) {
                         abandonAudioFocus();
                     }
                 }
@@ -241,14 +241,6 @@ public class ServicePlayer extends Service {
                     thread = new Thread(new Runnable() {
                         @Override
                         public void run() {
-                            // Try to show progress bar
-                            maxMilisecToPass = (int)MyApplication.tonesSeparationTime * (interval.length+1) + (int)MyApplication.delayBetweenChords;
-                            milisecPassed = 0;
-                            if(MyApplication.playingMode == DataContract.UserPrefEntry.PLAYING_MODE_CUSTOM) {
-                                maxMilisecToPass *= MyApplication.directionsCount;
-                            }
-                            updateProgressBarAnimation(null, null); // Start animation
-
                             playChord((int)MyApplication.tonesSeparationTime, (int)MyApplication.delayBetweenChords, interval,
                                     directionToPlay, ++playingID, lowestKey, null, null, null, false);
                         }
@@ -267,11 +259,6 @@ public class ServicePlayer extends Service {
                         thread = new Thread(new Runnable() {
                             @Override
                             public void run() {
-                                // Try to show progress bar
-                                maxMilisecToPass = (int)(MyApplication.tonesSeparationTime + MyApplication.delayBetweenChords);
-                                milisecPassed = 0;
-                                updateProgressBarAnimation(null, null); // Start animation
-
                                 playChord((int)MyApplication.tonesSeparationTime, (int)MyApplication.delayBetweenChords,
                                         new Interval[]{IntervalsList.getInterval(0)}, 0, ++playingID, keyId,
                                         null, null, null, false);
@@ -307,11 +294,11 @@ public class ServicePlayer extends Service {
         return MyApplication.getAppContext().getResources().getString(id);
     }
 
-    // Modes: 0 = random (normal); 1 = interval; 2 = justOneKey, 3 = playingMode custom
     // Returns true if sound was played successfully
     public boolean playChord(final int oneKeyTime, final int betweenDelayMilisec, final Interval[] intervals, final int directionToPlay,
                              final int tempPlayID, final int lowestKey, final String chordName, final Integer chordNumberOne,
                              final Integer chordNumberTwo, final boolean showWhatIntervals) {
+
 
         globalDirectionToPlay = directionToPlay;
         globalShowWhatIntervals = showWhatIntervals;
@@ -947,7 +934,7 @@ public class ServicePlayer extends Service {
     // TODO: make this simpler
     // set?Percent = null -> animation 0 to 75 (100%), != null set %
     private void updateProgressBarAnimation(final Integer setFromPercent, final Integer setToPercent) {
-        if(MyApplication.getActivity() == null) {
+        if(MyApplication.getActivity() == null || (MyApplication.isLoadingFinished && !(MyApplication.getActivity() instanceof MainActivity))) {
             return;
         }
         try {

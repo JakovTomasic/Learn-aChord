@@ -81,6 +81,8 @@
 
     <string name="no_checked_intervals_error">There is no selected interval or chord</string>
     <string name="no_intervals_inside_borders">Playing range is too small to play selected intervals and chords</string>
+    <string name="key_borders_are_too_small">Playing range is too small</string>
+
 
     <string name="start_button_content_description">Start playing</string>
 
@@ -94,7 +96,7 @@
     <string name="direction_up">Ascending</string>
     <string name="direction_down">Descending</string>
     <string name="direction_simultaneously">Simultaneously</string>
-    <string name="second_sound_delay">Tones separation</string>
+    <string name="second_sound_delay">Each tone duration</string>
     <string name="between_chord_delay">Delay between Intervals/Chords</string>
     <string name="second">s</string>
     <string name="second_sound_delay_default_hint" translatable="false">0.00</string>
@@ -157,6 +159,15 @@
     <string name="quiz_game_over_message">Wrong</string>
     <string name="try_again">Try again</string>
     <string name="exit">Exit</string>
+
+    <!--Quiz explanation dialog-->
+    <string name="quiz_explanation_dialog_text">\tEasy quiz mode plays one interval, chord or tone and shows another one.
+        Then, you need to determine weather they are same. \n\t
+        Medium mode plays one interval, chord or tone and shows four of them. You need to choose the right one (the one that has been played). \n\t
+        In hard mode, you need to select exactly what has been played. \n\t
+        Only intervals and chords that are selected in settings will be played or showed. If you selected tones you will be asked what tone is playing.
+        If you selected just octave you will be asked in what octave that tone is.</string>
+
 
     <!--Keys-->
     <string name="c">"c"</string>

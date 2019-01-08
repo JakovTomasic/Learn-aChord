@@ -90,69 +90,7 @@ public class SettingsActivity extends AppCompatActivity {
         super.onPause();
 
         if(MyApplication.doesDbNeedUpdate()) {
-            Thread userPrefThread = new Thread() {
-                @SuppressLint("ApplySharedPref")
-                @Override
-                public void run() {
-                    ContentValues values = new ContentValues();
-
-                    String[] intervalKeys = DataContract.concatenateTwoArrays(
-                            getResources().getStringArray(R.array.interval_keys),
-                            getResources().getStringArray(R.array.interval_keys_above_octave));
-                    for (int i = 0; i < intervalKeys.length; i++) {
-                        values.put(intervalKeys[i], IntervalsList.getInterval(i).getIsChecked() ? DataContract.UserPrefEntry.CHECKBOX_CHECKED
-                                : DataContract.UserPrefEntry.CHECKBOX_NOT_CHECKED);
-                    }
-
-                    String[] chordKeys = getResources().getStringArray(R.array.chord_keys);
-                    for (int i = 0; i < chordKeys.length; i++) {
-                        values.put(chordKeys[i], ChordsList.getChord(i).getIsChecked() ? DataContract.UserPrefEntry.CHECKBOX_CHECKED
-                                : DataContract.UserPrefEntry.CHECKBOX_NOT_CHECKED);
-                    }
-
-
-                    String[] preferenceKeys = getResources().getStringArray(R.array.preference_keys);
-                    values.put(preferenceKeys[0], MyApplication.directionUp ? DataContract.UserPrefEntry.CHECKBOX_CHECKED :
-                            DataContract.UserPrefEntry.CHECKBOX_NOT_CHECKED);
-                    values.put(preferenceKeys[1], MyApplication.directionDown ? DataContract.UserPrefEntry.CHECKBOX_CHECKED :
-                            DataContract.UserPrefEntry.CHECKBOX_NOT_CHECKED);
-                    values.put(preferenceKeys[2], MyApplication.directionSameTime ? DataContract.UserPrefEntry.CHECKBOX_CHECKED :
-                            DataContract.UserPrefEntry.CHECKBOX_NOT_CHECKED);
-                    values.put(preferenceKeys[3], (int) MyApplication.tonesSeparationTime);
-                    values.put(preferenceKeys[4], (int) MyApplication.delayBetweenChords);
-                    values.put(preferenceKeys[5], MyApplication.appLanguage);
-                    values.put(preferenceKeys[6], MyApplication.downKeyBorder);
-                    values.put(preferenceKeys[7], MyApplication.upKeyBorder);
-                    values.put(preferenceKeys[8], MyApplication.showProgressBar ? DataContract.UserPrefEntry.CHECKBOX_CHECKED :
-                            DataContract.UserPrefEntry.CHECKBOX_NOT_CHECKED);
-                    values.put(preferenceKeys[9], MyApplication.showWhatIntervals ? DataContract.UserPrefEntry.CHECKBOX_CHECKED :
-                            DataContract.UserPrefEntry.CHECKBOX_NOT_CHECKED);
-                    values.put(preferenceKeys[10], MyApplication.chordTextScalingMode);
-                    values.put(preferenceKeys[11], MyApplication.playingMode);
-                    values.put(preferenceKeys[12], MyApplication.directionUpViewIndex);
-                    values.put(preferenceKeys[13], MyApplication.directionDownViewIndex);
-                    values.put(preferenceKeys[14], MyApplication.directionSameTimeViewIndex);
-                    values.put(preferenceKeys[15], MyApplication.playWhatTone ? DataContract.UserPrefEntry.CHECKBOX_CHECKED :
-                            DataContract.UserPrefEntry.CHECKBOX_NOT_CHECKED);
-                    values.put(preferenceKeys[16], MyApplication.playWhatOctave ? DataContract.UserPrefEntry.CHECKBOX_CHECKED :
-                            DataContract.UserPrefEntry.CHECKBOX_NOT_CHECKED);
-
-                    int newRowUri = getContentResolver().update(DataContract.UserPrefEntry.CONTENT_URI_FIRST_ROW,
-                            values, null, null); // returns how many rows were affected
-
-                    MyApplication.setDoIntervalsNeedUpdate(false);
-                    MyApplication.setDoChordsNeedUpdate(false);
-                    MyApplication.setDoSettingsNeedUpdate(false);
-                    MyApplication.setDoesDbNeedUpdate(false);
-
-                    // If some setting is changed update interval and chord names (in case it is language)
-                    if(newRowUri > 0) {
-                        IntervalsList.updateAllIntervalsNames(SettingsActivity.this);
-                        ChordsList.updateAllChordsNames(SettingsActivity.this);
-                    }
-                }
-            };
-            userPrefThread.start();
+            MyApplication.updateDatabaseOnSeparateThread();
         }
 
         MyApplication.activityPaused();

@@ -1,6 +1,8 @@
 package com.justchill.android.learnachord.quiz;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -158,11 +160,17 @@ public class ChooseQuizModeActivity extends AppCompatActivity {
         MyApplication.quizChordNumberOneToShow = "";
         MyApplication.quizChordNumberTwoToShow = "";
         MyApplication.waitingForQuizAnswer = false;
+        MyApplication.quizPlayingCurrentThing = false;
     }
 
     @Override
     protected void onPause() {
         super.onPause();
+
+        // Update database if new high score has been set
+        if(MyApplication.doesDbNeedUpdate()) {
+            MyApplication.updateDatabaseOnSeparateThread();
+        }
 
         MyApplication.activityPaused();
 
@@ -181,11 +189,28 @@ public class ChooseQuizModeActivity extends AppCompatActivity {
             case android.R.id.home:
                 finish();
                 return true;
-            case R.id.action_options:
-                // TODO: handle this
+            case R.id.action_details:
+                showQuizExplanationDialog();
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void showQuizExplanationDialog() {
+        // Create an AlertDialog.Builder and set the message, and click listeners for the positive and negative buttons on the dialog.
+        AlertDialog.Builder builder = new AlertDialog.Builder(ChooseQuizModeActivity.this);
+        builder.setMessage(R.string.quiz_explanation_dialog_text);
+        builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                if(dialog != null) {
+                    dialog.dismiss();
+                }
+            }
+        });
+
+        // Create and show the AlertDialog
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
     }
 
 

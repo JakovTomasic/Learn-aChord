@@ -130,7 +130,6 @@
             </LinearLayout>
 
             <!--TODO: add contentDescription everywhere-->
-            <!--TODO: maybe remove this outside this layout (move to parent layout)-->
             <ImageView
                 android:id="@+id/start_clickable_image_view"
                 android:layout_width="200dp"

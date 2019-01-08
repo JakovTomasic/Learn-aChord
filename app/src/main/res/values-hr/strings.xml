@@ -79,9 +79,11 @@
     <string name="settings_intervals">Intervali:</string>
     <string name="settings_chords">Akordi:</string>
 
-    <string name="no_checked_intervals_error">Nema odabranih intervala ili akorda</string>
+    <string name="no_checked_intervals_error">Nema odabranog intervala ili akorda</string>
     <string name="no_intervals_inside_borders">Raspon tonova nedovoljno velik za odabrane intervale i akorde</string>
     <string name="key_borders_are_too_small">Raspon tonova nedovoljno velik</string>
+    <string name="not_enough_selected_intervals_or_chords_error">Nema dovoljno odabranih intervala i akorada</string>
+
 
     <string name="start_button_content_description">Započni</string>
 
@@ -151,9 +153,14 @@
     <string name="quiz_mode_three_title">Teško</string>
     <string name="highscore">Rekord</string>
 
-    <string name="quiz_game_over_message">Krivo</string>
+    <string name="quiz_game_over_message">Netočno</string>
     <string name="try_again">Pokušaj ponovno</string>
     <string name="exit">Izađi</string>
+
+    <string name="quiz_mode_two_option_one_title">a)</string>
+    <string name="quiz_mode_two_option_two_title">b)</string>
+    <string name="quiz_mode_two_option_three_title">c)</string>
+    <string name="quiz_mode_two_option_four_title">d)</string>
 
     <!--Quiz explanation dialog-->
     <string name="quiz_explanation_dialog_text">\tU laganome načinu biti će odviran i prokazan jedan interval, akord ili ton.

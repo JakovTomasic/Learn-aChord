@@ -82,6 +82,7 @@
     <string name="no_checked_intervals_error">There is no selected interval or chord</string>
     <string name="no_intervals_inside_borders">Playing range is too small to play selected intervals and chords</string>
     <string name="key_borders_are_too_small">Playing range is too small</string>
+    <string name="not_enough_selected_intervals_or_chords_error">There is not enough selected intervals and chords</string>
 
 
     <string name="start_button_content_description">Start playing</string>
@@ -159,6 +160,11 @@
     <string name="quiz_game_over_message">Wrong</string>
     <string name="try_again">Try again</string>
     <string name="exit">Exit</string>
+
+    <string name="quiz_mode_two_option_one_title">a)</string>
+    <string name="quiz_mode_two_option_two_title">b)</string>
+    <string name="quiz_mode_two_option_three_title">c)</string>
+    <string name="quiz_mode_two_option_four_title">d)</string>
 
     <!--Quiz explanation dialog-->
     <string name="quiz_explanation_dialog_text">\tEasy quiz mode plays one interval, chord or tone and shows another one.

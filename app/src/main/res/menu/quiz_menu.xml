@@ -5,6 +5,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".quiz.ChooseQuizModeActivity">
 
+    <!--TODO: reset each mode high score-->
+
     <item
         android:id="@+id/action_details"
         android:title="@string/quiz_menu_details"

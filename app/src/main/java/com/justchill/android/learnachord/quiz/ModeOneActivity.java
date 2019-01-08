@@ -234,8 +234,8 @@ public class ModeOneActivity extends AppCompatActivity {
             return;
         }
 
-        if(checkedIntervals + checkedChords <= 0 && !MyApplication.playWhatTone && !MyApplication.playWhatOctave) {
-            Toast.makeText(MyApplication.getActivity(), readResource(R.string.no_checked_intervals_error), Toast.LENGTH_SHORT).show();
+        if(checkedIntervals + checkedChords <= 1 && !MyApplication.playWhatTone && !MyApplication.playWhatOctave) {
+            Toast.makeText(MyApplication.getActivity(), readResource(R.string.not_enough_selected_intervals_or_chords_error), Toast.LENGTH_SHORT).show();
             pauseQuiz();
             return;
         }

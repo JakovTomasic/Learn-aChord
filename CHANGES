@@ -1,0 +1,67 @@
+LearnaCord {
+
+v0.1	- ?
+v0.2 	- ?
+v0.3 	- seperate thread for playing, not working
+v0.4	- fixed v0.3, now working
+v0.5 	- cleanup, cheater clicking on play/stop button now stable, preety much ok now i hope (when in app)
+v0.6 	- now stable, exiting from app and entering fixed, MainActivity.isPlaying replaced with MyApplication.isPlaying
+v0.7 	- added SharedPreferences (they do not save when exiting from app), need to add DB
+v0.8 	- removed SharedPreferences and added DB, need to add logic for user preferences
+v0.8.5	- failed, deleted, back to v0.8
+v0.9	- service moves to MyApplication class so it can be accessed from everywhere (by OnValueChange listeners)
+v0.10	- code cleanup, now I think that it is very stable
+v0.11   - added user preference logic for playing intervals and onClickListener to settings checkbox on while list_item_layout
+v0.12   - added select/deselect all button for intervals, not removed TODO for that (in SettingsActivity class)
+v0.13	- added functionality for play button in settings activity, and fixed cheater clicking it (kinda)
+v0.14	- random interval and key choosing now less random (what make it seem more random) (added interval playing countdown some logic...)
+v0.15	- direction up and down functionalities added, random choosing between two (not more than 5 time same direction in row)
+v0.16	- fixed no selected intervals crash && no saving settings when only check all is clicked && allIntervalsCB updater && added ViewPager in settings activity (and fragment)
+v0.17 	- Working on 4.0.4! fixed playing (added final int mode to play()), replaced fab with clickable ImageView and set under interval name TextView (and added round_button drawable)
+v0.18	- added TabLayout, started working on settings UI (not in code)
+v0.19	- added settings (second tab) UI, started adding logic to it in PreferencesFragment class (not saving it to DB)
+v0.20	- finished adding it's logic in PreferencesFragment class (not saving it to DB), next TODO is saving to DB and inApp logic for that settings
+v0.21	- in settings interval (chord duration always visible), settings now saving to DB, added some settings data in DataContract, on 4.0.4: settings working and saving, on rotating when changing text text is set to last value, on edittext Done focus is not removed from it
+v0.22	- added real logic for settings: direction, play one by one, tones separation, interval/cord duration. Started adding range in settings. Play one by one CheckBox removed and added at the same time direction in direction spinner
+v0.23	- added random direction mode and it's logic, next I will change checkboxes for every mode and choose them random
+v0.24	- direction spinner replaced with three mode checkboxes and added their logic and saving to DB, everything is working
+v0.25	- MediaPlayer replaced with SoundPool, service run() recursion replaced with do-while loop and crashing bugs fixed (i hope so)
+v0.26	- added warning message when saving settings with all directions unchecked or all intervals unchecked (2 seperate warning messages)
+v0.27	- finnaly added RangeSeekBar (implemented in build.gradle) it's UI logic
+v0.28	- range settings now works with DB, added RangeTooSmall settings saving dialog, saving and playing logic. Finnaly added audioFocus request (for api >= 26) and abandonFocus(for api >= 26 && api < 26)
+v0.29	- added play option to hear sound of chosen range border keys. Working on 4.0.4 (except maybe stopping sound when entering settings)
+v0.30	- YUHU! Changed logic for playing key (now in play()) and replaced mode == 0, mode != 2... with MODE_? constants, Interval/Chord duration replaced with delayBetweenChords and changed it's default value (to 1s). Working on 4.0.4. Next is UI
+v0.31	- started to work on UI, added fabIV transition (and then removed) and playing progress bar (but not it's logic)
+v0.32	- tried to add ProgressBar logic, need finishing (added ProgressBarAnimation class), this version is crashing when playing
+v0.33	- added progress bar logic (animations) for loading soundSpools and playing intervals
+v0.34	- fixed ProgressBar playing animation when rotating, changed play/stop button position rules (no overlapping when playing POV4/SM5), created onLoadingFinished MainActivity listener for changing play/stop button color and setting is it clickable
+v0.35	- smarted-up loading SoundPool sounds (added loading delay for every sound as long as previous sound was loading)
+v0.36	- added show progress bar setting and it's logic, next is adding MainActivity components scaling
+v0.37	- BUG! wierd/too fast playing. Added MainActivity scaling depending on screen size, added AutoResizeTextView class (should be removed)
+v0.38	- added text size option (changes PrefernceFragment java and xml file and MainActivity.java), I figured out sp to px conversion.
+v0.39	- fixed speedy play bug from v0.37 (don't mess with ServiceInterval.playingID). Added text size setting logic and saving to DB
+v0.40	- newer android bug fixed (red play button), changed text size options, added reset options action
+v0.41	- added context menu in PreferencesFragment for reordering direction modes (when also newely added spinner is set to custom), TODO: implement DB saving and logic
+v0.42	- added saving to DB playing mode (when custom) and playing logic (finnaly! :) ). Fixed auto EditText focus bug (added useless 0dp x 0dp EditText to request focus to it)
+v0.43	- added translation (not logic (only partially) and fixed keyboard showing in settings when rotating
+v0.44	- added LoacleHelper class to handle language changes and IntervalsList.updateAllIntervalsNames(Context tempContext) to update interval names, couple of small improvements, cord refractored to chord, ServiceInterval refractored to ServicePlayer. Everything working
+v0.45	- added direciton lickable question mark (TextView) and it's logic. Tested on 4.0.4, android 8.0, tablet and android P (before changes). Added multi-window support (but it is like crap for now). Added progressBarAnimation.java (copy pasted same as before) and commented value showing text.
+
+v1.0	- finished version, without ads
+v1.1	- changed ServicePlayer (smarted-up, but not working yet), added Chords (need to add rest of them), changed settings - added new fragmet for chords and it's logic
+v1.2	- added some chords and changed ServicePlayer (not finished yet)
+v1.3	- more or less done with ServicePlayer, just random pickers need to be slightly changed
+v1.4	- added all intervals and chords (finnaly) and finished ServicePlayer random picker (I hope so)
+v1.5	- added indicator for what intervals are playing inside chord, a lot of bugfixed and finished TODO items
+v1.6	- added what intervals are playing DB saving logic (do/don't show it) and UI design changes - recreated seekBar, .pngs changed to vector images
+v1.7	- added don't turn off or dim screen while playing feature and tones
+v1.8	- started adding quiz, added quiz icon, first activity and almost done with adding three buttons to open three quiz modes (Easy, Medium and Hard)
+v1.9	- almost finished choose quiz mode, started adding mode one
+v1.10	- MESSY CODE, almost done implementing quiz mode one, not working yet, still don't know why
+v1.11	- first git commit
+v1.12	- quiz mode one improved
+
+
+
+
+}

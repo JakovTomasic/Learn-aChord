@@ -17,10 +17,10 @@
         android:layout_alignParentTop="true"
         style="?android:progressBarStyleHorizontal"
         android:progress="0"
-        tools:progress="75"
         android:progressDrawable="@drawable/quiz_progress_ring"
         android:indeterminate="false"
-        android:rotation="270"/>
+        android:rotation="270"
+        tools:progress="75"/>
 
     <TextView
         android:id="@+id/quiz_score_text_view"
@@ -29,6 +29,7 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:textColor="@color/darkTextColor"
+        android:layout_toRightOf="@id/ring_playing_progress_bar"
         android:layout_marginLeft="20dp"
         tools:text="16"/>
 
@@ -63,26 +64,25 @@
 
 
 
-
-
     <LinearLayout
         android:id="@+id/four_options_parent_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_centerInParent="true"
+        android:layout_below="@id/quiz_score_text_view"
         android:orientation="vertical"
-        android:visibility="gone">
+        android:visibility="visible">
+
 
         <!--For equal positioning-->
         <View
             android:layout_width="1px"
             android:layout_height="0dp"
             android:visibility="invisible"
-            android:layout_weight="4"/>
+            android:layout_weight="1"/>
 
         <LinearLayout
-            android:id="@+id/quiz_linear_layout1"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
@@ -312,28 +312,6 @@
                 android:layout_weight="1"/>
 
 
-        </LinearLayout>
-
-        <!--For equal positioning-->
-        <View
-            android:layout_width="1px"
-            android:layout_height="0dp"
-            android:visibility="invisible"
-            android:layout_weight="1"/>
-
-        <LinearLayout
-            android:id="@+id/quiz_linear_layout2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <!--For equal positioning-->
-            <View
-                android:layout_width="0dp"
-                android:layout_height="1px"
-                android:visibility="invisible"
-                android:layout_weight="1"/>
-
             <RelativeLayout
                 android:id="@+id/quiz_option_three_parent_layout"
                 android:layout_width="200dp"
@@ -553,6 +531,7 @@
                 android:layout_weight="1"/>
 
 
+
         </LinearLayout>
 
         <!--For equal positioning-->
@@ -560,10 +539,13 @@
             android:layout_width="1px"
             android:layout_height="0dp"
             android:visibility="invisible"
-            android:layout_weight="2"/>
+            android:layout_weight="1"/>
 
 
     </LinearLayout>
+
+
+
 
 
 

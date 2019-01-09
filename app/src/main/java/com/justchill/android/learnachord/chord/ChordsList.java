@@ -352,21 +352,27 @@ public final class ChordsList {
     }
 
 
-    public static Chord getRandomCheckedChord(Chord exception) {
-        int checkedIntervals = getCheckedChordsCount();
+    public static Chord getRandomCheckedChord(Chord... exception) {
+        int checkedChords = getCheckedChordsCount();
         if(exception != null) {
-            checkedIntervals--; // -1 for exception
+            int subtract = 0;
+            for(Chord ex : exception) {
+                if(ex != null) {
+                    subtract++;
+                }
+            }
+            checkedChords -= subtract; // - number of exceptions
         }
-        if(checkedIntervals <= 0) {
+        if(checkedChords <= 0) {
             return null;
         }
 
         // Get checked chord that is numbered as randomNumb (not counting unchecked ones)
         Random random = new Random();
-        int randomNumb = random.nextInt(checkedIntervals);
+        int randomNumb = random.nextInt(checkedChords);
         int counter = 0;
         for(int i = 0; i < getChordsCount(); i++) {
-            if(getChord(i).getIsChecked() && getChord(i) != exception) {
+            if(getChord(i).getIsChecked() && !isInside(getChord(i), exception)) {
                 if(randomNumb == counter) {
                     return getChord(i);
                 }
@@ -376,13 +382,26 @@ public final class ChordsList {
 
         // If nothing was returned, return first checked chord that is not exception
         for(int i = 0; i < getChordsCount(); i++) {
-            if(getChord(i).getIsChecked() && getChord(i) != exception) {
+            if(getChord(i).getIsChecked() && !isInside(getChord(i), exception)) {
                 return getChord(i);
             }
         }
 
         // Otherwise, return null
         return null;
+    }
+
+    private static boolean isInside(Chord number, Chord... newInt) {
+        if(newInt == null) {
+            return false;
+        }
+
+        for (Chord aNewInt : newInt) {
+            if (number == aNewInt) {
+                return true;
+            }
+        }
+        return false;
     }
 
 }

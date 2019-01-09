@@ -1086,12 +1086,16 @@ public class ServicePlayer extends Service {
     }
 
     private boolean isInside(int number, int... newInt) {
+        if(newInt == null) {
+            return false;
+        }
+
         for (int aNewInt : newInt) {
             if (number == aNewInt) {
-                return false;
+                return true;
             }
         }
-        return true;
+        return false;
     }
 
     public int getPlayingID() {

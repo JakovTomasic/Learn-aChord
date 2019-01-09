@@ -252,10 +252,16 @@ public final class IntervalsList {
         }
     }
 
-    public static Interval getRandomCheckedInterval(Interval exception) {
+    public static Interval getRandomCheckedInterval(Interval... exception) {
         int checkedIntervals = getCheckedIntervalCount();
         if(exception != null) {
-            checkedIntervals--; // -1 for exception
+            int subtract = 0;
+            for(Interval ex : exception) {
+                if(ex != null) {
+                    subtract++;
+                }
+            }
+            checkedIntervals -= subtract; // - number of exceptions
         }
         if(checkedIntervals <= 0) {
             return null;
@@ -266,7 +272,7 @@ public final class IntervalsList {
         int randomNumb = random.nextInt(checkedIntervals);
         int counter = 0;
         for(int i = 0; i < getIntervalsCount(); i++) {
-            if(getInterval(i).getIsChecked() && getInterval(i) != exception) {
+            if(getInterval(i).getIsChecked() && !isInside(getInterval(i), exception)) {
                 if(randomNumb == counter) {
                     return getInterval(i);
                 }
@@ -276,13 +282,26 @@ public final class IntervalsList {
 
         // If nothing was returned, return first checked interval that is not exception
         for(int i = 0; i < getIntervalsCount(); i++) {
-            if(getInterval(i).getIsChecked() && getInterval(i) != exception) {
+            if(getInterval(i).getIsChecked() && !isInside(getInterval(i), exception)) {
                 return getInterval(i);
             }
         }
 
         // Otherwise, return null
         return null;
+    }
+
+    private static boolean isInside(Interval number, Interval... newInt) {
+        if(newInt == null) {
+            return false;
+        }
+
+        for (Interval aNewInt : newInt) {
+            if (number == aNewInt) {
+                return true;
+            }
+        }
+        return false;
     }
 
 }

@@ -148,6 +148,9 @@ public class ChooseQuizModeActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
+        // Stop all sounds in case user exited a quiz when sound was laying
+        MyApplication.setIsPlaying(false);
+
         MyApplication.activityResumed(ChooseQuizModeActivity.this);
         MyApplication.quizPlayingPaused = true;
 

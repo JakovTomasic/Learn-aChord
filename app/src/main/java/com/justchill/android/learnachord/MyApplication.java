@@ -389,6 +389,15 @@ public class MyApplication extends Application {
     public static String quizChordNameToShow = "", quizChordNumberOneToShow = "", quizChordNumberTwoToShow = "";
     public static boolean quizPlayingCurrentThing = false;
 
+    public static int quizModeTwoCorrectAnswerID = -1;
+    public static String[] quizModeTwoChordNameToShow = new String[] {"", "", "", ""};
+    public static String[] quizModeTwoChordNumberOneToShow = new String[] {"", "", "", ""};
+    public static String[] quizModeTwoChordNumberTwoToShow = new String[] {"", "", "", ""};
+
+    public static Interval[] quizModeTwoSelectedIntervals = new Interval[] {null, null, null, null};
+    public static Chord[] quizModeTwoSelectedChords = new Chord[] {null, null, null, null};
+    public static Integer[] quizModeTwoSelectedTones = new Integer[] {null, null, null, null};
+
     public static String getKeyName(int key) {
         key--; // 0 to 60 (and not 1 - 61)
 
@@ -475,10 +484,12 @@ public class MyApplication extends Application {
     }
 
 
-    public static void setupIntervalAndChordTextSize(TextView chordTextView, TextView chordNumOneTextView, TextView chordNumTwoTextView) {
+    public static void setupIntervalAndChordTextSize(TextView chordTextView, TextView chordNumOneTextView, TextView chordNumTwoTextView, float divideBy) {
         MyApplication.refreshScaledDensity();
 
         float chordTextViewTextSizePX = (float)(MyApplication.smallerDisplayDimensionPX * 0.75 / 8) * MyApplication.scaledDensity;
+
+        chordTextViewTextSizePX /= divideBy;
 
         chordTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, chordTextViewTextSizePX);
         chordNumOneTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, chordTextViewTextSizePX/2);

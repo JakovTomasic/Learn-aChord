@@ -87,7 +87,7 @@ public class ModeOneActivity extends AppCompatActivity {
         falseAnswer = findViewById(R.id.false_answer_parent_layout);
 
         // Setup interval and chord text size
-        MyApplication.setupIntervalAndChordTextSize(chordTextView, chordNumOneTextView, chordNumTwoTextView);
+        MyApplication.setupIntervalAndChordTextSize(chordTextView, chordNumOneTextView, chordNumTwoTextView, 1);
 
         // Setup score text view text size
         scoreTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(MyApplication.smallerDisplayDimensionPX / 16) * MyApplication.scaledDensity);
@@ -267,11 +267,11 @@ public class ModeOneActivity extends AppCompatActivity {
         MyApplication.quizLowestKey = getRandomKey();
 
         // 12 tones in one octave
-        int tempRandNumb = rand.nextInt(checkedIntervals + checkedChords + ((MyApplication.playWhatTone || MyApplication.playWhatOctave) ? 13 : 0));
+        int tempRandNumb = rand.nextInt(checkedIntervals + checkedChords + ((MyApplication.playWhatTone || MyApplication.playWhatOctave) ? 12 : 0));
 
         if(MyApplication.directionsCount <= 0) {
             // If there is no direction to play, play tone
-            tempRandNumb = rand.nextInt(13) + checkedIntervals + checkedChords;
+            tempRandNumb = rand.nextInt(12) + checkedIntervals + checkedChords;
         }
 
         if(tempRandNumb < checkedIntervals) { // Play interval
@@ -294,7 +294,7 @@ public class ModeOneActivity extends AppCompatActivity {
             playCurrentThing();
 
         } else if(tempRandNumb < checkedIntervals+checkedChords) { // Play chord
-            MyApplication.quizChordToPlay = ChordsList.getRandomCheckedChord(null);
+            MyApplication.quizChordToPlay = ChordsList.getRandomCheckedChord();
             if(MyApplication.quizChordToPlay == null) {
                 // Something went wrong, try again
                 playNextThing(numberOfRecursiveRuns+1);
@@ -505,65 +505,19 @@ public class ModeOneActivity extends AppCompatActivity {
 
     private void setupWrongThingToShow() {
         if(MyApplication.quizIntervalToPlay != null) {
-            try {
-                MyApplication.quizChordNameToShow = IntervalsList.getRandomCheckedInterval(MyApplication.quizIntervalToPlay).getIntervalName();
-            } catch (Exception e) {
-                MyApplication.quizChordNameToShow = null;
-            }
+            setupWrongInterval();
         }
 
         if(MyApplication.quizChordToPlay != null) {
-            try {
-                Chord tempChord = ChordsList.getRandomCheckedChord(MyApplication.quizChordToPlay);
-                MyApplication.quizChordNameToShow = tempChord.getChordName();
-                MyApplication.quizChordNumberOneToShow = tempChord.getNumberOneAsString();
-                MyApplication.quizChordNumberTwoToShow = tempChord.getNumberTwoAsString();
-            } catch (Exception e) {
-                MyApplication.quizChordNameToShow = null;
-            }
+            setupWrongChord();
         }
 
-        if(MyApplication.quizIntervalToPlay == null && MyApplication.quizChordToPlay == null && MyApplication.playWhatTone && MyApplication.playWhatOctave) {
-            int tempRandomStartFrom = getRandomKey();
-
-            for(int i = tempRandomStartFrom; i < MyApplication.upKeyBorder; i++) {
-                // If answer is not true, show that key
-                if(!((MyApplication.playWhatOctave && keysInSameOctave(MyApplication.quizLowestKey, i)) || (MyApplication.playWhatTone && keysAreSameTone(MyApplication.quizLowestKey, i)))) {
-                    MyApplication.quizChordNameToShow = MyApplication.getKeyName(i);
-                    break;
-                }
-            }
-
-            if(MyApplication.quizChordNameToShow == null) {
-                // If key was not found, try going down instead of up
-                for(int i = tempRandomStartFrom-1; i > MyApplication.downKeyBorder; i--) {
-                    // If answer is not true, show that key
-                    if(!((MyApplication.playWhatOctave && keysInSameOctave(MyApplication.quizLowestKey, i)) || (MyApplication.playWhatTone && keysAreSameTone(MyApplication.quizLowestKey, i)))) {
-                        MyApplication.quizChordNameToShow = MyApplication.getKeyName(i);
-                        break;
-                    }
-                }
-            }
-
-
+        if(MyApplication.quizIntervalToPlay == null && MyApplication.quizChordToPlay == null && MyApplication.playWhatTone/* && MyApplication.playWhatOctave*/) {
+            setupWrongToneIfPlayWhatTone();
         }
 
-        // TODO: add min and max range support (user preference)
         if(MyApplication.quizIntervalToPlay == null && MyApplication.quizChordToPlay == null && !MyApplication.playWhatTone && MyApplication.playWhatOctave) {
-            int tempOctaveNumb = (MyApplication.quizLowestKey-1)/12;
-
-            int tempKey = (MyApplication.quizLowestKey-1)%12;
-
-            // -1 so octave that is correct doesn't get shown
-            int numberOfOctaves = DataContract.UserPrefEntry.NUMBER_OF_KEYS/12 - 1;
-            int randomNumb = rand.nextInt(numberOfOctaves);
-            for(int i = 0; i < numberOfOctaves-1; i++) {
-                if(i != tempOctaveNumb && i >= randomNumb) {
-                    // +1 to get back to normal naming scheme
-                    MyApplication.quizChordNameToShow = MyApplication.getKeyName(tempKey + (12*i) + 1);
-                    break;
-                }
-            }
+            setupWrongToneIfJustOctave();
         }
 
         if(MyApplication.quizChordNameToShow == null) {
@@ -580,12 +534,9 @@ public class ModeOneActivity extends AppCompatActivity {
     }
 
     private void setupWrongThingToShowSecondTry() {
-        // If MyApplication.quizIntervalToPlay there will just be no exception
-        try {
-            MyApplication.quizChordNameToShow = IntervalsList.getRandomCheckedInterval(MyApplication.quizIntervalToPlay).getIntervalName();
-        } catch (Exception e) {
-            MyApplication.quizChordNameToShow = null;
-        }
+        // Show any checked interval, if there is any
+        // If MyApplication.quizIntervalToPlay == null there will just be no exception
+        setupWrongInterval();
 
         if(MyApplication.playWhatTone || MyApplication.playWhatOctave && IntervalsList.getInterval(0).getIntervalName().equals(MyApplication.quizChordNameToShow)) {
             // If tones are playing and it shows čista prima, user cannot see the difference
@@ -596,7 +547,39 @@ public class ModeOneActivity extends AppCompatActivity {
             return;
         }
 
-        // If MyApplication.quizChordToPlay there will just be no exception
+        // Show any checked chord, if there is any
+        // If MyApplication.quizChordToPlay == null there will just be no exception
+        setupWrongChord();
+
+        if(MyApplication.quizChordNameToShow != null) {
+            return;
+        }
+
+        if(!MyApplication.playWhatTone && MyApplication.playWhatOctave) {
+            setupWrongToneIfJustOctave();
+        }
+
+        if(MyApplication.quizChordNameToShow != null) {
+            return;
+        }
+
+        if(MyApplication.playWhatTone) {
+            setupWrongToneIfPlayWhatTone();
+        }
+
+
+    }
+
+
+    private void setupWrongInterval() {
+        try {
+            MyApplication.quizChordNameToShow = IntervalsList.getRandomCheckedInterval(MyApplication.quizIntervalToPlay).getIntervalName();
+        } catch (Exception e) {
+            MyApplication.quizChordNameToShow = null;
+        }
+    }
+
+    private void setupWrongChord() {
         try {
             Chord tempChord = ChordsList.getRandomCheckedChord(MyApplication.quizChordToPlay);
             MyApplication.quizChordNameToShow = tempChord.getChordName();
@@ -605,57 +588,49 @@ public class ModeOneActivity extends AppCompatActivity {
         } catch (Exception e) {
             MyApplication.quizChordNameToShow = null;
         }
+    }
 
-        if(MyApplication.quizChordNameToShow != null) {
-            return;
-        }
+    private void setupWrongToneIfPlayWhatTone() {
+        int tempRandomStartFrom = getRandomKey();
 
-        // TODO: copy-pasted from function before, add min and max range support
-        if(!MyApplication.playWhatTone && MyApplication.playWhatOctave) {
-            int tempOctaveNumb = (MyApplication.quizLowestKey-1)/12;
-
-            int tempKey = (MyApplication.quizLowestKey-1)%12;
-
-            // -1 so octave that is correct doesn't get shown
-            int numberOfOctaves = DataContract.UserPrefEntry.NUMBER_OF_KEYS/12 - 1;
-            int randomNumb = rand.nextInt(numberOfOctaves);
-            for(int i = 0; i < numberOfOctaves-1; i++) {
-                if(i != tempOctaveNumb && i >= randomNumb) {
-                    MyApplication.quizChordNameToShow = MyApplication.getKeyName(tempKey + (12*i));
-                    break;
-                }
+        for(int i = tempRandomStartFrom; i < MyApplication.upKeyBorder; i++) {
+            // If answer is not true, show that key
+            if(!((MyApplication.playWhatOctave && keysInSameOctave(MyApplication.quizLowestKey, i)) || (MyApplication.playWhatTone && keysAreSameTone(MyApplication.quizLowestKey, i)))) {
+                MyApplication.quizChordNameToShow = MyApplication.getKeyName(i);
+                break;
             }
         }
 
-        if(MyApplication.quizChordNameToShow != null) {
-            return;
-        }
-
-        if((MyApplication.playWhatTone || MyApplication.playWhatOctave)) {
-            int tempRandomStartFrom = getRandomKey();
-
-            for(int i = tempRandomStartFrom; i < MyApplication.upKeyBorder; i++) {
+        if(MyApplication.quizChordNameToShow == null) {
+            // If key was not found, try going down instead of up
+            for(int i = tempRandomStartFrom-1; i > MyApplication.downKeyBorder; i--) {
                 // If answer is not true, show that key
                 if(!((MyApplication.playWhatOctave && keysInSameOctave(MyApplication.quizLowestKey, i)) || (MyApplication.playWhatTone && keysAreSameTone(MyApplication.quizLowestKey, i)))) {
                     MyApplication.quizChordNameToShow = MyApplication.getKeyName(i);
                     break;
                 }
             }
+        }
+    }
 
-            if(MyApplication.quizChordNameToShow == null) {
-                // If key was not found, try going down instead of up
-                for(int i = tempRandomStartFrom-1; i > MyApplication.downKeyBorder; i--) {
-                    // If answer is not true, show that key
-                    if(!((MyApplication.playWhatOctave && keysInSameOctave(MyApplication.quizLowestKey, i)) || (MyApplication.playWhatTone && keysAreSameTone(MyApplication.quizLowestKey, i)))) {
-                        MyApplication.quizChordNameToShow = MyApplication.getKeyName(i);
-                        break;
-                    }
-                }
+    // TODO: add min and max range support (user preference)
+    private void setupWrongToneIfJustOctave() {
+        int tempOctaveNumb = (MyApplication.quizLowestKey-1)/12;
+
+        int tempKey = (MyApplication.quizLowestKey-1)%12;
+
+        int numberOfOctaves = DataContract.UserPrefEntry.NUMBER_OF_KEYS/12;
+        // -1 so octave that is correct doesn't get shown
+        int randomNumb = rand.nextInt(numberOfOctaves - 1);
+        for(int i = 0; i < numberOfOctaves; i++) {
+            if(i != tempOctaveNumb && i >= randomNumb) {
+                // +1 to get back to normal naming scheme
+                MyApplication.quizChordNameToShow = MyApplication.getKeyName(tempKey + (12*i) + 1);
+                break;
             }
         }
-
-
     }
+
 
     private void gameOver() {
         // Save high score if greater than current
@@ -731,15 +706,8 @@ public class ModeOneActivity extends AppCompatActivity {
 
         // Save high score if greater than current
         MyApplication.refreshQuizModeOneHighScore();
-        MyApplication.quizScore = 0;
 
     }
-
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        getMenuInflater().inflate(R.menu.quiz_menu, menu);
-//        return true;
-//    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

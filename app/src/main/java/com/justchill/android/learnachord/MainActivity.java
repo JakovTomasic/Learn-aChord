@@ -273,7 +273,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         // Setup interval and chord text size
-        MyApplication.setupIntervalAndChordTextSize(chordTextView, chordNumOneTextView, chordNumTwoTextView);
+        MyApplication.setupIntervalAndChordTextSize(chordTextView, chordNumOneTextView, chordNumTwoTextView, 1);
 
 
         // Setup size for list view that shows what intervals are inside chord

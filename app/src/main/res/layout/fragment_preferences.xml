@@ -7,6 +7,9 @@
     android:layout_height="match_parent"
     android:background="@color/settingsBackground">
 
+    <!--TODO: separate some settings with thin line (1dp)-->
+    <!--TODO: range seekbar min and max must be scalable-->
+
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
@@ -14,8 +17,6 @@
         android:padding="16dp"
         android:focusable="true"
         android:focusableInTouchMode="true">
-
-        <!--TODO: add style-->
 
         <LinearLayout
             android:layout_width="match_parent"

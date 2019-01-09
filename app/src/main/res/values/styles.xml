@@ -17,8 +17,9 @@
         <item name="android:textColor">@color/darkTextColor</item>
     </style>
 
-    <style name="quizChordTextStyle">
+    <style name="quizModeTwoChordTextStyle">
         <item name="android:textColor">@color/darkTextColor</item>
+        <item name="android:textStyle">bold</item>
     </style>
 
 </resources>

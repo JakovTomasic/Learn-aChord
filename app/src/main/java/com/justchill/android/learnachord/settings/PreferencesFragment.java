@@ -270,22 +270,6 @@ public class PreferencesFragment extends Fragment {
 
         setupChordTextSizeSpinner();
 
-//        chooseColorsView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Toast.makeText(getContext(), "Color", Toast.LENGTH_SHORT).show();
-//                MyApplication.setDoesDbNeedUpdate(true);
-//                // TODO: implement this (but nit here), choose each interval, chord and tone color
-//            }
-//        });
-
-//        updateToPremiumView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Toast.makeText(getContext(), "Pro", Toast.LENGTH_SHORT).show();
-//                // TODO: implement this if paid version is added
-//            }
-//        });
 
         updateRoundButtonColor(downBorderTextView.getBackground());
         updateRoundButtonColor(upBorderTextView.getBackground());

@@ -738,7 +738,7 @@ public class ServicePlayer extends Service {
 
     private int setupWhatToPlay(Random rand) throws Exception {
         int whatToPlay;
-        // TODO: maybe add weight for not 50/50 chances, then change code below
+
         // Random sets what to play (interval or chord)
         if(MyApplication.directionsCount <= 0) {
             if(!MyApplication.playWhatTone && !MyApplication.playWhatOctave) {
@@ -936,7 +936,7 @@ public class ServicePlayer extends Service {
         }
     }
 
-    // TODO: make this simpler
+    // This can be written better
     // set?Percent = null -> animation 0 to 75 (100%), != null set %
     private void updateProgressBarAnimation(final Integer setFromPercent, final Integer setToPercent) {
         if(MyApplication.getActivity() == null || (MyApplication.isLoadingFinished && !(MyApplication.getActivity() instanceof MainActivity))) {

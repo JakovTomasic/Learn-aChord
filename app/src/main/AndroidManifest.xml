@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.justchill.android.learnachord">
 
 
     <!--android:windowSoftInputMode="stateAlwaysHidden" -> to not show keyboard when opening activity -->
 
     <application
-        android:allowBackup="true"
+        android:allowBackup="false"
         android:icon="@mipmap/learn_achord_icon"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/learn_achord_icon"
@@ -17,7 +18,8 @@
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
-            android:resizeableActivity="true">
+            android:resizeableActivity="true"
+            tools:targetApi="n">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -32,44 +34,70 @@
         <activity
             android:name=".settings.SettingsActivity"
             android:label="@string/options"
-            android:parentActivityName=".MainActivity">
+            android:parentActivityName=".MainActivity"
+            tools:targetApi="jelly_bean">
             <!-- To support android 4.0 and lower: -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity"/>
+
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".quiz.ChooseQuizModeActivity"
             android:label="@string/quiz"
-            android:parentActivityName=".MainActivity">
+            android:parentActivityName=".MainActivity"
+            tools:targetApi="jelly_bean">
             <!-- To support android 4.0 and lower: -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity"/>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
         </activity>
         <activity android:name=".quiz.ModeOneActivity"
             android:label="@string/quiz_mode_one_title"
-            android:parentActivityName=".quiz.ChooseQuizModeActivity">
+            android:parentActivityName=".quiz.ChooseQuizModeActivity"
+            tools:targetApi="jelly_bean">
             <!-- To support android 4.0 and lower: -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".quiz.ChooseQuizModeActivity"/>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
         </activity>
         <activity android:name=".quiz.ModeTwoActivity"
             android:label="@string/quiz_mode_two_title"
-            android:parentActivityName=".quiz.ChooseQuizModeActivity">
+            android:parentActivityName=".quiz.ChooseQuizModeActivity"
+            tools:targetApi="jelly_bean">
             <!-- To support android 4.0 and lower: -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".quiz.ChooseQuizModeActivity"/>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
         </activity>
         <activity android:name=".quiz.ModeThreeActivity"
             android:label="@string/quiz_mode_three_title"
-            android:parentActivityName=".quiz.ChooseQuizModeActivity">
+            android:parentActivityName=".quiz.ChooseQuizModeActivity"
+            tools:targetApi="jelly_bean">
             <!-- To support android 4.0 and lower: -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".quiz.ChooseQuizModeActivity"/>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
         </activity>
 
         <!-- android:stopWithTask="true" calls services onDestroy when app is completely closed -->

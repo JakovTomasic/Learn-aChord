@@ -670,12 +670,6 @@ public class ModeOneActivity extends AppCompatActivity {
         MyApplication.refreshQuizModeOneHighScore();
         MyApplication.quizScore = 0;
 
-        // Reset everything
-        MyApplication.quizPlayingPaused = true;
-        MyApplication.quizChordNameToShow = "";
-        MyApplication.quizChordNumberOneToShow = "";
-        MyApplication.quizChordNumberTwoToShow = "";
-        MyApplication.waitingForQuizAnswer = false;
 
         showGameOverDialog();
     }
@@ -805,6 +799,13 @@ public class ModeOneActivity extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int id) {
                 // Refresh UI
                 pauseQuiz();
+
+                // Reset everything
+                MyApplication.quizPlayingPaused = true;
+                MyApplication.quizChordNameToShow = "";
+                MyApplication.quizChordNumberOneToShow = "";
+                MyApplication.quizChordNumberTwoToShow = "";
+                MyApplication.waitingForQuizAnswer = false;
 
                 scoreTextView.setText(String.valueOf(MyApplication.quizScore));
 

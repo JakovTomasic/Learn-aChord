@@ -309,82 +309,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    // TODO: implement animations
-    // coords calculating from center
-    private void startAnimation(final View view, final float startX, final float startY, final float finalX, final float finalY,
-                                final int finalWidth, final int finalHeight, final int tickMS, final int steps) {
-
-        final int startingWidth = view.getWidth();
-        final int startingHeight = view.getHeight();
-
-        Thread animationThread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                for(int i = 1; i <= steps; i++) {
-                    final int thisStep = i;
-                    MainActivity.this.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            ViewGroup.LayoutParams fabIVSizeRules = fabIV.getLayoutParams();
-                            int height_width_value = (finalWidth-startingWidth)/steps * thisStep + startingWidth;
-
-                            fabIV.setPadding(height_width_value/5, height_width_value/5, height_width_value/5, height_width_value/5);
-                            fabIVSizeRules.width = height_width_value;
-                            fabIVSizeRules.height = height_width_value;
-                            fabIV.setLayoutParams(fabIVSizeRules);
-                        }
-                    });
-
-                    if(view.getWidth() == finalWidth && view.getHeight() == finalHeight) {
-                        break;
-                    }
-
-                    try {
-                        Thread.sleep(tickMS);
-                    } catch (Exception e) {}
-
-                }
-
-                for(int i = 1; i <= steps; i++) {
-                    final int thisStep = i;
-                    MainActivity.this.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            view.setX((finalX-startX)/steps * thisStep + startX - fabIV.getWidth()/2);
-                            view.setY((finalY-startY)/steps * thisStep + startY - fabIV.getWidth()/2);
-                        }
-                    });
-
-                    if(view.getX() == finalX && view.getY() == finalY) {
-                        break;
-                    }
-
-                    try {
-                        Thread.sleep(tickMS);
-                    } catch (Exception e) {}
-
-                }
-
-            }
-        });
-        animationThread.start();
-    }
-
-    // TODO: finish animations
-    private void startPlayAnimation() {
-        startAnimation(fabIV, fabIV.getX()+fabIV.getWidth()/2, fabIV.getY()+fabIV.getHeight()/2,
-                progressBarParentLayout.getX()+progressBarParentLayout.getWidth()/2,
-                progressBarParentLayout.getY()+progressBarParentLayout.getHeight() - fabIV.getHeight()/2,
-                75, 75, 16, 20);
-    }
-
-    // TODO: finish animations
-    private void startStopAnimation() {
-        startAnimation(fabIV, fabIV.getX()+fabIV.getWidth()/2, fabIV.getY()+fabIV.getHeight()/2,
-                progressBarParentLayout.getX()+progressBarParentLayout.getWidth()/2,
-                progressBarParentLayout.getY()+progressBarParentLayout.getHeight()/2,
-                250, 250, 16, 20);
-    }
 
     @Override
     protected void onStart() {
@@ -439,5 +363,84 @@ public class MainActivity extends AppCompatActivity {
         MyApplication.activityPaused();
         setDontTurnOffScreen(false);
     }
+
+
+
+
+
+//    // coords calculating from center
+//    private void startAnimation(final View view, final float startX, final float startY, final float finalX, final float finalY,
+//                                final int finalWidth, final int finalHeight, final int tickMS, final int steps) {
+//
+//        final int startingWidth = view.getWidth();
+//        final int startingHeight = view.getHeight();
+//
+//        Thread animationThread = new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                for(int i = 1; i <= steps; i++) {
+//                    final int thisStep = i;
+//                    MainActivity.this.runOnUiThread(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            ViewGroup.LayoutParams fabIVSizeRules = fabIV.getLayoutParams();
+//                            int height_width_value = (finalWidth-startingWidth)/steps * thisStep + startingWidth;
+//
+//                            fabIV.setPadding(height_width_value/5, height_width_value/5, height_width_value/5, height_width_value/5);
+//                            fabIVSizeRules.width = height_width_value;
+//                            fabIVSizeRules.height = height_width_value;
+//                            fabIV.setLayoutParams(fabIVSizeRules);
+//                        }
+//                    });
+//
+//                    if(view.getWidth() == finalWidth && view.getHeight() == finalHeight) {
+//                        break;
+//                    }
+//
+//                    try {
+//                        Thread.sleep(tickMS);
+//                    } catch (Exception e) {}
+//
+//                }
+//
+//                for(int i = 1; i <= steps; i++) {
+//                    final int thisStep = i;
+//                    MainActivity.this.runOnUiThread(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            view.setX((finalX-startX)/steps * thisStep + startX - fabIV.getWidth()/2);
+//                            view.setY((finalY-startY)/steps * thisStep + startY - fabIV.getWidth()/2);
+//                        }
+//                    });
+//
+//                    if(view.getX() == finalX && view.getY() == finalY) {
+//                        break;
+//                    }
+//
+//                    try {
+//                        Thread.sleep(tickMS);
+//                    } catch (Exception e) {}
+//
+//                }
+//
+//            }
+//        });
+//        animationThread.start();
+//    }
+//
+//    private void startPlayAnimation() {
+//        startAnimation(fabIV, fabIV.getX()+fabIV.getWidth()/2, fabIV.getY()+fabIV.getHeight()/2,
+//                progressBarParentLayout.getX()+progressBarParentLayout.getWidth()/2,
+//                progressBarParentLayout.getY()+progressBarParentLayout.getHeight() - fabIV.getHeight()/2,
+//                75, 75, 16, 20);
+//    }
+//
+//    private void startStopAnimation() {
+//        startAnimation(fabIV, fabIV.getX()+fabIV.getWidth()/2, fabIV.getY()+fabIV.getHeight()/2,
+//                progressBarParentLayout.getX()+progressBarParentLayout.getWidth()/2,
+//                progressBarParentLayout.getY()+progressBarParentLayout.getHeight()/2,
+//                250, 250, 16, 20);
+//    }
+
 }
 

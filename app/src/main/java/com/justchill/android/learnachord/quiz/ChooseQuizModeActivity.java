@@ -18,7 +18,6 @@ import android.widget.TextView;
 import com.justchill.android.learnachord.LocaleHelper;
 import com.justchill.android.learnachord.MyApplication;
 import com.justchill.android.learnachord.R;
-import com.justchill.android.learnachord.settings.SettingsActivity;
 
 public class ChooseQuizModeActivity extends AppCompatActivity {
 

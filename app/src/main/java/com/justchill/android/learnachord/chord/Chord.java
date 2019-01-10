@@ -1,6 +1,5 @@
 package com.justchill.android.learnachord.chord;
 
-import java.io.Serializable;
 
 public class Chord {
 

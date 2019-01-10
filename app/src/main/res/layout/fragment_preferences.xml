@@ -607,48 +607,6 @@
 
             </LinearLayout>
 
-            <!--TODO: implement this, but not here-->
-            <!--<LinearLayout-->
-            <!--android:id="@+id/choose_colors_clickable_view"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:orientation="horizontal"-->
-            <!--android:clickable="true"-->
-            <!--android:focusable="true"-->
-            <!--android:background="?android:attr/selectableItemBackground"-->
-            <!--android:paddingTop="4dp"-->
-            <!--android:paddingBottom="4dp">-->
-
-            <!--<TextView-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:minHeight="40dp"-->
-            <!--android:gravity="center"-->
-            <!--android:text="@string/choose_colors"/>-->
-
-            <!--</LinearLayout>-->
-
-            <!--TODO: implement this later if paid app is added-->
-            <!--<LinearLayout-->
-            <!--android:id="@+id/remove_ads_clickable_view"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:orientation="horizontal"-->
-            <!--android:clickable="true"-->
-            <!--android:focusable="true"-->
-            <!--android:background="?android:attr/selectableItemBackground"-->
-            <!--android:paddingTop="4dp"-->
-            <!--android:paddingBottom="4dp">-->
-
-            <!--<TextView-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:minHeight="40dp"-->
-            <!--android:gravity="center"-->
-            <!--style="@style/settingsTextStyle"-->
-            <!--android:text="@string/update_to_pro_remove_ads"/>-->
-
-            <!--</LinearLayout>-->
 
         </LinearLayout>
 

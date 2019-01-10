@@ -593,13 +593,6 @@ public class ModeThreeActivity extends AppCompatActivity {
         MyApplication.refreshQuizModeThreeHighScore();
         MyApplication.quizScore = 0;
 
-        MyApplication.quizModeThreeShowSubmitButton = false;
-
-        // TODO: reset ------------------------------------------------------------------------------------------------------------------
-        MyApplication.quizModeThreeCorrectID = null;
-        // Reset everything
-        MyApplication.quizPlayingPaused = true;
-        MyApplication.waitingForQuizAnswer = false;
 
         showGameOverDialog();
     }
@@ -737,6 +730,13 @@ public class ModeThreeActivity extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int id) {
                 // Refresh UI
                 pauseQuiz();
+
+                MyApplication.quizModeThreeShowSubmitButton = false;
+
+                // Reset everything
+                MyApplication.quizPlayingPaused = true;
+                MyApplication.waitingForQuizAnswer = false;
+
 
                 scoreTextView.setText(String.valueOf(MyApplication.quizScore));
 

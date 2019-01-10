@@ -854,12 +854,6 @@ public class ModeTwoActivity extends AppCompatActivity {
         MyApplication.refreshQuizModeTwoHighScore();
         MyApplication.quizScore = 0;
 
-        // Reset everything
-        MyApplication.quizPlayingPaused = true;
-        MyApplication.quizModeTwoChordNameToShow = new String[] {"", "", "", ""};
-        MyApplication.quizModeTwoChordNumberOneToShow = new String[] {"", "", "", ""};
-        MyApplication.quizModeTwoChordNumberTwoToShow = new String[] {"", "", "", ""};
-        MyApplication.waitingForQuizAnswer = false;
 
         showGameOverDialog();
     }
@@ -981,6 +975,13 @@ public class ModeTwoActivity extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int id) {
                 // Refresh UI
                 pauseQuiz();
+
+                // Reset everything
+                MyApplication.quizPlayingPaused = true;
+                MyApplication.quizModeTwoChordNameToShow = new String[] {"", "", "", ""};
+                MyApplication.quizModeTwoChordNumberOneToShow = new String[] {"", "", "", ""};
+                MyApplication.quizModeTwoChordNumberTwoToShow = new String[] {"", "", "", ""};
+                MyApplication.waitingForQuizAnswer = false;
 
                 scoreTextView.setText(String.valueOf(MyApplication.quizScore));
 

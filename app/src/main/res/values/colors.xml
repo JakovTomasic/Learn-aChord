@@ -28,6 +28,9 @@
     <color name="questionMarkColor">#4b4b4b</color>
 
 
+    <color name="preferencesFragmentSeparationLineColor">#30004000</color>
+
+
     <color name="whatIntervalListViewBackground">#38FF38</color>
     <color name="whatIntervalListViewBorder">#00AA00</color>
 
@@ -40,10 +43,17 @@
 
 
     <color name="transparent">#00000000</color>
+    <color name="half_transparent">#90000000</color>
 
 
 
     <color name="quizBackgroundColor">#f2fff2</color>
     <color name="quizTimeLeftToPlayProgressBar">#BB444444</color>
+    
+    
+    
+    <color name="quizModeThreeListViewUnselectedBackgroundColor">#00000000</color>
+    <color name="quizModeThreeListViewSelectedBackgroundColor">#389938</color>
+    <color name="quizModeThreeListViewBackgroundDrawableColor">#38bb38</color>
 
 </resources>

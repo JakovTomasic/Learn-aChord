@@ -12,18 +12,10 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.ShapeDrawable;
-import android.media.AudioAttributes;
-import android.media.AudioFocusRequest;
-import android.media.AudioManager;
-import android.media.SoundPool;
-import android.os.Build;
-import android.os.PowerManager;
 import android.support.v4.content.ContextCompat;
 import android.util.TypedValue;
 import android.view.View;
-import android.view.WindowManager;
-import android.widget.ImageView;
-import android.widget.ProgressBar;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 
 import com.justchill.android.learnachord.chord.Chord;
@@ -31,14 +23,11 @@ import com.justchill.android.learnachord.chord.ChordsList;
 import com.justchill.android.learnachord.chord.Interval;
 import com.justchill.android.learnachord.chord.IntervalsList;
 import com.justchill.android.learnachord.database.DataContract;
-import com.justchill.android.learnachord.settings.SettingsActivity;
 
 import java.util.ArrayList;
 import java.util.Locale;
 
 public class MyApplication extends Application {
-
-    // TODO: test builtin android back button support
 
     @SuppressLint("StaticFieldLeak")
     private static Context context;
@@ -50,8 +39,7 @@ public class MyApplication extends Application {
         void onPlayKey(Integer keyId);
     }
 
-    // TODO: rename this
-    public interface MainActivityListener {
+    public interface ActivityListener {
         void onIsPlayingChange();
         void onLoadingFinished();
     }
@@ -59,7 +47,7 @@ public class MyApplication extends Application {
     private static boolean UIVisible = false;
     private static boolean isPlaying = false;
     private static ChangeListener listener;
-    private static ArrayList<MainActivityListener> mainActivityListener = new ArrayList<>();
+    private static ArrayList<ActivityListener> activityListeners = new ArrayList<>();
 
     /**
      * @param doIntervalsNeedUpdate do intervals need to update / set to data from database
@@ -115,12 +103,12 @@ public class MyApplication extends Application {
         MyApplication.listener = listener;
     }
 
-    public static MainActivityListener getMainActivityListener(int id) {
-        return MyApplication.mainActivityListener.get(id);
+    public static ActivityListener getActivityListener(int id) {
+        return MyApplication.activityListeners.get(id);
     }
 
-    public static void addMainActivityListener(MainActivityListener listener) {
-        MyApplication.mainActivityListener.add(listener);
+    public static void addActivityListener(ActivityListener listener) {
+        MyApplication.activityListeners.add(listener);
     }
 
     public static Context getAppContext() {
@@ -174,9 +162,9 @@ public class MyApplication extends Application {
         if(listener != null) {
             listener.onIsPlayingChange();
         }
-        if(mainActivityListener != null && mainActivityListener.size() > 0) {
-            for(int i = 0; i < mainActivityListener.size(); i++) {
-                mainActivityListener.get(i).onIsPlayingChange();
+        if(activityListeners != null && activityListeners.size() > 0) {
+            for(int i = 0; i < activityListeners.size(); i++) {
+                activityListeners.get(i).onIsPlayingChange();
             }
         }
     }
@@ -212,9 +200,9 @@ public class MyApplication extends Application {
     public static void loadingFinished() {
         MyApplication.isLoadingFinished = true;
 
-        if(mainActivityListener != null && mainActivityListener.size() > 0) {
-            for(int i = 0; i < mainActivityListener.size(); i++) {
-                mainActivityListener.get(i).onLoadingFinished();
+        if(activityListeners != null && activityListeners.size() > 0) {
+            for(int i = 0; i < activityListeners.size(); i++) {
+                activityListeners.get(i).onLoadingFinished();
             }
         }
     }
@@ -374,7 +362,6 @@ public class MyApplication extends Application {
 
     // Quiz
     public static int quizScore = 0;
-    public static String quizCorrectAnswerName = "";
     public static boolean isQuizModePlaying = false; // Is user inside quiz mode
     public static boolean waitingForQuizAnswer = false;
     // For pausing quiz
@@ -397,6 +384,17 @@ public class MyApplication extends Application {
     public static Interval[] quizModeTwoSelectedIntervals = new Interval[] {null, null, null, null};
     public static Chord[] quizModeTwoSelectedChords = new Chord[] {null, null, null, null};
     public static Integer[] quizModeTwoSelectedTones = new Integer[] {null, null, null, null};
+
+    public static ArrayList<Integer> quizModeThreeListOfPossibleAnswerIDs = null;
+    public static Integer quizModeThreeCorrectID = null;
+    public static Integer quizModeThreeSelectedID = null;
+    // Don't change this constants (they need to be in same order when sorted)
+    public static final int quizModeThreeToneIDAdd = 0;
+    public static final int quizModeThreeIntervalIDAdd = 1000;
+    public static final int quizModeThreeChordIDAdd = 10000;
+    public static View[] quizModeThreeListViews = null;
+
+    public static boolean quizModeThreeShowSubmitButton = false;
 
     public static String getKeyName(int key) {
         key--; // 0 to 60 (and not 1 - 61)
@@ -453,6 +451,7 @@ public class MyApplication extends Application {
                             numberOneTV.setText(chordNumberOne);
                             numberTwoTV.setText(chordNumberTwo);
                         }
+
                     } catch (Exception e) {}
 
                 }
@@ -462,25 +461,95 @@ public class MyApplication extends Application {
         }
     }
 
+    public static String getChordNameAsString(String name, String numberOne, String numberTwo) {
+        StringBuilder stringBuilder = new StringBuilder();
+
+        if(name != null) {
+            stringBuilder.append(name);
+        }
+
+        if(numberOne != null) {
+            stringBuilder.append(numberOne);
+        }
+
+        if(numberTwo != null) {
+            stringBuilder.append(numberTwo);
+        }
+
+        return stringBuilder.toString();
+    }
+
+    public static void quizModeThreeSetDefaultBackgroundsToAllViews(View[] list, int color) {
+        if(list == null) {
+            return;
+        }
+
+        for(int i = 0; i < list.length; i++) {
+            if(list[i] == null) {
+                continue;
+            }
+            list[i].setBackgroundColor(MyApplication.getAppContext().getResources().getColor(color));
+        }
+    }
+
+    public static void quizModeThreeOnListItemClick(int position) {
+        quizModeThreeSetDefaultBackgroundsToAllViews(MyApplication.quizModeThreeListViews, R.color.quizModeThreeListViewUnselectedBackgroundColor);
+
+        quizModeThreeSelectedID = quizModeThreeListOfPossibleAnswerIDs.get(position);
+
+        quizModeThreeListViews[position].setBackgroundColor(MyApplication.getAppContext().getResources().getColor(R.color.quizModeThreeListViewSelectedBackgroundColor));
+
+
+//        Toast.makeText(MyApplication.getActivity(), quizModeThreeSelectedID + "", Toast.LENGTH_SHORT).show();
+    }
+
+    public static boolean doesStringContainSubstring(String string, String substring) {
+        if(string == null) {
+            return false;
+        }
+        if(substring == null) {
+            return true;
+        }
+
+        return string.toLowerCase().contains(substring.toLowerCase());
+    }
+
     public static void refreshQuizModeOneHighScore() {
         if(quizScore > quizModeOneHighscore) {
             quizModeOneHighscore = quizScore;
-            setDoesDbNeedUpdate(true);
+            updateDatabaseOnSeparateThread();
         }
     }
 
     public static void refreshQuizModeTwoHighScore() {
         if(quizScore > quizModeTwoHighscore) {
             quizModeTwoHighscore = quizScore;
-            setDoesDbNeedUpdate(true);
+            updateDatabaseOnSeparateThread();
         }
     }
 
     public static void refreshQuizModeThreeHighScore() {
         if(quizScore > quizModeThreeHighscore) {
             quizModeThreeHighscore = quizScore;
-            setDoesDbNeedUpdate(true);
+            updateDatabaseOnSeparateThread();
         }
+    }
+
+
+    public static void hideKeyboardFromActivity(Activity activity) {
+        InputMethodManager imm = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
+        //Find the currently focused view, so we can grab the correct window token from it.
+        View view = activity.getCurrentFocus();
+        //If no view currently has focus, create a new one, just so we can grab a window token from it
+        if (view == null) {
+            view = new View(activity);
+        }
+
+        if(imm == null) {
+            return;
+        }
+
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
 

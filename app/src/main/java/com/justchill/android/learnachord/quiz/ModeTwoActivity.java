@@ -231,7 +231,7 @@ public class ModeTwoActivity extends AppCompatActivity {
             MyApplication.setupPlayButtonColor(ModeTwoActivity.this, startClickableImageView, R.color.unloadedColor);
         }
 
-        MyApplication.addMainActivityListener(new MyApplication.MainActivityListener() {
+        MyApplication.addActivityListener(new MyApplication.ActivityListener() {
             @Override
             public void onIsPlayingChange() {
 
@@ -357,8 +357,6 @@ public class ModeTwoActivity extends AppCompatActivity {
         MyApplication.quizChordToPlay = null;
 
 
-        // Get random low key for playing (inside borders)
-        MyApplication.quizLowestKey = getRandomKey();
 
 
         // 12 tones in one octave
@@ -425,6 +423,10 @@ public class ModeTwoActivity extends AppCompatActivity {
         } else if(MyApplication.playWhatTone || MyApplication.playWhatOctave) {
             MyApplication.quizIntervalToPlay = null;
             MyApplication.quizChordToPlay = null;
+
+            // Get random low key for playing (inside borders)
+            MyApplication.quizLowestKey = getRandomKey();
+
             MyApplication.quizModeTwoSelectedTones[MyApplication.quizModeTwoCorrectAnswerID] = MyApplication.quizLowestKey;
 
             // Set correct answer to correct id
@@ -447,6 +449,14 @@ public class ModeTwoActivity extends AppCompatActivity {
             playNextThing(numberOfRecursiveRuns+1);
             return;
         }
+
+
+        if(MyApplication.quizIntervalToPlay != null || MyApplication.quizChordToPlay != null) {
+            // Get random low key for playing (inside borders)
+            MyApplication.quizLowestKey = getRandomKey();
+        }
+
+
 
         showAllChords();
 
@@ -602,6 +612,14 @@ public class ModeTwoActivity extends AppCompatActivity {
 
     // TODO: random key uses key borders, it is not checking if key sound is loaded, check if key sound is loaded
     private int getRandomKey() {
+        if(MyApplication.quizIntervalToPlay != null) {
+            return rand.nextInt(MyApplication.upKeyBorder-MyApplication.downKeyBorder-MyApplication.quizIntervalToPlay.getDifference())+MyApplication.downKeyBorder;
+        }
+
+        if(MyApplication.quizChordToPlay != null) {
+            return rand.nextInt(MyApplication.upKeyBorder-MyApplication.downKeyBorder-MyApplication.quizChordToPlay.getDifference())+MyApplication.downKeyBorder;
+        }
+
         return rand.nextInt(MyApplication.upKeyBorder-MyApplication.downKeyBorder)+MyApplication.downKeyBorder;
     }
 
@@ -716,7 +734,7 @@ public class ModeTwoActivity extends AppCompatActivity {
     }
 
     private void setupWrongToneIfPlayWhatTone(int id) {
-        int tempRandomStartFrom = getRandomKey();
+        int tempRandomStartFrom = rand.nextInt(MyApplication.upKeyBorder-MyApplication.downKeyBorder)+MyApplication.downKeyBorder;
 
         // Tone to show cannot be same as any other
         for(int i = tempRandomStartFrom; i <= MyApplication.upKeyBorder; i++) {

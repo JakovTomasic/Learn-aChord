@@ -22,15 +22,12 @@ import com.justchill.android.learnachord.chord.ChordsList;
 import com.justchill.android.learnachord.chord.Interval;
 import com.justchill.android.learnachord.chord.IntervalsList;
 import com.justchill.android.learnachord.database.DataContract;
-import com.justchill.android.learnachord.quiz.ModeOneActivity;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Random;
 
 public class ServicePlayer extends Service {
-
-    // TODO: add all quiz modes instanceof checkers
 
     private static SoundPool soundPool;
     private int[] keySounds = new int[DataContract.UserPrefEntry.NUMBER_OF_KEYS]; // Now, there are 61 key sounds in raw R directory
@@ -111,7 +108,7 @@ public class ServicePlayer extends Service {
         // Create and setup {@ling AudioManager} to request audio focus
         audioManager = (AudioManager) this.getBaseContext().getSystemService(Context.AUDIO_SERVICE);
 
-        // TODO: 5 is number of sounds that can be played at same time, replace it with 6 when bigger chord are added (in 2 places)
+        // TODO: 5 is number of sounds that can be played at same time, replace it with 6 when bigger chords are added (in 2 places)
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) { // >= api 21
             audioAttributes = new AudioAttributes.Builder()
                     .setUsage(AudioAttributes.USAGE_ASSISTANCE_SONIFICATION)
@@ -156,16 +153,23 @@ public class ServicePlayer extends Service {
                 loadSound(MyApplication.downKeyBorder, Math.min(MyApplication.downKeyBorder+soundsToLoadBeforePlaying,
                         DataContract.UserPrefEntry.NUMBER_OF_KEYS), true);
 
-                try {
-                    MyApplication.getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            MyApplication.loadingFinished();
-                        }
-                    });
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+                do {
+                    try {
+                        MyApplication.getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                MyApplication.loadingFinished();
+                            }
+                        });
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+                    try {
+                        Thread.sleep(10);
+                    } catch (Exception e) {}
+                } while(!MyApplication.isLoadingFinished);
+
 
                 updateProgressBarAnimation(null, null);
 
@@ -688,8 +692,9 @@ public class ServicePlayer extends Service {
                         if(directionToPlay == null) {
                             Log.e("ServicePlayer","Random algorithm is not working (ServicePlayer)");
 
-                            // TODO: remove this:
-                            showToast("Random algorithm is not working (ServicePlayer)");
+//                            // remove this:
+//                            showToast("Random algorithm is not working (ServicePlayer)");
+
                             // Something went wrong, try again
                             continue;
                         }

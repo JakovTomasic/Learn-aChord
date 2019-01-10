@@ -5,13 +5,26 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".quiz.ChooseQuizModeActivity">
 
-    <!--TODO: reset each mode high score-->
-
     <item
         android:id="@+id/action_details"
         android:title="@string/quiz_menu_details"
         android:icon="@drawable/ic_help_more_details"
-        app:showAsAction="always"/>
+        app:showAsAction="ifRoom"/>
+
+    <item
+        android:id="@+id/action_reset_mode_one"
+        android:title="@string/quiz_menu_reset_mode_one"
+        app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/action_reset_mode_two"
+        android:title="@string/quiz_menu_reset_mode_two"
+        app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/action_reset_mode_three"
+        android:title="@string/quiz_menu_reset_mode_three"
+        app:showAsAction="never"/>
 
 
 </menu>

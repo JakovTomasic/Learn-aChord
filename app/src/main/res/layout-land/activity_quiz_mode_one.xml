@@ -141,7 +141,9 @@
                 android:contentDescription="@string/start_button_content_description"
                 android:src="@drawable/ic_play_arrow"
                 android:background="@drawable/round_button"
-                android:visibility="visible"/>
+                android:visibility="visible"
+                android:translationZ="@dimen/play_button_elevation"
+                android:layout_marginBottom="@dimen/play_button_elevation_times_two"/>
 
         </RelativeLayout>
 

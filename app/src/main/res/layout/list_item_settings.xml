@@ -44,14 +44,14 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            android:layout_marginLeft="8dp">
 
             <TextView
                 android:id="@+id/settings_chord_one_text_view"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:gravity="bottom|left"
-                android:layout_marginLeft="8dp"
                 android:textSize="16sp"
                 android:textAllCaps="false"
                 android:layout_weight="1"
@@ -63,7 +63,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:gravity="top|left"
-                android:layout_marginLeft="8dp"
                 android:textSize="16sp"
                 android:textAllCaps="false"
                 android:layout_weight="1"

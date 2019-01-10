@@ -55,7 +55,9 @@
         android:contentDescription="@string/start_button_content_description"
         android:src="@drawable/ic_play_arrow"
         android:background="@drawable/quiz_round_button"
-        android:visibility="visible"/>
+        android:visibility="visible"
+        android:translationZ="@dimen/play_button_elevation"
+        android:layout_marginBottom="@dimen/play_button_elevation_times_two"/>
 
 
 
@@ -71,7 +73,7 @@
         android:layout_height="match_parent"
         android:layout_centerInParent="true"
         android:orientation="vertical"
-        android:visibility="gone">
+        android:visibility="visible">
 
         <!--For equal positioning-->
         <View
@@ -99,7 +101,8 @@
                 android:layout_height="300dp"
                 android:background="@drawable/background_quiz_mode"
                 android:clickable="true"
-                android:focusable="true">
+                android:focusable="true"
+                style="@style/quizChooseModeButtonStyle">
 
 
                 <LinearLayout
@@ -208,7 +211,8 @@
                 android:layout_height="300dp"
                 android:background="@drawable/background_quiz_mode"
                 android:clickable="true"
-                android:focusable="true">
+                android:focusable="true"
+                style="@style/quizChooseModeButtonStyle">
 
 
                 <LinearLayout
@@ -340,7 +344,8 @@
                 android:layout_height="300dp"
                 android:background="@drawable/background_quiz_mode"
                 android:clickable="true"
-                android:focusable="true">
+                android:focusable="true"
+                style="@style/quizChooseModeButtonStyle">
 
 
                 <LinearLayout
@@ -449,7 +454,8 @@
                 android:layout_height="300dp"
                 android:background="@drawable/background_quiz_mode"
                 android:clickable="true"
-                android:focusable="true">
+                android:focusable="true"
+                style="@style/quizChooseModeButtonStyle">
 
 
                 <LinearLayout

@@ -7,9 +7,6 @@
     android:layout_height="match_parent"
     android:background="@color/settingsBackground">
 
-    <!--TODO: separate some settings with thin line (1dp)-->
-    <!--TODO: range seekbar min and max must be scalable-->
-
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
@@ -21,293 +18,372 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginBottom="8dp"
-            android:minHeight="40dp">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_gravity="center_vertical"
-                android:paddingLeft="8dp"
-                android:paddingRight="8dp"
-                style="@style/settingsTextStyle"
-                android:text="@string/playing_type"/>
-
-            <Spinner
-                android:id="@+id/playing_mode_spinner"
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:layout_gravity="center_vertical"
-                android:spinnerMode="dropdown"/>
-
-            <TextView
-                android:id="@+id/direction_explanation_clickable_text_view"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:gravity="center"
-                android:layout_gravity="center_vertical"
-                android:layout_marginLeft="8dp"
-                android:clickable="true"
-                android:focusable="true"
-                android:background="?android:attr/selectableItemBackground"
-
-                android:textSize="24sp"
-                android:textColor="@color/darkTextColor"
-
-                android:text="@string/question_mark"/>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/all_playing_modes_parent_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:background="@color/settingsBackground"
+            android:elevation="@dimen/settings_shadow_elevation"
+            android:translationX="@dimen/settings_shadow_translation_x"
+            android:layout_marginLeft="@dimen/settings_shadow_translation_x_inverted">
 
             <LinearLayout
-                android:id="@+id/play_direction_up_clickable_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:clickable="true"
-                android:focusable="true"
-                android:background="?android:attr/selectableItemBackground"
-                android:paddingBottom="4dp">
-
-                <ImageView
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:layout_gravity="center_vertical"
-                    android:background="@color/invisibleColor"
-                    android:scaleType="centerCrop"
-                    android:layout_marginLeft="8dp"
-                    android:src="@drawable/ic_drag_handle"/>
+                android:layout_marginBottom="8dp"
+                android:minHeight="40dp">
 
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:layout_gravity="center_vertical"
-                    android:gravity="center_vertical"
                     android:paddingLeft="8dp"
-                    android:minHeight="40dp"
+                    android:paddingRight="8dp"
                     style="@style/settingsTextStyle"
-                    android:text="@string/direction_up"/>
+                    android:text="@string/playing_type"/>
 
-                <CheckBox
-                    android:id="@+id/settings_up_check_box"
+                <Spinner
+                    android:id="@+id/playing_mode_spinner"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginRight="8dp"
+                    android:layout_height="40dp"
                     android:layout_gravity="center_vertical"
-                    android:gravity="center"
-                    android:clickable="false"
-                    android:background="@color/invisibleColor"
-                    android:layout_marginLeft="16dp"/>
+                    android:spinnerMode="dropdown"/>
 
+                <TextView
+                    android:id="@+id/direction_explanation_clickable_text_view"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:gravity="center"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="8dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:background="?android:attr/selectableItemBackground"
+
+                    android:textSize="24sp"
+                    android:textColor="@color/darkTextColor"
+
+                    android:text="@string/question_mark"/>
 
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/play_direction_down_clickable_view"
+                android:id="@+id/all_playing_modes_parent_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:clickable="true"
-                android:focusable="true"
-                android:background="?android:attr/selectableItemBackground"
-                android:paddingTop="4dp"
-                android:paddingBottom="4dp">
+                android:orientation="vertical">
 
-                <ImageView
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:layout_gravity="center_vertical"
-                    android:background="@color/invisibleColor"
-                    android:scaleType="centerCrop"
-                    android:layout_marginLeft="8dp"
-                    android:src="@drawable/ic_drag_handle"/>
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_gravity="center_vertical"
-                    android:gravity="center_vertical"
-                    android:paddingLeft="8dp"
-                    android:minHeight="40dp"
-                    style="@style/settingsTextStyle"
-                    android:text="@string/direction_down"/>
-
-                <CheckBox
-                    android:id="@+id/settings_down_check_box"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginRight="8dp"
-                    android:layout_gravity="center_vertical"
-                    android:gravity="center"
-                    android:clickable="false"
-                    android:background="@color/invisibleColor"
-                    android:layout_marginLeft="16dp"/>
-
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/play_direction_same_time_clickable_view"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:clickable="true"
-                android:focusable="true"
-                android:background="?android:attr/selectableItemBackground"
-                android:layout_marginBottom="4dp"
-                android:paddingTop="4dp"
-                android:paddingBottom="4dp">
-
-                <ImageView
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:layout_gravity="center_vertical"
-                    android:background="@color/invisibleColor"
-                    android:scaleType="centerCrop"
-                    android:layout_marginLeft="8dp"
-                    android:src="@drawable/ic_drag_handle"/>
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_gravity="center_vertical"
-                    android:gravity="center_vertical"
-                    android:paddingLeft="8dp"
-                    android:minHeight="40dp"
-                    style="@style/settingsTextStyle"
-                    android:text="@string/direction_simultaneously"/>
-
-                <CheckBox
-                    android:id="@+id/settings_same_time_check_box"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginRight="8dp"
-                    android:layout_gravity="center_vertical"
-                    android:gravity="center"
-                    android:clickable="false"
-                    android:background="@color/invisibleColor"
-                    android:layout_marginLeft="16dp"/>
-
-
-            </LinearLayout>
-
-        </LinearLayout>
-
-
-        <!--Show only if upper checkBox is checked-->
-        <LinearLayout
-            android:id="@+id/tones_separation_linear_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginBottom="8dp"
-            android:minHeight="40dp">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_gravity="center_vertical"
-                android:paddingLeft="8dp"
-                android:paddingRight="8dp"
-                style="@style/settingsTextStyle"
-                android:text="@string/second_sound_delay"/>
-
-            <RelativeLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_gravity="center_vertical">
-
-                <EditText
-                    android:id="@+id/second_sound_delay_number_input"
+                <LinearLayout
+                    android:id="@+id/play_direction_up_clickable_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:hint="@string/second_sound_delay_default_hint"
-                    android:maxLength="5"
-                    android:imeOptions="actionNext"
-                    android:selectAllOnFocus="true"
-                    android:nextFocusDown="@id/between_chords_delay_number_input"
-                    android:inputType="numberDecimal"
-                    android:textColor="@color/darkTextColor"/>
+                    android:orientation="horizontal"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:paddingBottom="4dp">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="8dp"
-                    android:layout_alignParentRight="true"
-                    android:layout_alignBottom="@id/second_sound_delay_number_input"
-                    android:layout_marginBottom="10dp"
-                    android:textSize="18sp"
-                    style="@style/settingsTextStyle"
-                    android:text="@string/second"/>
+                    <ImageView
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_gravity="center_vertical"
+                        android:background="@color/invisibleColor"
+                        android:scaleType="centerCrop"
+                        android:layout_marginLeft="8dp"
+                        android:src="@drawable/ic_drag_handle"/>
 
-            </RelativeLayout>
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_gravity="center_vertical"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="8dp"
+                        android:minHeight="40dp"
+                        style="@style/settingsTextStyle"
+                        android:text="@string/direction_up"/>
 
-        </LinearLayout>
+                    <CheckBox
+                        android:id="@+id/settings_up_check_box"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginRight="8dp"
+                        android:layout_gravity="center_vertical"
+                        android:gravity="center"
+                        android:clickable="false"
+                        android:background="@color/invisibleColor"
+                        android:layout_marginLeft="16dp"/>
 
-        <!--Show only if upper checkBox is checked-->
-        <LinearLayout
-            android:id="@+id/tones_duration_linear_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginBottom="8dp"
-            android:minHeight="40dp">
 
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_gravity="center_vertical"
-                android:paddingLeft="8dp"
-                android:paddingRight="8dp"
-                style="@style/settingsTextStyle"
-                android:text="@string/between_chord_delay"/>
+                </LinearLayout>
 
-            <RelativeLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_gravity="center_vertical">
-
-                <EditText
-                    android:id="@+id/between_chords_delay_number_input"
+                <LinearLayout
+                    android:id="@+id/play_direction_down_clickable_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:hint="@string/second_sound_delay_default_hint"
-                    android:maxLength="5"
-                    android:imeOptions="actionDone"
-                    android:selectAllOnFocus="true"
-                    android:inputType="numberDecimal"
-                    android:textColor="@color/darkTextColor"/>
+                    android:orientation="horizontal"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:paddingTop="4dp"
+                    android:paddingBottom="4dp">
 
-                <TextView
-                    android:layout_width="wrap_content"
+                    <ImageView
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_gravity="center_vertical"
+                        android:background="@color/invisibleColor"
+                        android:scaleType="centerCrop"
+                        android:layout_marginLeft="8dp"
+                        android:src="@drawable/ic_drag_handle"/>
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_gravity="center_vertical"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="8dp"
+                        android:minHeight="40dp"
+                        style="@style/settingsTextStyle"
+                        android:text="@string/direction_down"/>
+
+                    <CheckBox
+                        android:id="@+id/settings_down_check_box"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginRight="8dp"
+                        android:layout_gravity="center_vertical"
+                        android:gravity="center"
+                        android:clickable="false"
+                        android:background="@color/invisibleColor"
+                        android:layout_marginLeft="16dp"/>
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/play_direction_same_time_clickable_view"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="8dp"
-                    android:layout_alignParentRight="true"
-                    android:layout_alignBottom="@id/between_chords_delay_number_input"
-                    android:layout_marginBottom="10dp"
-                    android:textSize="18sp"
-                    style="@style/settingsTextStyle"
-                    android:text="@string/second"/>
+                    android:orientation="horizontal"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:layout_marginBottom="4dp"
+                    android:paddingTop="4dp"
+                    android:paddingBottom="4dp">
 
-            </RelativeLayout>
+                    <ImageView
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_gravity="center_vertical"
+                        android:background="@color/invisibleColor"
+                        android:scaleType="centerCrop"
+                        android:layout_marginLeft="8dp"
+                        android:src="@drawable/ic_drag_handle"/>
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_gravity="center_vertical"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="8dp"
+                        android:minHeight="40dp"
+                        style="@style/settingsTextStyle"
+                        android:text="@string/direction_simultaneously"/>
+
+                    <CheckBox
+                        android:id="@+id/settings_same_time_check_box"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginRight="8dp"
+                        android:layout_gravity="center_vertical"
+                        android:gravity="center"
+                        android:clickable="false"
+                        android:background="@color/invisibleColor"
+                        android:layout_marginLeft="16dp"/>
+
+
+                </LinearLayout>
+
+            </LinearLayout>
 
         </LinearLayout>
+
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/settings_separation"/>
+
+        <!--&lt;!&ndash;Separation line&ndash;&gt;-->
+        <!--<ImageView-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="1dp"-->
+            <!--android:src="@color/preferencesFragmentSeparationLineColor"/>-->
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@color/settingsBackground"
+            android:elevation="@dimen/settings_shadow_elevation"
+            android:translationX="@dimen/settings_shadow_translation_x"
+            android:layout_marginLeft="@dimen/settings_shadow_translation_x_inverted">
+
+            <!--Show only if upper checkBox is checked-->
+            <LinearLayout
+                android:id="@+id/tones_separation_linear_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="8dp"
+                android:minHeight="40dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_gravity="center_vertical"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
+                    style="@style/settingsTextStyle"
+                    android:text="@string/second_sound_delay"/>
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_gravity="center_vertical">
+
+                    <EditText
+                        android:id="@+id/second_sound_delay_number_input"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:hint="@string/second_sound_delay_default_hint"
+                        android:maxLength="5"
+                        android:imeOptions="actionNext"
+                        android:selectAllOnFocus="true"
+                        android:nextFocusDown="@id/between_chords_delay_number_input"
+                        android:inputType="numberDecimal"
+                        android:textColor="@color/darkTextColor"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="8dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignBottom="@id/second_sound_delay_number_input"
+                        android:layout_marginBottom="10dp"
+                        android:textSize="18sp"
+                        style="@style/settingsTextStyle"
+                        android:text="@string/second"/>
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+            <!--Show only if upper checkBox is checked-->
+            <LinearLayout
+                android:id="@+id/tones_duration_linear_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="8dp"
+                android:minHeight="40dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_gravity="center_vertical"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
+                    style="@style/settingsTextStyle"
+                    android:text="@string/between_chord_delay"/>
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_gravity="center_vertical">
+
+                    <EditText
+                        android:id="@+id/between_chords_delay_number_input"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:hint="@string/second_sound_delay_default_hint"
+                        android:maxLength="5"
+                        android:imeOptions="actionDone"
+                        android:selectAllOnFocus="true"
+                        android:inputType="numberDecimal"
+                        android:textColor="@color/darkTextColor"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="8dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignBottom="@id/between_chords_delay_number_input"
+                        android:layout_marginBottom="10dp"
+                        android:textSize="18sp"
+                        style="@style/settingsTextStyle"
+                        android:text="@string/second"/>
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/settings_separation"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@color/settingsBackground"
+            android:elevation="@dimen/settings_shadow_elevation"
+            android:translationX="@dimen/settings_shadow_translation_x"
+            android:layout_marginLeft="@dimen/settings_shadow_translation_x_inverted">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:minHeight="40dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_gravity="center_vertical"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
+                    style="@style/settingsTextStyle"
+                    android:text="@string/language"/>
+
+                <Spinner
+                    android:id="@+id/language_spinner"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center_vertical"
+                    android:spinnerMode="dropdown"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <!--&lt;!&ndash;Separation line&ndash;&gt;-->
+        <!--<ImageView-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="1dp"-->
+            <!--android:src="@color/preferencesFragmentSeparationLineColor"/>-->
 
         <EditText
             android:id="@+id/useless_edit_text_to_remove_focus"
@@ -320,216 +396,219 @@
             android:lines="1"
             android:textIsSelectable="true"/>
 
+
+
+        <!--&lt;!&ndash;Separation line&ndash;&gt;-->
+        <!--<ImageView-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="1dp"-->
+            <!--android:src="@color/preferencesFragmentSeparationLineColor"/>-->
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/settings_separation"/>
+
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:minHeight="40dp">
+            android:orientation="vertical"
+            android:background="@color/settingsBackground"
+            android:elevation="@dimen/settings_shadow_elevation"
+            android:translationX="@dimen/settings_shadow_translation_x"
+            android:layout_marginLeft="@dimen/settings_shadow_translation_x_inverted">
 
-            <TextView
-                android:layout_width="0dp"
+            <RelativeLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_gravity="center_vertical"
                 android:paddingLeft="8dp"
-                android:paddingRight="8dp"
-                style="@style/settingsTextStyle"
-                android:text="@string/language"/>
+                android:layout_marginTop="8dp">
 
-            <Spinner
-                android:id="@+id/language_spinner"
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:layout_gravity="center_vertical"
-                android:spinnerMode="dropdown"/>
+                <TextView
+                    android:id="@+id/range_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    style="@style/settingsTextStyle"
+                    android:text="@string/range"/>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_centerInParent="true">
+
+                    <TextView
+                        android:id="@+id/down_border_text_view"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:background="@drawable/round_button"
+                        android:gravity="center"
+                        android:textColor="@color/settingsBackground"
+                        android:clickable="true"
+                        android:focusable="true"
+                        tools:text="c#6"/>
+
+                    <TextView
+                        android:layout_width="20dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:gravity="center"
+                        android:textSize="24dp"
+                        android:text="@string/range_keys_separator"
+                        android:textColor="@color/darkTextColor"/>
+
+                    <TextView
+                        android:id="@+id/up_border_text_view"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:background="@drawable/round_button"
+                        android:gravity="center"
+                        android:textColor="@color/settingsBackground"
+                        android:clickable="true"
+                        android:focusable="true"
+                        tools:text="cis6"/>
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+            <com.justchill.android.learnachord.RangeSeekBar
+                android:id="@+id/rangeSeekbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="6dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"/>
 
         </LinearLayout>
 
-        <!--<LinearLayout-->
-            <!--android:id="@+id/select_tones_range_clickable_view"-->
+
+
+        <!--&lt;!&ndash;Separation line&ndash;&gt;-->
+        <!--<ImageView-->
             <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:orientation="horizontal"-->
-            <!--android:clickable="true"-->
-            <!--android:focusable="true"-->
-            <!--android:background="?android:attr/selectableItemBackground"-->
-            <!--android:layout_marginTop="4dp"-->
-            <!--android:paddingTop="4dp"-->
-            <!--android:paddingBottom="4dp">-->
+            <!--android:layout_height="1dp"-->
+            <!--android:src="@color/preferencesFragmentSeparationLineColor"/>-->
 
-            <!--<TextView-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:minHeight="40dp"-->
-                <!--android:gravity="center"-->
-                <!--style="@style/settingsTextStyle"-->
-                <!--android:text="@string/select_tones_range"/>-->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/settings_separation"/>
 
-        <!--</LinearLayout>-->
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingLeft="8dp"
-            android:layout_marginTop="8dp">
-
-            <TextView
-                android:id="@+id/range_text_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                style="@style/settingsTextStyle"
-                android:text="@string/range"/>
+            android:orientation="vertical"
+            android:background="@color/settingsBackground"
+            android:elevation="@dimen/settings_shadow_elevation"
+            android:translationX="@dimen/settings_shadow_translation_x"
+            android:layout_marginLeft="@dimen/settings_shadow_translation_x_inverted"
+            android:layout_marginBottom="@dimen/settings_shadow_elevation">
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:id="@+id/show_progress_bar_parent_layout"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:layout_centerInParent="true">
+                android:clickable="true"
+                android:focusable="true"
+                android:background="?android:attr/selectableItemBackground"
+                android:layout_marginTop="6dp"
+                android:paddingTop="4dp"
+                android:paddingBottom="4dp">
 
                 <TextView
-                    android:id="@+id/down_border_text_view"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:background="@drawable/round_button"
-                    android:gravity="center"
-                    android:textColor="@color/settingsBackground"
-                    android:clickable="true"
-                    android:focusable="true"
-                    tools:text="c#6"/>
-
-                <TextView
-                    android:layout_width="20dp"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="8dp"
+                    android:minHeight="40dp"
+                    style="@style/settingsTextStyle"
+                    android:text="@string/show_progress_bar"/>
+
+                <CheckBox
+                    android:id="@+id/settings_show_progress_bar_check_box"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="8dp"
                     android:layout_gravity="center_vertical"
                     android:gravity="center"
-                    android:textSize="24dp"
-                    android:text="@string/range_keys_separator"
-                    android:textColor="@color/darkTextColor"/>
+                    android:clickable="false"
+                    android:background="@color/invisibleColor"
+                    android:layout_marginLeft="16dp"/>
 
-                <TextView
-                    android:id="@+id/up_border_text_view"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:background="@drawable/round_button"
-                    android:gravity="center"
-                    android:textColor="@color/settingsBackground"
-                    android:clickable="true"
-                    android:focusable="true"
-                    tools:text="cis6"/>
 
             </LinearLayout>
 
-        </RelativeLayout>
-
-        <com.justchill.android.learnachord.RangeSeekBar
-            android:id="@+id/rangeSeekbar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-
-        <LinearLayout
-            android:id="@+id/show_progress_bar_parent_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:clickable="true"
-            android:focusable="true"
-            android:background="?android:attr/selectableItemBackground"
-            android:layout_marginTop="12dp"
-            android:paddingTop="4dp"
-            android:paddingBottom="4dp">
-
-            <TextView
-                android:layout_width="0dp"
+            <LinearLayout
+                android:id="@+id/show_what_intervals_parent_layout"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_gravity="center_vertical"
-                android:gravity="center_vertical"
-                android:paddingLeft="8dp"
-                android:minHeight="40dp"
-                style="@style/settingsTextStyle"
-                android:text="@string/show_progress_bar"/>
+                android:orientation="horizontal"
+                android:clickable="true"
+                android:focusable="true"
+                android:background="?android:attr/selectableItemBackground"
+                android:layout_marginTop="12dp"
+                android:paddingTop="4dp"
+                android:paddingBottom="4dp">
 
-            <CheckBox
-                android:id="@+id/settings_show_progress_bar_check_box"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginRight="8dp"
-                android:layout_gravity="center_vertical"
-                android:gravity="center"
-                android:clickable="false"
-                android:background="@color/invisibleColor"
-                android:layout_marginLeft="16dp"/>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="8dp"
+                    android:minHeight="40dp"
+                    style="@style/settingsTextStyle"
+                    android:text="@string/show_what_intervals"/>
+
+                <CheckBox
+                    android:id="@+id/settings_what_intervals_check_box"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="8dp"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center"
+                    android:clickable="false"
+                    android:background="@color/invisibleColor"
+                    android:layout_marginLeft="16dp"/>
 
 
-        </LinearLayout>
+            </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/show_what_intervals_parent_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:clickable="true"
-            android:focusable="true"
-            android:background="?android:attr/selectableItemBackground"
-            android:layout_marginTop="12dp"
-            android:paddingTop="4dp"
-            android:paddingBottom="4dp">
-
-            <TextView
-                android:layout_width="0dp"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_gravity="center_vertical"
-                android:gravity="center_vertical"
-                android:paddingLeft="8dp"
-                android:minHeight="40dp"
-                style="@style/settingsTextStyle"
-                android:text="@string/show_what_intervals"/>
+                android:orientation="horizontal"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="4dp"
+                android:minHeight="40dp">
 
-            <CheckBox
-                android:id="@+id/settings_what_intervals_check_box"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginRight="8dp"
-                android:layout_gravity="center_vertical"
-                android:gravity="center"
-                android:clickable="false"
-                android:background="@color/invisibleColor"
-                android:layout_marginLeft="16dp"/>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_gravity="center_vertical"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
+                    style="@style/settingsTextStyle"
+                    android:text="@string/chord_text_size"/>
 
+                <Spinner
+                    android:id="@+id/chord_text_size_spinner"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center_vertical"
+                    android:spinnerMode="dropdown"/>
 
-        </LinearLayout>
+            </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="4dp"
-            android:layout_marginBottom="4dp"
-            android:minHeight="40dp">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_gravity="center_vertical"
-                android:paddingLeft="8dp"
-                android:paddingRight="8dp"
-                style="@style/settingsTextStyle"
-                android:text="@string/chord_text_size"/>
-
-            <Spinner
-                android:id="@+id/chord_text_size_spinner"
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:layout_gravity="center_vertical"
-                android:spinnerMode="dropdown"/>
-
-        </LinearLayout>
-
-        <!--TODO: implement this-->
-        <!--<LinearLayout-->
+            <!--TODO: implement this, but not here-->
+            <!--<LinearLayout-->
             <!--android:id="@+id/choose_colors_clickable_view"-->
             <!--android:layout_width="match_parent"-->
             <!--android:layout_height="wrap_content"-->
@@ -541,16 +620,16 @@
             <!--android:paddingBottom="4dp">-->
 
             <!--<TextView-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:minHeight="40dp"-->
-                <!--android:gravity="center"-->
-                <!--android:text="@string/choose_colors"/>-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:minHeight="40dp"-->
+            <!--android:gravity="center"-->
+            <!--android:text="@string/choose_colors"/>-->
 
-        <!--</LinearLayout>-->
+            <!--</LinearLayout>-->
 
-        <!--TODO: implement this later-->
-        <!--<LinearLayout-->
+            <!--TODO: implement this later if paid app is added-->
+            <!--<LinearLayout-->
             <!--android:id="@+id/remove_ads_clickable_view"-->
             <!--android:layout_width="match_parent"-->
             <!--android:layout_height="wrap_content"-->
@@ -562,17 +641,20 @@
             <!--android:paddingBottom="4dp">-->
 
             <!--<TextView-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:minHeight="40dp"-->
-                <!--android:gravity="center"-->
-                <!--style="@style/settingsTextStyle"-->
-                <!--android:text="@string/update_to_pro_remove_ads"/>-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:minHeight="40dp"-->
+            <!--android:gravity="center"-->
+            <!--style="@style/settingsTextStyle"-->
+            <!--android:text="@string/update_to_pro_remove_ads"/>-->
 
-        <!--</LinearLayout>-->
+            <!--</LinearLayout>-->
 
+        </LinearLayout>
 
     </LinearLayout>
+
+
 
 
 </ScrollView>

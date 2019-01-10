@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="?android:attr/listPreferredItemHeight"
+    android:background="?android:attr/selectableItemBackground"
+    android:id="@+id/list_item_quiz_mode_three_parent_layout">
+
+
+    <TextView
+        android:id="@+id/list_item_quiz_mode_three_interval_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:gravity="center_vertical"
+        android:layout_marginLeft="20dp"
+        android:textSize="26sp"
+        android:textAllCaps="false"
+        android:textColor="@color/darkTextColor"
+        tools:text="@string/chord_durski"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_toRightOf="@id/list_item_quiz_mode_three_interval_text_view"
+        android:layout_marginLeft="8dp">
+
+        <TextView
+            android:id="@+id/list_item_quiz_mode_three_chord_one_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:gravity="bottom|left"
+            android:textSize="16sp"
+            android:textAllCaps="false"
+            android:layout_weight="1"
+            android:textColor="@color/darkTextColor"
+            tools:text="3"/>
+
+        <TextView
+            android:id="@+id/list_item_quiz_mode_three_chord_two_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:gravity="top|left"
+            android:textSize="16sp"
+            android:textAllCaps="false"
+            android:layout_weight="1"
+            android:textColor="@color/darkTextColor"
+            tools:text="5"/>
+
+    </LinearLayout>
+
+
+
+</RelativeLayout>

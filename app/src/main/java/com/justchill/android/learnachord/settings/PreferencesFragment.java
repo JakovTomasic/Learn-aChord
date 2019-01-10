@@ -275,7 +275,7 @@ public class PreferencesFragment extends Fragment {
 //            public void onClick(View view) {
 //                Toast.makeText(getContext(), "Color", Toast.LENGTH_SHORT).show();
 //                MyApplication.setDoesDbNeedUpdate(true);
-//                // TODO: implement this
+//                // TODO: implement this (but nit here), choose each interval, chord and tone color
 //            }
 //        });
 
@@ -283,7 +283,7 @@ public class PreferencesFragment extends Fragment {
 //            @Override
 //            public void onClick(View view) {
 //                Toast.makeText(getContext(), "Pro", Toast.LENGTH_SHORT).show();
-//                // TODO: implement this
+//                // TODO: implement this if paid version is added
 //            }
 //        });
 

@@ -3,4 +3,12 @@
 
     <dimen name="fab_margin">16dp</dimen>
 
+    <dimen name="settings_shadow_elevation">2dp</dimen>
+    <dimen name="settings_shadow_translation_x">-2dp</dimen>
+    <dimen name="settings_shadow_translation_x_inverted">2dp</dimen>
+    <dimen name="settings_separation">10dp</dimen>
+
+    <dimen name="play_button_elevation">3dp</dimen>
+    <dimen name="play_button_elevation_times_two">8dp</dimen>
+
 </resources>

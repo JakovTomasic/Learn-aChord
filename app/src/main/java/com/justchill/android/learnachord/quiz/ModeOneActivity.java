@@ -144,6 +144,24 @@ public class ModeOneActivity extends AppCompatActivity {
         pauseImageViewSizeRules.height = height_width_value;
         pauseClickableImageView.setLayoutParams(pauseImageViewSizeRules);
 
+
+        // Setup true answer button size
+        ViewGroup.LayoutParams trueAnswerViewSizeRules = trueAnswer.getLayoutParams();
+
+        trueAnswerViewSizeRules.width = MyApplication.smallerDisplayDimensionPX / 6;
+        trueAnswerViewSizeRules.height = MyApplication.smallerDisplayDimensionPX / 6;
+        trueAnswer.setLayoutParams(trueAnswerViewSizeRules);
+
+
+        // Setup true answer button size
+        ViewGroup.LayoutParams falseAnswerViewSizeRules = falseAnswer.getLayoutParams();
+
+        falseAnswerViewSizeRules.width = (int)(MyApplication.smallerDisplayDimensionPX / 6);
+        falseAnswerViewSizeRules.height = (int)(MyApplication.smallerDisplayDimensionPX / 6);
+        falseAnswer.setLayoutParams(falseAnswerViewSizeRules);
+
+
+
         if(MyApplication.quizPlayingPaused) {
             pauseQuiz();
         } else {
@@ -169,7 +187,7 @@ public class ModeOneActivity extends AppCompatActivity {
             MyApplication.setupPlayButtonColor(ModeOneActivity.this, startClickableImageView, R.color.unloadedColor);
         }
 
-        MyApplication.addMainActivityListener(new MyApplication.MainActivityListener() {
+        MyApplication.addActivityListener(new MyApplication.ActivityListener() {
             @Override
             public void onIsPlayingChange() {
 
@@ -263,8 +281,6 @@ public class ModeOneActivity extends AppCompatActivity {
         // Randomly choose if correct answer will be true or false
         MyApplication.quizModeOneCorrectAnswer = rand.nextBoolean();
 
-        // Get random low key for playing (inside borders)
-        MyApplication.quizLowestKey = getRandomKey();
 
         // 12 tones in one octave
         int tempRandNumb = rand.nextInt(checkedIntervals + checkedChords + ((MyApplication.playWhatTone || MyApplication.playWhatOctave) ? 12 : 0));
@@ -317,6 +333,9 @@ public class ModeOneActivity extends AppCompatActivity {
             MyApplication.quizIntervalToPlay = null;
             MyApplication.quizChordToPlay = null;
 
+            // Get random low key for playing (inside borders)
+            MyApplication.quizLowestKey = getRandomKey();
+
             if(MyApplication.quizModeOneCorrectAnswer) {
                 MyApplication.quizChordNameToShow = MyApplication.getKeyName(MyApplication.quizLowestKey);
             } else {
@@ -332,6 +351,12 @@ public class ModeOneActivity extends AppCompatActivity {
             playNextThing(numberOfRecursiveRuns+1);
             return;
         }
+
+        if(MyApplication.quizIntervalToPlay != null || MyApplication.quizChordToPlay != null) {
+            // Get random low key for playing (inside borders)
+            MyApplication.quizLowestKey = getRandomKey();
+        }
+
 
         showChord();
 
@@ -484,6 +509,14 @@ public class ModeOneActivity extends AppCompatActivity {
 
     // TODO: random key uses key borders, it is not checking if key sound is loaded, check if key sound is loaded
     private int getRandomKey() {
+        if(MyApplication.quizIntervalToPlay != null) {
+            return rand.nextInt(MyApplication.upKeyBorder-MyApplication.downKeyBorder-MyApplication.quizIntervalToPlay.getDifference())+MyApplication.downKeyBorder;
+        }
+
+        if(MyApplication.quizChordToPlay != null) {
+            return rand.nextInt(MyApplication.upKeyBorder-MyApplication.downKeyBorder-MyApplication.quizChordToPlay.getDifference())+MyApplication.downKeyBorder;
+        }
+
         return rand.nextInt(MyApplication.upKeyBorder-MyApplication.downKeyBorder)+MyApplication.downKeyBorder;
     }
 
@@ -591,7 +624,7 @@ public class ModeOneActivity extends AppCompatActivity {
     }
 
     private void setupWrongToneIfPlayWhatTone() {
-        int tempRandomStartFrom = getRandomKey();
+        int tempRandomStartFrom = rand.nextInt(MyApplication.upKeyBorder-MyApplication.downKeyBorder)+MyApplication.downKeyBorder;
 
         for(int i = tempRandomStartFrom; i < MyApplication.upKeyBorder; i++) {
             // If answer is not true, show that key

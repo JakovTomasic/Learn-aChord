@@ -36,6 +36,7 @@
             android:layout_centerHorizontal="true"
             android:textColor="@color/darkTextColor"
             android:layout_marginLeft="20dp"
+            android:layout_toRightOf="@id/ring_playing_progress_bar"
             tools:text="16"/>
 
         <ImageView

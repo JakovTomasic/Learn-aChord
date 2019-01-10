@@ -5,14 +5,9 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Point;
-import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
-import android.graphics.drawable.GradientDrawable;
-import android.graphics.drawable.ShapeDrawable;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.util.TypedValue;
 import android.view.Display;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -28,8 +23,6 @@ import com.justchill.android.learnachord.quiz.ChooseQuizModeActivity;
 import com.justchill.android.learnachord.settings.SettingsActivity;
 
 public class MainActivity extends AppCompatActivity {
-
-    // TODO: seek bar min/max set text to sp (or dp) - text scaling is weird - tested in bluestacks
 
     private ImageView fabIV;
     private ViewGroup parentLayout;
@@ -116,7 +109,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        MyApplication.addMainActivityListener(new MyApplication.MainActivityListener() {
+        MyApplication.addActivityListener(new MyApplication.ActivityListener() {
 
             @Override
             public void onIsPlayingChange() {
@@ -316,7 +309,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    // TODO: finish animations
+    // TODO: implement animations
     // coords calculating from center
     private void startAnimation(final View view, final float startX, final float startY, final float finalX, final float finalY,
                                 final int finalWidth, final int finalHeight, final int tickMS, final int steps) {

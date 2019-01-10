@@ -150,6 +150,10 @@
     
     <!--Quiz-->
     <string name="quiz_menu_details">Help</string>
+    <string name="quiz_menu_reset_mode_one">Reset easy high score</string>
+    <string name="quiz_menu_reset_mode_two">Reset medium high score</string>
+    <string name="quiz_menu_reset_mode_three">Reset hard high score</string>
+
     <string name="quiz_mode_one_title">Easy</string>
     <string name="quiz_mode_two_title">Medium</string>
     <string name="quiz_mode_three_title">Hard</string>
@@ -173,6 +177,14 @@
         In hard mode, you need to select exactly what has been played. \n\t
         Only intervals and chords that are selected in settings will be played or showed. If you selected tones you will be asked what tone is playing.
         If you selected just octave you will be asked in what octave that tone is.</string>
+
+    <string name="quiz_reset_mode_one_highscore_message">Current high score for easy quiz will be deleted. Continue anyway?</string>
+    <string name="quiz_reset_mode_two_highscore_message">Current high score for medium quiz will be deleted. Continue anyway?</string>
+    <string name="quiz_reset_mode_three_highscore_message">Current high score for hard quiz will be deleted. Continue anyway?</string>
+    <string name="delete">Delete</string>
+
+    <string name="search">Search</string>
+
 
 
     <!--Keys-->

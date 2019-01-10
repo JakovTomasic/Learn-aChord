@@ -13,75 +13,106 @@
         android:padding="16dp">
 
 
+
         <LinearLayout
-            android:id="@+id/what_tone_parent_layout"
             android:layout_width="match_parent"
-            android:layout_height="?android:attr/listPreferredItemHeight"
-            android:orientation="horizontal"
-            android:clickable="true"
-            android:focusable="true"
-            android:background="?android:attr/selectableItemBackground">
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@color/settingsBackground"
+            android:elevation="@dimen/settings_shadow_elevation"
+            android:translationX="@dimen/settings_shadow_translation_x"
+            android:layout_marginLeft="@dimen/settings_shadow_translation_x_inverted">
 
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_gravity="center_vertical"
-                android:gravity="center_vertical"
-                android:paddingLeft="8dp"
-                android:minHeight="40dp"
-                style="@style/settingsTextStyle"
-                android:textSize="20sp"
-                android:text="@string/play_what_tone"/>
+            <LinearLayout
+                android:id="@+id/what_tone_parent_layout"
+                android:layout_width="match_parent"
+                android:layout_height="?android:attr/listPreferredItemHeight"
+                android:orientation="horizontal"
+                android:clickable="true"
+                android:focusable="true"
+                android:background="?android:attr/selectableItemBackground">
 
-            <CheckBox
-                android:id="@+id/what_tone_check_box"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginRight="8dp"
-                android:layout_gravity="center_vertical"
-                android:gravity="center"
-                android:clickable="false"
-                android:background="@color/invisibleColor"
-                android:layout_marginLeft="16dp"/>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="8dp"
+                    android:minHeight="40dp"
+                    style="@style/settingsTextStyle"
+                    android:textSize="20sp"
+                    android:text="@string/play_what_tone"/>
 
+                <CheckBox
+                    android:id="@+id/what_tone_check_box"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="8dp"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center"
+                    android:clickable="false"
+                    android:background="@color/invisibleColor"
+                    android:layout_marginLeft="16dp"/>
+
+
+            </LinearLayout>
 
         </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/what_octave_parent_layout"
+
+        <View
             android:layout_width="match_parent"
-            android:layout_height="?android:attr/listPreferredItemHeight"
-            android:orientation="horizontal"
-            android:clickable="true"
-            android:focusable="true"
-            android:background="?android:attr/selectableItemBackground">
+            android:layout_height="@dimen/settings_separation"/>
 
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_gravity="center_vertical"
-                android:gravity="center_vertical"
-                android:paddingLeft="8dp"
-                android:minHeight="40dp"
-                style="@style/settingsTextStyle"
-                android:textSize="20sp"
-                android:text="@string/play_what_octave"/>
 
-            <CheckBox
-                android:id="@+id/what_octave_check_box"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginRight="8dp"
-                android:layout_gravity="center_vertical"
-                android:gravity="center"
-                android:clickable="false"
-                android:background="@color/invisibleColor"
-                android:layout_marginLeft="16dp"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@color/settingsBackground"
+            android:elevation="@dimen/settings_shadow_elevation"
+            android:translationX="@dimen/settings_shadow_translation_x"
+            android:layout_marginLeft="@dimen/settings_shadow_translation_x_inverted"
+            android:layout_marginBottom="@dimen/settings_shadow_elevation">
 
+            <LinearLayout
+                android:id="@+id/what_octave_parent_layout"
+                android:layout_width="match_parent"
+                android:layout_height="?android:attr/listPreferredItemHeight"
+                android:orientation="horizontal"
+                android:clickable="true"
+                android:focusable="true"
+                android:background="?android:attr/selectableItemBackground">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="8dp"
+                    android:minHeight="40dp"
+                    style="@style/settingsTextStyle"
+                    android:textSize="20sp"
+                    android:text="@string/play_what_octave"/>
+
+                <CheckBox
+                    android:id="@+id/what_octave_check_box"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="8dp"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center"
+                    android:clickable="false"
+                    android:background="@color/invisibleColor"
+                    android:layout_marginLeft="16dp"/>
+
+
+            </LinearLayout>
 
         </LinearLayout>
+
 
 
     </LinearLayout>

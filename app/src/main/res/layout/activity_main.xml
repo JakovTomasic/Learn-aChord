@@ -8,9 +8,6 @@
     tools:context=".MainActivity"
     android:background="@color/mainActivityBackground">
 
-    <!-- TODO: add gray previous chord layout -->
-    <!-- TODO: maybe make progress bar thicker -->
-
     <ListView
         android:id="@+id/what_intervals_list_view"
         android:layout_width="wrap_content"
@@ -104,7 +101,8 @@
         android:id="@+id/progress_bar_ring_parent_layout"
         android:layout_width="255dp"
         android:layout_height="255dp"
-        android:layout_centerInParent="true">
+        android:layout_centerInParent="true"
+        style="@style/quizChooseModeButtonStyle">
 
         <ProgressBar
             android:id="@+id/background_ring_progress_bar"
@@ -145,7 +143,9 @@
         android:padding="60dp"
         android:contentDescription="@string/start_button_content_description"
         android:src="@drawable/ic_play_arrow"
-        android:background="@drawable/round_button"/>
+        android:background="@drawable/round_button"
+        android:translationZ="@dimen/play_button_elevation"
+        android:layout_marginBottom="@dimen/play_button_elevation_times_two"/>
 
 
     <RelativeLayout

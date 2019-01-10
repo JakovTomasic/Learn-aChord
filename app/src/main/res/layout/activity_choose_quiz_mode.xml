@@ -40,7 +40,8 @@
                 android:layout_centerInParent="true"
                 android:background="@drawable/background_quiz_mode"
                 android:clickable="true"
-                android:focusable="true">
+                android:focusable="true"
+                style="@style/quizChooseModeButtonStyle">
 
 
                 <LinearLayout
@@ -121,7 +122,8 @@
                 android:layout_centerInParent="true"
                 android:background="@drawable/background_quiz_mode"
                 android:clickable="true"
-                android:focusable="true">
+                android:focusable="true"
+                style="@style/quizChooseModeButtonStyle">
 
 
                 <LinearLayout
@@ -176,7 +178,8 @@
                 android:layout_centerInParent="true"
                 android:background="@drawable/background_quiz_mode"
                 android:clickable="true"
-                android:focusable="true">
+                android:focusable="true"
+                style="@style/quizChooseModeButtonStyle">
 
 
                 <LinearLayout

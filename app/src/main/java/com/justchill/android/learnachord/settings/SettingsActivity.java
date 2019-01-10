@@ -1,8 +1,6 @@
 package com.justchill.android.learnachord.settings;
 
-import android.annotation.SuppressLint;
 import android.app.AlertDialog;
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;

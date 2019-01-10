@@ -2,7 +2,7 @@
 <resources>
     <!--<string name="app_name" translatable="false">Learn aChord</string>-->
     <string name="options">Opcije</string>
-    <string name="reset_options">Resetiranje opcija</string>
+    <string name="reset_options">Resetiraj opcije</string>
     <string name="quiz">Kviz</string>
 
 
@@ -82,7 +82,7 @@
     <string name="no_checked_intervals_error">Nema odabranog intervala ili akorda</string>
     <string name="no_intervals_inside_borders">Raspon tonova nedovoljno velik za odabrane intervale i akorde</string>
     <string name="key_borders_are_too_small">Raspon tonova nedovoljno velik</string>
-    <string name="not_enough_selected_intervals_or_chords_error">Nema dovoljno odabranih intervala i akorada</string>
+    <string name="not_enough_selected_intervals_or_chords_error">Nema dovoljno odabranih intervala i akorda</string>
 
 
     <string name="start_button_content_description">Započni</string>
@@ -108,7 +108,7 @@
     <string name="range">Raspon</string>
     <!--<string name="range_keys_separator" translatable="false">-</string>-->
     <string name="show_progress_bar">Prikaz trajanja intervala</string>
-    <string name="show_what_intervals">Prikaz intervala akorada</string>
+    <string name="show_what_intervals">Prikaz intervala akorda</string>
     <string name="chord_text_size">Veličina slova</string>
 
     <!--Tones option settings-->
@@ -148,6 +148,10 @@
 
     <!--Quiz-->
     <string name="quiz_menu_details">Pomoć</string>
+    <string name="quiz_menu_reset_mode_one">Resetiraj rekord laganog kviza</string>
+    <string name="quiz_menu_reset_mode_two">Resetiraj rekord srednje teškog kviza</string>
+    <string name="quiz_menu_reset_mode_three">Resetiraj rekord teškog kviza</string>
+
     <string name="quiz_mode_one_title">Lagano</string>
     <string name="quiz_mode_two_title">Srednje</string>
     <string name="quiz_mode_three_title">Teško</string>
@@ -163,12 +167,19 @@
     <string name="quiz_mode_two_option_four_title">d)</string>
 
     <!--Quiz explanation dialog-->
-    <string name="quiz_explanation_dialog_text">\tU laganome načinu biti će odviran i prokazan jedan interval, akord ili ton.
-        Trebati ćete odabrati je li ono što je odsvirano i prikazano, ili je prikazan neki drugi interval, akord ili ton. \n\t
-        Srednje težak način ponuditi će četiri intervala, akorada ili tonova. Vi trebate odabrati onaj koji je odsviran. \n\t
-        U teškom načinu morati ćete točno odabrati ono što je odsvirano. \n\t
-        Samo oni intervali i akordi koji su odabrani u postavkama biti će svirani ili prikazani. Ako ste odabrali tonove trebati ćete znati točno koji
-        je ton sviran. Ako ste odabrali samo oktave, trebati ćete znati u kojoj se oktavi ton nalazi.</string>
+    <string name="quiz_explanation_dialog_text">\tU laganome načinu bit će odsviran i prikazan jedan interval, akord ili ton.
+        Trebat ćete odabrati je li ono što je odsvirano i prikazano, ili je prikazan neki drugi interval, akord ili ton. \n\t
+        Srednje težak način ponudit će četiri intervala, akorda ili tonova. Vi trebate odabrati onaj koji je odsviran. \n\t
+        U teškom načinu morat ćete točno odabrati ono što je odsvirano. \n\t
+        Samo oni intervali i akordi koji su odabrani u postavkama će se svirati i prikazivati. Ako ste odabrali tonove trebat ćete znati točno koji
+        je ton odsviran. Ako ste odabrali samo oktave, trebat ćete znati u kojoj se oktavi ton nalazi.</string>
+
+    <string name="quiz_reset_mode_one_highscore_message">Trenutni rekord za lagani kviz bit će izbrisan. Želite li nastaviti?</string>
+    <string name="quiz_reset_mode_two_highscore_message">Trenutni rekord za srednje težak kviz bit će izbrisan. Želite li nastaviti?</string>
+    <string name="quiz_reset_mode_three_highscore_message">Trenutni rekord za težak kviz bit će izbrisan. Želite li nastaviti?</string>
+    <string name="delete">Izbriši</string>
+
+    <string name="search">Traži</string>
 
 
     <!--Keys-->

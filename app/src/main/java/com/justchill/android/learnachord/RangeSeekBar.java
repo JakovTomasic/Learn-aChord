@@ -105,10 +105,14 @@ public class RangeSeekBar<T extends Number> extends android.support.v7.widget.Ap
     private int mDistanceToTop;
     private RectF mRect;
 
-    private static final int DEFAULT_TEXT_SIZE_IN_DP = 14;
+    private static final int DEFAULT_TEXT_SIZE_IN_SP = 14;
     private static final int DEFAULT_TEXT_DISTANCE_TO_BUTTON_IN_DP = 4;
     private static final int DEFAULT_TEXT_DISTANCE_TO_TOP_IN_DP = 4;
     private boolean mSingleThumb;
+
+    public static int spToPx(Context context, float sp) {
+        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, sp, context.getResources().getDisplayMetrics());
+    }
 
     public RangeSeekBar(Context context) {
         super(context);
@@ -155,7 +159,7 @@ public class RangeSeekBar<T extends Number> extends android.support.v7.widget.Ap
 
         INITIAL_PADDING = PixelUtil.dpToPx(context, INITIAL_PADDING_IN_DP);
 
-        mTextSize = PixelUtil.dpToPx(context, DEFAULT_TEXT_SIZE_IN_DP);
+        mTextSize = spToPx(context, DEFAULT_TEXT_SIZE_IN_SP);
         mDistanceToTop = PixelUtil.dpToPx(context, DEFAULT_TEXT_DISTANCE_TO_TOP_IN_DP);
         mTextOffset = this.mTextSize + PixelUtil.dpToPx(context,
                 DEFAULT_TEXT_DISTANCE_TO_BUTTON_IN_DP) + this.mDistanceToTop;

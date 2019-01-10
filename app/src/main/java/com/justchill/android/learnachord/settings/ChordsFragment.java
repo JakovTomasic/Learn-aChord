@@ -14,7 +14,6 @@ import com.justchill.android.learnachord.LocaleHelper;
 import com.justchill.android.learnachord.MyApplication;
 import com.justchill.android.learnachord.R;
 import com.justchill.android.learnachord.chord.ChordsList;
-import com.justchill.android.learnachord.chord.IntervalsList;
 
 public class ChordsFragment extends Fragment {
 

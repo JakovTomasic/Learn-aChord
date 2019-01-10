@@ -22,8 +22,6 @@ import com.justchill.android.learnachord.settings.SettingsActivity;
 
 public class ChooseQuizModeActivity extends AppCompatActivity {
 
-    // TODO: add reset each mode's high score
-
     private View[] quizModeParentLayout;
     private View[] quizModeLinearLayout;
     private TextView[] quizModeTitleTV;
@@ -135,6 +133,12 @@ public class ChooseQuizModeActivity extends AppCompatActivity {
 
     }
 
+    private void resetQuizHighScoreViews() {
+        quizModeDescriptionTV[0].setText(readResource(R.string.highscore) + ":\n" + String.valueOf(MyApplication.quizModeOneHighscore));
+        quizModeDescriptionTV[1].setText(readResource(R.string.highscore) + ":\n" + String.valueOf(MyApplication.quizModeTwoHighscore));
+        quizModeDescriptionTV[2].setText(readResource(R.string.highscore) + ":\n" + String.valueOf(MyApplication.quizModeThreeHighscore));
+    }
+
     private String readResource(int id) {
         return ChooseQuizModeActivity.this.getResources().getString(id);
     }
@@ -155,15 +159,15 @@ public class ChooseQuizModeActivity extends AppCompatActivity {
         MyApplication.quizPlayingPaused = true;
 
         // Set high scores
-        quizModeDescriptionTV[0].setText(readResource(R.string.highscore) + ":\n" + String.valueOf(MyApplication.quizModeOneHighscore));
-        quizModeDescriptionTV[1].setText(readResource(R.string.highscore) + ":\n" + String.valueOf(MyApplication.quizModeTwoHighscore));
-        quizModeDescriptionTV[2].setText(readResource(R.string.highscore) + ":\n" + String.valueOf(MyApplication.quizModeThreeHighscore));
+        resetQuizHighScoreViews();
 
         MyApplication.quizChordNameToShow = "";
         MyApplication.quizChordNumberOneToShow = "";
         MyApplication.quizChordNumberTwoToShow = "";
         MyApplication.waitingForQuizAnswer = false;
         MyApplication.quizPlayingCurrentThing = false;
+
+        MyApplication.quizModeThreeShowSubmitButton = false;
     }
 
     @Override
@@ -195,6 +199,15 @@ public class ChooseQuizModeActivity extends AppCompatActivity {
             case R.id.action_details:
                 showQuizExplanationDialog();
                 return true;
+            case R.id.action_reset_mode_one:
+                showQuizHighScoreDeleteDialog(1);
+                return true;
+            case R.id.action_reset_mode_two:
+                showQuizHighScoreDeleteDialog(2);
+                return true;
+            case R.id.action_reset_mode_three:
+                showQuizHighScoreDeleteDialog(3);
+                return true;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -204,6 +217,51 @@ public class ChooseQuizModeActivity extends AppCompatActivity {
         AlertDialog.Builder builder = new AlertDialog.Builder(ChooseQuizModeActivity.this);
         builder.setMessage(R.string.quiz_explanation_dialog_text);
         builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                if(dialog != null) {
+                    dialog.dismiss();
+                }
+            }
+        });
+
+        // Create and show the AlertDialog
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+    }
+
+    private void showQuizHighScoreDeleteDialog(final int quizMode) {
+        // Create an AlertDialog.Builder and set the message, and click listeners for the positive and negative buttons on the dialog.
+        AlertDialog.Builder builder = new AlertDialog.Builder(ChooseQuizModeActivity.this);
+        switch (quizMode) {
+            case 1:
+                builder.setMessage(R.string.quiz_reset_mode_one_highscore_message);
+                break;
+            case 2:
+                builder.setMessage(R.string.quiz_reset_mode_two_highscore_message);
+                break;
+            case 3:
+                builder.setMessage(R.string.quiz_reset_mode_three_highscore_message);
+                break;
+        }
+        builder.setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                switch (quizMode) {
+                    case 1:
+                        MyApplication.quizModeOneHighscore = 0;
+                        break;
+                    case 2:
+                        MyApplication.quizModeTwoHighscore = 0;
+                        break;
+                    case 3:
+                        MyApplication.quizModeThreeHighscore = 0;
+                        break;
+                }
+
+                MyApplication.setDoesDbNeedUpdate(true);
+                resetQuizHighScoreViews();
+            }
+        });
+        builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 if(dialog != null) {
                     dialog.dismiss();

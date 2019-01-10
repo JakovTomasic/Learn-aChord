@@ -47,6 +47,7 @@ v0.43	- added translation (not logic (only partially) and fixed keyboard showing
 v0.44	- added LoacleHelper class to handle language changes and IntervalsList.updateAllIntervalsNames(Context tempContext) to update interval names, couple of small improvements, cord refractored to chord, ServiceInterval refractored to ServicePlayer. Everything working
 v0.45	- added direciton lickable question mark (TextView) and it's logic. Tested on 4.0.4, android 8.0, tablet and android P (before changes). Added multi-window support (but it is like crap for now). Added progressBarAnimation.java (copy pasted same as before) and commented value showing text.
 
+
 v1.0	- finished version, without ads
 v1.1	- changed ServicePlayer (smarted-up, but not working yet), added Chords (need to add rest of them), changed settings - added new fragmet for chords and it's logic
 v1.2	- added some chords and changed ServicePlayer (not finished yet)
@@ -60,7 +61,13 @@ v1.9	- almost finished choose quiz mode, started adding mode one
 v1.10	- MESSY CODE, almost done implementing quiz mode one, not working yet, still don't know why
 v1.11	- first git commit
 v1.12	- quiz mode one improved
+v1.13	- quiz mode one polished up, high scores now saving to database
+v1.14	- started working on quiz mode two
+v1.15	- quiz mode two done
+v1.16	- quiz mode three done
 
+
+v2.0	- final version 2
 
 
 

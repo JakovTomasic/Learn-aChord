@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/activity_choose_quiz_mode_parent_layout"
-    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/quizBackgroundColor">
@@ -16,32 +15,32 @@
         <View
             android:layout_width="1px"
             android:layout_height="0dp"
-            android:visibility="invisible"
-            android:layout_weight="2"/>
+            android:layout_weight="2"
+            android:visibility="invisible" />
 
         <LinearLayout
             android:id="@+id/quiz_linear_layout1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_centerHorizontal="true">
+            android:layout_centerHorizontal="true"
+            android:orientation="horizontal">
 
             <!--For equal positioning-->
             <View
                 android:layout_width="0dp"
                 android:layout_height="1px"
-                android:visibility="invisible"
-                android:layout_weight="1"/>
+                android:layout_weight="1"
+                android:visibility="invisible" />
 
             <RelativeLayout
                 android:id="@+id/quiz_mode_one_parent_layout"
+                style="@style/quizChooseModeButtonStyle"
                 android:layout_width="200dp"
                 android:layout_height="300dp"
                 android:layout_centerInParent="true"
                 android:background="@drawable/background_quiz_mode"
                 android:clickable="true"
-                android:focusable="true"
-                style="@style/quizChooseModeButtonStyle">
+                android:focusable="true">
 
 
                 <LinearLayout
@@ -58,8 +57,8 @@
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="20dp"
                         android:gravity="center"
-                        android:textSize="16dp"
-                        android:text="@string/quiz_mode_one_title"/>
+                        android:text="@string/quiz_mode_one_title"
+                        android:textSize="16dp" />
 
                     <TextView
                         android:id="@+id/quiz_mode_one_description_text_view"
@@ -68,8 +67,8 @@
                         android:layout_weight="1"
                         android:background="@color/colorPrimary"
                         android:gravity="center"
-                        android:textSize="16dp"
-                        android:text=""/>
+                        android:text=""
+                        android:textSize="16dp" />
 
 
                 </LinearLayout>
@@ -78,7 +77,7 @@
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:src="?android:attr/selectableItemBackground"/>
+                    android:src="?android:attr/selectableItemBackground" />
 
             </RelativeLayout>
 
@@ -87,8 +86,8 @@
             <View
                 android:layout_width="0dp"
                 android:layout_height="1px"
-                android:visibility="invisible"
-                android:layout_weight="1"/>
+                android:layout_weight="1"
+                android:visibility="invisible" />
 
 
         </LinearLayout>
@@ -97,33 +96,33 @@
         <View
             android:layout_width="1px"
             android:layout_height="0dp"
-            android:visibility="invisible"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            android:visibility="invisible" />
 
         <LinearLayout
             android:id="@+id/quiz_linear_layout2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
             android:layout_below="@id/quiz_linear_layout1"
-            android:layout_centerInParent="true">
+            android:layout_centerInParent="true"
+            android:orientation="horizontal">
 
             <!--For equal positioning-->
             <View
                 android:layout_width="0dp"
                 android:layout_height="1px"
-                android:visibility="invisible"
-                android:layout_weight="1"/>
+                android:layout_weight="1"
+                android:visibility="invisible" />
 
             <RelativeLayout
                 android:id="@+id/quiz_mode_two_parent_layout"
+                style="@style/quizChooseModeButtonStyle"
                 android:layout_width="200dp"
                 android:layout_height="300dp"
                 android:layout_centerInParent="true"
                 android:background="@drawable/background_quiz_mode"
                 android:clickable="true"
-                android:focusable="true"
-                style="@style/quizChooseModeButtonStyle">
+                android:focusable="true">
 
 
                 <LinearLayout
@@ -140,8 +139,8 @@
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="20dp"
                         android:gravity="center"
-                        android:textSize="16dp"
-                        android:text="@string/quiz_mode_two_title"/>
+                        android:text="@string/quiz_mode_two_title"
+                        android:textSize="16dp" />
 
                     <TextView
                         android:id="@+id/quiz_mode_two_description_text_view"
@@ -150,8 +149,8 @@
                         android:layout_weight="1"
                         android:background="@color/colorPrimary"
                         android:gravity="center"
-                        android:textSize="16dp"
-                        android:text=""/>
+                        android:text=""
+                        android:textSize="16dp" />
 
 
                 </LinearLayout>
@@ -160,7 +159,7 @@
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:src="?android:attr/selectableItemBackground"/>
+                    android:src="?android:attr/selectableItemBackground" />
 
             </RelativeLayout>
 
@@ -168,18 +167,18 @@
             <View
                 android:layout_width="0dp"
                 android:layout_height="1px"
-                android:visibility="invisible"
-                android:layout_weight="1"/>
+                android:layout_weight="1"
+                android:visibility="invisible" />
 
             <RelativeLayout
                 android:id="@+id/quiz_mode_three_parent_layout"
+                style="@style/quizChooseModeButtonStyle"
                 android:layout_width="200dp"
                 android:layout_height="300dp"
                 android:layout_centerInParent="true"
                 android:background="@drawable/background_quiz_mode"
                 android:clickable="true"
-                android:focusable="true"
-                style="@style/quizChooseModeButtonStyle">
+                android:focusable="true">
 
 
                 <LinearLayout
@@ -196,8 +195,8 @@
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="20dp"
                         android:gravity="center"
-                        android:textSize="16dp"
-                        android:text="@string/quiz_mode_three_title"/>
+                        android:text="@string/quiz_mode_three_title"
+                        android:textSize="16dp" />
 
                     <TextView
                         android:id="@+id/quiz_mode_three_description_text_view"
@@ -206,8 +205,8 @@
                         android:layout_weight="1"
                         android:background="@color/colorPrimary"
                         android:gravity="center"
-                        android:textSize="16dp"
-                        android:text=""/>
+                        android:text=""
+                        android:textSize="16dp" />
 
 
                 </LinearLayout>
@@ -216,7 +215,7 @@
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:src="?android:attr/selectableItemBackground"/>
+                    android:src="?android:attr/selectableItemBackground" />
 
             </RelativeLayout>
 
@@ -224,8 +223,8 @@
             <View
                 android:layout_width="0dp"
                 android:layout_height="1px"
-                android:visibility="invisible"
-                android:layout_weight="1"/>
+                android:layout_weight="1"
+                android:visibility="invisible" />
 
 
         </LinearLayout>
@@ -234,12 +233,11 @@
         <View
             android:layout_width="1px"
             android:layout_height="0dp"
-            android:visibility="invisible"
-            android:layout_weight="2"/>
+            android:layout_weight="2"
+            android:visibility="invisible" />
 
 
     </LinearLayout>
-
 
 
 </RelativeLayout>

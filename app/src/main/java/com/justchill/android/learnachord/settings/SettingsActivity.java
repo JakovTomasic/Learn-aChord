@@ -20,6 +20,8 @@ import com.justchill.android.learnachord.chord.ChordsList;
 import com.justchill.android.learnachord.chord.Interval;
 import com.justchill.android.learnachord.chord.IntervalsList;
 import com.justchill.android.learnachord.database.DataContract;
+import com.justchill.android.learnachord.database.DatabaseData;
+import com.justchill.android.learnachord.database.DatabaseHandler;
 
 public class SettingsActivity extends AppCompatActivity {
 
@@ -27,7 +29,7 @@ public class SettingsActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        MyApplication.settingActivityLoadedLanguage = MyApplication.appLanguage;
+        MyApplication.settingActivityLoadedLanguage = DatabaseData.appLanguage;
 
         // Set the content of the activity to use the activity_settings.xml layout file
         setContentView(R.layout.activity_settings);
@@ -87,8 +89,8 @@ public class SettingsActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
 
-        if(MyApplication.doesDbNeedUpdate()) {
-            MyApplication.updateDatabaseOnSeparateThread();
+        if(DatabaseHandler.doesDbNeedUpdate()) {
+            DatabaseHandler.updateDatabaseOnSeparateThread();
         }
 
         MyApplication.activityPaused();
@@ -108,9 +110,9 @@ public class SettingsActivity extends AppCompatActivity {
             case android.R.id.home:
                 Interval tempInterval = IntervalsList.getBiggestCheckedInterval();
                 Chord tempChord = ChordsList.getBiggestCheckedChord();
-                if(!MyApplication.directionUp && !MyApplication.directionDown && !MyApplication.directionSameTime && !MyApplication.playWhatTone && !MyApplication.playWhatOctave) {
+                if(!DatabaseData.directionUp && !DatabaseData.directionDown && !DatabaseData.directionSameTime && !DatabaseData.playWhatTone && !DatabaseData.playWhatOctave) {
                     showNoDirectionConfirmationDialog();
-                } else if(IntervalsList.getCheckedIntervalCount() + ChordsList.getCheckedChordsCount() <= 0 && !MyApplication.playWhatTone && !MyApplication.playWhatOctave) {
+                } else if(IntervalsList.getCheckedIntervalCount() + ChordsList.getCheckedChordsCount() <= 0 && !DatabaseData.playWhatTone && !DatabaseData.playWhatOctave) {
                     showNoIntervalsOrChordsConfirmationDialog();
                 } else if( (tempInterval != null && !IntervalsList.isIntervalInsideBorders(tempInterval)) ||
                         (tempChord != null && !ChordsList.isChordInsideBorders(tempChord)) ) {
@@ -126,12 +128,12 @@ public class SettingsActivity extends AppCompatActivity {
                     Thread updateIntervalAndSettingsThread = new Thread() {
                         @Override
                         public void run() {
-                            MyApplication.updateIntervals();
-                            MyApplication.updateChords();
-                            MyApplication.updateSettings();
+                            DatabaseHandler.updateIntervals();
+                            DatabaseHandler.updateChords();
+                            DatabaseHandler.updateSettings();
 
-                            MyApplication.setDoSettingsNeedUpdate(true);
-                            MyApplication.setDoesDbNeedUpdate(false);
+                            DatabaseHandler.setDoSettingsNeedUpdate(true);
+                            DatabaseHandler.setDoesDbNeedUpdate(false);
                             SettingsActivity.this.finish();
                             SettingsActivity.this.startActivity(getIntent());
                         }

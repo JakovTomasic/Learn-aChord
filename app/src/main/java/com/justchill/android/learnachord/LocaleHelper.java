@@ -9,6 +9,7 @@ import android.os.Build;
 import android.preference.PreferenceManager;
 
 import com.justchill.android.learnachord.database.DataContract;
+import com.justchill.android.learnachord.database.DatabaseData;
 
 import java.util.Locale;
 
@@ -116,7 +117,7 @@ public class LocaleHelper {
     }
 
     public static String getLanguageLabel() {
-        switch (MyApplication.appLanguage) {
+        switch (DatabaseData.appLanguage) {
             case DataContract.UserPrefEntry.LANGUAGE_CROATIAN:
                 return DataContract.UserPrefEntry.CROATIAN_LANGUAGE_TAG;
             default:

@@ -85,7 +85,17 @@
     <string name="not_enough_selected_intervals_or_chords_error">There is not enough selected intervals and chords</string>
 
 
-    <string name="start_button_content_description">Start playing</string>
+    <!--Content descriptions:-->
+    <string name="play_or_stop_button_content_description">Play/stop button</string>
+    <string name="open_quiz_button_content_description">Open quiz button</string>
+    <string name="start_quiz_button_content_description">Start quiz button</string>
+    <string name="pause_quiz_button_content_description">Pause quiz button</string>
+    <string name="quiz_submit_answer_content_description">Submit answer button</string>
+    <string name="quiz_correct_answer_content_description">Correct button</string>
+    <string name="quiz_wrong_answer_content_description">Wrong button</string>
+    <string name="play_lower_key_bound_content_description">Play low key border key</string>
+    <string name="play_upper_key_bound_content_description">Play high key border key</string>
+
 
     <string name="settings_0_title">Intervals</string>
     <string name="settings_1_title">Chords</string>

@@ -17,14 +17,12 @@
 
     <color name="mainActivityBackground">#f2fff2</color>
     <color name="settingsBackground">#f2fff2</color>
-    
+
     <color name="grayForProgressBar">#ef595959</color>
     <color name="progressBarColor">#58FF58</color>
-    
+
     <color name="unloadedColor">#797979</color>
 
-    <color name="invisibleColor">#00000000</color>
-    
     <color name="questionMarkColor">#4b4b4b</color>
 
 
@@ -46,14 +44,16 @@
     <color name="half_transparent">#90000000</color>
 
 
-
     <color name="quizBackgroundColor">#f2fff2</color>
     <color name="quizTimeLeftToPlayProgressBar">#BB444444</color>
-    
-    
-    
+
+
     <color name="quizModeThreeListViewUnselectedBackgroundColor">#00000000</color>
     <color name="quizModeThreeListViewSelectedBackgroundColor">#389938</color>
     <color name="quizModeThreeListViewBackgroundDrawableColor">#38bb38</color>
+
+
+    <color name="settings_tab_selected_color">#FFFFFF</color>
+    <color name="settings_tab_indicator_color">#FFFFFF</color>
 
 </resources>

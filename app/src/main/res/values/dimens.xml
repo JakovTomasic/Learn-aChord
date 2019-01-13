@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!--A lot of dimensions are changed programmatically so they don't have constants-->
+
+
     <dimen name="fab_margin">16dp</dimen>
 
     <dimen name="settings_shadow_elevation">2dp</dimen>
@@ -10,5 +13,30 @@
 
     <dimen name="play_button_elevation">3dp</dimen>
     <dimen name="play_button_elevation_times_two">8dp</dimen>
+
+
+    <dimen name="what_intervals_list_margin">20dp</dimen>
+    <dimen name="what_intervals_list_padding">5dp</dimen>
+
+    <dimen name="quiz_padding">20dp</dimen>
+
+    <dimen name="settings_title_text_size">16sp</dimen>
+    <dimen name="settings_title_margin">8dp</dimen>
+    <dimen name="settings_check_box_margin_left">16dp</dimen>
+    <dimen name="settings_check_box_margin_right">8dp</dimen>
+    <dimen name="settings_padding">16dp</dimen>
+    <dimen name="settings_additional_padding">8dp</dimen>
+    <dimen name="settings_tones_text_size">20sp</dimen>
+    <dimen name="list_interval_chord_text_size">26sp</dimen>
+    <dimen name="list_chord_numbers_text_size">16sp</dimen>
+    <dimen name="settings_play_button_size">62dp</dimen>
+    <dimen name="settings_preferences_padding">16dp</dimen>
+    <dimen name="direction_explanation_text_size">24sp</dimen>
+    <dimen name="settings_drag_handle_size">25dp</dimen>
+    <dimen name="settings_layout_separations">8dp</dimen>
+    <dimen name="settings_layout_separations_half">4dp</dimen>
+    <dimen name="settings_min_height">40dp</dimen>
+    <dimen name="settings_preferences_play_tone_button_size">48dp</dimen>
+
 
 </resources>

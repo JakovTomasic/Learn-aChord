@@ -26,6 +26,7 @@ import com.justchill.android.learnachord.chord.ChordsList;
 import com.justchill.android.learnachord.chord.Interval;
 import com.justchill.android.learnachord.chord.IntervalsList;
 import com.justchill.android.learnachord.database.DataContract;
+import com.justchill.android.learnachord.database.DatabaseData;
 
 import java.util.Random;
 
@@ -43,11 +44,11 @@ public class ModeTwoActivity extends AppCompatActivity {
     private int checkedIntervals, checkedChords;
 
     // Just a little delay between playing
-    private final long addMS = 100;
+    private static final long addMS = 100;
 
     Thread quizModeTwoPlayThread;
 
-    private final int timeLeftToPlayProgressThicknessDB = 4;
+    private static final int timeLeftToPlayProgressThicknessDB = 4;
 
 
 
@@ -138,7 +139,7 @@ public class ModeTwoActivity extends AppCompatActivity {
         rand = new Random();
         checkedIntervals = IntervalsList.getCheckedIntervalCount();
         checkedChords = ChordsList.getCheckedChordsCount();
-        if((MyApplication.playWhatTone || MyApplication.playWhatOctave) && IntervalsList.getInterval(0).getIsChecked()) {
+        if((DatabaseData.playWhatTone || DatabaseData.playWhatOctave) && IntervalsList.getInterval(0).getIsChecked()) {
             // If tones can be played, don't count on čista prima
             checkedIntervals--;
         }
@@ -155,8 +156,8 @@ public class ModeTwoActivity extends AppCompatActivity {
 
 
         // Setup score text view text size
-        scoreTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(MyApplication.smallerDisplayDimensionPX / 16) * MyApplication.scaledDensity);
-        scoreTextView.setText(String.valueOf(MyApplication.quizScore));
+        scoreTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(MyApplication.smallerDisplayDimensionPX / 16) * DatabaseData.scaledDensity);
+        scoreTextView.setText(String.valueOf(QuizData.quizScore));
 
         // Setup progress bar size
         ViewGroup.LayoutParams progressBarSizeRules = timeLeftToPlayProgressBar.getLayoutParams();
@@ -186,7 +187,7 @@ public class ModeTwoActivity extends AppCompatActivity {
                 resumeQuiz();
 
                 // If playing was stopped/paused play it again when resumed
-                if(MyApplication.quizPlayingCurrentThing) {
+                if(QuizData.quizPlayingCurrentThing) {
                     playCurrentThing();
                 } else {
                     playNextThing(0);
@@ -205,7 +206,7 @@ public class ModeTwoActivity extends AppCompatActivity {
         pauseClickableImageView.setLayoutParams(pauseImageViewSizeRules);
 
 
-        if(MyApplication.quizPlayingPaused) {
+        if(QuizData.quizPlayingPaused) {
             pauseQuiz();
         } else {
             resumeQuiz();
@@ -259,7 +260,7 @@ public class ModeTwoActivity extends AppCompatActivity {
         }
 
 
-        MyApplication.isQuizModePlaying = true;
+        QuizData.isQuizModePlaying = true;
 
         showAllChords();
 
@@ -296,12 +297,12 @@ public class ModeTwoActivity extends AppCompatActivity {
     }
 
     private void handleClickOnOption(int id) {
-        MyApplication.waitingForQuizAnswer = false;
-        MyApplication.quizPlayingCurrentThing = false;
+        QuizData.waitingForQuizAnswer = false;
+        QuizData.quizPlayingCurrentThing = false;
         stopPlaying();
 
-        if(MyApplication.quizModeTwoCorrectAnswerID == id) {
-            scoreTextView.setText(String.valueOf(++MyApplication.quizScore));
+        if(QuizData.quizModeTwoCorrectAnswerID == id) {
+            scoreTextView.setText(String.valueOf(++QuizData.quizScore));
             playNextThing(0);
         } else {
             gameOver();
@@ -316,70 +317,70 @@ public class ModeTwoActivity extends AppCompatActivity {
 
     // Play next interval, chord or tone
     private void playNextThing(int numberOfRecursiveRuns) {
-        if(MyApplication.waitingForQuizAnswer || numberOfRecursiveRuns > 5) {
+        if(QuizData.waitingForQuizAnswer || numberOfRecursiveRuns > 5) {
             return;
         }
 
-        if(checkedIntervals + checkedChords < 4 && !MyApplication.playWhatTone && !MyApplication.playWhatOctave) {
+        if(checkedIntervals + checkedChords < 4 && !DatabaseData.playWhatTone && !DatabaseData.playWhatOctave) {
             Toast.makeText(MyApplication.getActivity(), readResource(R.string.not_enough_selected_intervals_or_chords_error), Toast.LENGTH_SHORT).show();
             pauseQuiz();
             return;
         }
 
-        if(MyApplication.directionsCount <= 0 && !MyApplication.playWhatTone && !MyApplication.playWhatOctave) {
+        if(DatabaseData.directionsCount <= 0 && !DatabaseData.playWhatTone && !DatabaseData.playWhatOctave) {
             Toast.makeText(MyApplication.getActivity(), readResource(R.string.no_checked_playing_type_error), Toast.LENGTH_SHORT).show();
             pauseQuiz();
             return;
         }
 
-        if(MyApplication.upKeyBorder - MyApplication.downKeyBorder < 13 && MyApplication.playWhatOctave && !MyApplication.playWhatTone) {
+        if(DatabaseData.upKeyBorder - DatabaseData.downKeyBorder < 13 && DatabaseData.playWhatOctave && !DatabaseData.playWhatTone) {
             Toast.makeText(MyApplication.getActivity(), readResource(R.string.key_borders_are_too_small), Toast.LENGTH_SHORT).show();
             pauseQuiz();
             return;
         }
 
         // Randomly choose correct answer
-        MyApplication.quizModeTwoCorrectAnswerID = rand.nextInt(4);
+        QuizData.quizModeTwoCorrectAnswerID = rand.nextInt(4);
 
         // Reset this
         for(int i = 0; i < quizOptionParentLayout.length; i++) {
-            MyApplication.quizModeTwoChordNameToShow[i] = null;
-            MyApplication.quizModeTwoChordNumberOneToShow[i] = null;
-            MyApplication.quizModeTwoChordNumberTwoToShow[i] = null;
+            QuizData.quizModeTwoChordNameToShow[i] = null;
+            QuizData.quizModeTwoChordNumberOneToShow[i] = null;
+            QuizData.quizModeTwoChordNumberTwoToShow[i] = null;
 
-            MyApplication.quizModeTwoSelectedIntervals[i] = null;
-            MyApplication.quizModeTwoSelectedChords[i] = null;
-            MyApplication.quizModeTwoSelectedTones[i] = null;
+            QuizData.quizModeTwoSelectedIntervals[i] = null;
+            QuizData.quizModeTwoSelectedChords[i] = null;
+            QuizData.quizModeTwoSelectedTones[i] = null;
         }
 
 
-        MyApplication.quizIntervalToPlay = null;
-        MyApplication.quizChordToPlay = null;
+        QuizData.quizIntervalToPlay = null;
+        QuizData.quizChordToPlay = null;
 
 
 
 
         // 12 tones in one octave
-        int tempRandNumb = rand.nextInt(checkedIntervals + checkedChords + ((MyApplication.playWhatTone || MyApplication.playWhatOctave) ? 12 : 0));
+        int tempRandNumb = rand.nextInt(checkedIntervals + checkedChords + ((DatabaseData.playWhatTone || DatabaseData.playWhatOctave) ? 12 : 0));
 
-        if(MyApplication.directionsCount <= 0) {
+        if(DatabaseData.directionsCount <= 0) {
             // If there is no direction to play, play tone
             tempRandNumb = rand.nextInt(12) + checkedIntervals + checkedChords;
         }
 
         if(tempRandNumb < checkedIntervals) { // Play interval
             // Don't play čista prima if tone can be played
-            MyApplication.quizIntervalToPlay = IntervalsList.getRandomCheckedInterval((MyApplication.playWhatTone || MyApplication.playWhatOctave) ? IntervalsList.getInterval(0) : null);
-            if(MyApplication.quizIntervalToPlay == null) {
+            QuizData.quizIntervalToPlay = IntervalsList.getRandomCheckedInterval((DatabaseData.playWhatTone || DatabaseData.playWhatOctave) ? IntervalsList.getInterval(0) : null);
+            if(QuizData.quizIntervalToPlay == null) {
                 // Something went wrong, try again
                 playNextThing(numberOfRecursiveRuns+1);
                 return;
             }
-            MyApplication.quizChordToPlay = null;
-            MyApplication.quizModeTwoSelectedIntervals[MyApplication.quizModeTwoCorrectAnswerID] = MyApplication.quizIntervalToPlay;
+            QuizData.quizChordToPlay = null;
+            QuizData.quizModeTwoSelectedIntervals[QuizData.quizModeTwoCorrectAnswerID] = QuizData.quizIntervalToPlay;
 
             // Set correct answer to correct id
-            MyApplication.quizModeTwoChordNameToShow[MyApplication.quizModeTwoCorrectAnswerID] = MyApplication.quizIntervalToPlay.getIntervalName();
+            QuizData.quizModeTwoChordNameToShow[QuizData.quizModeTwoCorrectAnswerID] = QuizData.quizIntervalToPlay.getName();
 
             // Set wrong answers to wrong ids, in random order
             int tempRandomStartFrom = rand.nextInt(quizOptionParentLayout.length);
@@ -394,19 +395,19 @@ public class ModeTwoActivity extends AppCompatActivity {
             playCurrentThing();
 
         } else if(tempRandNumb < checkedIntervals+checkedChords) { // Play chord
-            MyApplication.quizChordToPlay = ChordsList.getRandomCheckedChord();
-            if(MyApplication.quizChordToPlay == null) {
+            QuizData.quizChordToPlay = ChordsList.getRandomCheckedChord();
+            if(QuizData.quizChordToPlay == null) {
                 // Something went wrong, try again
                 playNextThing(numberOfRecursiveRuns+1);
                 return;
             }
-            MyApplication.quizIntervalToPlay = null;
-            MyApplication.quizModeTwoSelectedChords[MyApplication.quizModeTwoCorrectAnswerID] = MyApplication.quizChordToPlay;
+            QuizData.quizIntervalToPlay = null;
+            QuizData.quizModeTwoSelectedChords[QuizData.quizModeTwoCorrectAnswerID] = QuizData.quizChordToPlay;
 
             // Set correct answer to correct id
-            MyApplication.quizModeTwoChordNameToShow[MyApplication.quizModeTwoCorrectAnswerID] = MyApplication.quizChordToPlay.getChordName();
-            MyApplication.quizModeTwoChordNumberOneToShow[MyApplication.quizModeTwoCorrectAnswerID] = MyApplication.quizChordToPlay.getNumberOneAsString();
-            MyApplication.quizModeTwoChordNumberTwoToShow[MyApplication.quizModeTwoCorrectAnswerID] = MyApplication.quizChordToPlay.getNumberTwoAsString();
+            QuizData.quizModeTwoChordNameToShow[QuizData.quizModeTwoCorrectAnswerID] = QuizData.quizChordToPlay.getName();
+            QuizData.quizModeTwoChordNumberOneToShow[QuizData.quizModeTwoCorrectAnswerID] = QuizData.quizChordToPlay.getNumberOneAsString();
+            QuizData.quizModeTwoChordNumberTwoToShow[QuizData.quizModeTwoCorrectAnswerID] = QuizData.quizChordToPlay.getNumberTwoAsString();
 
             // Set wrong answers to wrong ids, in random order
             int tempRandomStartFrom = rand.nextInt(quizOptionParentLayout.length);
@@ -420,17 +421,17 @@ public class ModeTwoActivity extends AppCompatActivity {
             // Play correct chord
             playCurrentThing();
 
-        } else if(MyApplication.playWhatTone || MyApplication.playWhatOctave) {
-            MyApplication.quizIntervalToPlay = null;
-            MyApplication.quizChordToPlay = null;
+        } else if(DatabaseData.playWhatTone || DatabaseData.playWhatOctave) {
+            QuizData.quizIntervalToPlay = null;
+            QuizData.quizChordToPlay = null;
 
             // Get random low key for playing (inside borders)
-            MyApplication.quizLowestKey = getRandomKey();
+            QuizData.quizLowestKey = getRandomKey();
 
-            MyApplication.quizModeTwoSelectedTones[MyApplication.quizModeTwoCorrectAnswerID] = MyApplication.quizLowestKey;
+            QuizData.quizModeTwoSelectedTones[QuizData.quizModeTwoCorrectAnswerID] = QuizData.quizLowestKey;
 
             // Set correct answer to correct id
-            MyApplication.quizModeTwoChordNameToShow[MyApplication.quizModeTwoCorrectAnswerID] = MyApplication.getKeyName(MyApplication.quizLowestKey);
+            QuizData.quizModeTwoChordNameToShow[QuizData.quizModeTwoCorrectAnswerID] = MyApplication.getKeyName(QuizData.quizLowestKey);
 
             // Set wrong answers to wrong ids, in random order
             int tempRandomStartFrom = rand.nextInt(quizOptionParentLayout.length);
@@ -451,38 +452,38 @@ public class ModeTwoActivity extends AppCompatActivity {
         }
 
 
-        if(MyApplication.quizIntervalToPlay != null || MyApplication.quizChordToPlay != null) {
+        if(QuizData.quizIntervalToPlay != null || QuizData.quizChordToPlay != null) {
             // Get random low key for playing (inside borders)
-            MyApplication.quizLowestKey = getRandomKey();
+            QuizData.quizLowestKey = getRandomKey();
         }
 
 
 
         showAllChords();
 
-        MyApplication.waitingForQuizAnswer = true;
+        QuizData.waitingForQuizAnswer = true;
     }
 
     private void playCurrentThing() {
-        MyApplication.quizPlayingCurrentThing = true;
+        QuizData.quizPlayingCurrentThing = true;
 
         quizModeTwoPlayThread = new Thread(new Runnable() {
             @Override
             public void run() {
-                int playingID = ++MyApplication.quizPlayingID;
+                int playingID = ++QuizData.quizPlayingID;
                 Integer directionToPlay = null;
 
                 int numberOfTones = 1;
-                if(MyApplication.quizIntervalToPlay != null) {
+                if(QuizData.quizIntervalToPlay != null) {
                     numberOfTones = 2;
-                } else if(MyApplication.quizChordToPlay != null) {
-                    numberOfTones = MyApplication.quizChordToPlay.getToneNumber();
+                } else if(QuizData.quizChordToPlay != null) {
+                    numberOfTones = QuizData.quizChordToPlay.getToneNumber();
                 }
-                double playingDuration = MyApplication.tonesSeparationTime * numberOfTones + MyApplication.delayBetweenChords + addMS;
+                double playingDuration = DatabaseData.tonesSeparationTime * numberOfTones + DatabaseData.delayBetweenChords + addMS;
 
-                if(MyApplication.playingMode == DataContract.UserPrefEntry.PLAYING_MODE_CUSTOM) {
-                    if(MyApplication.directionsCount > 0) {
-                        playingDuration *= MyApplication.directionsCount;
+                if(DatabaseData.playingMode == DataContract.UserPrefEntry.PLAYING_MODE_CUSTOM) {
+                    if(DatabaseData.directionsCount > 0) {
+                        playingDuration *= DatabaseData.directionsCount;
                     }
                 }
 
@@ -490,16 +491,16 @@ public class ModeTwoActivity extends AppCompatActivity {
 
 
                 // Logic copy-pasted (and changed) from ServicePlayer.Play()
-                if(MyApplication.playingMode == DataContract.UserPrefEntry.PLAYING_MODE_CUSTOM) {
+                if(DatabaseData.playingMode == DataContract.UserPrefEntry.PLAYING_MODE_CUSTOM) {
                     // Loop through all possibilities
                     for(int i = Math.min(Math.min(MyApplication.directionUpID, MyApplication.directionDownID), MyApplication.directionSameID); i <=
                             Math.max(Math.max(MyApplication.directionUpID, MyApplication.directionDownID), MyApplication.directionSameID); i++) {
                         directionToPlay = null;
-                        if(MyApplication.directionUpViewIndex == i && MyApplication.directionUp) {
+                        if(DatabaseData.directionUpViewIndex == i && DatabaseData.directionUp) {
                             directionToPlay = MyApplication.directionUpID;
-                        } else if(MyApplication.directionDownViewIndex == i && MyApplication.directionDown) {
+                        } else if(DatabaseData.directionDownViewIndex == i && DatabaseData.directionDown) {
                             directionToPlay = MyApplication.directionDownID;
-                        } else if(MyApplication.directionSameTimeViewIndex == i && MyApplication.directionSameTime) {
+                        } else if(DatabaseData.directionSameTimeViewIndex == i && DatabaseData.directionSameTime) {
                             directionToPlay = MyApplication.directionSameID;
                         }
 
@@ -507,37 +508,37 @@ public class ModeTwoActivity extends AppCompatActivity {
                             continue;
                         }
 
-                        if(MyApplication.quizPlayingPaused) {
+                        if(QuizData.quizPlayingPaused) {
                             // If playing was paused, stop playing
                             return;
                         }
 
                         if(!(MyApplication.getActivity() instanceof ModeTwoActivity)) {
                             // If activity was exited, stop playing
-                            MyApplication.quizPlayingCurrentThing = false;
+                            QuizData.quizPlayingCurrentThing = false;
                             return;
                         }
 
                         justPlayThis(directionToPlay, playingID);
-                        if(MyApplication.quizIntervalToPlay == null && MyApplication.quizChordToPlay == null) {
+                        if(QuizData.quizIntervalToPlay == null && QuizData.quizChordToPlay == null) {
                             // If tone is playing break the loop
                             break;
                         }
                     }
 
-                    if(MyApplication.directionsCount <= 0) {
+                    if(DatabaseData.directionsCount <= 0) {
                         // If there is no direction to play, try to play an key
                         justPlayThis(null, playingID);
                     }
-                } else if(MyApplication.playingMode == DataContract.UserPrefEntry.PLAYING_MODE_RANDOM) {
-                    int randomNumb = rand.nextInt(MyApplication.directionsCount);
+                } else if(DatabaseData.playingMode == DataContract.UserPrefEntry.PLAYING_MODE_RANDOM) {
+                    int randomNumb = rand.nextInt(DatabaseData.directionsCount);
                     int counter = 0;
                     // Loop through IDs (and numbers in between) until you come to Id that is in place of randomNumb (in order)
                     for(int i = Math.min(Math.min(MyApplication.directionUpID, MyApplication.directionDownID), MyApplication.directionSameID); i <=
                             Math.max(Math.max(MyApplication.directionUpID, MyApplication.directionDownID), MyApplication.directionSameID); i++) {
-                        if((MyApplication.directionUp && MyApplication.directionUpID == i) ||
-                                (MyApplication.directionDown && MyApplication.directionDownID == i) ||
-                                (MyApplication.directionSameTime && MyApplication.directionSameID == i)) {
+                        if((DatabaseData.directionUp && MyApplication.directionUpID == i) ||
+                                (DatabaseData.directionDown && MyApplication.directionDownID == i) ||
+                                (DatabaseData.directionSameTime && MyApplication.directionSameID == i)) {
                             if(counter >= randomNumb) {
                                 directionToPlay = i;
                                 break;
@@ -550,16 +551,16 @@ public class ModeTwoActivity extends AppCompatActivity {
                     if(directionToPlay == null) {
                         Log.e("ServicePlayer","Random algorithm is not working (ServicePlayer)");
                         // Something went wrong
-                        MyApplication.quizPlayingCurrentThing = false;
+                        QuizData.quizPlayingCurrentThing = false;
                         return;
                     }
 
                     justPlayThis(directionToPlay, playingID);
                 }
 
-                if(!MyApplication.quizPlayingPaused && playingID == MyApplication.quizPlayingID) {
+                if(!QuizData.quizPlayingPaused && playingID == QuizData.quizPlayingID) {
                     // If playing is not paused, it's finished
-                    MyApplication.quizPlayingCurrentThing = false;
+                    QuizData.quizPlayingCurrentThing = false;
                 }
             }
         });
@@ -572,55 +573,55 @@ public class ModeTwoActivity extends AppCompatActivity {
             Thread.sleep(10);
         } catch (Exception e) {}
 
-        if(playingID != MyApplication.quizPlayingID) {
+        if(playingID != QuizData.quizPlayingID) {
             return;
         }
 
-        if(MyApplication.quizIntervalToPlay != null && directionToPlay != null) {
-            MyApplication.playChord(new Interval[]{MyApplication.quizIntervalToPlay}, MyApplication.quizLowestKey, directionToPlay);
+        if(QuizData.quizIntervalToPlay != null && directionToPlay != null) {
+            MyApplication.playChord(new Interval[]{QuizData.quizIntervalToPlay}, QuizData.quizLowestKey, directionToPlay);
 
             try {
-                Thread.sleep((long)MyApplication.tonesSeparationTime * 2 + (long)MyApplication.delayBetweenChords + addMS);
+                Thread.sleep((long) DatabaseData.tonesSeparationTime * 2 + (long) DatabaseData.delayBetweenChords + addMS);
             } catch (Exception e) {}
-        } else if(MyApplication.quizChordToPlay != null && directionToPlay != null) {
-            MyApplication.playChord(MyApplication.quizChordToPlay.getAllIntervals(), MyApplication.quizLowestKey, directionToPlay);
+        } else if(QuizData.quizChordToPlay != null && directionToPlay != null) {
+            MyApplication.playChord(QuizData.quizChordToPlay.getAllIntervals(), QuizData.quizLowestKey, directionToPlay);
 
             try {
-                Thread.sleep((long)MyApplication.tonesSeparationTime * (MyApplication.quizChordToPlay.getToneNumber()) + (long)MyApplication.delayBetweenChords + addMS);
+                Thread.sleep((long) DatabaseData.tonesSeparationTime * (QuizData.quizChordToPlay.getToneNumber()) + (long) DatabaseData.delayBetweenChords + addMS);
             } catch (Exception e) {}
-        } else if(MyApplication.playWhatTone || MyApplication.playWhatOctave) {
-            MyApplication.playKey(MyApplication.quizLowestKey);
+        } else if(DatabaseData.playWhatTone || DatabaseData.playWhatOctave) {
+            MyApplication.playKey(QuizData.quizLowestKey);
 
             try {
-                Thread.sleep((long)MyApplication.tonesSeparationTime + (long)MyApplication.delayBetweenChords + addMS);
+                Thread.sleep((long) DatabaseData.tonesSeparationTime + (long) DatabaseData.delayBetweenChords + addMS);
             } catch (Exception e) {}
         }
     }
 
     private void showAllChords() {
         for(int i = 0; i < quizOptionParentLayout.length; i++) {
-            if(MyApplication.quizModeTwoChordNameToShow[i] == null) {
+            if(QuizData.quizModeTwoChordNameToShow[i] == null) {
                 // If chord name that needs to be shown is null, show nothing (empty string)
                 MyApplication.updateTextView(chordTextView[i], "", chordNumOneTextView[i], "", chordNumTwoTextView[i], "");
                 continue;
             }
-            MyApplication.updateTextView(chordTextView[i], MyApplication.quizModeTwoChordNameToShow[i], chordNumOneTextView[i],
-                    MyApplication.quizModeTwoChordNumberOneToShow[i], chordNumTwoTextView[i], MyApplication.quizModeTwoChordNumberTwoToShow[i]);
+            MyApplication.updateTextView(chordTextView[i], QuizData.quizModeTwoChordNameToShow[i], chordNumOneTextView[i],
+                    QuizData.quizModeTwoChordNumberOneToShow[i], chordNumTwoTextView[i], QuizData.quizModeTwoChordNumberTwoToShow[i]);
 
         }
     }
 
     // TODO: random key uses key borders, it is not checking if key sound is loaded, check if key sound is loaded
     private int getRandomKey() {
-        if(MyApplication.quizIntervalToPlay != null) {
-            return rand.nextInt(MyApplication.upKeyBorder-MyApplication.downKeyBorder-MyApplication.quizIntervalToPlay.getDifference())+MyApplication.downKeyBorder;
+        if(QuizData.quizIntervalToPlay != null) {
+            return rand.nextInt(DatabaseData.upKeyBorder- DatabaseData.downKeyBorder- QuizData.quizIntervalToPlay.getDifference())+ DatabaseData.downKeyBorder;
         }
 
-        if(MyApplication.quizChordToPlay != null) {
-            return rand.nextInt(MyApplication.upKeyBorder-MyApplication.downKeyBorder-MyApplication.quizChordToPlay.getDifference())+MyApplication.downKeyBorder;
+        if(QuizData.quizChordToPlay != null) {
+            return rand.nextInt(DatabaseData.upKeyBorder- DatabaseData.downKeyBorder- QuizData.quizChordToPlay.getDifference())+ DatabaseData.downKeyBorder;
         }
 
-        return rand.nextInt(MyApplication.upKeyBorder-MyApplication.downKeyBorder)+MyApplication.downKeyBorder;
+        return rand.nextInt(DatabaseData.upKeyBorder- DatabaseData.downKeyBorder)+ DatabaseData.downKeyBorder;
     }
 
     // Are two keys inside same octave
@@ -640,28 +641,28 @@ public class ModeTwoActivity extends AppCompatActivity {
     }
 
     private void setupWrongThingToShow(int id) {
-        if(MyApplication.quizModeTwoCorrectAnswerID == id) {
+        if(QuizData.quizModeTwoCorrectAnswerID == id) {
             // Don't set wrong answer where correct answer should be
             return;
         }
 
 
-        if(MyApplication.quizIntervalToPlay != null) {
+        if(QuizData.quizIntervalToPlay != null) {
             setupWrongInterval(id);
-        } else if(MyApplication.quizChordToPlay != null) {
+        } else if(QuizData.quizChordToPlay != null) {
             setupWrongChord(id);
-        } else if(MyApplication.quizIntervalToPlay == null && MyApplication.quizChordToPlay == null && MyApplication.playWhatTone) {
+        } else if(QuizData.quizIntervalToPlay == null && QuizData.quizChordToPlay == null && DatabaseData.playWhatTone) {
             setupWrongToneIfPlayWhatTone(id);
-        } else if(MyApplication.quizIntervalToPlay == null && MyApplication.quizChordToPlay == null && !MyApplication.playWhatTone && MyApplication.playWhatOctave) {
+        } else if(QuizData.quizIntervalToPlay == null && QuizData.quizChordToPlay == null && !DatabaseData.playWhatTone && DatabaseData.playWhatOctave) {
             setupWrongToneIfJustOctave(id);
         }
 
-        if(MyApplication.quizModeTwoChordNameToShow[id] == null) {
+        if(QuizData.quizModeTwoChordNameToShow[id] == null) {
             // Try one without looking for what is playing
             setupWrongThingToShowSecondTry(id);
         }
 
-        if(MyApplication.quizModeTwoChordNameToShow[id] == null) {
+        if(QuizData.quizModeTwoChordNameToShow[id] == null) {
             stopPlaying();
             playNextThing(0);
             return;
@@ -673,12 +674,12 @@ public class ModeTwoActivity extends AppCompatActivity {
         // Show any checked interval, if there is any
         setupWrongInterval(id);
 
-        if(MyApplication.playWhatTone || MyApplication.playWhatOctave && IntervalsList.getInterval(0).getIntervalName().equals(MyApplication.quizModeTwoChordNameToShow[id])) {
+        if(DatabaseData.playWhatTone || DatabaseData.playWhatOctave && IntervalsList.getInterval(0).getName().equals(QuizData.quizModeTwoChordNameToShow[id])) {
             // If tones are playing and it shows čista prima, user cannot see the difference
-            MyApplication.quizModeTwoChordNameToShow[id] = null;
+            QuizData.quizModeTwoChordNameToShow[id] = null;
         }
 
-        if(MyApplication.quizModeTwoChordNameToShow[id] != null) {
+        if(QuizData.quizModeTwoChordNameToShow[id] != null) {
             return;
         }
 
@@ -686,15 +687,15 @@ public class ModeTwoActivity extends AppCompatActivity {
         setupWrongChord(id);
 
 
-        if(!MyApplication.playWhatTone && MyApplication.playWhatOctave) {
+        if(!DatabaseData.playWhatTone && DatabaseData.playWhatOctave) {
             setupWrongToneIfJustOctave(id);
         }
 
-        if(MyApplication.quizModeTwoChordNameToShow[id] != null) {
+        if(QuizData.quizModeTwoChordNameToShow[id] != null) {
             return;
         }
 
-        if(MyApplication.playWhatTone) {
+        if(DatabaseData.playWhatTone) {
             setupWrongToneIfPlayWhatTone(id);
         }
 
@@ -705,14 +706,14 @@ public class ModeTwoActivity extends AppCompatActivity {
         try {
             // Interval to show cannot be same as any other
             Interval tempInterval = IntervalsList.getRandomCheckedInterval(
-                    MyApplication.quizModeTwoSelectedIntervals[0], MyApplication.quizModeTwoSelectedIntervals[1],
-                    MyApplication.quizModeTwoSelectedIntervals[2], MyApplication.quizModeTwoSelectedIntervals[3]);
-            MyApplication.quizModeTwoChordNameToShow[id] = tempInterval.getIntervalName();
+                    QuizData.quizModeTwoSelectedIntervals[0], QuizData.quizModeTwoSelectedIntervals[1],
+                    QuizData.quizModeTwoSelectedIntervals[2], QuizData.quizModeTwoSelectedIntervals[3]);
+            QuizData.quizModeTwoChordNameToShow[id] = tempInterval.getName();
 
             // Save it so it doesn't show again
-            MyApplication.quizModeTwoSelectedIntervals[id] = tempInterval;
+            QuizData.quizModeTwoSelectedIntervals[id] = tempInterval;
         } catch (Exception e) {
-            MyApplication.quizModeTwoChordNameToShow[id] = null;
+            QuizData.quizModeTwoChordNameToShow[id] = null;
         }
     }
 
@@ -720,42 +721,42 @@ public class ModeTwoActivity extends AppCompatActivity {
         try {
             // Chord to show cannot be same as any other
             Chord tempChord = ChordsList.getRandomCheckedChord(
-                    MyApplication.quizModeTwoSelectedChords[0], MyApplication.quizModeTwoSelectedChords[1],
-                    MyApplication.quizModeTwoSelectedChords[2], MyApplication.quizModeTwoSelectedChords[3]);
-            MyApplication.quizModeTwoChordNameToShow[id] = tempChord.getChordName();
-            MyApplication.quizModeTwoChordNumberOneToShow[id] = tempChord.getNumberOneAsString();
-            MyApplication.quizModeTwoChordNumberTwoToShow[id] = tempChord.getNumberTwoAsString();
+                    QuizData.quizModeTwoSelectedChords[0], QuizData.quizModeTwoSelectedChords[1],
+                    QuizData.quizModeTwoSelectedChords[2], QuizData.quizModeTwoSelectedChords[3]);
+            QuizData.quizModeTwoChordNameToShow[id] = tempChord.getName();
+            QuizData.quizModeTwoChordNumberOneToShow[id] = tempChord.getNumberOneAsString();
+            QuizData.quizModeTwoChordNumberTwoToShow[id] = tempChord.getNumberTwoAsString();
 
             // Save it so it doesn't show again
-            MyApplication.quizModeTwoSelectedChords[id] = tempChord;
+            QuizData.quizModeTwoSelectedChords[id] = tempChord;
         } catch (Exception e) {
-            MyApplication.quizModeTwoChordNameToShow[id] = null;
+            QuizData.quizModeTwoChordNameToShow[id] = null;
         }
     }
 
     private void setupWrongToneIfPlayWhatTone(int id) {
-        int tempRandomStartFrom = rand.nextInt(MyApplication.upKeyBorder-MyApplication.downKeyBorder)+MyApplication.downKeyBorder;
+        int tempRandomStartFrom = rand.nextInt(DatabaseData.upKeyBorder- DatabaseData.downKeyBorder)+ DatabaseData.downKeyBorder;
 
         // Tone to show cannot be same as any other
-        for(int i = tempRandomStartFrom; i <= MyApplication.upKeyBorder; i++) {
+        for(int i = tempRandomStartFrom; i <= DatabaseData.upKeyBorder; i++) {
             boolean thisToneIsAcceptable = true;
 
             // Check if it is not same as any tone (in octave or as tone, depending on user preference)
             for(int j = 0; j < quizOptionParentLayout.length; j++) {
-                if(MyApplication.quizModeTwoSelectedTones[j] == null) {
+                if(QuizData.quizModeTwoSelectedTones[j] == null) {
                     continue;
                 }
-                if(MyApplication.playWhatOctave && keysInSameOctave(MyApplication.quizModeTwoSelectedTones[j], i)) {
+                if(DatabaseData.playWhatOctave && keysInSameOctave(QuizData.quizModeTwoSelectedTones[j], i)) {
                     thisToneIsAcceptable = false;
                     break;
                 }
-                if(MyApplication.playWhatTone && keysAreSameTone(MyApplication.quizModeTwoSelectedTones[j], i)) {
+                if(DatabaseData.playWhatTone && keysAreSameTone(QuizData.quizModeTwoSelectedTones[j], i)) {
                     thisToneIsAcceptable = false;
                     break;
                 }
 
                 // If just tone is needed, it needs to be in same octave
-                if(MyApplication.playWhatTone && !MyApplication.playWhatOctave && !keysInSameOctave(MyApplication.quizModeTwoSelectedTones[j], i)) {
+                if(DatabaseData.playWhatTone && !DatabaseData.playWhatOctave && !keysInSameOctave(QuizData.quizModeTwoSelectedTones[j], i)) {
                     thisToneIsAcceptable = false;
                     break;
                 }
@@ -764,34 +765,34 @@ public class ModeTwoActivity extends AppCompatActivity {
                 continue;
             }
 
-            MyApplication.quizModeTwoChordNameToShow[id] = MyApplication.getKeyName(i);
+            QuizData.quizModeTwoChordNameToShow[id] = MyApplication.getKeyName(i);
 
             // Save it so it doesn't show again
-            MyApplication.quizModeTwoSelectedTones[id] = i;
+            QuizData.quizModeTwoSelectedTones[id] = i;
             break;
         }
 
-        if(MyApplication.quizModeTwoChordNameToShow[id] == null) {
+        if(QuizData.quizModeTwoChordNameToShow[id] == null) {
             // If key was not found, try going down instead of up
-            for(int i = tempRandomStartFrom-1; i >= MyApplication.downKeyBorder; i--) {
+            for(int i = tempRandomStartFrom-1; i >= DatabaseData.downKeyBorder; i--) {
                 boolean thisToneIsAcceptable = true;
 
                 // Check if it is not same as any tone (in octave or as tone, depending on user preference)
                 for(int j = 0; j < quizOptionParentLayout.length; j++) {
-                    if(MyApplication.quizModeTwoSelectedTones[j] == null) {
+                    if(QuizData.quizModeTwoSelectedTones[j] == null) {
                         continue;
                     }
-                    if(MyApplication.playWhatOctave && keysInSameOctave(MyApplication.quizModeTwoSelectedTones[j], i)) {
+                    if(DatabaseData.playWhatOctave && keysInSameOctave(QuizData.quizModeTwoSelectedTones[j], i)) {
                         thisToneIsAcceptable = false;
                         break;
                     }
-                    if(MyApplication.playWhatTone && keysAreSameTone(MyApplication.quizModeTwoSelectedTones[j], i)) {
+                    if(DatabaseData.playWhatTone && keysAreSameTone(QuizData.quizModeTwoSelectedTones[j], i)) {
                         thisToneIsAcceptable = false;
                         break;
                     }
 
                     // If just tone is needed, it needs to be in same octave
-                    if(MyApplication.playWhatTone && !MyApplication.playWhatOctave && !keysInSameOctave(MyApplication.quizModeTwoSelectedTones[j], i)) {
+                    if(DatabaseData.playWhatTone && !DatabaseData.playWhatOctave && !keysInSameOctave(QuizData.quizModeTwoSelectedTones[j], i)) {
                         thisToneIsAcceptable = false;
                         break;
                     }
@@ -800,10 +801,10 @@ public class ModeTwoActivity extends AppCompatActivity {
                     continue;
                 }
 
-                MyApplication.quizModeTwoChordNameToShow[id] = MyApplication.getKeyName(i);
+                QuizData.quizModeTwoChordNameToShow[id] = MyApplication.getKeyName(i);
 
                 // Save it so it doesn't show again
-                MyApplication.quizModeTwoSelectedTones[id] = i;
+                QuizData.quizModeTwoSelectedTones[id] = i;
                 break;
             }
         }
@@ -815,14 +816,14 @@ public class ModeTwoActivity extends AppCompatActivity {
         // Tone to show cannot be same as any other
         int alreadySetTonesCounter = 0;
         for(int i = 0; i < quizOptionParentLayout.length; i++) {
-            if(MyApplication.quizModeTwoSelectedTones[i] != null) {
+            if(QuizData.quizModeTwoSelectedTones[i] != null) {
                 alreadySetTonesCounter++;
             }
         }
 
-        int tempOctaveNumb = (MyApplication.quizLowestKey-1)/12;
+        int tempOctaveNumb = (QuizData.quizLowestKey-1)/12;
 
-        int tempKey = (MyApplication.quizLowestKey-1)%12;
+        int tempKey = (QuizData.quizLowestKey-1)%12;
 
         int numberOfOctaves = DataContract.UserPrefEntry.NUMBER_OF_KEYS/12;
         // - alreadySetTonesCounter so octave that is correct doesn't get shown
@@ -832,15 +833,15 @@ public class ModeTwoActivity extends AppCompatActivity {
         for(int i = 0; i < numberOfOctaves; i++) {
             // If tone is not in same octave and
             if(i != tempOctaveNumb && counter >= randomNumb
-                    && (MyApplication.quizModeTwoSelectedTones[0] == null || i != (MyApplication.quizModeTwoSelectedTones[0]-1)/12)
-                    && (MyApplication.quizModeTwoSelectedTones[1] == null || i != (MyApplication.quizModeTwoSelectedTones[1]-1)/12)
-                    && (MyApplication.quizModeTwoSelectedTones[2] == null || i != (MyApplication.quizModeTwoSelectedTones[2]-1)/12)
-                    && (MyApplication.quizModeTwoSelectedTones[3] == null || i != (MyApplication.quizModeTwoSelectedTones[3]-1)/12)) {
+                    && (QuizData.quizModeTwoSelectedTones[0] == null || i != (QuizData.quizModeTwoSelectedTones[0]-1)/12)
+                    && (QuizData.quizModeTwoSelectedTones[1] == null || i != (QuizData.quizModeTwoSelectedTones[1]-1)/12)
+                    && (QuizData.quizModeTwoSelectedTones[2] == null || i != (QuizData.quizModeTwoSelectedTones[2]-1)/12)
+                    && (QuizData.quizModeTwoSelectedTones[3] == null || i != (QuizData.quizModeTwoSelectedTones[3]-1)/12)) {
                 // +1 to get back to normal naming scheme
-                MyApplication.quizModeTwoChordNameToShow[id] = MyApplication.getKeyName(tempKey + (12*i) + 1);
+                QuizData.quizModeTwoChordNameToShow[id] = MyApplication.getKeyName(tempKey + (12*i) + 1);
 
                 // Save it so it doesn't show again
-                MyApplication.quizModeTwoSelectedTones[id] = tempKey + (12*i) + 1;
+                QuizData.quizModeTwoSelectedTones[id] = tempKey + (12*i) + 1;
                 break;
             } else {
                 counter++;
@@ -851,8 +852,8 @@ public class ModeTwoActivity extends AppCompatActivity {
 
     private void gameOver() {
         // Save high score if greater than current
-        MyApplication.refreshQuizModeTwoHighScore();
-        MyApplication.quizScore = 0;
+        QuizData.refreshQuizModeTwoHighScore();
+        QuizData.quizScore = 0;
 
 
         showGameOverDialog();
@@ -869,7 +870,7 @@ public class ModeTwoActivity extends AppCompatActivity {
 
     private void updateProgressBarAnimation(long duration) {
         try {
-            if(!MyApplication.showProgressBar && MyApplication.isLoadingFinished) {
+            if(!DatabaseData.showProgressBar && MyApplication.isLoadingFinished) {
                 timeLeftToPlayProgressBar.setVisibility(View.INVISIBLE);
                 return;
             } else {
@@ -902,7 +903,7 @@ public class ModeTwoActivity extends AppCompatActivity {
         showAllChords();
 
         // If sound is being played, don't show progress bar (animation stops after screen rotation)
-        if(MyApplication.quizPlayingCurrentThing && !MyApplication.quizPlayingPaused) {
+        if(QuizData.quizPlayingCurrentThing && !QuizData.quizPlayingPaused) {
             timeLeftToPlayProgressBar.setVisibility(View.INVISIBLE);
         }
     }
@@ -915,7 +916,7 @@ public class ModeTwoActivity extends AppCompatActivity {
 
 
         // Save high score if greater than current
-        MyApplication.refreshQuizModeTwoHighScore();
+        QuizData.refreshQuizModeTwoHighScore();
 
     }
 
@@ -933,7 +934,7 @@ public class ModeTwoActivity extends AppCompatActivity {
 
 
     private void stopPlaying() {
-        MyApplication.quizPlayingID += 10;
+        QuizData.quizPlayingID += 10;
         if(quizModeTwoPlayThread != null) {
             quizModeTwoPlayThread.interrupt();
             quizModeTwoPlayThread = null;
@@ -950,7 +951,7 @@ public class ModeTwoActivity extends AppCompatActivity {
 
         optionsParentLayout.setVisibility(View.GONE);
 
-        MyApplication.quizPlayingPaused = true;
+        QuizData.quizPlayingPaused = true;
     }
 
     private void resumeQuiz() {
@@ -959,7 +960,7 @@ public class ModeTwoActivity extends AppCompatActivity {
 
         optionsParentLayout.setVisibility(View.VISIBLE);
 
-        MyApplication.quizPlayingPaused = false;
+        QuizData.quizPlayingPaused = false;
     }
 
     private void showGameOverDialog() {
@@ -977,13 +978,13 @@ public class ModeTwoActivity extends AppCompatActivity {
                 pauseQuiz();
 
                 // Reset everything
-                MyApplication.quizPlayingPaused = true;
-                MyApplication.quizModeTwoChordNameToShow = new String[] {"", "", "", ""};
-                MyApplication.quizModeTwoChordNumberOneToShow = new String[] {"", "", "", ""};
-                MyApplication.quizModeTwoChordNumberTwoToShow = new String[] {"", "", "", ""};
-                MyApplication.waitingForQuizAnswer = false;
+                QuizData.quizPlayingPaused = true;
+                QuizData.quizModeTwoChordNameToShow = new String[] {"", "", "", ""};
+                QuizData.quizModeTwoChordNumberOneToShow = new String[] {"", "", "", ""};
+                QuizData.quizModeTwoChordNumberTwoToShow = new String[] {"", "", "", ""};
+                QuizData.waitingForQuizAnswer = false;
 
-                scoreTextView.setText(String.valueOf(MyApplication.quizScore));
+                scoreTextView.setText(String.valueOf(QuizData.quizScore));
 
                 // User clicked the "try again" button, so dismiss the dialog and stay in quiz.
                 if (dialog != null) {

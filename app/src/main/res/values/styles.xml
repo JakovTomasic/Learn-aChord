@@ -13,6 +13,16 @@
         <item name="android:textSize">16sp</item>
     </style>
 
+    <style name="settingsSecondTextStyle">
+        <item name="android:textColor">@color/darkTextColor</item>
+
+        <item name="android:layout_alignParentRight">true</item>
+        <item name="android:layout_marginRight">8dp</item>
+        <item name="android:layout_marginBottom">10dp</item>
+        <item name="android:text">@string/second</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+
     <style name="chordTextStyle">
         <item name="android:textColor">@color/darkTextColor</item>
     </style>

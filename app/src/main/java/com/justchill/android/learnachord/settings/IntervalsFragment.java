@@ -11,9 +11,9 @@ import android.widget.ListView;
 
 import com.justchill.android.learnachord.IntervalAdapter;
 import com.justchill.android.learnachord.LocaleHelper;
-import com.justchill.android.learnachord.MyApplication;
 import com.justchill.android.learnachord.R;
 import com.justchill.android.learnachord.chord.IntervalsList;
+import com.justchill.android.learnachord.database.DatabaseHandler;
 
 public class IntervalsFragment extends Fragment {
 
@@ -44,7 +44,7 @@ public class IntervalsFragment extends Fragment {
         allIntervalsCB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                MyApplication.setDoesDbNeedUpdate(true);
+                DatabaseHandler.setDoesDbNeedUpdate(true);
                 IntervalsList.setAllIntervalsIsChecked(allIntervalsCB.isChecked());
 
                 refreshIntervalAdapter();

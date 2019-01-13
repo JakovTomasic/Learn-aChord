@@ -12,6 +12,7 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.justchill.android.learnachord.chord.Interval;
+import com.justchill.android.learnachord.database.DatabaseData;
 
 public class WhatIntervalsAdapter extends ArrayAdapter<Interval> {
 
@@ -43,7 +44,7 @@ public class WhatIntervalsAdapter extends ArrayAdapter<Interval> {
 
 
         // textSize -> text size of chord/interval text in MainActivity
-        float textSize = (MyApplication.smallerDisplayDimensionPX * 0.75f) / 8 * MyApplication.scaledDensity;
+        float textSize = (MyApplication.smallerDisplayDimensionPX * 0.75f) / 8 * DatabaseData.scaledDensity;
         intervalTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, textSize / 2.6f);
 
         if(currentInterval != null) {
@@ -51,7 +52,7 @@ public class WhatIntervalsAdapter extends ArrayAdapter<Interval> {
                 // Pov 4
                 intervalTextView.setText(MyApplication.getAppContext().getResources().getString(R.string.interval_povecana_kvarta));
             } else {
-                intervalTextView.setText(currentInterval.getIntervalName());
+                intervalTextView.setText(currentInterval.getName());
             }
 
             // When direction is ascending intervals are showing in reversed direction

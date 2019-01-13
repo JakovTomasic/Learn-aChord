@@ -19,7 +19,9 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.justchill.android.learnachord.database.DatabaseHandler;
 import com.justchill.android.learnachord.quiz.ChooseQuizModeActivity;
+import com.justchill.android.learnachord.quiz.QuizData;
 import com.justchill.android.learnachord.settings.SettingsActivity;
 
 public class MainActivity extends AppCompatActivity {
@@ -119,19 +121,14 @@ public class MainActivity extends AppCompatActivity {
                         if(MyApplication.isPlaying()) {
                             chordTextViewLayout.setVisibility(View.VISIBLE);
                             setDontTurnOffScreen(true);
-//                            startPlayAnimation();
                         } else {
                             chordTextViewLayout.setVisibility(View.INVISIBLE);
                             whatIntervalsListView.setVisibility(View.INVISIBLE);
                             setDontTurnOffScreen(false);
-//                            startStopAnimation();
                         }
 
                             updatePlayStopButton();
 
-
-
-//                            startAnimation(fabIV, 0, 0, displayWidth, displayHeight, fabIV.getWidth(), fabIV.getHeight(), 16, 100);
                     }
                 });
             }
@@ -160,18 +157,17 @@ public class MainActivity extends AppCompatActivity {
             MyApplication.smallerDisplayDimensionPX = Math.min(displayWidth, displayHeight);
         }
 
-//        Log.d("ApplicationTagName", "Display width in px is " + displayWidth + ", and height is " + displayHeight);
 
-        if(MyApplication.doIntervalsNeedUpdate()) {
-            MyApplication.updateIntervalsOnSeparateThread();
+        if(DatabaseHandler.doIntervalsNeedUpdate()) {
+            DatabaseHandler.updateIntervalsOnSeparateThread();
         }
 
-        if(MyApplication.doChordsNeedUpdate()) {
-            MyApplication.updateChordsOnSeparateThread();
+        if(DatabaseHandler.doChordsNeedUpdate()) {
+            DatabaseHandler.updateChordsOnSeparateThread();
         }
 
-        if(MyApplication.doSettingsNeedUpdate()) {
-            MyApplication.updateSettingsOnSeparateThread();
+        if(DatabaseHandler.doSettingsNeedUpdate()) {
+            DatabaseHandler.updateSettingsOnSeparateThread();
         }
 
 
@@ -181,7 +177,7 @@ public class MainActivity extends AppCompatActivity {
             chordTextViewLayout.setVisibility(View.INVISIBLE);
         }
 
-        MyApplication.isQuizModePlaying = false;
+        QuizData.isQuizModePlaying = false;
     }
 
     @Override
@@ -197,7 +193,6 @@ public class MainActivity extends AppCompatActivity {
             smallerDisplayDimension = displayHeight;
         }
 
-//        TransitionManager.beginDelayedTransition(parentLayout);
 
         // Set color
         if(!MyApplication.isLoadingFinished) {
@@ -259,10 +254,6 @@ public class MainActivity extends AppCompatActivity {
         } else {
             fabIV.setImageResource(R.drawable.ic_play_arrow);
         }
-
-
-        // DP = PX / getDisplayMetrics().density
-//        Toast.makeText(this, getResources().getDisplayMetrics().scaledDensity + "", Toast.LENGTH_SHORT).show();
 
 
         // Setup interval and chord text size
@@ -363,84 +354,6 @@ public class MainActivity extends AppCompatActivity {
         MyApplication.activityPaused();
         setDontTurnOffScreen(false);
     }
-
-
-
-
-
-//    // coords calculating from center
-//    private void startAnimation(final View view, final float startX, final float startY, final float finalX, final float finalY,
-//                                final int finalWidth, final int finalHeight, final int tickMS, final int steps) {
-//
-//        final int startingWidth = view.getWidth();
-//        final int startingHeight = view.getHeight();
-//
-//        Thread animationThread = new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//                for(int i = 1; i <= steps; i++) {
-//                    final int thisStep = i;
-//                    MainActivity.this.runOnUiThread(new Runnable() {
-//                        @Override
-//                        public void run() {
-//                            ViewGroup.LayoutParams fabIVSizeRules = fabIV.getLayoutParams();
-//                            int height_width_value = (finalWidth-startingWidth)/steps * thisStep + startingWidth;
-//
-//                            fabIV.setPadding(height_width_value/5, height_width_value/5, height_width_value/5, height_width_value/5);
-//                            fabIVSizeRules.width = height_width_value;
-//                            fabIVSizeRules.height = height_width_value;
-//                            fabIV.setLayoutParams(fabIVSizeRules);
-//                        }
-//                    });
-//
-//                    if(view.getWidth() == finalWidth && view.getHeight() == finalHeight) {
-//                        break;
-//                    }
-//
-//                    try {
-//                        Thread.sleep(tickMS);
-//                    } catch (Exception e) {}
-//
-//                }
-//
-//                for(int i = 1; i <= steps; i++) {
-//                    final int thisStep = i;
-//                    MainActivity.this.runOnUiThread(new Runnable() {
-//                        @Override
-//                        public void run() {
-//                            view.setX((finalX-startX)/steps * thisStep + startX - fabIV.getWidth()/2);
-//                            view.setY((finalY-startY)/steps * thisStep + startY - fabIV.getWidth()/2);
-//                        }
-//                    });
-//
-//                    if(view.getX() == finalX && view.getY() == finalY) {
-//                        break;
-//                    }
-//
-//                    try {
-//                        Thread.sleep(tickMS);
-//                    } catch (Exception e) {}
-//
-//                }
-//
-//            }
-//        });
-//        animationThread.start();
-//    }
-//
-//    private void startPlayAnimation() {
-//        startAnimation(fabIV, fabIV.getX()+fabIV.getWidth()/2, fabIV.getY()+fabIV.getHeight()/2,
-//                progressBarParentLayout.getX()+progressBarParentLayout.getWidth()/2,
-//                progressBarParentLayout.getY()+progressBarParentLayout.getHeight() - fabIV.getHeight()/2,
-//                75, 75, 16, 20);
-//    }
-//
-//    private void startStopAnimation() {
-//        startAnimation(fabIV, fabIV.getX()+fabIV.getWidth()/2, fabIV.getY()+fabIV.getHeight()/2,
-//                progressBarParentLayout.getX()+progressBarParentLayout.getWidth()/2,
-//                progressBarParentLayout.getY()+progressBarParentLayout.getHeight()/2,
-//                250, 250, 16, 20);
-//    }
 
 }
 

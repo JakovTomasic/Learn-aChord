@@ -1,24 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    android:id="@+id/main_activity_parent_layout"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_activity_parent_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
-    android:background="@color/mainActivityBackground">
+    android:background="@color/mainActivityBackground"
+    tools:context=".MainActivity">
 
     <ListView
         android:id="@+id/what_intervals_list_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="20dp"
-        android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
-        android:clickable="false"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="@dimen/what_intervals_list_margin"
         android:background="@drawable/background_what_intervals_list_view"
-        android:paddingTop="5dp"
-        android:paddingBottom="5dp"/>
+        android:clickable="false"
+        android:paddingTop="@dimen/what_intervals_list_padding"
+        android:paddingBottom="@dimen/what_intervals_list_padding" />
 
 
     <LinearLayout
@@ -30,13 +29,13 @@
 
         <TextView
             android:id="@+id/chord_text_view"
+            style="@style/chordTextStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="58sp"
-            android:textAllCaps="false"
             android:gravity="center"
-            style="@style/chordTextStyle"
-            tools:text="MD"/>
+            android:textAllCaps="false"
+            android:textSize="58sp"
+            tools:text="MD" />
 
 
         <LinearLayout
@@ -46,134 +45,106 @@
 
             <TextView
                 android:id="@+id/chord_number_one"
+                style="@style/chordTextStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
-                android:textSize="27sp"
-                android:textAllCaps="false"
-                android:gravity="bottom|center_horizontal"
                 android:layout_weight="1"
+                android:gravity="bottom|center_horizontal"
                 android:includeFontPadding="false"
                 android:text=""
-                style="@style/chordTextStyle"
-                tools:text="6"/>
+                android:textAllCaps="false"
+                android:textSize="27sp"
+                tools:text="6" />
 
             <TextView
                 android:id="@+id/chord_number_two"
+                style="@style/chordTextStyle"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:textSize="27sp"
-                android:textAllCaps="false"
-                android:gravity="top|center_horizontal"
                 android:layout_weight="1"
+                android:gravity="top|center_horizontal"
                 android:includeFontPadding="false"
                 android:text=""
-                style="@style/chordTextStyle"
-                tools:text="5"/>
-
-            <!--<TextView-->
-                <!--android:id="@+id/chord_number_three"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="0dp"-->
-                <!--android:textSize="27sp"-->
-                <!--android:textAllCaps="false"-->
-                <!--android:gravity="top|center_horizontal"-->
-                <!--android:layout_weight="1"-->
-                <!--android:includeFontPadding="false"-->
-                <!--android:text=""-->
-                <!--android:visibility="gone"-->
-                <!--style="@style/chordTextStyle"-->
-                <!--tools:text="5"/>-->
+                android:textAllCaps="false"
+                android:textSize="27sp"
+                tools:text="5" />
 
         </LinearLayout>
 
     </LinearLayout>
 
-    <!--<ListView-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_alignParentBottom="true"-->
-        <!--android:layout_alignParentLeft="true"-->
-        <!--android:layout_alignParentStart="true">-->
-
-    <!--</ListView>-->
 
     <RelativeLayout
         android:id="@+id/progress_bar_ring_parent_layout"
+        style="@style/quizChooseModeButtonStyle"
         android:layout_width="255dp"
         android:layout_height="255dp"
-        android:layout_centerInParent="true"
-        style="@style/quizChooseModeButtonStyle">
+        android:layout_centerInParent="true">
 
         <ProgressBar
             android:id="@+id/background_ring_progress_bar"
+            style="?android:progressBarStyleHorizontal"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            style="?android:progressBarStyleHorizontal"
+            android:indeterminate="false"
             android:progress="75"
             android:progressDrawable="@drawable/progress_ring"
-            android:indeterminate="false"
-            android:rotation="135"/>
+            android:rotation="135" />
 
         <ProgressBar
             android:id="@+id/ring_playing_progress_bar"
+            style="?android:progressBarStyleHorizontal"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            style="?android:progressBarStyleHorizontal"
-            android:progress="0"
-            android:progressDrawable="@drawable/ring_progress_bar_template"
             android:layout_centerInParent="true"
             android:indeterminate="false"
-            android:rotation="135"/>
+            android:progress="0"
+            android:progressDrawable="@drawable/ring_progress_bar_template"
+            android:rotation="135" />
 
     </RelativeLayout>
 
-    <!--android:foreground="?android:attr/selectableItemBackground"-->
-
-    <!--android:layout_centerHorizontal="true"-->
-    <!--android:layout_alignBottom="@id/progress_bar_ring_parent_layout"-->
-    <!--android:layout_marginBottom="28dp"-->
     <ImageView
         android:id="@+id/fab"
         android:layout_width="200dp"
         android:layout_height="200dp"
         android:layout_centerInParent="true"
-        android:scaleType="centerCrop"
+        android:layout_marginBottom="@dimen/play_button_elevation_times_two"
+        android:background="@drawable/round_button"
         android:clickable="true"
+        android:contentDescription="@string/play_or_stop_button_content_description"
         android:focusable="true"
         android:padding="60dp"
-        android:contentDescription="@string/start_button_content_description"
+        android:scaleType="centerCrop"
         android:src="@drawable/ic_play_arrow"
-        android:background="@drawable/round_button"
-        android:translationZ="@dimen/play_button_elevation"
-        android:layout_marginBottom="@dimen/play_button_elevation_times_two"/>
+        android:translationZ="@dimen/play_button_elevation" />
 
 
     <RelativeLayout
         android:id="@+id/quiz_icon_parent_clickable_layout"
         android:layout_width="75dp"
         android:layout_height="75dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="20dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
         android:clickable="true"
         android:focusable="true">
 
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:src="@drawable/ic_quiz"/>
+            android:contentDescription="@string/open_quiz_button_content_description"
+            android:src="@drawable/ic_quiz" />
 
         <!--For showing click animation-->
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:src="?android:attr/selectableItemBackground"/>
+            android:src="?android:attr/selectableItemBackground" />
 
 
     </RelativeLayout>
-
-
 
 
 </RelativeLayout>

@@ -166,7 +166,7 @@ public class IntervalsDbHelper extends SQLiteOpenHelper {
         stringBuilder.append( Integer.toString(DataContract.UserPrefEntry.CHECKBOX_NOT_CHECKED) ).append(endString);
         stringBuilder.append( Integer.toString(DataContract.UserPrefEntry.DEFAULT_TONES_SEPARATION_TIME) ).append(endString);
         stringBuilder.append( Integer.toString(DataContract.UserPrefEntry.DEFAULT_INTERVAL_DURATION_TIME) ).append(endString);
-        stringBuilder.append( Integer.toString(MyApplication.DEFAULT_SYSTEM_LANGUAGE) ).append(endString);
+        stringBuilder.append( Integer.toString(DatabaseData.DEFAULT_SYSTEM_LANGUAGE) ).append(endString);
         stringBuilder.append( Integer.toString(1) ).append(endString);
         stringBuilder.append( Integer.toString(DataContract.UserPrefEntry.NUMBER_OF_KEYS) ).append(endString);
         stringBuilder.append( Integer.toString(DataContract.UserPrefEntry.CHECKBOX_CHECKED) ).append(endString);

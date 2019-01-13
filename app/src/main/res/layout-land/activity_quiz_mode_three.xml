@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -17,16 +16,16 @@
 
         <ProgressBar
             android:id="@+id/ring_playing_progress_bar"
+            style="?android:progressBarStyleHorizontal"
             android:layout_width="75dp"
             android:layout_height="75dp"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
-            style="?android:progressBarStyleHorizontal"
-            android:progress="0"
-            tools:progress="75"
-            android:progressDrawable="@drawable/quiz_progress_ring"
             android:indeterminate="false"
-            android:rotation="270"/>
+            android:progress="0"
+            android:progressDrawable="@drawable/quiz_progress_ring"
+            android:rotation="270"
+            tools:progress="75" />
 
         <TextView
             android:id="@+id/quiz_score_text_view"
@@ -34,21 +33,22 @@
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
-            android:textColor="@color/darkTextColor"
             android:layout_marginLeft="20dp"
             android:layout_toRightOf="@id/ring_playing_progress_bar"
-            tools:text="16"/>
+            android:textColor="@color/darkTextColor"
+            tools:text="16" />
 
         <ImageView
             android:id="@+id/pause_clickable_image_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_quiz_circle_pause"
-            android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
-            android:visibility="invisible"
+            android:layout_alignParentRight="true"
             android:clickable="true"
-            android:focusable="true"/>
+            android:contentDescription="@string/pause_quiz_button_content_description"
+            android:focusable="true"
+            android:src="@drawable/ic_quiz_circle_pause"
+            android:visibility="invisible" />
 
     </RelativeLayout>
 
@@ -58,16 +58,16 @@
         android:layout_width="200dp"
         android:layout_height="200dp"
         android:layout_centerInParent="true"
-        android:scaleType="centerCrop"
+        android:layout_marginBottom="@dimen/play_button_elevation_times_two"
+        android:background="@drawable/quiz_round_button"
         android:clickable="true"
+        android:contentDescription="@string/start_quiz_button_content_description"
         android:focusable="true"
         android:padding="60dp"
-        android:contentDescription="@string/start_button_content_description"
+        android:scaleType="centerCrop"
         android:src="@drawable/ic_play_arrow"
-        android:background="@drawable/quiz_round_button"
-        android:visibility="visible"
         android:translationZ="@dimen/play_button_elevation"
-        android:layout_marginBottom="@dimen/play_button_elevation_times_two"/>
+        android:visibility="visible" />
 
 
     <LinearLayout
@@ -84,49 +84,45 @@
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
             android:hint="@string/search"
-            android:maxLength="10"
             android:imeOptions="actionDone"
-            android:selectAllOnFocus="true"
             android:inputType="text"
-            android:textColor="@color/darkTextColor"/>
+            android:maxLength="10"
+            android:selectAllOnFocus="true"
+            android:textColor="@color/darkTextColor" />
 
         <ListView
             android:id="@+id/quiz_mode_three_select_answer_list_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/background_quiz_mode_three_list"/>
+            android:background="@drawable/background_quiz_mode_three_list" />
 
     </LinearLayout>
-
-
-
 
 
     <RelativeLayout
         android:id="@+id/quiz_mode_three_submit_answer_clickable_layout"
         android:layout_width="75dp"
         android:layout_height="75dp"
-        android:clickable="true"
-        android:focusable="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
         android:layout_marginRight="10dp"
-        android:layout_marginBottom="10dp">
+        android:layout_marginBottom="10dp"
+        android:clickable="true"
+        android:focusable="true">
 
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:src="@drawable/ic_quiz_true"/>
+            android:contentDescription="@string/quiz_submit_answer_content_description"
+            android:src="@drawable/ic_quiz_true" />
 
         <!--For showing click animation-->
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:src="?android:attr/selectableItemBackground"/>
+            android:src="?android:attr/selectableItemBackground" />
 
     </RelativeLayout>
-
-
 
 
 </RelativeLayout>

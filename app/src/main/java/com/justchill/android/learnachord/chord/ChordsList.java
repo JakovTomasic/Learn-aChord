@@ -6,6 +6,7 @@ import android.content.res.Resources;
 import com.justchill.android.learnachord.LocaleHelper;
 import com.justchill.android.learnachord.MyApplication;
 import com.justchill.android.learnachord.R;
+import com.justchill.android.learnachord.database.DatabaseData;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -143,56 +144,56 @@ public final class ChordsList {
         Context context = LocaleHelper.setLocale(tempContext, LocaleHelper.getLanguageLabel());
         Resources resources = context.getResources();
 
-        getChord(0).setChordName(readResource(R.string.chord_durski, resources));
-        getChord(1).setChordName(readResource(R.string.chord_durski, resources));
-        getChord(2).setChordName(readResource(R.string.chord_durski, resources));
+        getChord(0).setName(readResource(R.string.chord_durski, resources));
+        getChord(1).setName(readResource(R.string.chord_durski, resources));
+        getChord(2).setName(readResource(R.string.chord_durski, resources));
 
-        getChord(3).setChordName(readResource(R.string.chord_molski, resources));
-        getChord(4).setChordName(readResource(R.string.chord_molski, resources));
-        getChord(5).setChordName(readResource(R.string.chord_molski, resources));
+        getChord(3).setName(readResource(R.string.chord_molski, resources));
+        getChord(4).setName(readResource(R.string.chord_molski, resources));
+        getChord(5).setName(readResource(R.string.chord_molski, resources));
 
-        getChord(6).setChordName(readResource(R.string.chord_smanjeni_kvintakord, resources));
-        getChord(7).setChordName(readResource(R.string.chord_smanjeni_kvintakord, resources));
-        getChord(8).setChordName(readResource(R.string.chord_smanjeni_kvintakord, resources));
+        getChord(6).setName(readResource(R.string.chord_smanjeni_kvintakord, resources));
+        getChord(7).setName(readResource(R.string.chord_smanjeni_kvintakord, resources));
+        getChord(8).setName(readResource(R.string.chord_smanjeni_kvintakord, resources));
 
-        getChord(9).setChordName(readResource(R.string.chord_povecani, resources));
+        getChord(9).setName(readResource(R.string.chord_povecani, resources));
 
-        getChord(10).setChordName(readResource(R.string.chord_dominantni, resources));
-        getChord(11).setChordName(readResource(R.string.chord_dominantni, resources));
-        getChord(12).setChordName(readResource(R.string.chord_dominantni, resources));
-        getChord(13).setChordName(readResource(R.string.chord_dominantni, resources));
+        getChord(10).setName(readResource(R.string.chord_dominantni, resources));
+        getChord(11).setName(readResource(R.string.chord_dominantni, resources));
+        getChord(12).setName(readResource(R.string.chord_dominantni, resources));
+        getChord(13).setName(readResource(R.string.chord_dominantni, resources));
 
-        getChord(14).setChordName(readResource(R.string.chord_veliki_durski, resources));
-        getChord(15).setChordName(readResource(R.string.chord_veliki_durski, resources));
-        getChord(16).setChordName(readResource(R.string.chord_veliki_durski, resources));
-        getChord(17).setChordName(readResource(R.string.chord_veliki_durski, resources));
+        getChord(14).setName(readResource(R.string.chord_veliki_durski, resources));
+        getChord(15).setName(readResource(R.string.chord_veliki_durski, resources));
+        getChord(16).setName(readResource(R.string.chord_veliki_durski, resources));
+        getChord(17).setName(readResource(R.string.chord_veliki_durski, resources));
 
-        getChord(18).setChordName(readResource(R.string.chord_mali_molski, resources));
-        getChord(19).setChordName(readResource(R.string.chord_mali_molski, resources));
-        getChord(20).setChordName(readResource(R.string.chord_mali_molski, resources));
-        getChord(21).setChordName(readResource(R.string.chord_mali_molski, resources));
+        getChord(18).setName(readResource(R.string.chord_mali_molski, resources));
+        getChord(19).setName(readResource(R.string.chord_mali_molski, resources));
+        getChord(20).setName(readResource(R.string.chord_mali_molski, resources));
+        getChord(21).setName(readResource(R.string.chord_mali_molski, resources));
 
-        getChord(22).setChordName(readResource(R.string.chord_mali_smanjeni, resources));
-        getChord(23).setChordName(readResource(R.string.chord_mali_smanjeni, resources));
-        getChord(24).setChordName(readResource(R.string.chord_mali_smanjeni, resources));
-        getChord(25).setChordName(readResource(R.string.chord_mali_smanjeni, resources));
+        getChord(22).setName(readResource(R.string.chord_mali_smanjeni, resources));
+        getChord(23).setName(readResource(R.string.chord_mali_smanjeni, resources));
+        getChord(24).setName(readResource(R.string.chord_mali_smanjeni, resources));
+        getChord(25).setName(readResource(R.string.chord_mali_smanjeni, resources));
 
-        getChord(26).setChordName(readResource(R.string.chord_veliki_molski, resources));
-        getChord(27).setChordName(readResource(R.string.chord_veliki_molski, resources));
-        getChord(28).setChordName(readResource(R.string.chord_veliki_molski, resources));
-        getChord(29).setChordName(readResource(R.string.chord_veliki_molski, resources));
+        getChord(26).setName(readResource(R.string.chord_veliki_molski, resources));
+        getChord(27).setName(readResource(R.string.chord_veliki_molski, resources));
+        getChord(28).setName(readResource(R.string.chord_veliki_molski, resources));
+        getChord(29).setName(readResource(R.string.chord_veliki_molski, resources));
 
-        getChord(30).setChordName(readResource(R.string.chord_veliki_povecani, resources));
-        getChord(31).setChordName(readResource(R.string.chord_veliki_povecani, resources));
-        getChord(32).setChordName(readResource(R.string.chord_veliki_povecani, resources));
-        getChord(33).setChordName(readResource(R.string.chord_veliki_povecani, resources));
+        getChord(30).setName(readResource(R.string.chord_veliki_povecani, resources));
+        getChord(31).setName(readResource(R.string.chord_veliki_povecani, resources));
+        getChord(32).setName(readResource(R.string.chord_veliki_povecani, resources));
+        getChord(33).setName(readResource(R.string.chord_veliki_povecani, resources));
 
-        getChord(34).setChordName(readResource(R.string.chord_smanjeni_septakord, resources));
+        getChord(34).setName(readResource(R.string.chord_smanjeni_septakord, resources));
 
-        getChord(35).setChordName(readResource(R.string.chord_veliki_dominantni, resources));
-        getChord(36).setChordName(readResource(R.string.chord_mali_durski_nonakord, resources));
-        getChord(37).setChordName(readResource(R.string.chord_mali_molski_nonakord, resources));
-        getChord(38).setChordName(readResource(R.string.chord_veliki_durski_nonakord, resources));
+        getChord(35).setName(readResource(R.string.chord_veliki_dominantni, resources));
+        getChord(36).setName(readResource(R.string.chord_mali_durski_nonakord, resources));
+        getChord(37).setName(readResource(R.string.chord_mali_molski_nonakord, resources));
+        getChord(38).setName(readResource(R.string.chord_veliki_durski_nonakord, resources));
 
     }
 
@@ -210,7 +211,7 @@ public final class ChordsList {
         return ALL_CHORDS;
     }
 
-    // TODO: smarten this, in IntervalsList too
+    // TODO: make this more efficient, in IntervalsList too
     public static int getCheckedChordsCount() {
         int counter = 0;
         for(int i = 0; i < getChordsCount(); i++) {
@@ -224,10 +225,7 @@ public final class ChordsList {
     public static int getCheckedChordsCountIncludingRange() {
         int counter = 0;
         for(int i = 0; i < getChordsCount(); i++) {
-            if(!isChordInsideBorders(getChord(i))) {
-                return counter;
-            }
-            if(getChord(i).getIsChecked()) {
+            if(getChord(i).getIsChecked() && isChordInsideBorders(getChord(i))) {
                 counter++;
             }
         }
@@ -237,10 +235,7 @@ public final class ChordsList {
     public static int getPlayableChordsCount() {
         int counter = 0;
         for(int i = 0; i < getChordsCount(); i++) {
-            if(!isChordInsideBorders(getChord(i))) {
-                return counter;
-            }
-            if(getChord(i).isPlayableCountdownFinished() && getChord(i).getIsChecked()) {
+            if(isChordPlayable(getChord(i))) {
                 counter++;
             }
         }
@@ -251,12 +246,9 @@ public final class ChordsList {
         return chord.isPlayableCountdownFinished() && chord.getIsChecked() && isChordInsideBorders(chord);
     }
 
+    // Return chord if it has not been played for too long time
     private static Chord mustBePlayed() {
         for(int i = 0; i < getChordsCount(); i++) {
-            if(!isChordInsideBorders(getChord(i))) {
-                return null;
-            }
-            // TODO: maybe change this hardcoded constant
             if(getChord(i).getIsChecked() && getChord(i).notPlayedFor > (getPlayableChordsCount() + IntervalsList.getPlayableIntervalsCount()) * 2) {
                 return getChord(i);
             }
@@ -305,14 +297,12 @@ public final class ChordsList {
         return null;
     }
 
-    // TODO: merge this with intervals
     public static void tickAllPlayableCountdowns() {
         for(int i = 0; i < getChordsCount(); i++) {
             getChord(i).tickPlayableCountdown();
         }
     }
 
-    // TODO: merge this with intervals
     public static void increaseNotPlayedFor() {
         for(int i = 0; i < getChordsCount(); i++) {
             getChord(i).notPlayedFor++;
@@ -325,7 +315,6 @@ public final class ChordsList {
         }
     }
 
-    // TODO: merge this with intervals, maybe
     public static Chord getBiggestCheckedChord() {
         Chord biggest = getChord(0);
         for(int i = 0; i < getChordsCount(); i++) {
@@ -340,7 +329,7 @@ public final class ChordsList {
     }
 
     public static boolean isChordInsideBorders(Chord chord) {
-        return chord.getDifference() <= MyApplication.upKeyBorder - MyApplication.downKeyBorder;
+        return chord.getDifference() <= DatabaseData.upKeyBorder - DatabaseData.downKeyBorder;
     }
 
     public static void uncheckOutOfRangeChords() {

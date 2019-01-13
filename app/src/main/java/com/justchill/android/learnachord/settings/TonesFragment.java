@@ -9,8 +9,9 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 
 import com.justchill.android.learnachord.LocaleHelper;
-import com.justchill.android.learnachord.MyApplication;
 import com.justchill.android.learnachord.R;
+import com.justchill.android.learnachord.database.DatabaseData;
+import com.justchill.android.learnachord.database.DatabaseHandler;
 
 
 public class TonesFragment extends Fragment {
@@ -32,30 +33,30 @@ public class TonesFragment extends Fragment {
 
         whatToneClickableView = fragmentView.findViewById(R.id.what_tone_parent_layout);
         whatToneCheckBox = fragmentView.findViewById(R.id.what_tone_check_box);
-        whatToneCheckBox.setChecked(MyApplication.playWhatTone);
+        whatToneCheckBox.setChecked(DatabaseData.playWhatTone);
         whatToneClickableView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                MyApplication.playWhatTone = !MyApplication.playWhatTone;
+                DatabaseData.playWhatTone = !DatabaseData.playWhatTone;
 
-                whatToneCheckBox.setChecked(MyApplication.playWhatTone);
+                whatToneCheckBox.setChecked(DatabaseData.playWhatTone);
 
-                MyApplication.setDoesDbNeedUpdate(true);
+                DatabaseHandler.setDoesDbNeedUpdate(true);
             }
         });
 
 
         octaveOptionClickableView = fragmentView.findViewById(R.id.what_octave_parent_layout);
         octaveOptionCheckBox = fragmentView.findViewById(R.id.what_octave_check_box);
-        octaveOptionCheckBox.setChecked(MyApplication.playWhatOctave);
+        octaveOptionCheckBox.setChecked(DatabaseData.playWhatOctave);
         octaveOptionClickableView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                MyApplication.playWhatOctave = !MyApplication.playWhatOctave;
+                DatabaseData.playWhatOctave = !DatabaseData.playWhatOctave;
 
-                octaveOptionCheckBox.setChecked(MyApplication.playWhatOctave);
+                octaveOptionCheckBox.setChecked(DatabaseData.playWhatOctave);
 
-                MyApplication.setDoesDbNeedUpdate(true);
+                DatabaseHandler.setDoesDbNeedUpdate(true);
             }
         });
 

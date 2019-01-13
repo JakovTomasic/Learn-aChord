@@ -6,12 +6,14 @@ import android.content.res.Resources;
 import com.justchill.android.learnachord.LocaleHelper;
 import com.justchill.android.learnachord.MyApplication;
 import com.justchill.android.learnachord.R;
+import com.justchill.android.learnachord.database.DatabaseData;
 
 import java.util.ArrayList;
 import java.util.Random;
 
 public final class IntervalsList {
 
+    // This list if ordered by size (ascending)
     private static final ArrayList<Interval> ALL_INTERVALS = new ArrayList<>();
 
     static {
@@ -68,37 +70,37 @@ public final class IntervalsList {
         Context context = LocaleHelper.setLocale(tempContext, LocaleHelper.getLanguageLabel());
         Resources resources = context.getResources();
 
-        getInterval(0).setIntervalName(readResource(R.string.interval_cista_prima, resources));
-        getInterval(1).setIntervalName(readResource(R.string.interval_mala_sekunda, resources));
-        getInterval(2).setIntervalName(readResource(R.string.interval_velika_sekunda, resources));
-        getInterval(3).setIntervalName(readResource(R.string.interval_mala_terca, resources));
-        getInterval(4).setIntervalName(readResource(R.string.interval_velika_terca, resources));
-//        getInterval(4).setIntervalName(readResource(R.string.interval_smanjena_kvarta, resources));
-        getInterval(5).setIntervalName(readResource(R.string.interval_cista_kvarta, resources));
-        getInterval(6).setIntervalName(readResource(R.string.interval_povecana_kvarta, resources) + "/" +
+        getInterval(0).setName(readResource(R.string.interval_cista_prima, resources));
+        getInterval(1).setName(readResource(R.string.interval_mala_sekunda, resources));
+        getInterval(2).setName(readResource(R.string.interval_velika_sekunda, resources));
+        getInterval(3).setName(readResource(R.string.interval_mala_terca, resources));
+        getInterval(4).setName(readResource(R.string.interval_velika_terca, resources));
+//        getInterval(4).setName(readResource(R.string.interval_smanjena_kvarta, resources));
+        getInterval(5).setName(readResource(R.string.interval_cista_kvarta, resources));
+        getInterval(6).setName(readResource(R.string.interval_povecana_kvarta, resources) + "/" +
                 readResource(R.string.interval_smanjena_kvinta, resources));
-//        getInterval(6).setIntervalName(readResource(R.string.interval_smanjena_kvinta, resources));
-        getInterval(7).setIntervalName(readResource(R.string.interval_cista_kvinta, resources));
-//        getInterval(8).setIntervalName(readResource(R.string.interval_povecana_kvinta, resources));
-        getInterval(8).setIntervalName(readResource(R.string.interval_mala_seksta, resources));
-        getInterval(9).setIntervalName(readResource(R.string.interval_velika_seksta, resources));
-        getInterval(10).setIntervalName(readResource(R.string.interval_mala_septima, resources));
-        getInterval(11).setIntervalName(readResource(R.string.interval_velika_septima, resources));
-        getInterval(12).setIntervalName(readResource(R.string.interval_cista_oktava, resources));
+//        getInterval(6).setName(readResource(R.string.interval_smanjena_kvinta, resources));
+        getInterval(7).setName(readResource(R.string.interval_cista_kvinta, resources));
+//        getInterval(8).setName(readResource(R.string.interval_povecana_kvinta, resources));
+        getInterval(8).setName(readResource(R.string.interval_mala_seksta, resources));
+        getInterval(9).setName(readResource(R.string.interval_velika_seksta, resources));
+        getInterval(10).setName(readResource(R.string.interval_mala_septima, resources));
+        getInterval(11).setName(readResource(R.string.interval_velika_septima, resources));
+        getInterval(12).setName(readResource(R.string.interval_cista_oktava, resources));
 
-        getInterval(13).setIntervalName(readResource(R.string.interval_mala_nona, resources));
-        getInterval(14).setIntervalName(readResource(R.string.interval_velika_nona, resources));
-        getInterval(15).setIntervalName(readResource(R.string.interval_mala_decima, resources));
-        getInterval(16).setIntervalName(readResource(R.string.interval_velika_decima, resources));
-        getInterval(17).setIntervalName(readResource(R.string.interval_cista_undecima, resources));
-        getInterval(18).setIntervalName(readResource(R.string.interval_povecana_undecima, resources) + "/" +
+        getInterval(13).setName(readResource(R.string.interval_mala_nona, resources));
+        getInterval(14).setName(readResource(R.string.interval_velika_nona, resources));
+        getInterval(15).setName(readResource(R.string.interval_mala_decima, resources));
+        getInterval(16).setName(readResource(R.string.interval_velika_decima, resources));
+        getInterval(17).setName(readResource(R.string.interval_cista_undecima, resources));
+        getInterval(18).setName(readResource(R.string.interval_povecana_undecima, resources) + "/" +
                 readResource(R.string.interval_smanjena_duodecima, resources));
-        getInterval(19).setIntervalName(readResource(R.string.interval_cista_duodecima, resources));
-        getInterval(20).setIntervalName(readResource(R.string.interval_mala_tercdecima, resources));
-        getInterval(21).setIntervalName(readResource(R.string.interval_velika_tercdecima, resources));
-        getInterval(22).setIntervalName(readResource(R.string.interval_mala_kvartdecima, resources));
-        getInterval(23).setIntervalName(readResource(R.string.interval_velika_kvartdecima, resources));
-        getInterval(24).setIntervalName(readResource(R.string.interval_cista_kvintdecima, resources));
+        getInterval(19).setName(readResource(R.string.interval_cista_duodecima, resources));
+        getInterval(20).setName(readResource(R.string.interval_mala_tercdecima, resources));
+        getInterval(21).setName(readResource(R.string.interval_velika_tercdecima, resources));
+        getInterval(22).setName(readResource(R.string.interval_mala_kvartdecima, resources));
+        getInterval(23).setName(readResource(R.string.interval_velika_kvartdecima, resources));
+        getInterval(24).setName(readResource(R.string.interval_cista_kvintdecima, resources));
 
     }
 
@@ -129,6 +131,7 @@ public final class IntervalsList {
     public static int getCheckedIntervalCountIncludingRange() {
         int counter = 0;
         for(int i = 0; i < getIntervalsCount(); i++) {
+            // List is ordered, if intervals is too big, return counter
             if(!isIntervalInsideBorders(getInterval(i))) {
                 return counter;
             }
@@ -142,6 +145,7 @@ public final class IntervalsList {
     public static int getPlayableIntervalsCount() {
         int counter = 0;
         for(int i = 0; i < getIntervalsCount(); i++) {
+            // List is ordered, if intervals is too big, return counter
             if(!isIntervalInsideBorders(getInterval(i))) {
                 return counter;
             }
@@ -156,12 +160,13 @@ public final class IntervalsList {
         return interval.isPlayableCountdownFinished() && interval.getIsChecked() && isIntervalInsideBorders(interval);
     }
 
+    // Return interval if it has not been played for too long time
     private static Interval mustBePlayed() {
         for(int i = 0; i < getIntervalsCount(); i++) {
+            // List is ordered, if intervals is too big, it's not playable (and all bigger intervals) - return null
             if(!isIntervalInsideBorders(getInterval(i))) {
                 return null;
             }
-            // TODO: maybe change this hardcoded constant
             if(getInterval(i).getIsChecked() && getInterval(i).notPlayedFor > (ChordsList.getPlayableChordsCount() + getPlayableIntervalsCount()) * 2) {
                 return getInterval(i);
             }
@@ -239,7 +244,7 @@ public final class IntervalsList {
     }
 
     public static boolean isIntervalInsideBorders(Interval interval) {
-        return interval.getDifference() <= MyApplication.upKeyBorder - MyApplication.downKeyBorder;
+        return interval.getDifference() <= DatabaseData.upKeyBorder - DatabaseData.downKeyBorder;
     }
 
     public static void uncheckOutOfRangeIntervals() {

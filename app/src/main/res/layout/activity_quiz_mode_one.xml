@@ -1,28 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/quizBackgroundColor"
-    android:padding="20dp">
+    android:padding="@dimen/quiz_padding">
 
     <!--IDs are same as in MainActivity for code reusability-->
 
 
-
     <ProgressBar
         android:id="@+id/ring_playing_progress_bar"
+        style="?android:progressBarStyleHorizontal"
         android:layout_width="75dp"
         android:layout_height="75dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        style="?android:progressBarStyleHorizontal"
-        android:progress="0"
-        tools:progress="75"
-        android:progressDrawable="@drawable/quiz_progress_ring"
         android:indeterminate="false"
-        android:rotation="270"/>
+        android:progress="0"
+        android:progressDrawable="@drawable/quiz_progress_ring"
+        android:rotation="270"
+        tools:progress="75" />
 
     <TextView
         android:id="@+id/quiz_score_text_view"
@@ -30,20 +28,21 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:textColor="@color/darkTextColor"
         android:layout_marginLeft="20dp"
-        tools:text="16"/>
+        android:textColor="@color/darkTextColor"
+        tools:text="16" />
 
     <ImageView
         android:id="@+id/pause_clickable_image_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_quiz_circle_pause"
-        android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
-        android:visibility="invisible"
+        android:layout_alignParentRight="true"
         android:clickable="true"
-        android:focusable="true"/>
+        android:contentDescription="@string/pause_quiz_button_content_description"
+        android:focusable="true"
+        android:src="@drawable/ic_quiz_circle_pause"
+        android:visibility="invisible" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -54,8 +53,8 @@
         <View
             android:layout_width="0dp"
             android:layout_height="1px"
-            android:visibility="invisible"
-            android:layout_weight="3"/>
+            android:layout_weight="3"
+            android:visibility="invisible" />
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -72,18 +71,18 @@
                 <View
                     android:layout_width="0dp"
                     android:layout_height="1px"
-                    android:visibility="invisible"
-                    android:layout_weight="1"/>
+                    android:layout_weight="1"
+                    android:visibility="invisible" />
 
                 <TextView
                     android:id="@+id/chord_text_view"
+                    style="@style/chordTextStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="58sp"
-                    android:textAllCaps="false"
                     android:gravity="center"
-                    style="@style/chordTextStyle"
-                    tools:text="MD"/>
+                    android:textAllCaps="false"
+                    android:textSize="58sp"
+                    tools:text="MD" />
 
 
                 <LinearLayout
@@ -93,29 +92,29 @@
 
                     <TextView
                         android:id="@+id/chord_number_one"
+                        style="@style/chordTextStyle"
                         android:layout_width="wrap_content"
                         android:layout_height="0dp"
-                        android:textSize="27sp"
-                        android:textAllCaps="false"
-                        android:gravity="bottom|center_horizontal"
                         android:layout_weight="1"
+                        android:gravity="bottom|center_horizontal"
                         android:includeFontPadding="false"
                         android:text=""
-                        style="@style/chordTextStyle"
-                        tools:text="6"/>
+                        android:textAllCaps="false"
+                        android:textSize="27sp"
+                        tools:text="6" />
 
                     <TextView
                         android:id="@+id/chord_number_two"
+                        style="@style/chordTextStyle"
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
-                        android:textSize="27sp"
-                        android:textAllCaps="false"
-                        android:gravity="top|center_horizontal"
                         android:layout_weight="1"
+                        android:gravity="top|center_horizontal"
                         android:includeFontPadding="false"
                         android:text=""
-                        style="@style/chordTextStyle"
-                        tools:text="5"/>
+                        android:textAllCaps="false"
+                        android:textSize="27sp"
+                        tools:text="5" />
 
 
                 </LinearLayout>
@@ -124,38 +123,36 @@
                 <View
                     android:layout_width="0dp"
                     android:layout_height="1px"
-                    android:visibility="invisible"
-                    android:layout_weight="1"/>
+                    android:layout_weight="1"
+                    android:visibility="invisible" />
 
             </LinearLayout>
 
-            <!--TODO: add contentDescription everywhere-->
             <ImageView
                 android:id="@+id/start_clickable_image_view"
                 android:layout_width="200dp"
                 android:layout_height="200dp"
                 android:layout_centerInParent="true"
-                android:scaleType="centerCrop"
+                android:layout_marginBottom="@dimen/play_button_elevation_times_two"
+                android:background="@drawable/quiz_round_button"
                 android:clickable="true"
+                android:contentDescription="@string/start_quiz_button_content_description"
                 android:focusable="true"
                 android:padding="60dp"
-                android:contentDescription="@string/start_button_content_description"
+                android:scaleType="centerCrop"
                 android:src="@drawable/ic_play_arrow"
-                android:background="@drawable/quiz_round_button"
-                android:visibility="visible"
                 android:translationZ="@dimen/play_button_elevation"
-                android:layout_marginBottom="@dimen/play_button_elevation_times_two"/>
+                android:visibility="visible" />
 
         </RelativeLayout>
-
 
 
         <!--For equal positioning-->
         <View
             android:layout_width="0dp"
             android:layout_height="1px"
-            android:visibility="invisible"
-            android:layout_weight="2"/>
+            android:layout_weight="2"
+            android:visibility="invisible" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -166,8 +163,8 @@
             <View
                 android:layout_width="0dp"
                 android:layout_height="1px"
-                android:visibility="invisible"
-                android:layout_weight="1"/>
+                android:layout_weight="1"
+                android:visibility="invisible" />
 
             <RelativeLayout
                 android:id="@+id/true_answer_parent_layout"
@@ -179,13 +176,14 @@
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:src="@drawable/ic_quiz_true"/>
+                    android:contentDescription="@string/quiz_correct_answer_content_description"
+                    android:src="@drawable/ic_quiz_true" />
 
                 <!--For showing click animation-->
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:src="?android:attr/selectableItemBackground"/>
+                    android:src="?android:attr/selectableItemBackground" />
 
             </RelativeLayout>
 
@@ -194,8 +192,8 @@
             <View
                 android:layout_width="0dp"
                 android:layout_height="1px"
-                android:visibility="invisible"
-                android:layout_weight="2"/>
+                android:layout_weight="2"
+                android:visibility="invisible" />
 
 
             <RelativeLayout
@@ -208,13 +206,14 @@
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:src="@drawable/ic_quiz_false"/>
+                    android:contentDescription="@string/quiz_wrong_answer_content_description"
+                    android:src="@drawable/ic_quiz_false" />
 
                 <!--For showing click animation-->
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:src="?android:attr/selectableItemBackground"/>
+                    android:src="?android:attr/selectableItemBackground" />
 
             </RelativeLayout>
 
@@ -222,8 +221,8 @@
             <View
                 android:layout_width="0dp"
                 android:layout_height="1px"
-                android:visibility="invisible"
-                android:layout_weight="1"/>
+                android:layout_weight="1"
+                android:visibility="invisible" />
 
 
         </LinearLayout>
@@ -232,15 +231,10 @@
         <View
             android:layout_width="0dp"
             android:layout_height="1px"
-            android:visibility="invisible"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            android:visibility="invisible" />
 
     </LinearLayout>
-
-
-
-
-
 
 
 </RelativeLayout>

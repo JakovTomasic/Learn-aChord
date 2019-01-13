@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.justchill.android.learnachord.chord.Interval;
 import com.justchill.android.learnachord.chord.IntervalsList;
+import com.justchill.android.learnachord.database.DatabaseHandler;
 
 import java.util.ArrayList;
 
@@ -57,7 +58,7 @@ public class IntervalAdapter extends ArrayAdapter<Interval> {
             @Override
             public void onClick(View view) {
 //                Toast.makeText(getContext(), "numb: " + position, Toast.LENGTH_SHORT).show();
-                MyApplication.setDoesDbNeedUpdate(true);
+                DatabaseHandler.setDoesDbNeedUpdate(true);
                 onOff.setChecked(!onOff.isChecked());
 
                 if (currentInterval != null) {
@@ -84,7 +85,7 @@ public class IntervalAdapter extends ArrayAdapter<Interval> {
 
         if (currentInterval != null) {
             TextView intervalLabel = (TextView) settingsView.findViewById(R.id.settings_interval_text_view);
-            intervalLabel.setText(currentInterval.getIntervalName());
+            intervalLabel.setText(currentInterval.getName());
         }
 
         return settingsView;

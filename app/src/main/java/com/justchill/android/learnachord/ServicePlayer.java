@@ -22,6 +22,8 @@ import com.justchill.android.learnachord.chord.ChordsList;
 import com.justchill.android.learnachord.chord.Interval;
 import com.justchill.android.learnachord.chord.IntervalsList;
 import com.justchill.android.learnachord.database.DataContract;
+import com.justchill.android.learnachord.database.DatabaseData;
+import com.justchill.android.learnachord.quiz.QuizData;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -32,7 +34,7 @@ public class ServicePlayer extends Service {
     private static SoundPool soundPool;
     private int[] keySounds = new int[DataContract.UserPrefEntry.NUMBER_OF_KEYS]; // Now, there are 61 key sounds in raw R directory
     private boolean[] keySoundLoaded = new boolean[DataContract.UserPrefEntry.NUMBER_OF_KEYS];
-    private final int soundsToLoadBeforePlaying = 25; // TODO: optimize this
+    private final int soundsToLoadBeforePlaying = 25; // TODO: optimize this, loading sounds
     private boolean areAllSoundsLoaded = false;
 
     private AudioManager audioManager;
@@ -85,7 +87,7 @@ public class ServicePlayer extends Service {
             } else if (focusChange == AudioManager.AUDIOFOCUS_GAIN) {
                 // Resume playback
                 if(MyApplication.isPlaying()) {
-                    play((int)MyApplication.tonesSeparationTime, (int)MyApplication.delayBetweenChords, ++playingID);
+                    play((int) DatabaseData.tonesSeparationTime, (int) DatabaseData.delayBetweenChords, ++playingID);
                 }
             } else if (focusChange == AudioManager.AUDIOFOCUS_LOSS) {
                 // Stop playback
@@ -150,7 +152,7 @@ public class ServicePlayer extends Service {
                 for(int i = 0; i < DataContract.UserPrefEntry.NUMBER_OF_KEYS; i++) {
                     keySoundLoaded[i] = false;
                 }
-                loadSound(MyApplication.downKeyBorder, Math.min(MyApplication.downKeyBorder+soundsToLoadBeforePlaying,
+                loadSound(DatabaseData.downKeyBorder, Math.min(DatabaseData.downKeyBorder+soundsToLoadBeforePlaying,
                         DataContract.UserPrefEntry.NUMBER_OF_KEYS), true);
 
                 do {
@@ -179,14 +181,14 @@ public class ServicePlayer extends Service {
         };
         soundPoolSetupThread.start();
 
-        MyApplication.setListener(new MyApplication.ChangeListener() {
+        MyApplication.setServicePlayerListener(new MyApplication.ChangeListener() {
             @Override
             public void onIsPlayingChange() {
                 stop();
                 if(MyApplication.isPlaying()) {
-                    play((int)MyApplication.tonesSeparationTime, (int)MyApplication.delayBetweenChords, ++playingID);
+                    play((int) DatabaseData.tonesSeparationTime, (int) DatabaseData.delayBetweenChords, ++playingID);
                 } else {
-                    if(!MyApplication.isChordOrIntervalPlaying() && !MyApplication.quizPlayingCurrentThing) {
+                    if(!MyApplication.isChordOrIntervalPlaying() && !QuizData.quizPlayingCurrentThing) {
                         abandonAudioFocus();
                     }
                 }
@@ -201,15 +203,15 @@ public class ServicePlayer extends Service {
 
                 if(MyApplication.isPlaying()) {
                     if(currentChord != null) {
-                        if(MyApplication.appLanguage == DataContract.UserPrefEntry.LANGUAGE_ENGLISH && currentChord.getID() == MyApplication.MD9_ID) {
+                        if(DatabaseData.appLanguage == DataContract.UserPrefEntry.LANGUAGE_ENGLISH && currentChord.getID() == MyApplication.MD9_ID) {
                             // Mali durski/dominantni 9
                             updateTextView(MyApplication.MD9_ENG_TEXT, MyApplication.MD9_ENG_ONE, MyApplication.MD9_ENG_TWO);
                         } else {
                             // String.valueOf(null) == "null"
-                            updateTextView(currentChord.getChordName(), currentChord.getNumberOneAsString(), currentChord.getNumberTwoAsString());
+                            updateTextView(currentChord.getName(), currentChord.getNumberOneAsString(), currentChord.getNumberTwoAsString());
                         }
 
-                        if(globalShowWhatIntervals && MyApplication.showWhatIntervals) {
+                        if(globalShowWhatIntervals && DatabaseData.showWhatIntervals) {
                             setWhatIntervalsListViewVisibility(View.VISIBLE);
                         }
 
@@ -217,7 +219,7 @@ public class ServicePlayer extends Service {
                     } else {
                         setWhatIntervalsListViewVisibility(View.INVISIBLE);
                         if(currentInterval != null) {
-                            String text = currentInterval.getIntervalName();
+                            String text = currentInterval.getName();
                             // This interval has unique name (two rows)
                             if(currentInterval.getDifference() == 6) {
                                 text = readResource(R.string.interval_povecana_kvarta) + "\n/" + readResource(R.string.interval_smanjena_kvinta);
@@ -245,7 +247,7 @@ public class ServicePlayer extends Service {
                     thread = new Thread(new Runnable() {
                         @Override
                         public void run() {
-                            playChord((int)MyApplication.tonesSeparationTime, (int)MyApplication.delayBetweenChords, interval,
+                            playChord((int) DatabaseData.tonesSeparationTime, (int) DatabaseData.delayBetweenChords, interval,
                                     directionToPlay, ++playingID, lowestKey, null, null, null, false);
                         }
                     });
@@ -263,7 +265,7 @@ public class ServicePlayer extends Service {
                         thread = new Thread(new Runnable() {
                             @Override
                             public void run() {
-                                playChord((int)MyApplication.tonesSeparationTime, (int)MyApplication.delayBetweenChords,
+                                playChord((int) DatabaseData.tonesSeparationTime, (int) DatabaseData.delayBetweenChords,
                                         new Interval[]{IntervalsList.getInterval(0)}, 0, ++playingID, keyId,
                                         null, null, null, false);
                             }
@@ -356,7 +358,7 @@ public class ServicePlayer extends Service {
 
         // Shows interval name
         if(MyApplication.isPlaying()) {
-            if(currentChord != null && MyApplication.appLanguage == DataContract.UserPrefEntry.LANGUAGE_ENGLISH && currentChord.getID() == MyApplication.MD9_ID) {
+            if(currentChord != null && DatabaseData.appLanguage == DataContract.UserPrefEntry.LANGUAGE_ENGLISH && currentChord.getID() == MyApplication.MD9_ID) {
                 // Mali durski/dominantni 9
                 updateTextView(MyApplication.MD9_ENG_TEXT, MyApplication.MD9_ENG_ONE, MyApplication.MD9_ENG_TWO);
             } else {
@@ -377,7 +379,7 @@ public class ServicePlayer extends Service {
         }
 
         // Make list of all intervals invisible
-        if(showWhatIntervals && intervals.length > 1 && MyApplication.showWhatIntervals) {
+        if(showWhatIntervals && intervals.length > 1 && DatabaseData.showWhatIntervals) {
             setWhatIntervalsListViewVisibility(View.VISIBLE);
         }
 
@@ -548,7 +550,7 @@ public class ServicePlayer extends Service {
                         currentChord = null;
                         currentInterval = null;
 
-                        int keyToPlay = randomInt(rand, MyApplication.downKeyBorder, MyApplication.upKeyBorder, 0, lastKey);
+                        int keyToPlay = randomInt(rand, DatabaseData.downKeyBorder, DatabaseData.upKeyBorder, 0, lastKey);
                         lastKey = keyToPlay;
                         String keyName = getKeyName(keyToPlay);
 
@@ -587,7 +589,7 @@ public class ServicePlayer extends Service {
                         currentInterval.notPlayedFor = 0;
                         currentInterval.setPlayableCountdown((IntervalsList.getPlayableIntervalsCount() + ChordsList.getPlayableChordsCount()) / 4);
                         intervalsToPlay = new Interval[] {currentInterval};
-                        nameToPlay = currentInterval.getIntervalName();
+                        nameToPlay = currentInterval.getName();
                         chordNumberOneToPlay = null;
                         chordNumberTwoToPlay = null;
                     } else if(currentChord != null) {
@@ -596,7 +598,7 @@ public class ServicePlayer extends Service {
                         currentChord.notPlayedFor = 0;
                         currentChord.setPlayableCountdown((IntervalsList.getPlayableIntervalsCount() + ChordsList.getPlayableChordsCount()) / 4);
                         intervalsToPlay = currentChord.getAllIntervals();
-                        nameToPlay = currentChord.getChordName();
+                        nameToPlay = currentChord.getName();
                         chordNumberOneToPlay = currentChord.getNumberOne();
                         chordNumberTwoToPlay = currentChord.getNumberTwo();
                     }
@@ -622,16 +624,16 @@ public class ServicePlayer extends Service {
 
                     // Get random key that is loaded in SoundPool
                     if(areAllSoundsLoaded) {
-                        lastKey = randomInt(rand, MyApplication.downKeyBorder, MyApplication.upKeyBorder-totalChordDifference, totalChordDifference, lastKey);
+                        lastKey = randomInt(rand, DatabaseData.downKeyBorder, DatabaseData.upKeyBorder-totalChordDifference, totalChordDifference, lastKey);
                     } else {
-                        lastKey = randomInt(rand, MyApplication.downKeyBorder, MyApplication.downKeyBorder+soundsToLoadBeforePlaying, totalChordDifference, lastKey);
+                        lastKey = randomInt(rand, DatabaseData.downKeyBorder, DatabaseData.downKeyBorder+soundsToLoadBeforePlaying, totalChordDifference, lastKey);
                     }
 
                     maxMilisecToPass = oneKeyTime * (intervalsToPlay.length+1-numberOfPerfectPrimas) + betweenDelayMilisec;
                     milisecPassed = 0;
 
-                    if(MyApplication.playingMode == DataContract.UserPrefEntry.PLAYING_MODE_CUSTOM) {
-                        maxMilisecToPass *= MyApplication.directionsCount;
+                    if(DatabaseData.playingMode == DataContract.UserPrefEntry.PLAYING_MODE_CUSTOM) {
+                        maxMilisecToPass *= DatabaseData.directionsCount;
 
                         boolean showIntervals, intervalsShown = false;
 
@@ -642,11 +644,11 @@ public class ServicePlayer extends Service {
                                 Math.max(Math.max(MyApplication.directionUpID, MyApplication.directionDownID), MyApplication.directionSameID); i++) {
                             Integer tempDirectionID = null;
                             showIntervals = true;
-                            if(MyApplication.directionUpViewIndex == i && MyApplication.directionUp) {
+                            if(DatabaseData.directionUpViewIndex == i && DatabaseData.directionUp) {
                                 tempDirectionID = MyApplication.directionUpID;
-                            } else if(MyApplication.directionDownViewIndex == i && MyApplication.directionDown) {
+                            } else if(DatabaseData.directionDownViewIndex == i && DatabaseData.directionDown) {
                                 tempDirectionID = MyApplication.directionDownID;
-                            } else if(MyApplication.directionSameTimeViewIndex == i && MyApplication.directionSameTime) {
+                            } else if(DatabaseData.directionSameTimeViewIndex == i && DatabaseData.directionSameTime) {
                                 tempDirectionID = MyApplication.directionSameID;
                                 showIntervals = false;
                             }
@@ -659,26 +661,26 @@ public class ServicePlayer extends Service {
                             playChord(oneKeyTime, betweenDelayMilisec, intervalsToPlay, tempDirectionID, tempPlayID, lastKey, nameToPlay, chordNumberOneToPlay, chordNumberTwoToPlay, !intervalsShown || showIntervals);
                             intervalsShown = true;
                         }
-                    } else if(MyApplication.playingMode == DataContract.UserPrefEntry.PLAYING_MODE_RANDOM) {
+                    } else if(DatabaseData.playingMode == DataContract.UserPrefEntry.PLAYING_MODE_RANDOM) {
                         directionToPlay = null;
 
                         // Warning: hardcoded 2 (3 places) and 3 (1 place) and "directionToPlay = i;"
                         // Get direction to play
-                        if(MyApplication.directionUp && directionUpNotPlayedFor >= MyApplication.directionsCount * 2) {
+                        if(DatabaseData.directionUp && directionUpNotPlayedFor >= DatabaseData.directionsCount * 2) {
                             directionToPlay = MyApplication.directionUpID;
-                        } else if(MyApplication.directionDown && directionDownNotPlayedFor >= MyApplication.directionsCount * 2) {
+                        } else if(DatabaseData.directionDown && directionDownNotPlayedFor >= DatabaseData.directionsCount * 2) {
                             directionToPlay = MyApplication.directionDownID;
-                        } else if(MyApplication.directionSameTime && directionTogetherNotPlayedFor >= MyApplication.directionsCount * 2) {
+                        } else if(DatabaseData.directionSameTime && directionTogetherNotPlayedFor >= DatabaseData.directionsCount * 2) {
                             directionToPlay = MyApplication.directionSameID;
                         } else {
-                            int randomNumb = rand.nextInt(MyApplication.directionsCount);
+                            int randomNumb = rand.nextInt(DatabaseData.directionsCount);
                             int counter = 0;
                             // Loop through IDs (and numbers in between) until you come to Id that is in place of randomNumb (in order)
                             for(int i = Math.min(Math.min(MyApplication.directionUpID, MyApplication.directionDownID), MyApplication.directionSameID); i <=
                                     Math.max(Math.max(MyApplication.directionUpID, MyApplication.directionDownID), MyApplication.directionSameID); i++) {
-                                if((MyApplication.directionUp && MyApplication.directionUpID == i) ||
-                                        (MyApplication.directionDown && MyApplication.directionDownID == i) ||
-                                        (MyApplication.directionSameTime && MyApplication.directionSameID == i)) {
+                                if((DatabaseData.directionUp && MyApplication.directionUpID == i) ||
+                                        (DatabaseData.directionDown && MyApplication.directionDownID == i) ||
+                                        (DatabaseData.directionSameTime && MyApplication.directionSameID == i)) {
                                     if(counter >= randomNumb) {
                                         directionToPlay = i;
                                         break;
@@ -740,14 +742,14 @@ public class ServicePlayer extends Service {
         int whatToPlay;
 
         // Random sets what to play (interval or chord)
-        if(MyApplication.directionsCount <= 0) {
-            if(!MyApplication.playWhatTone && !MyApplication.playWhatOctave) {
+        if(DatabaseData.directionsCount <= 0) {
+            if(!DatabaseData.playWhatTone && !DatabaseData.playWhatOctave) {
                 showToast(readResource(R.string.no_checked_playing_type_error));
                 throw new Exception();
             } else {
                 whatToPlay = PLAY_TONE;
             }
-        } else if(toneNotPlayedFor >= ((IntervalsList.getCheckedIntervalCount() + ChordsList.getCheckedChordsCount()) / 2 + 1) && (MyApplication.playWhatTone || MyApplication.playWhatOctave)) {
+        } else if(toneNotPlayedFor >= ((IntervalsList.getCheckedIntervalCount() + ChordsList.getCheckedChordsCount()) / 2 + 1) && (DatabaseData.playWhatTone || DatabaseData.playWhatOctave)) {
             whatToPlay = PLAY_TONE;
         } else if(intervalsPlayedFor-chordsPlayedFor > (IntervalsList.getCheckedIntervalCount() / (ChordsList.getCheckedChordsCount()+1) + 1) * 3) {
             whatToPlay = PLAY_CHORD;
@@ -758,7 +760,7 @@ public class ServicePlayer extends Service {
         } else {
             // Is there any selected interval or chord
             if(IntervalsList.getCheckedIntervalCount() + ChordsList.getCheckedChordsCount() <= 0) {
-                if(!MyApplication.playWhatTone && !MyApplication.playWhatOctave) {
+                if(!DatabaseData.playWhatTone && !DatabaseData.playWhatOctave) {
                     showToast(readResource(R.string.no_checked_intervals_error));
                     throw new Exception();
                 } else {
@@ -768,14 +770,14 @@ public class ServicePlayer extends Service {
             } else {
                 // in rand.nextInt(bound) bound is excluded
                 int tempRandNumb;
-                if(MyApplication.playWhatTone || MyApplication.playWhatOctave) {
+                if(DatabaseData.playWhatTone || DatabaseData.playWhatOctave) {
                     // 12 tones in one octave
                     tempRandNumb = rand.nextInt(IntervalsList.getCheckedIntervalCount() + ChordsList.getCheckedChordsCount() + 12);
                 } else {
                     tempRandNumb = rand.nextInt(IntervalsList.getCheckedIntervalCount() + ChordsList.getCheckedChordsCount());
                 }
                 if(tempRandNumb >= IntervalsList.getCheckedIntervalCount()) {
-                    if(tempRandNumb >= IntervalsList.getCheckedIntervalCount() + ChordsList.getCheckedChordsCount() && (MyApplication.playWhatTone || MyApplication.playWhatOctave)) {
+                    if(tempRandNumb >= IntervalsList.getCheckedIntervalCount() + ChordsList.getCheckedChordsCount() && (DatabaseData.playWhatTone || DatabaseData.playWhatOctave)) {
                         whatToPlay = PLAY_TONE;
                     } else {
                         whatToPlay = PLAY_CHORD;
@@ -884,7 +886,7 @@ public class ServicePlayer extends Service {
 
                     MyApplication.updateTextView(chordTV, chordName, numberOneTV, chordNumberOne, numberTwoTV, chordNumberTwo);
 
-                    if(MyApplication.showProgressBar) {
+                    if(DatabaseData.showProgressBar) {
                         progressBar = (ProgressBar) MyApplication.getActivity().findViewById(R.id.ring_playing_progress_bar);
                         progressBar.setProgress(0);
                     }
@@ -952,14 +954,14 @@ public class ServicePlayer extends Service {
                             // background progress bar exist only in MainActivity
                             ProgressBar backgroundProgresBar = (ProgressBar) MyApplication.getActivity().
                                     findViewById(R.id.background_ring_progress_bar);
-                            if(!MyApplication.showProgressBar && MyApplication.isLoadingFinished) {
+                            if(!DatabaseData.showProgressBar && MyApplication.isLoadingFinished) {
                                 backgroundProgresBar.setVisibility(View.INVISIBLE);
                             } else {
                                 backgroundProgresBar.setVisibility(View.VISIBLE);
                             }
                         }
 
-                        if(!MyApplication.showProgressBar && MyApplication.isLoadingFinished) {
+                        if(!DatabaseData.showProgressBar && MyApplication.isLoadingFinished) {
                             progressBar.setVisibility(View.INVISIBLE);
                             return;
                         } else {
@@ -1005,7 +1007,7 @@ public class ServicePlayer extends Service {
         String[] keys = MyApplication.getAppContext().getResources().getStringArray(R.array.key_symbols);
         StringBuilder stringBuilder = new StringBuilder();
 
-        if(MyApplication.appLanguage == DataContract.UserPrefEntry.LANGUAGE_CROATIAN) {
+        if(DatabaseData.appLanguage == DataContract.UserPrefEntry.LANGUAGE_CROATIAN) {
             int octaveNumber = (key/12) - 1;
 
             if(octaveNumber > 0) {

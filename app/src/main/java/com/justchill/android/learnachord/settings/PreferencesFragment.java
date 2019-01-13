@@ -34,6 +34,8 @@ import com.justchill.android.learnachord.MyApplication;
 import com.justchill.android.learnachord.R;
 import com.justchill.android.learnachord.RangeSeekBar;
 import com.justchill.android.learnachord.database.DataContract;
+import com.justchill.android.learnachord.database.DatabaseData;
+import com.justchill.android.learnachord.database.DatabaseHandler;
 
 import java.util.Locale;
 
@@ -137,16 +139,16 @@ public class PreferencesFragment extends Fragment {
             }
         });
 
-        directionUpCheckBox.setChecked(MyApplication.directionUp);
+        directionUpCheckBox.setChecked(DatabaseData.directionUp);
         directionUpView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 directionUpCheckBox.setChecked(!directionUpCheckBox.isChecked());
-                MyApplication.directionUp = directionUpCheckBox.isChecked();
+                DatabaseData.directionUp = directionUpCheckBox.isChecked();
 
-                MyApplication.refreshDirectionsCount();
+                DatabaseData.refreshDirectionsCount();
 
-                MyApplication.setDoesDbNeedUpdate(true);
+                DatabaseHandler.setDoesDbNeedUpdate(true);
                 updateDurationViews();
             }
         });
@@ -159,16 +161,16 @@ public class PreferencesFragment extends Fragment {
             }
         });
 
-        directionDownCheckBox.setChecked(MyApplication.directionDown);
+        directionDownCheckBox.setChecked(DatabaseData.directionDown);
         directionDownView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 directionDownCheckBox.setChecked(!directionDownCheckBox.isChecked());
-                MyApplication.directionDown = directionDownCheckBox.isChecked();
+                DatabaseData.directionDown = directionDownCheckBox.isChecked();
 
-                MyApplication.refreshDirectionsCount();
+                DatabaseData.refreshDirectionsCount();
 
-                MyApplication.setDoesDbNeedUpdate(true);
+                DatabaseHandler.setDoesDbNeedUpdate(true);
                 updateDurationViews();
             }
         });
@@ -181,16 +183,16 @@ public class PreferencesFragment extends Fragment {
             }
         });
 
-        directionSameTimeCheckBox.setChecked(MyApplication.directionSameTime);
+        directionSameTimeCheckBox.setChecked(DatabaseData.directionSameTime);
         directionSameTimeView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 directionSameTimeCheckBox.setChecked(!directionSameTimeCheckBox.isChecked());
-                MyApplication.directionSameTime = directionSameTimeCheckBox.isChecked();
+                DatabaseData.directionSameTime = directionSameTimeCheckBox.isChecked();
 
-                MyApplication.refreshDirectionsCount();
+                DatabaseData.refreshDirectionsCount();
 
-                MyApplication.setDoesDbNeedUpdate(true);
+                DatabaseHandler.setDoesDbNeedUpdate(true);
                 updateDurationViews();
             }
         });
@@ -221,50 +223,50 @@ public class PreferencesFragment extends Fragment {
         downBorderTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                MyApplication.playKey(MyApplication.downKeyBorder);
+                MyApplication.playKey(DatabaseData.downKeyBorder);
             }
         });
         upBorderTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                MyApplication.playKey(MyApplication.upKeyBorder);
+                MyApplication.playKey(DatabaseData.upKeyBorder);
             }
         });
 
-        calculateRange(MyApplication.downKeyBorder, MyApplication.upKeyBorder);
+        calculateRange(DatabaseData.downKeyBorder, DatabaseData.upKeyBorder);
         seekBar.setRangeValues(1, DataContract.UserPrefEntry.NUMBER_OF_KEYS);
-        seekBar.setSelectedMinValue(MyApplication.downKeyBorder);
-        seekBar.setSelectedMaxValue(MyApplication.upKeyBorder);
+        seekBar.setSelectedMinValue(DatabaseData.downKeyBorder);
+        seekBar.setSelectedMaxValue(DatabaseData.upKeyBorder);
         seekBar.setOnRangeSeekBarChangeListener(new RangeSeekBar.OnRangeSeekBarChangeListener<Integer>() {
             @Override
             public void onRangeSeekBarValuesChanged(RangeSeekBar<?> bar, Integer minValue, Integer maxValue) {
                 calculateRange(minValue, maxValue);
 
-                MyApplication.downKeyBorder = minValue;
-                MyApplication.upKeyBorder = maxValue;
+                DatabaseData.downKeyBorder = minValue;
+                DatabaseData.upKeyBorder = maxValue;
             }
         });
         seekBar.setNotifyWhileDragging(true); // I don't have idea what this is exactly doing
 
-        showProgressBarCheckBox.setChecked(MyApplication.showProgressBar);
+        showProgressBarCheckBox.setChecked(DatabaseData.showProgressBar);
         showProgressBarView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 showProgressBarCheckBox.setChecked(!showProgressBarCheckBox.isChecked());
-                MyApplication.showProgressBar = showProgressBarCheckBox.isChecked();
+                DatabaseData.showProgressBar = showProgressBarCheckBox.isChecked();
 
-                MyApplication.setDoesDbNeedUpdate(true);
+                DatabaseHandler.setDoesDbNeedUpdate(true);
             }
         });
 
-        showWhatIntervalsCheckBox.setChecked(MyApplication.showWhatIntervals);
+        showWhatIntervalsCheckBox.setChecked(DatabaseData.showWhatIntervals);
         showWhatIntervalsView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 showWhatIntervalsCheckBox.setChecked(!showWhatIntervalsCheckBox.isChecked());
-                MyApplication.showWhatIntervals = showWhatIntervalsCheckBox.isChecked();
+                DatabaseData.showWhatIntervals = showWhatIntervalsCheckBox.isChecked();
 
-                MyApplication.setDoesDbNeedUpdate(true);
+                DatabaseHandler.setDoesDbNeedUpdate(true);
             }
         });
 
@@ -290,7 +292,7 @@ public class PreferencesFragment extends Fragment {
     public void onPause() {
         super.onPause();
 
-        if(!MyApplication.doSettingsNeedUpdate()) {
+        if(!DatabaseHandler.doSettingsNeedUpdate()) {
             handleTonesSeparationEditText(null);
             handleTonesDurationEditText();
         }
@@ -319,24 +321,24 @@ public class PreferencesFragment extends Fragment {
             if(!tonesSeparationEditText.getText().toString().isEmpty()) {
                 final double value = Double.valueOf(tonesSeparationEditText.getText().toString()) * 1000.0;
                 if(value <= 0.01) {
-                    if(MyApplication.directionUp || !MyApplication.directionDown) {
-                        MyApplication.directionUp = false;
-                        MyApplication.directionDown = false;
-                        MyApplication.directionSameTime = true;
+                    if(DatabaseData.directionUp || !DatabaseData.directionDown) {
+                        DatabaseData.directionUp = false;
+                        DatabaseData.directionDown = false;
+                        DatabaseData.directionSameTime = true;
 
-                        MyApplication.refreshDirectionsCount();
+                        DatabaseData.refreshDirectionsCount();
                     }
                 } else {
-                    if(value > MyApplication.maxTonesSeparationTime) {
-                        MyApplication.tonesSeparationTime = MyApplication.maxTonesSeparationTime;
-                    } else if(value < MyApplication.minTonesSeparationTime) {
-                        MyApplication.tonesSeparationTime = MyApplication.minTonesSeparationTime;
+                    if(value > DatabaseData.maxTonesSeparationTime) {
+                        DatabaseData.tonesSeparationTime = DatabaseData.maxTonesSeparationTime;
+                    } else if(value < DatabaseData.minTonesSeparationTime) {
+                        DatabaseData.tonesSeparationTime = DatabaseData.minTonesSeparationTime;
                     } else {
-                        MyApplication.tonesSeparationTime = value;
+                        DatabaseData.tonesSeparationTime = value;
                     }
                 }
 
-                MyApplication.setDoesDbNeedUpdate(true);
+                DatabaseHandler.setDoesDbNeedUpdate(true);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -357,15 +359,15 @@ public class PreferencesFragment extends Fragment {
         try {
             if(!tonesDurationEditText.getText().toString().isEmpty()) {
                 final double value = Double.valueOf(tonesDurationEditText.getText().toString()) * 1000.0;
-                if(value > MyApplication.maxChordDurationTime) {
-                    MyApplication.delayBetweenChords = MyApplication.maxChordDurationTime;
-                } else if(value < MyApplication.minChordDurationTime) {
-                    MyApplication.delayBetweenChords = MyApplication.minChordDurationTime;
+                if(value > DatabaseData.maxChordDurationTime) {
+                    DatabaseData.delayBetweenChords = DatabaseData.maxChordDurationTime;
+                } else if(value < DatabaseData.minChordDurationTime) {
+                    DatabaseData.delayBetweenChords = DatabaseData.minChordDurationTime;
                 } else {
-                    MyApplication.delayBetweenChords = value;
+                    DatabaseData.delayBetweenChords = value;
                 }
 
-                MyApplication.setDoesDbNeedUpdate(true);
+                DatabaseHandler.setDoesDbNeedUpdate(true);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -392,10 +394,10 @@ public class PreferencesFragment extends Fragment {
 //        handleTonesDurationEditText();
 
         final String format = "%.2f"; // 2 decimal points
-        tonesSeparationEditText.setText(String.format(Locale.US, format, MyApplication.tonesSeparationTime / 1000));
-        tonesDurationEditText.setText(String.format(Locale.US, format, MyApplication.delayBetweenChords / 1000));
+        tonesSeparationEditText.setText(String.format(Locale.US, format, DatabaseData.tonesSeparationTime / 1000));
+        tonesDurationEditText.setText(String.format(Locale.US, format, DatabaseData.delayBetweenChords / 1000));
 
-        if(!MyApplication.directionUp && !MyApplication.directionDown && MyApplication.directionSameTime) {
+        if(!DatabaseData.directionUp && !DatabaseData.directionDown && DatabaseData.directionSameTime) {
             tonesSeparationView.setVisibility(View.GONE);
 //            tonesDurationView.setVisibility(View.GONE);
         } else {
@@ -411,7 +413,7 @@ public class PreferencesFragment extends Fragment {
         String[] keys = getResources().getStringArray(R.array.key_symbols);
         StringBuilder stringBuilder = new StringBuilder();
 
-        if(MyApplication.appLanguage == DataContract.UserPrefEntry.LANGUAGE_CROATIAN) {
+        if(DatabaseData.appLanguage == DataContract.UserPrefEntry.LANGUAGE_CROATIAN) {
             int minRangeOctaveNumber = (minRange/12) - 1;
 
             if(minRangeOctaveNumber > 0) {
@@ -469,13 +471,13 @@ public class PreferencesFragment extends Fragment {
 
     @Override
     public boolean onContextItemSelected(MenuItem item) {
-        if(MyApplication.playingMode != DataContract.UserPrefEntry.PLAYING_MODE_CUSTOM) {
-            MyApplication.playingMode = DataContract.UserPrefEntry.PLAYING_MODE_CUSTOM;
+        if(DatabaseData.playingMode != DataContract.UserPrefEntry.PLAYING_MODE_CUSTOM) {
+            DatabaseData.playingMode = DataContract.UserPrefEntry.PLAYING_MODE_CUSTOM;
             setupPlayingModeSpinner();
 
-            MyApplication.directionUpViewIndex = DataContract.UserPrefEntry.DIRECTION_UP_VIEW_DEFAULT_INDEX;
-            MyApplication.directionDownViewIndex = DataContract.UserPrefEntry.DIRECTION_DOWN_VIEW_DEFAULT_INDEX;
-            MyApplication.directionSameTimeViewIndex = DataContract.UserPrefEntry.DIRECTION_SAME_TIME_VIEW_DEFAULT_INDEX;
+            DatabaseData.directionUpViewIndex = DataContract.UserPrefEntry.DIRECTION_UP_VIEW_DEFAULT_INDEX;
+            DatabaseData.directionDownViewIndex = DataContract.UserPrefEntry.DIRECTION_DOWN_VIEW_DEFAULT_INDEX;
+            DatabaseData.directionSameTimeViewIndex = DataContract.UserPrefEntry.DIRECTION_SAME_TIME_VIEW_DEFAULT_INDEX;
         }
 
         int oldIndex;
@@ -483,36 +485,36 @@ public class PreferencesFragment extends Fragment {
             case R.id.move_up_option:
 //                Toast.makeText(context, "Option 1 selected", Toast.LENGTH_SHORT).show();
                 if(contextMenuView == directionDownView) {
-                    oldIndex = MyApplication.directionDownViewIndex;
+                    oldIndex = DatabaseData.directionDownViewIndex;
                     if(oldIndex <= 0) {
                         return true;
                     }
                 } else if (contextMenuView == directionSameTimeView) {
-                    oldIndex = MyApplication.directionSameTimeViewIndex;
+                    oldIndex = DatabaseData.directionSameTimeViewIndex;
                     if(oldIndex <= 0) {
                         return true;
                     }
                 } else { // directionUpView
-                    oldIndex = MyApplication.directionUpViewIndex;
+                    oldIndex = DatabaseData.directionUpViewIndex;
                     if(oldIndex <= 0) {
                         return true;
                     }
                 }
 
-                if(MyApplication.directionDownViewIndex == oldIndex-1) {
-                    MyApplication.directionDownViewIndex++;
-                } else if(MyApplication.directionSameTimeViewIndex == oldIndex-1) {
-                    MyApplication.directionSameTimeViewIndex++;
+                if(DatabaseData.directionDownViewIndex == oldIndex-1) {
+                    DatabaseData.directionDownViewIndex++;
+                } else if(DatabaseData.directionSameTimeViewIndex == oldIndex-1) {
+                    DatabaseData.directionSameTimeViewIndex++;
                 } else {
-                    MyApplication.directionUpViewIndex++;
+                    DatabaseData.directionUpViewIndex++;
                 }
 
                 if(contextMenuView == directionDownView) {
-                    MyApplication.directionDownViewIndex--;
+                    DatabaseData.directionDownViewIndex--;
                 } else if (contextMenuView == directionSameTimeView) {
-                    MyApplication.directionSameTimeViewIndex--;
+                    DatabaseData.directionSameTimeViewIndex--;
                 } else { // directionUpView
-                    MyApplication.directionUpViewIndex--;
+                    DatabaseData.directionUpViewIndex--;
                 }
 
                 updatePlayingModeViews();
@@ -520,36 +522,36 @@ public class PreferencesFragment extends Fragment {
             case R.id.move_down_option:
 //                Toast.makeText(context, "Option 2 selected", Toast.LENGTH_SHORT).show();
                 if(contextMenuView == directionDownView) {
-                    oldIndex = MyApplication.directionDownViewIndex;
+                    oldIndex = DatabaseData.directionDownViewIndex;
                     if(oldIndex >= 2) {
                         return true;
                     }
                 } else if (contextMenuView == directionSameTimeView) {
-                    oldIndex = MyApplication.directionSameTimeViewIndex;
+                    oldIndex = DatabaseData.directionSameTimeViewIndex;
                     if(oldIndex >= 2) {
                         return true;
                     }
                 } else { // directionUpView
-                    oldIndex = MyApplication.directionUpViewIndex;
+                    oldIndex = DatabaseData.directionUpViewIndex;
                     if(oldIndex >= 2) {
                         return true;
                     }
                 }
 
-                if(MyApplication.directionDownViewIndex == oldIndex+1) {
-                    MyApplication.directionDownViewIndex--;
-                } else if(MyApplication.directionSameTimeViewIndex == oldIndex+1) {
-                    MyApplication.directionSameTimeViewIndex--;
+                if(DatabaseData.directionDownViewIndex == oldIndex+1) {
+                    DatabaseData.directionDownViewIndex--;
+                } else if(DatabaseData.directionSameTimeViewIndex == oldIndex+1) {
+                    DatabaseData.directionSameTimeViewIndex--;
                 } else {
-                    MyApplication.directionUpViewIndex--;
+                    DatabaseData.directionUpViewIndex--;
                 }
 
                 if(contextMenuView == directionDownView) {
-                    MyApplication.directionDownViewIndex++;
+                    DatabaseData.directionDownViewIndex++;
                 } else if (contextMenuView == directionSameTimeView) {
-                    MyApplication.directionSameTimeViewIndex++;
+                    DatabaseData.directionSameTimeViewIndex++;
                 } else { // directionUpView
-                    MyApplication.directionUpViewIndex++;
+                    DatabaseData.directionUpViewIndex++;
                 }
 
                 updatePlayingModeViews();
@@ -568,7 +570,7 @@ public class PreferencesFragment extends Fragment {
         playingModeSpinner.setAdapter(new ArrayAdapter<String>(context, R.layout.spinner_item,
                 getResources().getStringArray(R.array.playing_mode_options)));
 
-        playingModeSpinner.setSelection(MyApplication.playingMode);
+        playingModeSpinner.setSelection(DatabaseData.playingMode);
 
         // Set the integer mSelected to the constant values
         playingModeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -577,21 +579,21 @@ public class PreferencesFragment extends Fragment {
                 String selection = (String) parent.getItemAtPosition(position);
                 if (!TextUtils.isEmpty(selection)) {
                     if (selection.equals(getString(R.string.custom))) {
-                        MyApplication.playingMode = DataContract.UserPrefEntry.PLAYING_MODE_CUSTOM;
+                        DatabaseData.playingMode = DataContract.UserPrefEntry.PLAYING_MODE_CUSTOM;
                     } else { // random
-                        MyApplication.playingMode = DataContract.UserPrefEntry.PLAYING_MODE_RANDOM;
+                        DatabaseData.playingMode = DataContract.UserPrefEntry.PLAYING_MODE_RANDOM;
                     }
 
                     updatePlayingModeViews();
 
-                    MyApplication.setDoesDbNeedUpdate(true);
+                    DatabaseHandler.setDoesDbNeedUpdate(true);
                 }
             }
 
             // Because AdapterView is an abstract class, onNothingSelected must be defined
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                playingModeSpinner.setSelection(MyApplication.appLanguage);
+                playingModeSpinner.setSelection(DatabaseData.appLanguage);
             }
         });
     }
@@ -605,7 +607,7 @@ public class PreferencesFragment extends Fragment {
         languageSpinner.setAdapter(new ArrayAdapter<String>(context, R.layout.spinner_item,
                 getResources().getStringArray(R.array.language_options)));
 
-        languageSpinner.setSelection(MyApplication.appLanguage);
+        languageSpinner.setSelection(DatabaseData.appLanguage);
 
         // Set the integer mSelected to the constant values
         languageSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -614,12 +616,12 @@ public class PreferencesFragment extends Fragment {
                 String selection = (String) parent.getItemAtPosition(position);
                 if (!TextUtils.isEmpty(selection)) {
                     if (selection.equals(getString(R.string.english))) {
-                        MyApplication.appLanguage = DataContract.UserPrefEntry.LANGUAGE_ENGLISH;
+                        DatabaseData.appLanguage = DataContract.UserPrefEntry.LANGUAGE_ENGLISH;
                     } else {
-                        MyApplication.appLanguage = DataContract.UserPrefEntry.LANGUAGE_CROATIAN;
+                        DatabaseData.appLanguage = DataContract.UserPrefEntry.LANGUAGE_CROATIAN;
                     }
 
-                    MyApplication.setDoesDbNeedUpdate(true);
+                    DatabaseHandler.setDoesDbNeedUpdate(true);
                 }
 
                 LocaleHelper.setLocale(context, null);
@@ -629,7 +631,7 @@ public class PreferencesFragment extends Fragment {
             // Because AdapterView is an abstract class, onNothingSelected must be defined
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                languageSpinner.setSelection(MyApplication.appLanguage);
+                languageSpinner.setSelection(DatabaseData.appLanguage);
             }
         });
     }
@@ -643,7 +645,7 @@ public class PreferencesFragment extends Fragment {
         chordTextSizeSpinner.setAdapter(new ArrayAdapter<String>(context, R.layout.spinner_item,
                 getResources().getStringArray(R.array.chord_text_size_options)));
 
-        chordTextSizeSpinner.setSelection(MyApplication.chordTextScalingMode);
+        chordTextSizeSpinner.setSelection(DatabaseData.chordTextScalingMode);
 
         // Set the integer mSelected to the constant values
         chordTextSizeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -652,30 +654,30 @@ public class PreferencesFragment extends Fragment {
                 String selection = (String) parent.getItemAtPosition(position);
                 if (!TextUtils.isEmpty(selection)) {
                     if (selection.equals(getString(R.string.small))) {
-                        MyApplication.chordTextScalingMode = DataContract.UserPrefEntry.CHORD_TEXT_SCALING_MODE_SMALL;
+                        DatabaseData.chordTextScalingMode = DataContract.UserPrefEntry.CHORD_TEXT_SCALING_MODE_SMALL;
                     } else if (selection.equals(getString(R.string.normal))) {
-                        MyApplication.chordTextScalingMode = DataContract.UserPrefEntry.CHORD_TEXT_SCALING_MODE_NORMAL;
+                        DatabaseData.chordTextScalingMode = DataContract.UserPrefEntry.CHORD_TEXT_SCALING_MODE_NORMAL;
                     } else if (selection.equals(getString(R.string.large))) {
-                        MyApplication.chordTextScalingMode = DataContract.UserPrefEntry.CHORD_TEXT_SCALING_MODE_LARGE;
+                        DatabaseData.chordTextScalingMode = DataContract.UserPrefEntry.CHORD_TEXT_SCALING_MODE_LARGE;
                     } else {
-                        MyApplication.chordTextScalingMode = DataContract.UserPrefEntry.CHORD_TEXT_SCALING_MODE_AUTO;
+                        DatabaseData.chordTextScalingMode = DataContract.UserPrefEntry.CHORD_TEXT_SCALING_MODE_AUTO;
                     }
-                    MyApplication.setDoesDbNeedUpdate(true);
+                    DatabaseHandler.setDoesDbNeedUpdate(true);
                 }
             }
 
             // Because AdapterView is an abstract class, onNothingSelected must be defined
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                chordTextSizeSpinner.setSelection(MyApplication.chordTextScalingMode);
+                chordTextSizeSpinner.setSelection(DatabaseData.chordTextScalingMode);
             }
         });
     }
 
     private void addViewToParent(ViewGroup parent, int index) {
-        if(MyApplication.directionDownViewIndex == index) {
+        if(DatabaseData.directionDownViewIndex == index) {
             parent.addView(directionDownView);
-        } else if(MyApplication.directionSameTimeViewIndex == index) {
+        } else if(DatabaseData.directionSameTimeViewIndex == index) {
             parent.addView(directionSameTimeView);
         } else { // direction up
             parent.addView(directionUpView);
@@ -685,7 +687,7 @@ public class PreferencesFragment extends Fragment {
     private void updatePlayingModeViews() {
 //        Log.d("Pref", MyApplication.directionUpViewIndex + ", " + MyApplication.directionDownViewIndex + ", " +
 //                MyApplication.directionSameTimeViewIndex);
-        if(MyApplication.playingMode == DataContract.UserPrefEntry.PLAYING_MODE_CUSTOM) {
+        if(DatabaseData.playingMode == DataContract.UserPrefEntry.PLAYING_MODE_CUSTOM) {
             allPlayingModesParentView.removeAllViews();
             for(int i = 0; i < 3; i++) {
                 addViewToParent(allPlayingModesParentView, i);

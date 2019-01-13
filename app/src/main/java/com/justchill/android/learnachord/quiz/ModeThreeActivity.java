@@ -29,6 +29,7 @@ import com.justchill.android.learnachord.chord.ChordsList;
 import com.justchill.android.learnachord.chord.Interval;
 import com.justchill.android.learnachord.chord.IntervalsList;
 import com.justchill.android.learnachord.database.DataContract;
+import com.justchill.android.learnachord.database.DatabaseData;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -55,10 +56,10 @@ public class ModeThreeActivity extends AppCompatActivity {
     Thread quizModeOnePlayThread;
 
     // Just a little delay between playing
-    private final long addMS = 100;
+    private static final long addMS = 100;
 
 
-    private final int timeLeftToPlayProgressThicknessDB = 4;
+    private static final int timeLeftToPlayProgressThicknessDB = 4;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -72,7 +73,7 @@ public class ModeThreeActivity extends AppCompatActivity {
         rand = new Random();
         checkedIntervals = IntervalsList.getCheckedIntervalCount();
         checkedChords = ChordsList.getCheckedChordsCount();
-        if((MyApplication.playWhatTone || MyApplication.playWhatOctave) && IntervalsList.getInterval(0).getIsChecked()) {
+        if((DatabaseData.playWhatTone || DatabaseData.playWhatOctave) && IntervalsList.getInterval(0).getIsChecked()) {
             // If tones can be played, don't count on čista prima
             checkedIntervals--;
         }
@@ -93,8 +94,8 @@ public class ModeThreeActivity extends AppCompatActivity {
 
 
         // Setup score text view text size
-        scoreTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(MyApplication.smallerDisplayDimensionPX / 16) * MyApplication.scaledDensity);
-        scoreTextView.setText(String.valueOf(MyApplication.quizScore));
+        scoreTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(MyApplication.smallerDisplayDimensionPX / 16) * DatabaseData.scaledDensity);
+        scoreTextView.setText(String.valueOf(QuizData.quizScore));
 
         // Setup progress bar size
         ViewGroup.LayoutParams progressBarSizeRules = timeLeftToPlayProgressBar.getLayoutParams();
@@ -132,7 +133,7 @@ public class ModeThreeActivity extends AppCompatActivity {
                 resumeQuiz();
 
                 // If playing was stopped/paused play it again when resumed
-                if(MyApplication.quizPlayingCurrentThing) {
+                if(QuizData.quizPlayingCurrentThing) {
                     playCurrentThing();
                 } else {
                     playNextThing(0);
@@ -153,7 +154,7 @@ public class ModeThreeActivity extends AppCompatActivity {
         pauseImageViewSizeRules.height = height_width_value;
         pauseClickableImageView.setLayoutParams(pauseImageViewSizeRules);
 
-        if(MyApplication.quizPlayingPaused) {
+        if(QuizData.quizPlayingPaused) {
             pauseQuiz();
         } else {
             resumeQuiz();
@@ -199,12 +200,12 @@ public class ModeThreeActivity extends AppCompatActivity {
         submitAnswerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                MyApplication.waitingForQuizAnswer = false;
-                MyApplication.quizPlayingCurrentThing = false;
+                QuizData.waitingForQuizAnswer = false;
+                QuizData.quizPlayingCurrentThing = false;
                 stopPlaying();
 
-                if(MyApplication.quizModeThreeCorrectID.equals(MyApplication.quizModeThreeSelectedID)) {
-                    scoreTextView.setText(String.valueOf(++MyApplication.quizScore));
+                if(QuizData.quizModeThreeCorrectID.equals(QuizData.quizModeThreeSelectedID)) {
+                    scoreTextView.setText(String.valueOf(++QuizData.quizScore));
                     playNextThing(0);
                 } else {
                     gameOver();
@@ -228,26 +229,26 @@ public class ModeThreeActivity extends AppCompatActivity {
         });
 
 
-        MyApplication.isQuizModePlaying = true;
+        QuizData.isQuizModePlaying = true;
 
         refreshListView();
 
     }
 
     private void refreshListView() {
-        MyApplication.quizModeThreeListOfPossibleAnswerIDs = new ArrayList<>();
+        QuizData.quizModeThreeListOfPossibleAnswerIDs = new ArrayList<>();
 
 
         // Show perfect unison only if tones are not played
-        if(!MyApplication.playWhatTone && !MyApplication.playWhatOctave && IntervalsList.getInterval(0).getIsChecked() && isIntervalSearchedFor(0)) {
-            MyApplication.quizModeThreeListOfPossibleAnswerIDs.add(MyApplication.quizModeThreeIntervalIDAdd);
+        if(!DatabaseData.playWhatTone && !DatabaseData.playWhatOctave && IntervalsList.getInterval(0).getIsChecked() && isIntervalSearchedFor(0)) {
+            QuizData.quizModeThreeListOfPossibleAnswerIDs.add(QuizData.quizModeThreeIntervalIDAdd);
         }
 
         // Add intervals to list
         for(int i = 1; i < IntervalsList.getIntervalsCount(); i++) {
             // Add every checked intervals to list (it's name)
             if(IntervalsList.getInterval(i).getIsChecked() && isIntervalSearchedFor(i)) {
-                MyApplication.quizModeThreeListOfPossibleAnswerIDs.add(MyApplication.quizModeThreeIntervalIDAdd + i);
+                QuizData.quizModeThreeListOfPossibleAnswerIDs.add(QuizData.quizModeThreeIntervalIDAdd + i);
             }
         }
 
@@ -255,38 +256,38 @@ public class ModeThreeActivity extends AppCompatActivity {
         for(int i = 0; i < ChordsList.getChordsCount(); i++) {
             // Add every checked chord to list (it's name)
             if(ChordsList.getChord(i).getIsChecked() && isChordSearchedFor(i)) {
-                MyApplication.quizModeThreeListOfPossibleAnswerIDs.add(MyApplication.quizModeThreeChordIDAdd + i);
+                QuizData.quizModeThreeListOfPossibleAnswerIDs.add(QuizData.quizModeThreeChordIDAdd + i);
             }
         }
 
         boolean addThisTone;
 
         // Add tones to list
-        for(int i = MyApplication.downKeyBorder; i <= MyApplication.upKeyBorder; i++) {
+        for(int i = DatabaseData.downKeyBorder; i <= DatabaseData.upKeyBorder; i++) {
 
-            addThisTone = MyApplication.playWhatTone && MyApplication.playWhatOctave;
+            addThisTone = DatabaseData.playWhatTone && DatabaseData.playWhatOctave;
 
-            if(MyApplication.playWhatTone && !MyApplication.playWhatOctave && keysInSameOctave(MyApplication.quizLowestKey, i)) {
+            if(DatabaseData.playWhatTone && !DatabaseData.playWhatOctave && keysInSameOctave(QuizData.quizLowestKey, i)) {
                 addThisTone = true;
             }
 
-            if(!MyApplication.playWhatTone && MyApplication.playWhatOctave && keysAreSameTone(MyApplication.quizLowestKey, i)) {
+            if(!DatabaseData.playWhatTone && DatabaseData.playWhatOctave && keysAreSameTone(QuizData.quizLowestKey, i)) {
                 addThisTone = true;
             }
 
             if(addThisTone && isToneSearchedFor(i)) {
-                MyApplication.quizModeThreeListOfPossibleAnswerIDs.add(MyApplication.quizModeThreeToneIDAdd + i);
+                QuizData.quizModeThreeListOfPossibleAnswerIDs.add(QuizData.quizModeThreeToneIDAdd + i);
             }
         }
 
 
         // Set list view adapter with new data
-        ModeThreeListAdapter modeThreeListAdapter = new ModeThreeListAdapter(ModeThreeActivity.this, MyApplication.quizModeThreeListOfPossibleAnswerIDs);
+        ModeThreeListAdapter modeThreeListAdapter = new ModeThreeListAdapter(ModeThreeActivity.this, QuizData.quizModeThreeListOfPossibleAnswerIDs);
 
         modeThreeListAdapter.setListener(new ModeThreeListAdapter.onViewClickListener() {
             @Override
             public void onViewClick() {
-                MyApplication.quizModeThreeShowSubmitButton = true;
+                QuizData.quizModeThreeShowSubmitButton = true;
                 updateSubmitAnswerButton();
             }
         });
@@ -297,7 +298,7 @@ public class ModeThreeActivity extends AppCompatActivity {
 
     private boolean isIntervalSearchedFor(int intervalID) {
         return MyApplication.doesStringContainSubstring(
-                MyApplication.getChordNameAsString(IntervalsList.getInterval(intervalID).getIntervalName(), null, null),
+                MyApplication.getChordNameAsString(IntervalsList.getInterval(intervalID).getName(), null, null),
                 searchTextInput.getText().toString());
     }
 
@@ -306,11 +307,11 @@ public class ModeThreeActivity extends AppCompatActivity {
 
         String tempString;
 
-        if(MyApplication.appLanguage == DataContract.UserPrefEntry.LANGUAGE_ENGLISH && chordID == MyApplication.MD9_ID) {
+        if(DatabaseData.appLanguage == DataContract.UserPrefEntry.LANGUAGE_ENGLISH && chordID == MyApplication.MD9_ID) {
             // Mali durski/dominantni 9
             tempString = MyApplication.getChordNameAsString(MyApplication.MD9_ENG_TEXT, MyApplication.MD9_ENG_ONE, MyApplication.MD9_ENG_TWO);
         } else {
-            tempString = MyApplication.getChordNameAsString(tempChord.getChordName(), tempChord.getNumberOneAsString(), tempChord.getNumberTwoAsString());
+            tempString = MyApplication.getChordNameAsString(tempChord.getName(), tempChord.getNumberOneAsString(), tempChord.getNumberTwoAsString());
         }
 
         return MyApplication.doesStringContainSubstring(tempString, searchTextInput.getText().toString());
@@ -322,33 +323,33 @@ public class ModeThreeActivity extends AppCompatActivity {
 
     // Play next interval, chord or tone
     private void playNextThing(int numberOfRecursiveRuns) {
-        if(MyApplication.waitingForQuizAnswer || numberOfRecursiveRuns > 5) {
+        if(QuizData.waitingForQuizAnswer || numberOfRecursiveRuns > 5) {
             return;
         }
 
-        if(checkedIntervals + checkedChords <= 1 && !MyApplication.playWhatTone && !MyApplication.playWhatOctave) {
+        if(checkedIntervals + checkedChords <= 1 && !DatabaseData.playWhatTone && !DatabaseData.playWhatOctave) {
             Toast.makeText(MyApplication.getActivity(), readResource(R.string.not_enough_selected_intervals_or_chords_error), Toast.LENGTH_SHORT).show();
             pauseQuiz();
             return;
         }
 
-        if(MyApplication.directionsCount <= 0 && !MyApplication.playWhatTone && !MyApplication.playWhatOctave) {
+        if(DatabaseData.directionsCount <= 0 && !DatabaseData.playWhatTone && !DatabaseData.playWhatOctave) {
             Toast.makeText(MyApplication.getActivity(), readResource(R.string.no_checked_playing_type_error), Toast.LENGTH_SHORT).show();
             pauseQuiz();
             return;
         }
 
-        if(MyApplication.upKeyBorder - MyApplication.downKeyBorder <= 12 && MyApplication.playWhatOctave && !MyApplication.playWhatTone) {
+        if(DatabaseData.upKeyBorder - DatabaseData.downKeyBorder <= 12 && DatabaseData.playWhatOctave && !DatabaseData.playWhatTone) {
             Toast.makeText(MyApplication.getActivity(), readResource(R.string.key_borders_are_too_small), Toast.LENGTH_SHORT).show();
             pauseQuiz();
             return;
         }
 
         // Reset this
-        MyApplication.quizModeThreeCorrectID = null;
-        MyApplication.quizModeThreeSelectedID = null;
+        QuizData.quizModeThreeCorrectID = null;
+        QuizData.quizModeThreeSelectedID = null;
 
-        MyApplication.quizModeThreeShowSubmitButton = false;
+        QuizData.quizModeThreeShowSubmitButton = false;
         updateSubmitAnswerButton();
 
         // Try to remove cursor and keyboard
@@ -356,51 +357,51 @@ public class ModeThreeActivity extends AppCompatActivity {
         searchTextInput.clearFocus();
         MyApplication.hideKeyboardFromActivity(ModeThreeActivity.this);
 
-        MyApplication.quizIntervalToPlay = null;
-        MyApplication.quizChordToPlay = null;
+        QuizData.quizIntervalToPlay = null;
+        QuizData.quizChordToPlay = null;
 
 
         // 12 tones in one octave
-        int tempRandNumb = rand.nextInt(checkedIntervals + checkedChords + ((MyApplication.playWhatTone || MyApplication.playWhatOctave) ? 12 : 0));
+        int tempRandNumb = rand.nextInt(checkedIntervals + checkedChords + ((DatabaseData.playWhatTone || DatabaseData.playWhatOctave) ? 12 : 0));
 
-        if(MyApplication.directionsCount <= 0) {
+        if(DatabaseData.directionsCount <= 0) {
             // If there is no direction to play, play tone
             tempRandNumb = rand.nextInt(12) + checkedIntervals + checkedChords;
         }
 
         if(tempRandNumb < checkedIntervals) { // Play interval
             // Don't play čista prima if tone can be played
-            MyApplication.quizIntervalToPlay = IntervalsList.getRandomCheckedInterval((MyApplication.playWhatTone || MyApplication.playWhatOctave) ? IntervalsList.getInterval(0) : null);
-            if(MyApplication.quizIntervalToPlay == null) {
+            QuizData.quizIntervalToPlay = IntervalsList.getRandomCheckedInterval((DatabaseData.playWhatTone || DatabaseData.playWhatOctave) ? IntervalsList.getInterval(0) : null);
+            if(QuizData.quizIntervalToPlay == null) {
                 // Something went wrong, try again
                 playNextThing(numberOfRecursiveRuns+1);
                 return;
             }
-            MyApplication.quizChordToPlay = null;
+            QuizData.quizChordToPlay = null;
 
-            MyApplication.quizModeThreeCorrectID = MyApplication.quizModeThreeIntervalIDAdd + MyApplication.quizIntervalToPlay.getDifference();
+            QuizData.quizModeThreeCorrectID = QuizData.quizModeThreeIntervalIDAdd + QuizData.quizIntervalToPlay.getDifference();
 
 
         } else if(tempRandNumb < checkedIntervals+checkedChords) { // Play chord
-            MyApplication.quizChordToPlay = ChordsList.getRandomCheckedChord();
-            if(MyApplication.quizChordToPlay == null) {
+            QuizData.quizChordToPlay = ChordsList.getRandomCheckedChord();
+            if(QuizData.quizChordToPlay == null) {
                 // Something went wrong, try again
                 playNextThing(numberOfRecursiveRuns+1);
                 return;
             }
-            MyApplication.quizIntervalToPlay = null;
+            QuizData.quizIntervalToPlay = null;
 
-            MyApplication.quizModeThreeCorrectID = MyApplication.quizModeThreeChordIDAdd + MyApplication.quizChordToPlay.getID();
+            QuizData.quizModeThreeCorrectID = QuizData.quizModeThreeChordIDAdd + QuizData.quizChordToPlay.getID();
 
 
-        } else if(MyApplication.playWhatTone || MyApplication.playWhatOctave) {
-            MyApplication.quizIntervalToPlay = null;
-            MyApplication.quizChordToPlay = null;
+        } else if(DatabaseData.playWhatTone || DatabaseData.playWhatOctave) {
+            QuizData.quizIntervalToPlay = null;
+            QuizData.quizChordToPlay = null;
 
             // Get random low key for playing (inside borders)
-            MyApplication.quizLowestKey = getRandomKey();
+            QuizData.quizLowestKey = getRandomKey();
 
-            MyApplication.quizModeThreeCorrectID = MyApplication.quizModeThreeToneIDAdd + MyApplication.quizLowestKey;
+            QuizData.quizModeThreeCorrectID = QuizData.quizModeThreeToneIDAdd + QuizData.quizLowestKey;
 
         } else {
             // Something went wrong, try again
@@ -408,13 +409,13 @@ public class ModeThreeActivity extends AppCompatActivity {
             return;
         }
 
-        if(MyApplication.quizIntervalToPlay != null || MyApplication.quizChordToPlay != null) {
+        if(QuizData.quizIntervalToPlay != null || QuizData.quizChordToPlay != null) {
             // Get random low key for playing (inside borders)
-            MyApplication.quizLowestKey = getRandomKey();
+            QuizData.quizLowestKey = getRandomKey();
         }
 
 
-        MyApplication.waitingForQuizAnswer = true;
+        QuizData.waitingForQuizAnswer = true;
 
 
 
@@ -425,25 +426,25 @@ public class ModeThreeActivity extends AppCompatActivity {
     }
 
     private void playCurrentThing() {
-        MyApplication.quizPlayingCurrentThing = true;
+        QuizData.quizPlayingCurrentThing = true;
 
         quizModeOnePlayThread = new Thread(new Runnable() {
             @Override
             public void run() {
-                int playingID = ++MyApplication.quizPlayingID;
+                int playingID = ++QuizData.quizPlayingID;
                 Integer directionToPlay = null;
 
                 int numberOfTones = 1;
-                if(MyApplication.quizIntervalToPlay != null) {
+                if(QuizData.quizIntervalToPlay != null) {
                     numberOfTones = 2;
-                } else if(MyApplication.quizChordToPlay != null) {
-                    numberOfTones = MyApplication.quizChordToPlay.getToneNumber();
+                } else if(QuizData.quizChordToPlay != null) {
+                    numberOfTones = QuizData.quizChordToPlay.getToneNumber();
                 }
-                double playingDuration = MyApplication.tonesSeparationTime * numberOfTones + MyApplication.delayBetweenChords + addMS;
+                double playingDuration = DatabaseData.tonesSeparationTime * numberOfTones + DatabaseData.delayBetweenChords + addMS;
 
-                if(MyApplication.playingMode == DataContract.UserPrefEntry.PLAYING_MODE_CUSTOM) {
-                    if(MyApplication.directionsCount > 0) {
-                        playingDuration *= MyApplication.directionsCount;
+                if(DatabaseData.playingMode == DataContract.UserPrefEntry.PLAYING_MODE_CUSTOM) {
+                    if(DatabaseData.directionsCount > 0) {
+                        playingDuration *= DatabaseData.directionsCount;
                     }
                 }
 
@@ -451,16 +452,16 @@ public class ModeThreeActivity extends AppCompatActivity {
 
 
                 // Logic copy-pasted (and changed) from ServicePlayer.Play()
-                if(MyApplication.playingMode == DataContract.UserPrefEntry.PLAYING_MODE_CUSTOM) {
+                if(DatabaseData.playingMode == DataContract.UserPrefEntry.PLAYING_MODE_CUSTOM) {
                     // Loop through all possibilities
                     for(int i = Math.min(Math.min(MyApplication.directionUpID, MyApplication.directionDownID), MyApplication.directionSameID); i <=
                             Math.max(Math.max(MyApplication.directionUpID, MyApplication.directionDownID), MyApplication.directionSameID); i++) {
                         directionToPlay = null;
-                        if(MyApplication.directionUpViewIndex == i && MyApplication.directionUp) {
+                        if(DatabaseData.directionUpViewIndex == i && DatabaseData.directionUp) {
                             directionToPlay = MyApplication.directionUpID;
-                        } else if(MyApplication.directionDownViewIndex == i && MyApplication.directionDown) {
+                        } else if(DatabaseData.directionDownViewIndex == i && DatabaseData.directionDown) {
                             directionToPlay = MyApplication.directionDownID;
-                        } else if(MyApplication.directionSameTimeViewIndex == i && MyApplication.directionSameTime) {
+                        } else if(DatabaseData.directionSameTimeViewIndex == i && DatabaseData.directionSameTime) {
                             directionToPlay = MyApplication.directionSameID;
                         }
 
@@ -468,37 +469,37 @@ public class ModeThreeActivity extends AppCompatActivity {
                             continue;
                         }
 
-                        if(MyApplication.quizPlayingPaused) {
+                        if(QuizData.quizPlayingPaused) {
                             // If playing was paused, stop playing
                             return;
                         }
 
                         if(!(MyApplication.getActivity() instanceof ModeThreeActivity)) {
                             // If activity was exited, stop playing
-                            MyApplication.quizPlayingCurrentThing = false;
+                            QuizData.quizPlayingCurrentThing = false;
                             return;
                         }
 
                         justPlayThis(directionToPlay, playingID);
-                        if(MyApplication.quizIntervalToPlay == null && MyApplication.quizChordToPlay == null) {
+                        if(QuizData.quizIntervalToPlay == null && QuizData.quizChordToPlay == null) {
                             // If tone is playing break the loop
                             break;
                         }
                     }
 
-                    if(MyApplication.directionsCount <= 0) {
+                    if(DatabaseData.directionsCount <= 0) {
                         // If there is no direction to play, try to play an key
                         justPlayThis(null, playingID);
                     }
-                } else if(MyApplication.playingMode == DataContract.UserPrefEntry.PLAYING_MODE_RANDOM) {
-                    int randomNumb = rand.nextInt(MyApplication.directionsCount);
+                } else if(DatabaseData.playingMode == DataContract.UserPrefEntry.PLAYING_MODE_RANDOM) {
+                    int randomNumb = rand.nextInt(DatabaseData.directionsCount);
                     int counter = 0;
                     // Loop through IDs (and numbers in between) until you come to Id that is in place of randomNumb (in order)
                     for(int i = Math.min(Math.min(MyApplication.directionUpID, MyApplication.directionDownID), MyApplication.directionSameID); i <=
                             Math.max(Math.max(MyApplication.directionUpID, MyApplication.directionDownID), MyApplication.directionSameID); i++) {
-                        if((MyApplication.directionUp && MyApplication.directionUpID == i) ||
-                                (MyApplication.directionDown && MyApplication.directionDownID == i) ||
-                                (MyApplication.directionSameTime && MyApplication.directionSameID == i)) {
+                        if((DatabaseData.directionUp && MyApplication.directionUpID == i) ||
+                                (DatabaseData.directionDown && MyApplication.directionDownID == i) ||
+                                (DatabaseData.directionSameTime && MyApplication.directionSameID == i)) {
                             if(counter >= randomNumb) {
                                 directionToPlay = i;
                                 break;
@@ -511,16 +512,16 @@ public class ModeThreeActivity extends AppCompatActivity {
                     if(directionToPlay == null) {
                         Log.e("ServicePlayer","Random algorithm is not working (ServicePlayer)");
                         // Something went wrong
-                        MyApplication.quizPlayingCurrentThing = false;
+                        QuizData.quizPlayingCurrentThing = false;
                         return;
                     }
 
                     justPlayThis(directionToPlay, playingID);
                 }
 
-                if(!MyApplication.quizPlayingPaused && playingID == MyApplication.quizPlayingID) {
+                if(!QuizData.quizPlayingPaused && playingID == QuizData.quizPlayingID) {
                     // If playing is not paused, it's finished
-                    MyApplication.quizPlayingCurrentThing = false;
+                    QuizData.quizPlayingCurrentThing = false;
                 }
             }
         });
@@ -533,42 +534,42 @@ public class ModeThreeActivity extends AppCompatActivity {
             Thread.sleep(10);
         } catch (Exception e) {}
 
-        if(playingID != MyApplication.quizPlayingID) {
+        if(playingID != QuizData.quizPlayingID) {
             return;
         }
 
-        if(MyApplication.quizIntervalToPlay != null && directionToPlay != null) {
-            MyApplication.playChord(new Interval[]{MyApplication.quizIntervalToPlay}, MyApplication.quizLowestKey, directionToPlay);
+        if(QuizData.quizIntervalToPlay != null && directionToPlay != null) {
+            MyApplication.playChord(new Interval[]{QuizData.quizIntervalToPlay}, QuizData.quizLowestKey, directionToPlay);
 
             try {
-                Thread.sleep((long)MyApplication.tonesSeparationTime * 2 + (long)MyApplication.delayBetweenChords + addMS);
+                Thread.sleep((long) DatabaseData.tonesSeparationTime * 2 + (long) DatabaseData.delayBetweenChords + addMS);
             } catch (Exception e) {}
-        } else if(MyApplication.quizChordToPlay != null && directionToPlay != null) {
-            MyApplication.playChord(MyApplication.quizChordToPlay.getAllIntervals(), MyApplication.quizLowestKey, directionToPlay);
+        } else if(QuizData.quizChordToPlay != null && directionToPlay != null) {
+            MyApplication.playChord(QuizData.quizChordToPlay.getAllIntervals(), QuizData.quizLowestKey, directionToPlay);
 
             try {
-                Thread.sleep((long)MyApplication.tonesSeparationTime * (MyApplication.quizChordToPlay.getToneNumber()) + (long)MyApplication.delayBetweenChords + addMS);
+                Thread.sleep((long) DatabaseData.tonesSeparationTime * (QuizData.quizChordToPlay.getToneNumber()) + (long) DatabaseData.delayBetweenChords + addMS);
             } catch (Exception e) {}
-        } else if(MyApplication.playWhatTone || MyApplication.playWhatOctave) {
-            MyApplication.playKey(MyApplication.quizLowestKey);
+        } else if(DatabaseData.playWhatTone || DatabaseData.playWhatOctave) {
+            MyApplication.playKey(QuizData.quizLowestKey);
 
             try {
-                Thread.sleep((long)MyApplication.tonesSeparationTime + (long)MyApplication.delayBetweenChords + addMS);
+                Thread.sleep((long) DatabaseData.tonesSeparationTime + (long) DatabaseData.delayBetweenChords + addMS);
             } catch (Exception e) {}
         }
     }
 
     // TODO: random key uses key borders, it is not checking if key sound is loaded, check if key sound is loaded
     private int getRandomKey() {
-        if(MyApplication.quizIntervalToPlay != null) {
-            return rand.nextInt(MyApplication.upKeyBorder-MyApplication.downKeyBorder-MyApplication.quizIntervalToPlay.getDifference())+MyApplication.downKeyBorder;
+        if(QuizData.quizIntervalToPlay != null) {
+            return rand.nextInt(DatabaseData.upKeyBorder- DatabaseData.downKeyBorder- QuizData.quizIntervalToPlay.getDifference())+ DatabaseData.downKeyBorder;
         }
 
-        if(MyApplication.quizChordToPlay != null) {
-            return rand.nextInt(MyApplication.upKeyBorder-MyApplication.downKeyBorder-MyApplication.quizChordToPlay.getDifference())+MyApplication.downKeyBorder;
+        if(QuizData.quizChordToPlay != null) {
+            return rand.nextInt(DatabaseData.upKeyBorder- DatabaseData.downKeyBorder- QuizData.quizChordToPlay.getDifference())+ DatabaseData.downKeyBorder;
         }
 
-        return rand.nextInt(MyApplication.upKeyBorder-MyApplication.downKeyBorder)+MyApplication.downKeyBorder;
+        return rand.nextInt(DatabaseData.upKeyBorder- DatabaseData.downKeyBorder)+ DatabaseData.downKeyBorder;
     }
 
     // Are two keys inside same octave
@@ -590,8 +591,8 @@ public class ModeThreeActivity extends AppCompatActivity {
 
     private void gameOver() {
         // Save high score if greater than current
-        MyApplication.refreshQuizModeThreeHighScore();
-        MyApplication.quizScore = 0;
+        QuizData.refreshQuizModeThreeHighScore();
+        QuizData.quizScore = 0;
 
 
         showGameOverDialog();
@@ -600,7 +601,7 @@ public class ModeThreeActivity extends AppCompatActivity {
 
     private void updateProgressBarAnimation(long duration) {
         try {
-            if(!MyApplication.showProgressBar && MyApplication.isLoadingFinished) {
+            if(!DatabaseData.showProgressBar && MyApplication.isLoadingFinished) {
                 timeLeftToPlayProgressBar.setVisibility(View.INVISIBLE);
                 return;
             } else {
@@ -634,7 +635,7 @@ public class ModeThreeActivity extends AppCompatActivity {
 
 
         // If sound is being played, don't show progress bar (animation stops after screen rotation)
-        if(MyApplication.quizPlayingCurrentThing && !MyApplication.quizPlayingPaused) {
+        if(QuizData.quizPlayingCurrentThing && !QuizData.quizPlayingPaused) {
             timeLeftToPlayProgressBar.setVisibility(View.INVISIBLE);
         }
 
@@ -649,7 +650,7 @@ public class ModeThreeActivity extends AppCompatActivity {
         MyApplication.activityPaused();
 
         // Save high score if greater than current
-        MyApplication.refreshQuizModeThreeHighScore();
+        QuizData.refreshQuizModeThreeHighScore();
     }
 
 //    @Override
@@ -663,7 +664,7 @@ public class ModeThreeActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             // Respond to a click on the "Up" arrow button in the app bar
             case android.R.id.home:
-                MyApplication.quizPlayingCurrentThing = false;
+                QuizData.quizPlayingCurrentThing = false;
                 stopPlaying();
 
                 finish();
@@ -675,7 +676,7 @@ public class ModeThreeActivity extends AppCompatActivity {
     }
 
     private void updateSubmitAnswerButton() {
-        if(MyApplication.quizModeThreeShowSubmitButton) {
+        if(QuizData.quizModeThreeShowSubmitButton) {
             submitAnswerButton.setVisibility(View.VISIBLE);
         } else {
             submitAnswerButton.setVisibility(View.GONE);
@@ -683,7 +684,7 @@ public class ModeThreeActivity extends AppCompatActivity {
     }
 
     private void stopPlaying() {
-        MyApplication.quizPlayingID += 10;
+        QuizData.quizPlayingID += 10;
         if(quizModeOnePlayThread != null) {
             quizModeOnePlayThread.interrupt();
             quizModeOnePlayThread = null;
@@ -702,7 +703,7 @@ public class ModeThreeActivity extends AppCompatActivity {
         submitAnswerButton.setVisibility(View.GONE);
 
 
-        MyApplication.quizPlayingPaused = true;
+        QuizData.quizPlayingPaused = true;
     }
 
     private void resumeQuiz() {
@@ -713,7 +714,7 @@ public class ModeThreeActivity extends AppCompatActivity {
         updateSubmitAnswerButton();
 
 
-        MyApplication.quizPlayingPaused = false;
+        QuizData.quizPlayingPaused = false;
     }
 
 
@@ -731,14 +732,14 @@ public class ModeThreeActivity extends AppCompatActivity {
                 // Refresh UI
                 pauseQuiz();
 
-                MyApplication.quizModeThreeShowSubmitButton = false;
+                QuizData.quizModeThreeShowSubmitButton = false;
 
                 // Reset everything
-                MyApplication.quizPlayingPaused = true;
-                MyApplication.waitingForQuizAnswer = false;
+                QuizData.quizPlayingPaused = true;
+                QuizData.waitingForQuizAnswer = false;
 
 
-                scoreTextView.setText(String.valueOf(MyApplication.quizScore));
+                scoreTextView.setText(String.valueOf(QuizData.quizScore));
 
                 // User clicked the "try again" button, so dismiss the dialog and stay in quiz.
                 if (dialog != null) {

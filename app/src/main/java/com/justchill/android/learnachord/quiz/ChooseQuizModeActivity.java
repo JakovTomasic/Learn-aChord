@@ -18,6 +18,8 @@ import android.widget.TextView;
 import com.justchill.android.learnachord.LocaleHelper;
 import com.justchill.android.learnachord.MyApplication;
 import com.justchill.android.learnachord.R;
+import com.justchill.android.learnachord.database.DatabaseData;
+import com.justchill.android.learnachord.database.DatabaseHandler;
 
 public class ChooseQuizModeActivity extends AppCompatActivity {
 
@@ -74,7 +76,7 @@ public class ChooseQuizModeActivity extends AppCompatActivity {
         quizModeParentLayout[0].setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                MyApplication.quizScore = 0;
+                QuizData.quizScore = 0;
                 Intent intent = new Intent(ChooseQuizModeActivity.this, ModeOneActivity.class);
                 startActivity(intent);
             }
@@ -82,7 +84,7 @@ public class ChooseQuizModeActivity extends AppCompatActivity {
         quizModeParentLayout[1].setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                MyApplication.quizScore = 0;
+                QuizData.quizScore = 0;
                 Intent intent = new Intent(ChooseQuizModeActivity.this, ModeTwoActivity.class);
                 startActivity(intent);
             }
@@ -90,14 +92,14 @@ public class ChooseQuizModeActivity extends AppCompatActivity {
         quizModeParentLayout[2].setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                MyApplication.quizScore = 0;
+                QuizData.quizScore = 0;
                 Intent intent = new Intent(ChooseQuizModeActivity.this, ModeThreeActivity.class);
                 startActivity(intent);
             }
         });
 
 
-        MyApplication.isQuizModePlaying = true;
+        QuizData.isQuizModePlaying = true;
 
     }
 
@@ -133,9 +135,9 @@ public class ChooseQuizModeActivity extends AppCompatActivity {
     }
 
     private void resetQuizHighScoreViews() {
-        quizModeDescriptionTV[0].setText(readResource(R.string.highscore) + ":\n" + String.valueOf(MyApplication.quizModeOneHighscore));
-        quizModeDescriptionTV[1].setText(readResource(R.string.highscore) + ":\n" + String.valueOf(MyApplication.quizModeTwoHighscore));
-        quizModeDescriptionTV[2].setText(readResource(R.string.highscore) + ":\n" + String.valueOf(MyApplication.quizModeThreeHighscore));
+        quizModeDescriptionTV[0].setText(readResource(R.string.highscore) + ":\n" + String.valueOf(DatabaseData.quizModeOneHighscore));
+        quizModeDescriptionTV[1].setText(readResource(R.string.highscore) + ":\n" + String.valueOf(DatabaseData.quizModeTwoHighscore));
+        quizModeDescriptionTV[2].setText(readResource(R.string.highscore) + ":\n" + String.valueOf(DatabaseData.quizModeThreeHighscore));
     }
 
     private String readResource(int id) {
@@ -155,18 +157,18 @@ public class ChooseQuizModeActivity extends AppCompatActivity {
         MyApplication.setIsPlaying(false);
 
         MyApplication.activityResumed(ChooseQuizModeActivity.this);
-        MyApplication.quizPlayingPaused = true;
+        QuizData.quizPlayingPaused = true;
 
         // Set high scores
         resetQuizHighScoreViews();
 
-        MyApplication.quizChordNameToShow = "";
-        MyApplication.quizChordNumberOneToShow = "";
-        MyApplication.quizChordNumberTwoToShow = "";
-        MyApplication.waitingForQuizAnswer = false;
-        MyApplication.quizPlayingCurrentThing = false;
+        QuizData.quizChordNameToShow = "";
+        QuizData.quizChordNumberOneToShow = "";
+        QuizData.quizChordNumberTwoToShow = "";
+        QuizData.waitingForQuizAnswer = false;
+        QuizData.quizPlayingCurrentThing = false;
 
-        MyApplication.quizModeThreeShowSubmitButton = false;
+        QuizData.quizModeThreeShowSubmitButton = false;
     }
 
     @Override
@@ -174,8 +176,8 @@ public class ChooseQuizModeActivity extends AppCompatActivity {
         super.onPause();
 
         // Update database if new high score has been set
-        if(MyApplication.doesDbNeedUpdate()) {
-            MyApplication.updateDatabaseOnSeparateThread();
+        if(DatabaseHandler.doesDbNeedUpdate()) {
+            DatabaseHandler.updateDatabaseOnSeparateThread();
         }
 
         MyApplication.activityPaused();
@@ -246,17 +248,17 @@ public class ChooseQuizModeActivity extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int id) {
                 switch (quizMode) {
                     case 1:
-                        MyApplication.quizModeOneHighscore = 0;
+                        DatabaseData.quizModeOneHighscore = 0;
                         break;
                     case 2:
-                        MyApplication.quizModeTwoHighscore = 0;
+                        DatabaseData.quizModeTwoHighscore = 0;
                         break;
                     case 3:
-                        MyApplication.quizModeThreeHighscore = 0;
+                        DatabaseData.quizModeThreeHighscore = 0;
                         break;
                 }
 
-                MyApplication.setDoesDbNeedUpdate(true);
+                DatabaseHandler.setDoesDbNeedUpdate(true);
                 resetQuizHighScoreViews();
             }
         });

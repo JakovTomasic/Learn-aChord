@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.justchill.android.learnachord.chord.Chord;
 import com.justchill.android.learnachord.chord.ChordsList;
 import com.justchill.android.learnachord.database.DataContract;
+import com.justchill.android.learnachord.database.DatabaseHandler;
 
 import java.util.ArrayList;
 
@@ -59,7 +60,7 @@ public class ChordAdapter extends ArrayAdapter<Chord> {
             @Override
             public void onClick(View view) {
 //                Toast.makeText(getContext(), "numb: " + position, Toast.LENGTH_SHORT).show();
-                MyApplication.setDoesDbNeedUpdate(true);
+                DatabaseHandler.setDoesDbNeedUpdate(true);
                 onOff.setChecked(!onOff.isChecked());
 
                 if (currentChord != null) {
@@ -87,7 +88,7 @@ public class ChordAdapter extends ArrayAdapter<Chord> {
 
         if (currentChord != null) {
             TextView chordLabel = (TextView) settingsView.findViewById(R.id.settings_interval_text_view);
-            chordLabel.setText(currentChord.getChordName());
+            chordLabel.setText(currentChord.getName());
 
             TextView numberOneTV = settingsView.findViewById(R.id.settings_chord_one_text_view);
             TextView numberTwoTV = settingsView.findViewById(R.id.settings_chord_two_text_view);

@@ -6,6 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <!--Text size is changed programmatically-->
+
     <TextView
         android:id="@+id/interval_text_view"
         android:layout_width="match_parent"

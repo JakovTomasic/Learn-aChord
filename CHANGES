@@ -34,7 +34,7 @@ v0.30	- YUHU! Changed logic for playing key (now in play()) and replaced mode ==
 v0.31	- started to work on UI, added fabIV transition (and then removed) and playing progress bar (but not it's logic)
 v0.32	- tried to add ProgressBar logic, need finishing (added ProgressBarAnimation class), this version is crashing when playing
 v0.33	- added progress bar logic (animations) for loading soundSpools and playing intervals
-v0.34	- fixed ProgressBar playing animation when rotating, changed play/stop button position rules (no overlapping when playing POV4/SM5), created onLoadingFinished MainActivity listener for changing play/stop button color and setting is it clickable
+v0.34	- fixed ProgressBar playing animation when rotating, changed play/stop button position rules (no overlapping when playing POV4/SM5), created onLoadingFinished MainActivity servicePlayerListener for changing play/stop button color and setting is it clickable
 v0.35	- smarted-up loading SoundPool sounds (added loading delay for every sound as long as previous sound was loading)
 v0.36	- added show progress bar setting and it's logic, next is adding MainActivity components scaling
 v0.37	- BUG! wierd/too fast playing. Added MainActivity scaling depending on screen size, added AutoResizeTextView class (should be removed)

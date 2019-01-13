@@ -227,18 +227,18 @@ public class DataProvider extends ContentProvider {
         if(temp == null) {
             throw new IllegalArgumentException("Data cannot be null");
         }
-        if(!MyApplication.isTonesSeparationTimeValid((double) temp)) {
-            throw new IllegalArgumentException("Data " + temp + " is out of borders, min border: " + MyApplication.minTonesSeparationTime
-                    + ", max border: " + MyApplication.maxTonesSeparationTime);
+        if(!DatabaseData.isTonesSeparationTimeValid((double) temp)) {
+            throw new IllegalArgumentException("Data " + temp + " is out of borders, min border: " + DatabaseData.minTonesSeparationTime
+                    + ", max border: " + DatabaseData.maxTonesSeparationTime);
         }
 
         temp = values.getAsInteger(preferenceKeys[4]);
         if(temp == null) {
             throw new IllegalArgumentException("Data cannot be null");
         }
-        if(!MyApplication.isChordDurationTimeValid((double) temp)) {
-            throw new IllegalArgumentException("Data " + temp + " is out of borders, min border: " + MyApplication.minChordDurationTime
-                    + ", max border: " + MyApplication.maxChordDurationTime);
+        if(!DatabaseData.isChordDurationTimeValid((double) temp)) {
+            throw new IllegalArgumentException("Data " + temp + " is out of borders, min border: " + DatabaseData.minChordDurationTime
+                    + ", max border: " + DatabaseData.maxChordDurationTime);
         }
 
         temp = values.getAsInteger(preferenceKeys[5]);
@@ -374,9 +374,9 @@ public class DataProvider extends ContentProvider {
         int rowsUpdated = database.update(DataContract.UserPrefEntry.TABLE_NAME, values, selection, selectionArgs);
 
         if(rowsUpdated > 0) {
-            MyApplication.setDoIntervalsNeedUpdate(true);
-            MyApplication.setDoChordsNeedUpdate(true);
-            MyApplication.setDoSettingsNeedUpdate(true);
+            DatabaseHandler.setDoIntervalsNeedUpdate(true);
+            DatabaseHandler.setDoChordsNeedUpdate(true);
+            DatabaseHandler.setDoSettingsNeedUpdate(true);
         }
 
         // Return the number of rows updated
@@ -421,7 +421,7 @@ public class DataProvider extends ContentProvider {
                 values.put(preferenceKeys[2], DataContract.UserPrefEntry.CHECKBOX_NOT_CHECKED);
                 values.put(preferenceKeys[3], DataContract.UserPrefEntry.DEFAULT_TONES_SEPARATION_TIME);
                 values.put(preferenceKeys[4], DataContract.UserPrefEntry.DEFAULT_INTERVAL_DURATION_TIME);
-                values.put(preferenceKeys[5], MyApplication.DEFAULT_SYSTEM_LANGUAGE);
+                values.put(preferenceKeys[5], DatabaseData.DEFAULT_SYSTEM_LANGUAGE);
                 values.put(preferenceKeys[6], 1);
                 values.put(preferenceKeys[7], DataContract.UserPrefEntry.NUMBER_OF_KEYS);
                 values.put(preferenceKeys[8], DataContract.UserPrefEntry.CHECKBOX_CHECKED);
@@ -434,9 +434,9 @@ public class DataProvider extends ContentProvider {
                 values.put(preferenceKeys[15], DataContract.UserPrefEntry.CHECKBOX_NOT_CHECKED);
                 values.put(preferenceKeys[16], DataContract.UserPrefEntry.CHECKBOX_NOT_CHECKED);
                 // You cannot delete high scores
-                values.put(preferenceKeys[17], MyApplication.quizModeOneHighscore);
-                values.put(preferenceKeys[18], MyApplication.quizModeTwoHighscore);
-                values.put(preferenceKeys[19], MyApplication.quizModeThreeHighscore);
+                values.put(preferenceKeys[17], DatabaseData.quizModeOneHighscore);
+                values.put(preferenceKeys[18], DatabaseData.quizModeTwoHighscore);
+                values.put(preferenceKeys[19], DatabaseData.quizModeThreeHighscore);
 
                 // Run update with default data (set data to default)
                 rowsDeleted = update(ContentUris.withAppendedId(DataContract.UserPrefEntry.CONTENT_URI, 1), values, selection, selectionArgs);

@@ -108,7 +108,7 @@
     <string name="direction_down">Silazno</string>
     <string name="direction_simultaneously">Istovremeno</string>
     <string name="second_sound_delay">Trajanje svakoga tona</string>
-    <string name="between_chord_delay">Vremensi razmak između intervala</string>
+    <string name="between_chord_delay">Vremenski razmak između sviranja</string>
     <string name="second">s</string>
     <!--<string name="second_sound_delay_default_hint">0.00</string>-->
     <string name="language">Jezik</string>
@@ -117,7 +117,7 @@
     <string name="update_to_pro_remove_ads">Makni reklame</string>
     <string name="range">Raspon</string>
     <!--<string name="range_keys_separator" translatable="false">-</string>-->
-    <string name="show_progress_bar">Prikaz trajanja intervala</string>
+    <string name="show_progress_bar">Prikaz trajanja</string>
     <string name="show_what_intervals">Prikaz intervala akorda</string>
     <string name="chord_text_size">Veličina slova</string>
 

@@ -108,7 +108,7 @@
     <string name="direction_down">Descending</string>
     <string name="direction_simultaneously">Simultaneously</string>
     <string name="second_sound_delay">Each tone duration</string>
-    <string name="between_chord_delay">Delay between intervals</string>
+    <string name="between_chord_delay">Delay between intervals/chords</string>
     <string name="second">s</string>
     <!--<string name="second_sound_delay_default_hint">0.00</string>-->
     <string name="language">Language</string>

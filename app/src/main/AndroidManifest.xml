@@ -3,6 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.justchill.android.learnachord">
 
+    <supports-screens android:largeScreens="true" android:xlargeScreens="true" />
+
 
     <!--android:windowSoftInputMode="stateAlwaysHidden" -> to not show keyboard when opening activity -->
 

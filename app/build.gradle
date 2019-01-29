@@ -6,7 +6,7 @@ android {
         applicationId "com.justchill.android.learnachord"
         minSdkVersion 15
         targetSdkVersion 28
-        versionCode 2
+        versionCode 3
         versionName "2.2"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }

@@ -31,6 +31,8 @@ import java.util.Random;
 
 public class ServicePlayer extends Service {
 
+    // All sounds downloaded from http://theremin.music.uiowa.edu/MISpiano.html (ff sounds)
+
     private static SoundPool soundPool;
     private int[] keySounds = new int[DataContract.UserPrefEntry.NUMBER_OF_KEYS]; // Now, there are 61 key sounds in raw R directory
     private boolean[] keySoundLoaded = new boolean[DataContract.UserPrefEntry.NUMBER_OF_KEYS];
@@ -113,8 +115,8 @@ public class ServicePlayer extends Service {
         // TODO: 5 is number of sounds that can be played at same time, replace it with 6 when bigger chords are added (in 2 places)
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) { // >= api 21
             audioAttributes = new AudioAttributes.Builder()
-                    .setUsage(AudioAttributes.USAGE_ASSISTANCE_SONIFICATION)
-                    .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+                    .setUsage(AudioAttributes.USAGE_MEDIA)
+                    .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
                     .build();
 
             if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {

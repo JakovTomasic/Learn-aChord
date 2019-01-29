@@ -7,6 +7,7 @@
     <color name="colorPrimary">#38ac38</color>
     <color name="colorPrimaryDark">#224225</color>
     <color name="colorAccent">#397b39</color>
+    <color name="navBarColor">#224225</color>
 
     <color name="TabLayoutBackground">#319631</color>
     <color name="darkTextColor">#224225</color>

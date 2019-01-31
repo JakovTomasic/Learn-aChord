@@ -16,7 +16,7 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 
-import com.justchill.android.learnachord.chord.Interval;
+import com.justchill.android.learnachord.intervalOrChord.Interval;
 import com.justchill.android.learnachord.database.DataContract;
 import com.justchill.android.learnachord.database.DatabaseData;
 

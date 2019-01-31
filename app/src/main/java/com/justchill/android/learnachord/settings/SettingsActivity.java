@@ -3,6 +3,7 @@ package com.justchill.android.learnachord.settings;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.media.AudioManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
@@ -15,10 +16,10 @@ import android.view.inputmethod.InputMethodManager;
 import com.justchill.android.learnachord.LocaleHelper;
 import com.justchill.android.learnachord.MyApplication;
 import com.justchill.android.learnachord.R;
-import com.justchill.android.learnachord.chord.Chord;
-import com.justchill.android.learnachord.chord.ChordsList;
-import com.justchill.android.learnachord.chord.Interval;
-import com.justchill.android.learnachord.chord.IntervalsList;
+import com.justchill.android.learnachord.intervalOrChord.Chord;
+import com.justchill.android.learnachord.intervalOrChord.ChordsList;
+import com.justchill.android.learnachord.intervalOrChord.Interval;
+import com.justchill.android.learnachord.intervalOrChord.IntervalsList;
 import com.justchill.android.learnachord.database.DataContract;
 import com.justchill.android.learnachord.database.DatabaseData;
 import com.justchill.android.learnachord.database.DatabaseHandler;
@@ -28,6 +29,10 @@ public class SettingsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // Change media volume when volume buttons are pressed
+        setVolumeControlStream(AudioManager.STREAM_MUSIC);
+
 
         MyApplication.settingActivityLoadedLanguage = DatabaseData.appLanguage;
 

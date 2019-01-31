@@ -11,8 +11,8 @@ import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.justchill.android.learnachord.chord.Interval;
-import com.justchill.android.learnachord.chord.IntervalsList;
+import com.justchill.android.learnachord.intervalOrChord.Interval;
+import com.justchill.android.learnachord.intervalOrChord.IntervalsList;
 import com.justchill.android.learnachord.database.DatabaseHandler;
 
 import java.util.ArrayList;

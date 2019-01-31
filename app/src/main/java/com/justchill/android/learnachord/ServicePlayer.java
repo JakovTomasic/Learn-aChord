@@ -17,10 +17,10 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.justchill.android.learnachord.chord.Chord;
-import com.justchill.android.learnachord.chord.ChordsList;
-import com.justchill.android.learnachord.chord.Interval;
-import com.justchill.android.learnachord.chord.IntervalsList;
+import com.justchill.android.learnachord.intervalOrChord.Chord;
+import com.justchill.android.learnachord.intervalOrChord.ChordsList;
+import com.justchill.android.learnachord.intervalOrChord.Interval;
+import com.justchill.android.learnachord.intervalOrChord.IntervalsList;
 import com.justchill.android.learnachord.database.DataContract;
 import com.justchill.android.learnachord.database.DatabaseData;
 import com.justchill.android.learnachord.quiz.QuizData;
@@ -117,6 +117,7 @@ public class ServicePlayer extends Service {
             audioAttributes = new AudioAttributes.Builder()
                     .setUsage(AudioAttributes.USAGE_MEDIA)
                     .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
+                    .setLegacyStreamType(AudioManager.STREAM_MUSIC)
                     .build();
 
             if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {

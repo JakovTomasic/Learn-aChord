@@ -3,6 +3,7 @@ package com.justchill.android.learnachord.quiz;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.media.AudioManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -21,10 +22,10 @@ import com.justchill.android.learnachord.LocaleHelper;
 import com.justchill.android.learnachord.MyApplication;
 import com.justchill.android.learnachord.ProgressBarAnimation;
 import com.justchill.android.learnachord.R;
-import com.justchill.android.learnachord.chord.Chord;
-import com.justchill.android.learnachord.chord.ChordsList;
-import com.justchill.android.learnachord.chord.Interval;
-import com.justchill.android.learnachord.chord.IntervalsList;
+import com.justchill.android.learnachord.intervalOrChord.Chord;
+import com.justchill.android.learnachord.intervalOrChord.ChordsList;
+import com.justchill.android.learnachord.intervalOrChord.Interval;
+import com.justchill.android.learnachord.intervalOrChord.IntervalsList;
 import com.justchill.android.learnachord.database.DataContract;
 import com.justchill.android.learnachord.database.DatabaseData;
 
@@ -72,6 +73,9 @@ public class ModeTwoActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_quiz_mode_two);
         setTitle(readResource(R.string.quiz) + readResource(R.string.quiz_mode_title_separator) + readResource(R.string.quiz_mode_two_title));
+
+        // Change media volume when volume buttons are pressed
+        setVolumeControlStream(AudioManager.STREAM_MUSIC);
 
 
         optionsParentLayout = findViewById(R.id.four_options_parent_layout);

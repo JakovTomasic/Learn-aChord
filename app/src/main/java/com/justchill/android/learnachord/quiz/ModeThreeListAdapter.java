@@ -11,9 +11,9 @@ import android.widget.TextView;
 
 import com.justchill.android.learnachord.MyApplication;
 import com.justchill.android.learnachord.R;
-import com.justchill.android.learnachord.chord.Chord;
-import com.justchill.android.learnachord.chord.ChordsList;
-import com.justchill.android.learnachord.chord.IntervalsList;
+import com.justchill.android.learnachord.intervalOrChord.Chord;
+import com.justchill.android.learnachord.intervalOrChord.ChordsList;
+import com.justchill.android.learnachord.intervalOrChord.IntervalsList;
 import com.justchill.android.learnachord.database.DataContract;
 import com.justchill.android.learnachord.database.DatabaseData;
 

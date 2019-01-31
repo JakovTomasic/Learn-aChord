@@ -12,7 +12,7 @@ import android.widget.ListView;
 import com.justchill.android.learnachord.IntervalAdapter;
 import com.justchill.android.learnachord.LocaleHelper;
 import com.justchill.android.learnachord.R;
-import com.justchill.android.learnachord.chord.IntervalsList;
+import com.justchill.android.learnachord.intervalOrChord.IntervalsList;
 import com.justchill.android.learnachord.database.DatabaseHandler;
 
 public class IntervalsFragment extends Fragment {

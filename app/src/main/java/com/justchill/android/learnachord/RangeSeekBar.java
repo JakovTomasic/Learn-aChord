@@ -446,7 +446,7 @@ public class RangeSeekBar<T extends Number> extends android.support.v7.widget.Ap
             width = MeasureSpec.getSize(widthMeasureSpec);
         }
 
-        int height = (int) (thumbHalfHeight*2) + PixelUtil.dpToPx(getContext(), HEIGHT_IN_DP);
+        int height = (int) (thumbHalfHeight*2) + PixelUtil.dpToPx(getContext(), HEIGHT_IN_DP) + PixelUtil.dpToPx(getContext(), INITIAL_PADDING_IN_DP);
         if (MeasureSpec.UNSPECIFIED != MeasureSpec.getMode(heightMeasureSpec)) {
             height = Math.min(height, MeasureSpec.getSize(heightMeasureSpec));
         }

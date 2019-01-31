@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import com.justchill.android.learnachord.chord.Interval;
+import com.justchill.android.learnachord.intervalOrChord.Interval;
 import com.justchill.android.learnachord.database.DatabaseData;
 
 public class WhatIntervalsAdapter extends ArrayAdapter<Interval> {

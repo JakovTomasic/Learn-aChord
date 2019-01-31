@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.media.AudioManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -40,6 +41,8 @@ public class ChooseQuizModeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_choose_quiz_mode);
         setTitle(R.string.quiz);
 
+        // Change media volume when volume buttons are pressed
+        setVolumeControlStream(AudioManager.STREAM_MUSIC);
 
         parentLayout = findViewById(R.id.activity_choose_quiz_mode_parent_layout);
 

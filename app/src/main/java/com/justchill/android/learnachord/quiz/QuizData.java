@@ -4,8 +4,8 @@ import android.view.View;
 
 import com.justchill.android.learnachord.MyApplication;
 import com.justchill.android.learnachord.R;
-import com.justchill.android.learnachord.chord.Chord;
-import com.justchill.android.learnachord.chord.Interval;
+import com.justchill.android.learnachord.intervalOrChord.Chord;
+import com.justchill.android.learnachord.intervalOrChord.Interval;
 import com.justchill.android.learnachord.database.DatabaseData;
 import com.justchill.android.learnachord.database.DatabaseHandler;
 

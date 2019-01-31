@@ -1,4 +1,4 @@
-package com.justchill.android.learnachord.chord;
+package com.justchill.android.learnachord.intervalOrChord;
 
 class IntervalOrChord {
 

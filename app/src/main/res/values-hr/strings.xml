@@ -179,9 +179,9 @@
     <!--Quiz explanation dialog-->
     <string name="quiz_explanation_dialog_text">\tU laganome načinu bit će odsviran i prikazan jedan interval, akord ili ton.
         Trebat ćete odabrati je li ono što je odsvirano i prikazano, ili je prikazan neki drugi interval, akord ili ton. \n\t
-        Srednje težak način ponudit će četiri intervala, akorda ili tonova. Vi trebate odabrati onaj koji je odsviran. \n\t
+        Srednje težak način ponudit će četiri intervala, akorda ili tona. Vi trebate odabrati onaj koji je odsviran. \n\t
         U teškom načinu morat ćete točno odabrati ono što je odsvirano. \n\t
-        Samo oni intervali i akordi koji su odabrani u postavkama će se svirati i prikazivati. Ako ste odabrali tonove trebat ćete znati točno koji
+        Samo oni intervali i akordi koji su odabrani u postavkama će se svirati i prikazivati. Ako ste odabrali tonove, trebat ćete znati točno koji
         je ton odsviran. Ako ste odabrali samo oktave, trebat ćete znati u kojoj se oktavi ton nalazi.</string>
 
     <string name="quiz_reset_mode_one_highscore_message">Trenutni rekord za lagani kviz bit će izbrisan. Želite li nastaviti?</string>

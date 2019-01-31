@@ -6,6 +6,7 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Point;
 import android.graphics.drawable.Drawable;
+import android.media.AudioManager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Display;
@@ -54,6 +55,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         setTitle(R.string.app_name); // This is not needed
+
+        // Change media volume when volume buttons are pressed
+        setVolumeControlStream(AudioManager.STREAM_MUSIC);
 
 
         parentLayout = (ViewGroup) findViewById(R.id.main_activity_parent_layout);

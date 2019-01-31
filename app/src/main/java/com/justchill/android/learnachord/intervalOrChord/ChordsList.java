@@ -1,4 +1,4 @@
-package com.justchill.android.learnachord.chord;
+package com.justchill.android.learnachord.intervalOrChord;
 
 import android.content.Context;
 import android.content.res.Resources;

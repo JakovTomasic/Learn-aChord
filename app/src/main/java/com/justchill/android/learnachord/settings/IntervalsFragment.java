@@ -29,6 +29,9 @@ public class IntervalsFragment extends Fragment {
         intervalSettings = (ListView) fragmentView.findViewById(R.id.settings_interval_list_view);
         refreshIntervalAdapter();
 
+        allIntervalsCB = (CheckBox) fragmentView.findViewById(R.id.all_intervals_check);
+        setAllIntervalsCB();
+
         LocaleHelper.setLocale(getContext(), null);
 
         return fragmentView;
@@ -37,9 +40,6 @@ public class IntervalsFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-
-        allIntervalsCB = (CheckBox) fragmentView.findViewById(R.id.all_intervals_check);
-        setAllIntervalsCB();
 
         allIntervalsCB.setOnClickListener(new View.OnClickListener() {
             @Override

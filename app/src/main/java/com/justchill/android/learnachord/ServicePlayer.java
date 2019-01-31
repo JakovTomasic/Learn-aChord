@@ -38,6 +38,7 @@ public class ServicePlayer extends Service {
     private boolean[] keySoundLoaded = new boolean[DataContract.UserPrefEntry.NUMBER_OF_KEYS];
     private final int soundsToLoadBeforePlaying = 25; // TODO: optimize this, loading sounds
     private boolean areAllSoundsLoaded = false;
+    private boolean waitSoundpoolToLoad = false;
 
     private AudioManager audioManager;
 
@@ -133,6 +134,14 @@ public class ServicePlayer extends Service {
         } else {
             soundPool = new SoundPool(5, AudioManager.STREAM_MUSIC, 0); // sryQuality = 0 is never implemented, can be any#
         }
+
+        soundPool.setOnLoadCompleteListener(new SoundPool.OnLoadCompleteListener() {
+            @Override
+            public void onLoadComplete(SoundPool soundPool, int sampleID, int status) {
+                // When sound is loaded, stop waiting and continue to load other sounds
+                waitSoundpoolToLoad = false;
+            }
+        });
 
 //        Thread debug = new Thread() {
 //            @Override
@@ -845,17 +854,30 @@ public class ServicePlayer extends Service {
                 Field field = res.getField("piano" + i); // Rand key - interval
                 int resID = field.getInt(null);
 
+                // In new versions loading is asynchronous, waitSoundpoolToLoad reverses that (so we can show sounds loading animation)
+                waitSoundpoolToLoad = true;
+
                 // priority == 1 will be implemented later in android OS, 1 is recommended for future compatibility
                 keySounds[i-1] = soundPool.load(MyApplication.getActivity(), resID, 1);
+
+                // Wait until sound is fully loaded
+                while(waitSoundpoolToLoad) {
+                    // If it is not loaded yet, wait 2 ms and check again
+                    try {
+                        Thread.sleep(2);
+                    } catch (Exception e) {
+                        break;
+                    }
+                }
 
                 if(showProgress) {
                     // Instant set to percentage of sounds loaded
                     updateProgressBarAnimation(null, (int)(((double)i/to) * ((float)max) )); // Update Progress Bar
                 } else {
                     // If progress is not needed to show, process is running in background.
-                    // Sleep for time that needed to load one sound*2, to ease off CPU
+                    // Sleep for time that needed to load one sound, to ease off CPU
                     try {
-                        Thread.sleep((System.currentTimeMillis()-startTime) * 2 + 1);
+                        Thread.sleep((System.currentTimeMillis()-startTime) + 1);
                     } catch (InterruptedException e2) {
                         e2.printStackTrace();
                     }

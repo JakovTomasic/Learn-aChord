@@ -29,6 +29,9 @@ public class ChordsFragment extends Fragment {
         chordSettings = (ListView) fragmentView.findViewById(R.id.settings_chord_list_view);
         refreshChordAdapter();
 
+        allChordsCB = (CheckBox) fragmentView.findViewById(R.id.all_chords_check);
+        setAllChordsCB();
+
         LocaleHelper.setLocale(getContext(), null);
 
         return fragmentView;
@@ -37,9 +40,6 @@ public class ChordsFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-
-        allChordsCB = (CheckBox) fragmentView.findViewById(R.id.all_chords_check);
-        setAllChordsCB();
 
         allChordsCB.setOnClickListener(new View.OnClickListener() {
             @Override

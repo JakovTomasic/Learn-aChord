@@ -102,8 +102,6 @@ public class ChooseQuizModeActivity extends AppCompatActivity {
         });
 
 
-        QuizData.isQuizModePlaying = true;
-
     }
 
     private void setQuizModeSize(int modeID) {
@@ -158,6 +156,9 @@ public class ChooseQuizModeActivity extends AppCompatActivity {
 
         // Stop all sounds in case user exited a quiz when sound was laying
         MyApplication.setIsPlaying(false);
+
+
+        QuizData.isQuizModePlaying = true;
 
         MyApplication.activityResumed(ChooseQuizModeActivity.this);
         QuizData.quizPlayingPaused = true;

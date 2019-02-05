@@ -6,6 +6,7 @@ import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
@@ -350,31 +351,13 @@ public class MyApplication extends Application {
     }
 
 
-
-//    public static Context updateResources(Context tempContext, String language) {
-//        if(language == null) {
-//            if(MyApplication.appLanguage == DataContract.UserPrefEntry.LANGUAGE_CROATIAN) {
-//                language = DataContract.UserPrefEntry.CROATIAN_LANGUAGE_TAG;
-//            } else {
-//                language = DataContract.UserPrefEntry.ENGLISH_LANGUAGE_TAG;
-//            }
-//        }
-//
-//        Locale locale = new Locale(language);
-//        Locale.setDefault(locale);
-//
-//        Resources res = tempContext.getResources();
-//        Configuration config = new Configuration(res.getConfiguration());
-//        if (Build.VERSION.SDK_INT >= 17) {
-//            config.setLocale(locale);
-//            tempContext = tempContext.createConfigurationContext(config);
-//        } else {
-//            config.locale = locale;
-//            res.updateConfiguration(config, res.getDisplayMetrics());
-//        }
-//
-//        return tempContext;
-//    }
+    // Read string from /res
+    public static String readResource(int id, Resources resources) {
+        if(resources == null) {
+            resources = getAppContext().getResources();
+        }
+        return resources.getString(id);
+    }
 
     @Override
     protected void attachBaseContext(Context base) {

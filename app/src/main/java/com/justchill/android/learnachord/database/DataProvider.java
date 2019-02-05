@@ -12,17 +12,17 @@ import android.support.annotation.NonNull;
 import com.justchill.android.learnachord.MyApplication;
 import com.justchill.android.learnachord.R;
 
+import java.util.Set;
+
 public class DataProvider extends ContentProvider {
 
 //    /** Tag for the log messages */
 //    public static final String LOG_TAG = DataProvider.class.getSimpleName();
 
+    // Database helper
     private IntervalsDbHelper mIntervalsDbHelper;
     /** URI matcher code for the content URI for the userpref table */
-    private static final int USERPREFS = 100;
-
-//    /** URI matcher code for the content URI for a single pet in the pets table */
-//    private static final int PET_ID = 101;
+    private static final int USERPREFS = 100; // Constant to get just one row of table
 
     /**
      * UriMatcher object to match a content URI to a corresponding code.
@@ -99,6 +99,7 @@ public class DataProvider extends ContentProvider {
 
     /**
      * Insert new data into the provider with the given ContentValues.
+     * This is not used because DB table has only one row.
      */
     @Override
     public Uri insert(@NonNull Uri uri, ContentValues contentValues) {
@@ -163,9 +164,14 @@ public class DataProvider extends ContentProvider {
     private int updateData(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
         // The values for the fields (that aren't present in the ContentValues object) will stay the same as before.
 
-        // Check that all data is acceptable
+        /*
+         * Check that all data is acceptable (valid)
+         */
+
+        // Get all intervals' keys (all intervals under the octave, including octave) (column names)
         String[] intervalKeys = MyApplication.getAppContext().getResources().getStringArray(R.array.interval_keys);
         Integer temp;
+        // Loop through all that data in ContentValues and check if it is valid
         for (String intervalKey : intervalKeys) {
             temp = values.getAsInteger(intervalKey);
             if (temp == null) {
@@ -176,7 +182,9 @@ public class DataProvider extends ContentProvider {
             }
         }
 
+        // Get all intervals' keys (all intervals above the octave) (column names)
         String[] intervalKeysAboveOctave = MyApplication.getAppContext().getResources().getStringArray(R.array.interval_keys_above_octave);
+        // Loop through all that data in ContentValues and check if it is valid
         for (String key : intervalKeysAboveOctave) {
             temp = values.getAsInteger(key);
             if (temp == null) {
@@ -187,7 +195,9 @@ public class DataProvider extends ContentProvider {
             }
         }
 
+        // Get all chords' keys (column names)
         String[] chordKeys = MyApplication.getAppContext().getResources().getStringArray(R.array.chord_keys);
+        // Loop through all chords' data in ContentValues and check if it is valid
         for (String key : chordKeys) {
             temp = values.getAsInteger(key);
             if (temp == null) {
@@ -198,7 +208,14 @@ public class DataProvider extends ContentProvider {
             }
         }
 
+        // Get all options' / user preferences' keys (column names)
         String[] preferenceKeys = MyApplication.getAppContext().getResources().getStringArray(R.array.preference_keys);
+
+        /*
+         * Go through all that data in ContentValues and check if it is valid
+         */
+
+        // Direction up
         temp = values.getAsInteger(preferenceKeys[0]);
         if(temp == null) {
             throw new IllegalArgumentException("Data cannot be null");
@@ -207,6 +224,7 @@ public class DataProvider extends ContentProvider {
             throw new IllegalArgumentException("Data cannot be any other number than CHECKBOX_CHECKED or CHECKBOX_NOT_CHECKED: " + temp);
         }
 
+        // Direction down
         temp = values.getAsInteger(preferenceKeys[1]);
         if(temp == null) {
             throw new IllegalArgumentException("Data cannot be null");
@@ -215,6 +233,7 @@ public class DataProvider extends ContentProvider {
             throw new IllegalArgumentException("Data cannot be any other number than CHECKBOX_CHECKED or CHECKBOX_NOT_CHECKED: " + temp);
         }
 
+        // Direction same time
         temp = values.getAsInteger(preferenceKeys[2]);
         if(temp == null) {
             throw new IllegalArgumentException("Data cannot be null");
@@ -223,6 +242,7 @@ public class DataProvider extends ContentProvider {
             throw new IllegalArgumentException("Data cannot be any other number than CHECKBOX_CHECKED or CHECKBOX_NOT_CHECKED: " + temp);
         }
 
+        // Each tone duration
         temp = values.getAsInteger(preferenceKeys[3]);
         if(temp == null) {
             throw new IllegalArgumentException("Data cannot be null");
@@ -232,6 +252,7 @@ public class DataProvider extends ContentProvider {
                     + ", max border: " + DatabaseData.maxTonesSeparationTime);
         }
 
+        // Delay between intervals/chords
         temp = values.getAsInteger(preferenceKeys[4]);
         if(temp == null) {
             throw new IllegalArgumentException("Data cannot be null");
@@ -241,6 +262,7 @@ public class DataProvider extends ContentProvider {
                     + ", max border: " + DatabaseData.maxChordDurationTime);
         }
 
+        // Language
         temp = values.getAsInteger(preferenceKeys[5]);
         if(temp == null) {
             throw new IllegalArgumentException("Data cannot be null");
@@ -249,6 +271,7 @@ public class DataProvider extends ContentProvider {
             throw new IllegalArgumentException("Data cannot be any other number than preselected Language numbers, integer " + temp + " is invalid");
         }
 
+        // Down key border
         temp = values.getAsInteger(preferenceKeys[6]);
         if(temp == null) {
             throw new IllegalArgumentException("Data cannot be null");
@@ -257,6 +280,7 @@ public class DataProvider extends ContentProvider {
             throw new IllegalArgumentException("Integer " + temp + " out of borders");
         }
 
+        // Up key border
         temp = values.getAsInteger(preferenceKeys[7]);
         if(temp == null) {
             throw new IllegalArgumentException("Data cannot be null");
@@ -265,6 +289,7 @@ public class DataProvider extends ContentProvider {
             throw new IllegalArgumentException("Integer " + temp + " out of borders");
         }
 
+        // Show progress bar
         temp = values.getAsInteger(preferenceKeys[8]);
         if(temp == null) {
             throw new IllegalArgumentException("Data cannot be null");
@@ -273,6 +298,7 @@ public class DataProvider extends ContentProvider {
             throw new IllegalArgumentException("Data cannot be any other number than CHECKBOX_CHECKED or CHECKBOX_NOT_CHECKED: " + temp);
         }
 
+        // Show list of intervals in playing chord
         temp = values.getAsInteger(preferenceKeys[9]);
         if(temp == null) {
             throw new IllegalArgumentException("Data cannot be null");
@@ -281,6 +307,7 @@ public class DataProvider extends ContentProvider {
             throw new IllegalArgumentException("Data cannot be any other number than CHECKBOX_CHECKED or CHECKBOX_NOT_CHECKED: " + temp);
         }
 
+        // Interval/Chord/Tone text scaling mode
         temp = values.getAsInteger(preferenceKeys[10]);
         if(temp == null) {
             throw new IllegalArgumentException("Data cannot be null");
@@ -289,6 +316,7 @@ public class DataProvider extends ContentProvider {
             throw new IllegalArgumentException("Data MyApplication.chordTextScalingMode is not any of preselected numbers, it is: " + temp);
         }
 
+        // Playing mode
         temp = values.getAsInteger(preferenceKeys[11]);
         if(temp == null) {
             throw new IllegalArgumentException("Data cannot be null");
@@ -297,6 +325,7 @@ public class DataProvider extends ContentProvider {
             throw new IllegalArgumentException("Data MyApplication.playingMode is not any of preselected numbers, it is: " + temp);
         }
 
+        // Direction up order index
         temp = values.getAsInteger(preferenceKeys[12]);
         if(temp == null) {
             throw new IllegalArgumentException("Data cannot be null");
@@ -305,6 +334,7 @@ public class DataProvider extends ContentProvider {
             throw new IllegalArgumentException("Data " + temp + " is not valid.");
         }
 
+        // Direction down order index
         temp = values.getAsInteger(preferenceKeys[13]);
         if(temp == null) {
             throw new IllegalArgumentException("Data cannot be null");
@@ -313,6 +343,7 @@ public class DataProvider extends ContentProvider {
             throw new IllegalArgumentException("Data " + temp + " is not valid.");
         }
 
+        // Direction same time order index
         temp = values.getAsInteger(preferenceKeys[14]);
         if(temp == null) {
             throw new IllegalArgumentException("Data cannot be null");
@@ -321,6 +352,7 @@ public class DataProvider extends ContentProvider {
             throw new IllegalArgumentException("Data " + temp + " is not valid.");
         }
 
+        // Play what tone
         temp = values.getAsInteger(preferenceKeys[15]);
         if(temp == null) {
             throw new IllegalArgumentException("Data cannot be null");
@@ -329,6 +361,7 @@ public class DataProvider extends ContentProvider {
             throw new IllegalArgumentException("Data cannot be any other number than CHECKBOX_CHECKED or CHECKBOX_NOT_CHECKED: " + temp);
         }
 
+        // Play what octave
         temp = values.getAsInteger(preferenceKeys[16]);
         if(temp == null) {
             throw new IllegalArgumentException("Data cannot be null");
@@ -337,6 +370,7 @@ public class DataProvider extends ContentProvider {
             throw new IllegalArgumentException("Data cannot be any other number than CHECKBOX_CHECKED or CHECKBOX_NOT_CHECKED: " + temp);
         }
 
+        // Quiz mode one high score
         temp = values.getAsInteger(preferenceKeys[17]);
         if(temp == null) {
             throw new IllegalArgumentException("Data cannot be null");
@@ -345,6 +379,7 @@ public class DataProvider extends ContentProvider {
             throw new IllegalArgumentException("Mode one high score cannot be less than 0. High score: " + temp);
         }
 
+        // Quiz mode two high score
         temp = values.getAsInteger(preferenceKeys[18]);
         if(temp == null) {
             throw new IllegalArgumentException("Data cannot be null");
@@ -353,6 +388,7 @@ public class DataProvider extends ContentProvider {
             throw new IllegalArgumentException("Mode two high score cannot be less than 0. High score: " + temp);
         }
 
+        // Quiz mode three high score
         temp = values.getAsInteger(preferenceKeys[19]);
         if(temp == null) {
             throw new IllegalArgumentException("Data cannot be null");
@@ -367,13 +403,14 @@ public class DataProvider extends ContentProvider {
             return 0;
         }
 
-        // Update the selected pets in the pets database table with the given ContentValues
+        // Get database to update it
         SQLiteDatabase database = mIntervalsDbHelper.getWritableDatabase();
 
         // Perform the update on the database and get the number of rows affected
         int rowsUpdated = database.update(DataContract.UserPrefEntry.TABLE_NAME, values, selection, selectionArgs);
 
         if(rowsUpdated > 0) {
+            // If anything is changed update/refresh all intervals', chords' and options' data
             DatabaseHandler.setDoIntervalsNeedUpdate(true);
             DatabaseHandler.setDoChordsNeedUpdate(true);
             DatabaseHandler.setDoSettingsNeedUpdate(true);
@@ -393,7 +430,11 @@ public class DataProvider extends ContentProvider {
         final int match = sUriMatcher.match(uri);
         switch (match) {
             case USERPREFS:
-                // Set all values to default
+
+                /*
+                 * Set all values to default
+                 */
+
                 ContentValues values = new ContentValues();
 
                 String[] intervalKeys = MyApplication.getAppContext().getResources().getStringArray(R.array.interval_keys);
@@ -433,7 +474,7 @@ public class DataProvider extends ContentProvider {
                 values.put(preferenceKeys[14], DataContract.UserPrefEntry.DIRECTION_SAME_TIME_VIEW_DEFAULT_INDEX);
                 values.put(preferenceKeys[15], DataContract.UserPrefEntry.CHECKBOX_NOT_CHECKED);
                 values.put(preferenceKeys[16], DataContract.UserPrefEntry.CHECKBOX_NOT_CHECKED);
-                // You cannot delete high scores
+                // Don't delete high scores
                 values.put(preferenceKeys[17], DatabaseData.quizModeOneHighscore);
                 values.put(preferenceKeys[18], DatabaseData.quizModeTwoHighscore);
                 values.put(preferenceKeys[19], DatabaseData.quizModeThreeHighscore);

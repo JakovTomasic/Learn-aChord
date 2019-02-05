@@ -96,11 +96,14 @@
         <item>"direction_up"</item>
         <item>"direction_down"</item>
         <item>"direction_same_time"</item>
+
         <item>"tones_separation_time_preference"</item>
         <item>"chord_delay_preference"</item>
+
         <item>"language_preference"</item>
         <item>"down_border_key</item>
         <item>"up_border_key</item>
+
         <item>"show_progress_bar</item>
         <item>"show_what_intervals</item>
         <item>"chord_text_scaling_mode</item>

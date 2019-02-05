@@ -13,97 +13,95 @@ import java.util.Random;
 
 public final class IntervalsList {
 
-    // This list if ordered by size (ascending)
+    // List of all intervals, ordered by size (ascending)
     private static final ArrayList<Interval> ALL_INTERVALS = new ArrayList<>();
 
+    // Static initializer. This is run the first time anything is called from this class.
     static {
+        // Set locale language
         Context context = LocaleHelper.setLocale(MyApplication.getAppContext(), LocaleHelper.getLanguageLabel());
         Resources resources = context.getResources();
 
-        ALL_INTERVALS.add(new Interval(0, readResource(R.string.interval_cista_prima, resources)));
-        ALL_INTERVALS.add(new Interval(1, readResource(R.string.interval_mala_sekunda, resources)));
-        ALL_INTERVALS.add(new Interval(2, readResource(R.string.interval_velika_sekunda, resources)));
-        ALL_INTERVALS.add(new Interval(3, readResource(R.string.interval_mala_terca, resources)));
-        ALL_INTERVALS.add(new Interval(4, readResource(R.string.interval_velika_terca, resources)));
+        ALL_INTERVALS.add(new Interval(0, MyApplication.readResource(R.string.interval_cista_prima, resources)));
+        ALL_INTERVALS.add(new Interval(1, MyApplication.readResource(R.string.interval_mala_sekunda, resources)));
+        ALL_INTERVALS.add(new Interval(2, MyApplication.readResource(R.string.interval_velika_sekunda, resources)));
+        ALL_INTERVALS.add(new Interval(3, MyApplication.readResource(R.string.interval_mala_terca, resources)));
+        ALL_INTERVALS.add(new Interval(4, MyApplication.readResource(R.string.interval_velika_terca, resources)));
 //        ALL_INTERVALS.add(new Interval(4, readResource(R.string.interval_smanjena_kvarta, resources)));
-        ALL_INTERVALS.add(new Interval(5, readResource(R.string.interval_cista_kvarta, resources)));
-        ALL_INTERVALS.add(new Interval(6, readResource(R.string.interval_povecana_kvarta, resources) + "/" +
-                readResource(R.string.interval_smanjena_kvinta, resources)));
+        ALL_INTERVALS.add(new Interval(5, MyApplication.readResource(R.string.interval_cista_kvarta, resources)));
+        ALL_INTERVALS.add(new Interval(6, MyApplication.readResource(R.string.interval_povecana_kvarta, resources) + "/" +
+                MyApplication.readResource(R.string.interval_smanjena_kvinta, resources)));
 //        ALL_INTERVALS.add(new Interval(6, readResource(R.string.interval_smanjena_kvinta, resources)));
-        ALL_INTERVALS.add(new Interval(7, readResource(R.string.interval_cista_kvinta, resources)));
+        ALL_INTERVALS.add(new Interval(7, MyApplication.readResource(R.string.interval_cista_kvinta, resources)));
 //        ALL_INTERVALS.add(new Interval(8, readResource(R.string.interval_povecana_kvinta, resources)));
-        ALL_INTERVALS.add(new Interval(8, readResource(R.string.interval_mala_seksta, resources)));
-        ALL_INTERVALS.add(new Interval(9, readResource(R.string.interval_velika_seksta, resources)));
-        ALL_INTERVALS.add(new Interval(10, readResource(R.string.interval_mala_septima, resources)));
-        ALL_INTERVALS.add(new Interval(11, readResource(R.string.interval_velika_septima, resources)));
-        ALL_INTERVALS.add(new Interval(12, readResource(R.string.interval_cista_oktava, resources)));
+        ALL_INTERVALS.add(new Interval(8, MyApplication.readResource(R.string.interval_mala_seksta, resources)));
+        ALL_INTERVALS.add(new Interval(9, MyApplication.readResource(R.string.interval_velika_seksta, resources)));
+        ALL_INTERVALS.add(new Interval(10, MyApplication.readResource(R.string.interval_mala_septima, resources)));
+        ALL_INTERVALS.add(new Interval(11, MyApplication.readResource(R.string.interval_velika_septima, resources)));
+        ALL_INTERVALS.add(new Interval(12, MyApplication.readResource(R.string.interval_cista_oktava, resources)));
 
-        ALL_INTERVALS.add(new Interval(13, readResource(R.string.interval_mala_nona, resources)));
-        ALL_INTERVALS.add(new Interval(14, readResource(R.string.interval_velika_nona, resources)));
-        ALL_INTERVALS.add(new Interval(15, readResource(R.string.interval_mala_decima, resources)));
-        ALL_INTERVALS.add(new Interval(16, readResource(R.string.interval_velika_decima, resources)));
-        ALL_INTERVALS.add(new Interval(17, readResource(R.string.interval_cista_undecima, resources)));
-        ALL_INTERVALS.add(new Interval(18, readResource(R.string.interval_povecana_undecima, resources) + "/" +
-                readResource(R.string.interval_smanjena_duodecima, resources)));
-        ALL_INTERVALS.add(new Interval(19, readResource(R.string.interval_cista_duodecima, resources)));
-        ALL_INTERVALS.add(new Interval(20, readResource(R.string.interval_mala_tercdecima, resources)));
-        ALL_INTERVALS.add(new Interval(21, readResource(R.string.interval_velika_tercdecima, resources)));
-        ALL_INTERVALS.add(new Interval(22, readResource(R.string.interval_mala_kvartdecima, resources)));
-        ALL_INTERVALS.add(new Interval(23, readResource(R.string.interval_velika_kvartdecima, resources)));
-        ALL_INTERVALS.add(new Interval(24, readResource(R.string.interval_cista_kvintdecima, resources)));
+        ALL_INTERVALS.add(new Interval(13, MyApplication.readResource(R.string.interval_mala_nona, resources)));
+        ALL_INTERVALS.add(new Interval(14, MyApplication.readResource(R.string.interval_velika_nona, resources)));
+        ALL_INTERVALS.add(new Interval(15, MyApplication.readResource(R.string.interval_mala_decima, resources)));
+        ALL_INTERVALS.add(new Interval(16, MyApplication.readResource(R.string.interval_velika_decima, resources)));
+        ALL_INTERVALS.add(new Interval(17, MyApplication.readResource(R.string.interval_cista_undecima, resources)));
+        ALL_INTERVALS.add(new Interval(18, MyApplication.readResource(R.string.interval_povecana_undecima, resources) + "/" +
+                MyApplication.readResource(R.string.interval_smanjena_duodecima, resources)));
+        ALL_INTERVALS.add(new Interval(19, MyApplication.readResource(R.string.interval_cista_duodecima, resources)));
+        ALL_INTERVALS.add(new Interval(20, MyApplication.readResource(R.string.interval_mala_tercdecima, resources)));
+        ALL_INTERVALS.add(new Interval(21, MyApplication.readResource(R.string.interval_velika_tercdecima, resources)));
+        ALL_INTERVALS.add(new Interval(22, MyApplication.readResource(R.string.interval_mala_kvartdecima, resources)));
+        ALL_INTERVALS.add(new Interval(23, MyApplication.readResource(R.string.interval_velika_kvartdecima, resources)));
+        ALL_INTERVALS.add(new Interval(24, MyApplication.readResource(R.string.interval_cista_kvintdecima, resources)));
     }
 
     private IntervalsList() {}
-
-    private static String readResource(int id, Resources resources) {
-        if(resources == null) {
-            resources = MyApplication.getAppContext().getResources();
-        }
-        return resources.getString(id);
-    }
 
     public static int getIntervalsCount() {
         return ALL_INTERVALS.size();
     }
 
+    // Update names depending on language and set locale language
     public static void updateAllIntervalsNames(Context tempContext) {
+        // Set language
         Context context = LocaleHelper.setLocale(tempContext, LocaleHelper.getLanguageLabel());
         Resources resources = context.getResources();
 
-        getInterval(0).setName(readResource(R.string.interval_cista_prima, resources));
-        getInterval(1).setName(readResource(R.string.interval_mala_sekunda, resources));
-        getInterval(2).setName(readResource(R.string.interval_velika_sekunda, resources));
-        getInterval(3).setName(readResource(R.string.interval_mala_terca, resources));
-        getInterval(4).setName(readResource(R.string.interval_velika_terca, resources));
+        getInterval(0).setName(MyApplication.readResource(R.string.interval_cista_prima, resources));
+        getInterval(1).setName(MyApplication.readResource(R.string.interval_mala_sekunda, resources));
+        getInterval(2).setName(MyApplication.readResource(R.string.interval_velika_sekunda, resources));
+        getInterval(3).setName(MyApplication.readResource(R.string.interval_mala_terca, resources));
+        getInterval(4).setName(MyApplication.readResource(R.string.interval_velika_terca, resources));
 //        getInterval(4).setName(readResource(R.string.interval_smanjena_kvarta, resources));
-        getInterval(5).setName(readResource(R.string.interval_cista_kvarta, resources));
-        getInterval(6).setName(readResource(R.string.interval_povecana_kvarta, resources) + "/" +
-                readResource(R.string.interval_smanjena_kvinta, resources));
+        getInterval(5).setName(MyApplication.readResource(R.string.interval_cista_kvarta, resources));
+        getInterval(6).setName(MyApplication.readResource(R.string.interval_povecana_kvarta, resources) + "/" +
+                MyApplication.readResource(R.string.interval_smanjena_kvinta, resources));
 //        getInterval(6).setName(readResource(R.string.interval_smanjena_kvinta, resources));
-        getInterval(7).setName(readResource(R.string.interval_cista_kvinta, resources));
+        getInterval(7).setName(MyApplication.readResource(R.string.interval_cista_kvinta, resources));
 //        getInterval(8).setName(readResource(R.string.interval_povecana_kvinta, resources));
-        getInterval(8).setName(readResource(R.string.interval_mala_seksta, resources));
-        getInterval(9).setName(readResource(R.string.interval_velika_seksta, resources));
-        getInterval(10).setName(readResource(R.string.interval_mala_septima, resources));
-        getInterval(11).setName(readResource(R.string.interval_velika_septima, resources));
-        getInterval(12).setName(readResource(R.string.interval_cista_oktava, resources));
+        getInterval(8).setName(MyApplication.readResource(R.string.interval_mala_seksta, resources));
+        getInterval(9).setName(MyApplication.readResource(R.string.interval_velika_seksta, resources));
+        getInterval(10).setName(MyApplication.readResource(R.string.interval_mala_septima, resources));
+        getInterval(11).setName(MyApplication.readResource(R.string.interval_velika_septima, resources));
+        getInterval(12).setName(MyApplication.readResource(R.string.interval_cista_oktava, resources));
 
-        getInterval(13).setName(readResource(R.string.interval_mala_nona, resources));
-        getInterval(14).setName(readResource(R.string.interval_velika_nona, resources));
-        getInterval(15).setName(readResource(R.string.interval_mala_decima, resources));
-        getInterval(16).setName(readResource(R.string.interval_velika_decima, resources));
-        getInterval(17).setName(readResource(R.string.interval_cista_undecima, resources));
-        getInterval(18).setName(readResource(R.string.interval_povecana_undecima, resources) + "/" +
-                readResource(R.string.interval_smanjena_duodecima, resources));
-        getInterval(19).setName(readResource(R.string.interval_cista_duodecima, resources));
-        getInterval(20).setName(readResource(R.string.interval_mala_tercdecima, resources));
-        getInterval(21).setName(readResource(R.string.interval_velika_tercdecima, resources));
-        getInterval(22).setName(readResource(R.string.interval_mala_kvartdecima, resources));
-        getInterval(23).setName(readResource(R.string.interval_velika_kvartdecima, resources));
-        getInterval(24).setName(readResource(R.string.interval_cista_kvintdecima, resources));
+        getInterval(13).setName(MyApplication.readResource(R.string.interval_mala_nona, resources));
+        getInterval(14).setName(MyApplication.readResource(R.string.interval_velika_nona, resources));
+        getInterval(15).setName(MyApplication.readResource(R.string.interval_mala_decima, resources));
+        getInterval(16).setName(MyApplication.readResource(R.string.interval_velika_decima, resources));
+        getInterval(17).setName(MyApplication.readResource(R.string.interval_cista_undecima, resources));
+        getInterval(18).setName(MyApplication.readResource(R.string.interval_povecana_undecima, resources) + "/" +
+                MyApplication.readResource(R.string.interval_smanjena_duodecima, resources));
+        getInterval(19).setName(MyApplication.readResource(R.string.interval_cista_duodecima, resources));
+        getInterval(20).setName(MyApplication.readResource(R.string.interval_mala_tercdecima, resources));
+        getInterval(21).setName(MyApplication.readResource(R.string.interval_velika_tercdecima, resources));
+        getInterval(22).setName(MyApplication.readResource(R.string.interval_mala_kvartdecima, resources));
+        getInterval(23).setName(MyApplication.readResource(R.string.interval_velika_kvartdecima, resources));
+        getInterval(24).setName(MyApplication.readResource(R.string.interval_cista_kvintdecima, resources));
 
     }
 
+    // Get interval with given id
     public static Interval getInterval(int id) {
         if(id >= getIntervalsCount()) {
             id = getIntervalsCount()-1;
@@ -118,6 +116,7 @@ public final class IntervalsList {
         return ALL_INTERVALS;
     }
 
+    // Returns how many intervals have been checked
     public static int getCheckedIntervalCount() {
         int counter = 0;
         for(int i = 0; i < getIntervalsCount(); i++) {
@@ -128,6 +127,7 @@ public final class IntervalsList {
         return counter;
     }
 
+    // Returns how many intervals have been checked and can be played in given range
     public static int getCheckedIntervalCountIncludingRange() {
         int counter = 0;
         for(int i = 0; i < getIntervalsCount(); i++) {
@@ -142,6 +142,7 @@ public final class IntervalsList {
         return counter;
     }
 
+    // Get number of intervals that can be played
     public static int getPlayableIntervalsCount() {
         int counter = 0;
         for(int i = 0; i < getIntervalsCount(); i++) {
@@ -156,6 +157,7 @@ public final class IntervalsList {
         return counter;
     }
 
+    // Check if interval can be played
     public static boolean isIntervalPlayable(Interval interval) {
         return interval.isPlayableCountdownFinished() && interval.getIsChecked() && isIntervalInsideBorders(interval);
     }
@@ -174,7 +176,9 @@ public final class IntervalsList {
         return null;
     }
 
+    // Returns random interval that can be played
     public static Interval getRandomPlayableInterval() {
+        // First checks if some interval must be played
         Interval mustBePlayedInterval = mustBePlayed();
         if(mustBePlayedInterval != null) {
             return mustBePlayedInterval;
@@ -216,24 +220,28 @@ public final class IntervalsList {
         return null;
     }
 
+    // Decrease playing delay for all intervals
     public static void tickAllPlayableCountdowns() {
         for(int i = 0; i < getIntervalsCount(); i++) {
             getInterval(i).tickPlayableCountdown();
         }
     }
 
+    // Increase counter for how long interval hasn't been played (for all intervals)
     public static void increaseNotPlayedFor() {
         for(int i = 0; i < getIntervalsCount(); i++) {
             getInterval(i).notPlayedFor++;
         }
     }
 
+    // Check or uncheck all intervals in options
     public static void setAllIntervalsIsChecked(boolean myBool) {
         for(int i = 0; i < getIntervalsCount(); i++) {
             getInterval(i).setIsChecked(myBool);
         }
     }
 
+    // Get checked interval with biggest total range
     public static Interval getBiggestCheckedInterval() {
         for(int i = getIntervalsCount()-1; i >= 0; i--) {
             if(getInterval(i).getIsChecked()) {
@@ -243,10 +251,12 @@ public final class IntervalsList {
         return null;
     }
 
+    // Check if interval can be played inside set range
     public static boolean isIntervalInsideBorders(Interval interval) {
         return interval.getDifference() <= DatabaseData.upKeyBorder - DatabaseData.downKeyBorder;
     }
 
+    // Uncheck all intervals that can't be played inside set range
     public static void uncheckOutOfRangeIntervals() {
         for(int i = getIntervalsCount()-1; i >= 0; i--) {
             if(!isIntervalInsideBorders(getInterval(i))) {
@@ -257,6 +267,7 @@ public final class IntervalsList {
         }
     }
 
+    // Returns random interval that is checked
     public static Interval getRandomCheckedInterval(Interval... exception) {
         int checkedIntervals = getCheckedIntervalCount();
         if(exception != null) {
@@ -296,6 +307,7 @@ public final class IntervalsList {
         return null;
     }
 
+    // Check if interval is inside list of intervals
     private static boolean isInside(Interval number, Interval... newInt) {
         if(newInt == null) {
             return false;

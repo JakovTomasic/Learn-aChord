@@ -30,25 +30,28 @@ public class IntervalsDbHelper extends SQLiteOpenHelper {
      */
     @Override
     public void onCreate(SQLiteDatabase db) {
-        // Create a String that contains the SQL statement to create the pets table
+        // Create a String that contains the SQL statement to create a table
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("CREATE TABLE " + DataContract.UserPrefEntry.TABLE_NAME + " (");
         stringBuilder.append(DataContract.UserPrefEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, ");
 
         String endString = ", ";
 
+        // Add intervals below octave
         String[] intervalKeys = MyApplication.getAppContext().getResources().getStringArray(R.array.interval_keys);
         for (String key : intervalKeys) {
             stringBuilder.append(key).append(" INTEGER NOT NULL DEFAULT ")
                     .append(Integer.toString(DataContract.UserPrefEntry.CHECKBOX_CHECKED)).append(endString);
         }
 
+        // Add intervals above octave
         String[] intervalKeysAboveOctave = MyApplication.getAppContext().getResources().getStringArray(R.array.interval_keys_above_octave);
         for (String key : intervalKeysAboveOctave) {
             stringBuilder.append(key).append(" INTEGER NOT NULL DEFAULT ")
                     .append(Integer.toString(DataContract.UserPrefEntry.CHECKBOX_NOT_CHECKED)).append(endString);
         }
 
+        // Add chords
         String[] chordKeys = MyApplication.getAppContext().getResources().getStringArray(R.array.chord_keys);
         for (int i = 0; i < chordKeys.length; i++) {
             stringBuilder.append(chordKeys[i]).append(" INTEGER NOT NULL DEFAULT ");
@@ -64,6 +67,7 @@ public class IntervalsDbHelper extends SQLiteOpenHelper {
         }
 
 
+        // Add preferences
         String[] preferenceKeys = MyApplication.getAppContext().getResources().getStringArray(R.array.preference_keys);
 
         stringBuilder.append(preferenceKeys[0]).append(" INTEGER NOT NULL DEFAULT ")
@@ -115,7 +119,7 @@ public class IntervalsDbHelper extends SQLiteOpenHelper {
 
 
 
-        // Add first row, all interval values are default (1)
+        // Add first row, all interval values are default
         stringBuilder = new StringBuilder();
         stringBuilder.append("INSERT INTO " + DataContract.UserPrefEntry.TABLE_NAME + " (");
 
@@ -192,9 +196,10 @@ public class IntervalsDbHelper extends SQLiteOpenHelper {
      * This is called when the database needs to be upgraded.
      */
     @Override
-    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) { // TODO: first save data that exist when delete and update it
-        // This deletes all userPref on app update, maybe need fix
-        // The database is still at version 1, so there's nothing to do be done here.
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        // This deletes all userPref on DB update and then sets them to new default values
+
+        // TODO: first save data that exist and then update it, just call old DataProvider.query(...);
 
         String SQL_DELETE_TABLE = "DROP TABLE " + DataContract.UserPrefEntry.TABLE_NAME + ";";
         db.execSQL(SQL_DELETE_TABLE); // Execute the SQL statement

@@ -9,16 +9,20 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.ListView;
 
-import com.justchill.android.learnachord.ChordAdapter;
+import com.justchill.android.learnachord.settings.adapters.ChordAdapter;
 import com.justchill.android.learnachord.LocaleHelper;
 import com.justchill.android.learnachord.R;
 import com.justchill.android.learnachord.intervalOrChord.ChordsList;
 import com.justchill.android.learnachord.database.DatabaseHandler;
 
+// Fragment for choosing what chords to play
 public class ChordsFragment extends Fragment {
 
+    // List of all chords
     private ListView chordSettings;
+    // Checkbox to check/uncheck all intervals at same time
     private CheckBox allChordsCB;
+    // View of this fragment that is displaying in UI
     private View fragmentView;
 
     @Override
@@ -26,12 +30,13 @@ public class ChordsFragment extends Fragment {
         // Inflate the layout for this fragment
         fragmentView = inflater.inflate(R.layout.fragment_chords, container, false);
 
-        chordSettings = (ListView) fragmentView.findViewById(R.id.settings_chord_list_view);
+        chordSettings = fragmentView.findViewById(R.id.settings_chord_list_view);
         refreshChordAdapter();
 
-        allChordsCB = (CheckBox) fragmentView.findViewById(R.id.all_chords_check);
+        allChordsCB = fragmentView.findViewById(R.id.all_chords_check);
         setAllChordsCB();
 
+        // For different languages support
         LocaleHelper.setLocale(getContext(), null);
 
         return fragmentView;
@@ -52,10 +57,12 @@ public class ChordsFragment extends Fragment {
         });
     }
 
-    private void setAllChordsCB() { // CB -> Check Box
+    // Set checkbox for all chords' state depending on number of selected chords
+    private void setAllChordsCB() {
         allChordsCB.setChecked( ChordsList.getCheckedChordsCount() >= ChordsList.getChordsCount() );
     }
 
+    // Recreate chord list adapter
     public void refreshChordAdapter() {
         ChordAdapter chordAdapter = new ChordAdapter(getActivity(), ChordsList.getAllChords());
 

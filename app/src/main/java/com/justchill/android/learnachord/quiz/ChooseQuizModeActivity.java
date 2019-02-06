@@ -1,5 +1,6 @@
 package com.justchill.android.learnachord.quiz;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -22,15 +23,22 @@ import com.justchill.android.learnachord.R;
 import com.justchill.android.learnachord.database.DatabaseData;
 import com.justchill.android.learnachord.database.DatabaseHandler;
 
+// Activity where user can choose what quiz he will play
 public class ChooseQuizModeActivity extends AppCompatActivity {
 
+    // Parent of quiz mode button, background is button texture
     private View[] quizModeParentLayout;
+    // Linear layout for good positioning
     private View[] quizModeLinearLayout;
+    // TextView for quiz name/title
     private TextView[] quizModeTitleTV;
+    // TextView for quiz description (record at the moment)
     private TextView[] quizModeDescriptionTV;
 
+    // Parent of whole activity
     private View parentLayout;
 
+    // Dimensions of each quiz mode button
     private int height, width;
 
     @Override
@@ -45,6 +53,9 @@ public class ChooseQuizModeActivity extends AppCompatActivity {
         setVolumeControlStream(AudioManager.STREAM_MUSIC);
 
         parentLayout = findViewById(R.id.activity_choose_quiz_mode_parent_layout);
+
+
+        // Get all elements for all quiz modes
 
         quizModeParentLayout = new View[] {
             findViewById(R.id.quiz_mode_one_parent_layout),
@@ -71,11 +82,12 @@ public class ChooseQuizModeActivity extends AppCompatActivity {
         height = MyApplication.smallerDisplayDimensionPX/2;
         width = height/3*2;
 
+        // Set size for all modes
         for(int i = 0; i < quizModeParentLayout.length; i++) {
             setQuizModeSize(i);
         }
 
-
+        // On quiz mode button click, open that quiz mode
         quizModeParentLayout[0].setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -104,11 +116,11 @@ public class ChooseQuizModeActivity extends AppCompatActivity {
 
     }
 
+    // Sets up sizes for quiz mode buttons (for scaling, for all device display support)
     private void setQuizModeSize(int modeID) {
         // Setup quizModeParentLayout size and padding
         ViewGroup.LayoutParams quizModeParentSizeRules = quizModeParentLayout[modeID].getLayoutParams();
 
-//        quizModeParentLayout[modeID].setPadding(width/10, width/10, width/10, width/10);
         quizModeParentSizeRules.width = width;
         quizModeParentSizeRules.height = height;
         quizModeParentLayout[modeID].setLayoutParams(quizModeParentSizeRules);
@@ -125,26 +137,30 @@ public class ChooseQuizModeActivity extends AppCompatActivity {
         quizModeTitleSizeRules.setMargins(0, 0, 0, width/10);
         quizModeTitleTV[modeID].setLayoutParams(quizModeTitleSizeRules);
 
-        quizModeTitleTV[modeID].setTextSize(TypedValue.COMPLEX_UNIT_PX, height/7);
+        quizModeTitleTV[modeID].setTextSize(TypedValue.COMPLEX_UNIT_PX, height/7f);
 
 
 
         // Set text size for highscore
-        quizModeDescriptionTV[modeID].setTextSize(TypedValue.COMPLEX_UNIT_PX, height/10);
+        quizModeDescriptionTV[modeID].setTextSize(TypedValue.COMPLEX_UNIT_PX, height/10f);
 
 
     }
 
+    // Set new text to high score TextView when high score has been changed
+    @SuppressLint("SetTextI18n")
     private void resetQuizHighScoreViews() {
         quizModeDescriptionTV[0].setText(readResource(R.string.highscore) + ":\n" + String.valueOf(DatabaseData.quizModeOneHighscore));
         quizModeDescriptionTV[1].setText(readResource(R.string.highscore) + ":\n" + String.valueOf(DatabaseData.quizModeTwoHighscore));
         quizModeDescriptionTV[2].setText(readResource(R.string.highscore) + ":\n" + String.valueOf(DatabaseData.quizModeThreeHighscore));
     }
 
+    // Private method for getting string from resources
     private String readResource(int id) {
         return ChooseQuizModeActivity.this.getResources().getString(id);
     }
 
+    // For different languages support
     @Override
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(LocaleHelper.onAttach(base, null));
@@ -166,6 +182,7 @@ public class ChooseQuizModeActivity extends AppCompatActivity {
         // Set high scores
         resetQuizHighScoreViews();
 
+        // Reset all quiz stuff in case user just exited quiz
         QuizData.quizChordNameToShow = "";
         QuizData.quizChordNumberOneToShow = "";
         QuizData.quizChordNumberTwoToShow = "";
@@ -217,6 +234,7 @@ public class ChooseQuizModeActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    // Show dialog that is explaining all quiz modes
     private void showQuizExplanationDialog() {
         // Create an AlertDialog.Builder and set the message, and click listeners for the positive and negative buttons on the dialog.
         AlertDialog.Builder builder = new AlertDialog.Builder(ChooseQuizModeActivity.this);
@@ -234,6 +252,7 @@ public class ChooseQuizModeActivity extends AppCompatActivity {
         alertDialog.show();
     }
 
+    // Show "are you sure you want to delete high score..." dialog
     private void showQuizHighScoreDeleteDialog(final int quizMode) {
         // Create an AlertDialog.Builder and set the message, and click listeners for the positive and negative buttons on the dialog.
         AlertDialog.Builder builder = new AlertDialog.Builder(ChooseQuizModeActivity.this);

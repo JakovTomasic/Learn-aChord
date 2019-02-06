@@ -30,33 +30,45 @@ import com.justchill.android.learnachord.database.DatabaseData;
 
 import java.util.Random;
 
+// Easy quiz activity
 public class ModeOneActivity extends AppCompatActivity {
 
+    // Playing progress bar
     private ProgressBar timeLeftToPlayProgressBar;
 
+    // TextView that is showing score
     private TextView scoreTextView;
 
+    // Parent layout for showing interval/chord/tone
     private ViewGroup chordTextViewLayout;
+    // Values to show
     private TextView chordTextView;
     private TextView chordNumOneTextView;
     private TextView chordNumTwoTextView;
 
+    // Start/resume quiz button
     private ImageView startClickableImageView;
+    // Pause quiz button
     private ImageView pauseClickableImageView;
 
+    // Correct/true and wrong/false answer button
     private View trueAnswer, falseAnswer;
 
 
+    // Temporary random object
     private Random rand;
+    // Number of intervals and chords checked/chosen/enabled in options
     private int checkedIntervals, checkedChords;
 
+    // Thread for playing sounds
     Thread quizModeOnePlayThread;
 
     // Just a little delay between playing
     private static final long addMS = 100;
 
 
-    private static final int timeLeftToPlayProgressThicknessDB = 4;
+    // Thickness of playing progress bar in dp
+    private static final int timeLeftToPlayProgressThicknessDP = 4;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -80,13 +92,13 @@ public class ModeOneActivity extends AppCompatActivity {
 
         scoreTextView = findViewById(R.id.quiz_score_text_view);
 
-        chordTextViewLayout = (ViewGroup) findViewById(R.id.chord_text_view_linear_layout);
-        chordTextView = (TextView) findViewById(R.id.chord_text_view);
-        chordNumOneTextView = (TextView) findViewById(R.id.chord_number_one);
-        chordNumTwoTextView = (TextView) findViewById(R.id.chord_number_two);
+        chordTextViewLayout = findViewById(R.id.chord_text_view_linear_layout);
+        chordTextView = findViewById(R.id.chord_text_view);
+        chordNumOneTextView = findViewById(R.id.chord_number_one);
+        chordNumTwoTextView = findViewById(R.id.chord_number_two);
 
-        startClickableImageView = (ImageView) findViewById(R.id.start_clickable_image_view);
-        pauseClickableImageView = (ImageView) findViewById(R.id.pause_clickable_image_view);
+        startClickableImageView = findViewById(R.id.start_clickable_image_view);
+        pauseClickableImageView = findViewById(R.id.pause_clickable_image_view);
 
         trueAnswer = findViewById(R.id.true_answer_parent_layout);
         falseAnswer = findViewById(R.id.false_answer_parent_layout);
@@ -104,9 +116,6 @@ public class ModeOneActivity extends AppCompatActivity {
         progressBarSizeRules.height = MyApplication.smallerDisplayDimensionPX / 8;
         timeLeftToPlayProgressBar.setLayoutParams(progressBarSizeRules);
 
-//        timeLeftToPlayProgressBar.setProgress(100);
-
-
 
         // Setup start button size
         ViewGroup.LayoutParams startImageViewSizeRules = startClickableImageView.getLayoutParams();
@@ -121,9 +130,6 @@ public class ModeOneActivity extends AppCompatActivity {
         startImageViewSizeRules.height = height_width_value;
         startClickableImageView.setLayoutParams(startImageViewSizeRules);
 
-//        chordTextView.setText("");
-//        chordNumOneTextView.setText("");
-//        chordNumTwoTextView.setText("");
 
         startClickableImageView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -161,18 +167,19 @@ public class ModeOneActivity extends AppCompatActivity {
         // Setup true answer button size
         ViewGroup.LayoutParams falseAnswerViewSizeRules = falseAnswer.getLayoutParams();
 
-        falseAnswerViewSizeRules.width = (int)(MyApplication.smallerDisplayDimensionPX / 6);
-        falseAnswerViewSizeRules.height = (int)(MyApplication.smallerDisplayDimensionPX / 6);
+        falseAnswerViewSizeRules.width = MyApplication.smallerDisplayDimensionPX / 6;
+        falseAnswerViewSizeRules.height = MyApplication.smallerDisplayDimensionPX / 6;
         falseAnswer.setLayoutParams(falseAnswerViewSizeRules);
 
 
-
+        // Set what is visible and what not
         if(QuizData.quizPlayingPaused) {
             pauseQuiz();
         } else {
             resumeQuiz();
         }
 
+        // For app loading on startup
         if(!MyApplication.isLoadingFinished) {
             startClickableImageView.setClickable(false);
             startClickableImageView.setFocusable(false);
@@ -192,6 +199,7 @@ public class ModeOneActivity extends AppCompatActivity {
             MyApplication.setupPlayButtonColor(ModeOneActivity.this, startClickableImageView, R.color.unloadedColor);
         }
 
+        // For app loading on startup
         MyApplication.addActivityListener(new MyApplication.ActivityListener() {
             @Override
             public void onIsPlayingChange() {
@@ -247,6 +255,7 @@ public class ModeOneActivity extends AppCompatActivity {
 
         QuizData.isQuizModePlaying = true;
 
+        // Show interval/chord/tone that needs to be shown
         showChord();
 
     }
@@ -275,7 +284,7 @@ public class ModeOneActivity extends AppCompatActivity {
             return;
         }
 
-        // Reset this
+        // Reset temporary variables
         QuizData.quizChordNameToShow = null;
         QuizData.quizChordNumberOneToShow = null;
         QuizData.quizChordNumberTwoToShow = null;
@@ -334,7 +343,7 @@ public class ModeOneActivity extends AppCompatActivity {
 
             playCurrentThing();
 
-        } else if(DatabaseData.playWhatTone || DatabaseData.playWhatOctave) {
+        } else if(DatabaseData.playWhatTone || DatabaseData.playWhatOctave) { // Play tone
             QuizData.quizIntervalToPlay = null;
             QuizData.quizChordToPlay = null;
 
@@ -368,6 +377,7 @@ public class ModeOneActivity extends AppCompatActivity {
         QuizData.waitingForQuizAnswer = true;
     }
 
+    // Play current interval/chord/tone on separate thread
     private void playCurrentThing() {
         QuizData.quizPlayingCurrentThing = true;
 
@@ -472,10 +482,11 @@ public class ModeOneActivity extends AppCompatActivity {
 
     }
 
+    // Play current interval/chord/tone in given direction
     private void justPlayThis(Integer directionToPlay, int playingID) {
         try {
             Thread.sleep(10);
-        } catch (Exception e) {}
+        } catch (Exception ignored) {}
 
         if(playingID != QuizData.quizPlayingID) {
             return;
@@ -486,22 +497,23 @@ public class ModeOneActivity extends AppCompatActivity {
 
             try {
                 Thread.sleep((long) DatabaseData.tonesSeparationTime * 2 + (long) DatabaseData.delayBetweenChords + addMS);
-            } catch (Exception e) {}
+            } catch (Exception ignored) {}
         } else if(QuizData.quizChordToPlay != null && directionToPlay != null) {
             MyApplication.playChord(QuizData.quizChordToPlay.getAllIntervals(), QuizData.quizLowestKey, directionToPlay);
 
             try {
                 Thread.sleep((long) DatabaseData.tonesSeparationTime * (QuizData.quizChordToPlay.getToneNumber()) + (long) DatabaseData.delayBetweenChords + addMS);
-            } catch (Exception e) {}
+            } catch (Exception ignored) {}
         } else if(DatabaseData.playWhatTone || DatabaseData.playWhatOctave) {
             MyApplication.playKey(QuizData.quizLowestKey);
 
             try {
                 Thread.sleep((long) DatabaseData.tonesSeparationTime + (long) DatabaseData.delayBetweenChords + addMS);
-            } catch (Exception e) {}
+            } catch (Exception ignored) {}
         }
     }
 
+    // Show interval/chord/tone that is playing or show false answer
     private void showChord() {
         if(QuizData.quizChordNameToShow == null) {
             // If chord name that needs to be shown is null, show nothing (empty string)
@@ -513,6 +525,7 @@ public class ModeOneActivity extends AppCompatActivity {
     }
 
     // TODO: random key uses key borders, it is not checking if key sound is loaded, check if key sound is loaded
+    // Get base key to play (checking for key range)
     private int getRandomKey() {
         if(QuizData.quizIntervalToPlay != null) {
             return rand.nextInt(DatabaseData.upKeyBorder- DatabaseData.downKeyBorder- QuizData.quizIntervalToPlay.getDifference())+ DatabaseData.downKeyBorder;
@@ -541,6 +554,7 @@ public class ModeOneActivity extends AppCompatActivity {
         return (key1%12 == key2%12);
     }
 
+    // Randomly set wrong answer to show
     private void setupWrongThingToShow() {
         if(QuizData.quizIntervalToPlay != null) {
             setupWrongInterval();
@@ -566,11 +580,11 @@ public class ModeOneActivity extends AppCompatActivity {
         if(QuizData.quizChordNameToShow == null) {
             stopPlaying();
             playNextThing(0);
-            return;
         }
 
     }
 
+    // If first random setting was not successful, try one more time
     private void setupWrongThingToShowSecondTry() {
         // Show any checked interval, if there is any
         // If MyApplication.quizIntervalToPlay == null there will just be no exception
@@ -608,7 +622,7 @@ public class ModeOneActivity extends AppCompatActivity {
 
     }
 
-
+    // Set random interval that is not playing (and is selected in options)
     private void setupWrongInterval() {
         try {
             QuizData.quizChordNameToShow = IntervalsList.getRandomCheckedInterval(QuizData.quizIntervalToPlay).getName();
@@ -617,6 +631,7 @@ public class ModeOneActivity extends AppCompatActivity {
         }
     }
 
+    // Set random chord that is not playing (and is selected in options)
     private void setupWrongChord() {
         try {
             Chord tempChord = ChordsList.getRandomCheckedChord(QuizData.quizChordToPlay);
@@ -628,6 +643,7 @@ public class ModeOneActivity extends AppCompatActivity {
         }
     }
 
+    // Set random tone that is not playing (and is selected in options) - when only tone is selected in options
     private void setupWrongToneIfPlayWhatTone() {
         int tempRandomStartFrom = rand.nextInt(DatabaseData.upKeyBorder- DatabaseData.downKeyBorder)+ DatabaseData.downKeyBorder;
 
@@ -652,6 +668,7 @@ public class ModeOneActivity extends AppCompatActivity {
     }
 
     // TODO: add min and max range support (user preference)
+    // Set random tone that is not playing (and is selected in options) - when only octave is selected in options
     private void setupWrongToneIfJustOctave() {
         int tempOctaveNumb = (QuizData.quizLowestKey-1)/12;
 
@@ -670,6 +687,7 @@ public class ModeOneActivity extends AppCompatActivity {
     }
 
 
+    // Called when user chooses false answer
     private void gameOver() {
         // Save high score if greater than current
         QuizData.refreshQuizModeOneHighScore();
@@ -679,15 +697,7 @@ public class ModeOneActivity extends AppCompatActivity {
         showGameOverDialog();
     }
 
-
-
-//    private boolean isChordCorrect() {
-//        StringBuilder stringBuilder = new StringBuilder();
-//        stringBuilder.append(chordTextView.getText()).append(chordNumOneTextView.getText()).append(chordNumTwoTextView.getText());
-//
-//        return (MyApplication.quizCorrectAnswerName.equals(stringBuilder.toString()));
-//    }
-
+    // Start playing progress bar animation
     private void updateProgressBarAnimation(long duration) {
         try {
             if(!DatabaseData.showProgressBar && MyApplication.isLoadingFinished) {
@@ -707,10 +717,12 @@ public class ModeOneActivity extends AppCompatActivity {
         }
     }
 
+    // Read string form resources
     private String readResource(int id) {
         return ModeOneActivity.this.getResources().getString(id);
     }
 
+    // For different languages support
     @Override
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(LocaleHelper.onAttach(base, null));
@@ -755,6 +767,7 @@ public class ModeOneActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    // Stop all sounds from playing
     private void stopPlaying() {
         QuizData.quizPlayingID += 10;
         if(quizModeOnePlayThread != null) {
@@ -767,6 +780,7 @@ public class ModeOneActivity extends AppCompatActivity {
         updateProgressBarAnimation(0);
     }
 
+    // Set UI for when quiz is paused
     private void pauseQuiz() {
         startClickableImageView.setVisibility(View.VISIBLE);
         pauseClickableImageView.setVisibility(View.GONE);
@@ -779,6 +793,7 @@ public class ModeOneActivity extends AppCompatActivity {
         QuizData.quizPlayingPaused = true;
     }
 
+    // Set UI for when quiz is resumed (playing)
     private void resumeQuiz() {
         startClickableImageView.setVisibility(View.GONE);
         pauseClickableImageView.setVisibility(View.VISIBLE);
@@ -791,6 +806,7 @@ public class ModeOneActivity extends AppCompatActivity {
         QuizData.quizPlayingPaused = false;
     }
 
+    // Dialog shows when user chooses a wrong answer
     private void showGameOverDialog() {
         // Create an AlertDialog.Builder and set the message, and click listeners for the positive and negative buttons on the dialog.
         AlertDialog.Builder builder = new AlertDialog.Builder(this);

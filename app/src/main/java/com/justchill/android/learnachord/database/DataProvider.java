@@ -12,8 +12,8 @@ import android.support.annotation.NonNull;
 import com.justchill.android.learnachord.MyApplication;
 import com.justchill.android.learnachord.R;
 
-import java.util.Set;
 
+// Data provider - declares all actions that can be called through provider
 public class DataProvider extends ContentProvider {
 
 //    /** Tag for the log messages */

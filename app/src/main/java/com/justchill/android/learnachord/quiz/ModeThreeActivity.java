@@ -35,32 +35,45 @@ import com.justchill.android.learnachord.database.DatabaseData;
 import java.util.ArrayList;
 import java.util.Random;
 
+// Hard quiz activity
 public class ModeThreeActivity extends AppCompatActivity {
 
+    // Playing progress bar
     private ProgressBar timeLeftToPlayProgressBar;
 
+    // TextView that is showing score
     private TextView scoreTextView;
 
+    // Start/resume quiz button
     private ImageView startClickableImageView;
+    // Pause quiz button
     private ImageView pauseClickableImageView;
 
+    // Parent layout of ListView and search bar
     private View parentSearchAndListView;
+    // Search EditText
     private EditText searchTextInput;
+    // List of all possible answers
     private ListView selectAnswerListView;
 
+    // Submit button view
     private View submitAnswerButton;
 
 
+    // Temporary random object
     private Random rand;
+    // Number of intervals and chords checked/chosen/enabled in options
     int checkedIntervals, checkedChords;
 
+    // Thread for playing sounds
     Thread quizModeOnePlayThread;
 
     // Just a little delay between playing
     private static final long addMS = 100;
 
 
-    private static final int timeLeftToPlayProgressThicknessDB = 4;
+    // Thickness of playing progress bar in dp
+    private static final int timeLeftToPlayProgressThicknessDP = 4;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -156,12 +169,14 @@ public class ModeThreeActivity extends AppCompatActivity {
         pauseImageViewSizeRules.height = height_width_value;
         pauseClickableImageView.setLayoutParams(pauseImageViewSizeRules);
 
+        // Set what is visible and what not
         if(QuizData.quizPlayingPaused) {
             pauseQuiz();
         } else {
             resumeQuiz();
         }
 
+        // For app loading on startup
         if(!MyApplication.isLoadingFinished) {
             startClickableImageView.setClickable(false);
             startClickableImageView.setFocusable(false);
@@ -184,6 +199,7 @@ public class ModeThreeActivity extends AppCompatActivity {
             MyApplication.setupPlayButtonColor(ModeThreeActivity.this, startClickableImageView, R.color.unloadedColor);
         }
 
+        // For app loading on startup
         MyApplication.addActivityListener(new MyApplication.ActivityListener() {
             @Override
             public void onIsPlayingChange() {
@@ -233,10 +249,12 @@ public class ModeThreeActivity extends AppCompatActivity {
 
         QuizData.isQuizModePlaying = true;
 
+        // Show all possible answers in list view (having search in mind)
         refreshListView();
 
     }
 
+    // Show all possible answers in list that match search text
     private void refreshListView() {
         QuizData.quizModeThreeListOfPossibleAnswerIDs = new ArrayList<>();
 
@@ -248,7 +266,7 @@ public class ModeThreeActivity extends AppCompatActivity {
 
         // Add intervals to list
         for(int i = 1; i < IntervalsList.getIntervalsCount(); i++) {
-            // Add every checked intervals to list (it's name)
+            // Add every checked intervals to list (it's name; if it has been searched for)
             if(IntervalsList.getInterval(i).getIsChecked() && isIntervalSearchedFor(i)) {
                 QuizData.quizModeThreeListOfPossibleAnswerIDs.add(QuizData.quizModeThreeIntervalIDAdd + i);
             }
@@ -256,7 +274,7 @@ public class ModeThreeActivity extends AppCompatActivity {
 
         // Add chords to list
         for(int i = 0; i < ChordsList.getChordsCount(); i++) {
-            // Add every checked chord to list (it's name)
+            // Add every checked chord to list (it's name; if it has been searched for)
             if(ChordsList.getChord(i).getIsChecked() && isChordSearchedFor(i)) {
                 QuizData.quizModeThreeListOfPossibleAnswerIDs.add(QuizData.quizModeThreeChordIDAdd + i);
             }
@@ -298,12 +316,14 @@ public class ModeThreeActivity extends AppCompatActivity {
 
     }
 
+    // Check if interval match search text (is search text substring of that interval's name)
     private boolean isIntervalSearchedFor(int intervalID) {
         return MyApplication.doesStringContainSubstring(
                 MyApplication.getChordNameAsString(IntervalsList.getInterval(intervalID).getName(), null, null),
                 searchTextInput.getText().toString());
     }
 
+    // Check if chord match search text (is search text substring of that chord's name)
     private boolean isChordSearchedFor(int chordID) {
         Chord tempChord = ChordsList.getChord(chordID);
 
@@ -319,6 +339,7 @@ public class ModeThreeActivity extends AppCompatActivity {
         return MyApplication.doesStringContainSubstring(tempString, searchTextInput.getText().toString());
     }
 
+    // Check if tone match search text (is search text substring of that tone's name)
     private boolean isToneSearchedFor(int toneID) {
         return MyApplication.doesStringContainSubstring(MyApplication.getKeyName(toneID), searchTextInput.getText().toString());
     }
@@ -347,7 +368,7 @@ public class ModeThreeActivity extends AppCompatActivity {
             return;
         }
 
-        // Reset this
+        // Reset temporary variables
         QuizData.quizModeThreeCorrectID = null;
         QuizData.quizModeThreeSelectedID = null;
 
@@ -421,13 +442,17 @@ public class ModeThreeActivity extends AppCompatActivity {
 
 
 
+        // Show all possible answers in list view (having search in mind)
         refreshListView();
 
+        // Play chosen thing
         playCurrentThing();
 
     }
 
+    // Play thing that has been set to be played (interval, chord or tone) on separate thread
     private void playCurrentThing() {
+        // Set this so app knows sound in quiz is reproducing (playing)
         QuizData.quizPlayingCurrentThing = true;
 
         quizModeOnePlayThread = new Thread(new Runnable() {
@@ -531,6 +556,7 @@ public class ModeThreeActivity extends AppCompatActivity {
 
     }
 
+    // Play current interval/chord/tone in given direction
     private void justPlayThis(Integer directionToPlay, int playingID) {
         try {
             Thread.sleep(10);
@@ -562,6 +588,7 @@ public class ModeThreeActivity extends AppCompatActivity {
     }
 
     // TODO: random key uses key borders, it is not checking if key sound is loaded, check if key sound is loaded
+    // Get bas (lowest) key to play (checking for key range)
     private int getRandomKey() {
         if(QuizData.quizIntervalToPlay != null) {
             return rand.nextInt(DatabaseData.upKeyBorder- DatabaseData.downKeyBorder- QuizData.quizIntervalToPlay.getDifference())+ DatabaseData.downKeyBorder;
@@ -591,6 +618,7 @@ public class ModeThreeActivity extends AppCompatActivity {
     }
 
 
+    // Called when user chooses false answer
     private void gameOver() {
         // Save high score if greater than current
         QuizData.refreshQuizModeThreeHighScore();
@@ -601,6 +629,7 @@ public class ModeThreeActivity extends AppCompatActivity {
     }
 
 
+    // Start playing progress bar animation
     private void updateProgressBarAnimation(long duration) {
         try {
             if(!DatabaseData.showProgressBar && MyApplication.isLoadingFinished) {
@@ -620,10 +649,12 @@ public class ModeThreeActivity extends AppCompatActivity {
         }
     }
 
+    // Read string form resources
     private String readResource(int id) {
         return ModeThreeActivity.this.getResources().getString(id);
     }
 
+    // For different languages support
     @Override
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(LocaleHelper.onAttach(base, null));
@@ -655,11 +686,6 @@ public class ModeThreeActivity extends AppCompatActivity {
         QuizData.refreshQuizModeThreeHighScore();
     }
 
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        getMenuInflater().inflate(R.menu.quiz_menu, menu);
-//        return true;
-//    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -677,6 +703,7 @@ public class ModeThreeActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    // Set visibility of submit button
     private void updateSubmitAnswerButton() {
         if(QuizData.quizModeThreeShowSubmitButton) {
             submitAnswerButton.setVisibility(View.VISIBLE);
@@ -685,6 +712,7 @@ public class ModeThreeActivity extends AppCompatActivity {
         }
     }
 
+    // Stop all sounds from playing
     private void stopPlaying() {
         QuizData.quizPlayingID += 10;
         if(quizModeOnePlayThread != null) {
@@ -697,6 +725,7 @@ public class ModeThreeActivity extends AppCompatActivity {
         updateProgressBarAnimation(0);
     }
 
+    // Set UI for when quiz is paused
     private void pauseQuiz() {
         startClickableImageView.setVisibility(View.VISIBLE);
         pauseClickableImageView.setVisibility(View.GONE);
@@ -708,6 +737,7 @@ public class ModeThreeActivity extends AppCompatActivity {
         QuizData.quizPlayingPaused = true;
     }
 
+    // Set UI for when quiz is resumed (playing)
     private void resumeQuiz() {
         startClickableImageView.setVisibility(View.GONE);
         pauseClickableImageView.setVisibility(View.VISIBLE);
@@ -720,6 +750,7 @@ public class ModeThreeActivity extends AppCompatActivity {
     }
 
 
+    // Dialog shows when user chooses a wrong answer
     private void showGameOverDialog() {
         // Create an AlertDialog.Builder and set the message, and click listeners for the positive and negative buttons on the dialog.
         AlertDialog.Builder builder = new AlertDialog.Builder(this);

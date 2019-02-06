@@ -24,6 +24,7 @@ import com.justchill.android.learnachord.database.DataContract;
 import com.justchill.android.learnachord.database.DatabaseData;
 import com.justchill.android.learnachord.database.DatabaseHandler;
 
+// Options activity
 public class SettingsActivity extends AppCompatActivity {
 
     @Override
@@ -34,13 +35,15 @@ public class SettingsActivity extends AppCompatActivity {
         setVolumeControlStream(AudioManager.STREAM_MUSIC);
 
 
+        // Save the current language so if language is changed, UI doesn't change until activity reset
+        // This is needed because some of the UI will translate immediately, but some of them won't
         MyApplication.settingActivityLoadedLanguage = DatabaseData.appLanguage;
 
         // Set the content of the activity to use the activity_settings.xml layout file
         setContentView(R.layout.activity_settings);
 
         // Find the view pager that will allow the user to swipe between fragments
-        ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
+        ViewPager viewPager = findViewById(R.id.viewpager);
 
         // Create an adapter that knows which fragment should be shown on each page
         SimpleFragmentPagerAdapter adapter = new SimpleFragmentPagerAdapter(this, getSupportFragmentManager());
@@ -49,13 +52,12 @@ public class SettingsActivity extends AppCompatActivity {
         viewPager.setAdapter(adapter);
 
         // Find the tab layout that shows the tabs
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
+        TabLayout tabLayout = findViewById(R.id.sliding_tabs);
 
         // Connect the tab layout with the view pager. This will
         //   1. Update the tab layout when the view pager is swiped
         //   2. Update the view pager when a tab is selected
-        //   3. Set the tab layout's tab names with the view pager's adapter's titles
-        //      by calling onPageTitle()
+        //   3. Set the tab layout's tab names with the view pager's adapter's titles by calling onPageTitle()
         tabLayout.setupWithViewPager(viewPager);
 
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -77,6 +79,7 @@ public class SettingsActivity extends AppCompatActivity {
         setTitle(R.string.options);
     }
 
+    // For different languages support
     @Override
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(LocaleHelper.onAttach(base, null));
@@ -94,6 +97,7 @@ public class SettingsActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
 
+        // If something has changed, save options to database
         if(DatabaseHandler.doesDbNeedUpdate()) {
             DatabaseHandler.updateDatabaseOnSeparateThread();
         }
@@ -102,12 +106,14 @@ public class SettingsActivity extends AppCompatActivity {
 
     }
 
+    // Add options menu (for resetting the options)
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.settings_menu, menu);
         return true;
     }
 
+    // Handle options menu actions
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -151,6 +157,7 @@ public class SettingsActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    // Show error if none of the playing directions is selected
     private void showNoDirectionConfirmationDialog() {
         // Create an AlertDialog.Builder and set the message, and click listeners for the positive and negative buttons on the dialog.
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -174,6 +181,7 @@ public class SettingsActivity extends AppCompatActivity {
         alertDialog.show();
     }
 
+    // Show error if none of the intervals/chords/tones is selected
     private void showNoIntervalsOrChordsConfirmationDialog() {
         // Create an AlertDialog.Builder and set the message, and click listeners for the positive and negative buttons on the dialog.
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -197,6 +205,7 @@ public class SettingsActivity extends AppCompatActivity {
         alertDialog.show();
     }
 
+    // Show error if set range is too small for some selected/checked intervals/chords
     private void showSmallRangeConfirmationDialog() {
         // Create an AlertDialog.Builder and set the message, and click listeners for the positive and negative buttons on the dialog.
         AlertDialog.Builder builder = new AlertDialog.Builder(this);

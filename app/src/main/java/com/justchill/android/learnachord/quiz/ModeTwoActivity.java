@@ -31,40 +31,57 @@ import com.justchill.android.learnachord.database.DatabaseData;
 
 import java.util.Random;
 
+// Medium quiz activity
 public class ModeTwoActivity extends AppCompatActivity {
 
-
+    // Playing progress bar
     private ProgressBar timeLeftToPlayProgressBar;
 
+    // TextView that is showing score
     private TextView scoreTextView;
 
+    // Start/resume quiz button
     private ImageView startClickableImageView;
+    // Pause quiz button
     private ImageView pauseClickableImageView;
 
+    // Temporary random object
     private Random rand;
+    // Number of intervals and chords checked/chosen/enabled in options
     private int checkedIntervals, checkedChords;
 
     // Just a little delay between playing
     private static final long addMS = 100;
 
+    // Thread for playing sounds
     Thread quizModeTwoPlayThread;
 
-    private static final int timeLeftToPlayProgressThicknessDB = 4;
+    // Thickness of playing progress bar in dp
+    private static final int timeLeftToPlayProgressThicknessDP = 4;
 
 
+    // List of all possible answers' data
 
+    // Parent button for showing answer, background is button texture
     private View[] quizOptionParentLayout;
+    // Linear layout for good positioning
     private View[] quizOptionLinearLayout;
+    // TextView for answer number / title
     private TextView[] quizOptionTitleTV;
+    // TextView for answer description (name)
     private View[] quizOptionDescriptionLayout;
 
+    // Parent layout for showing answer
     private ViewGroup[] chordTextViewLayout;
+    // Values to show
     private TextView[] chordTextView;
     private TextView[] chordNumOneTextView;
     private TextView[] chordNumTwoTextView;
 
+    // Parent layout for choosing answer (contains answer buttons)
     private View optionsParentLayout;
 
+    // Dimensions of each answer button
     private int height, width;
 
     @Override
@@ -77,6 +94,8 @@ public class ModeTwoActivity extends AppCompatActivity {
         // Change media volume when volume buttons are pressed
         setVolumeControlStream(AudioManager.STREAM_MUSIC);
 
+
+        // Set all elements for all answers
 
         optionsParentLayout = findViewById(R.id.four_options_parent_layout);
 
@@ -136,7 +155,7 @@ public class ModeTwoActivity extends AppCompatActivity {
         width = height/3*2;
 
         for(int i = 0; i < quizOptionParentLayout.length; i++) {
-            setQuizModeSize(i);
+            setAnswerSize(i);
         }
 
 
@@ -152,8 +171,8 @@ public class ModeTwoActivity extends AppCompatActivity {
 
         scoreTextView = findViewById(R.id.quiz_score_text_view);
 
-        startClickableImageView = (ImageView) findViewById(R.id.start_clickable_image_view);
-        pauseClickableImageView = (ImageView) findViewById(R.id.pause_clickable_image_view);
+        startClickableImageView = findViewById(R.id.start_clickable_image_view);
+        pauseClickableImageView = findViewById(R.id.pause_clickable_image_view);
 
 
 
@@ -210,12 +229,14 @@ public class ModeTwoActivity extends AppCompatActivity {
         pauseClickableImageView.setLayoutParams(pauseImageViewSizeRules);
 
 
+        // Set what is visible and what not
         if(QuizData.quizPlayingPaused) {
             pauseQuiz();
         } else {
             resumeQuiz();
         }
 
+        // For app loading on startup
         if(!MyApplication.isLoadingFinished) {
             startClickableImageView.setClickable(false);
             startClickableImageView.setFocusable(false);
@@ -236,6 +257,7 @@ public class ModeTwoActivity extends AppCompatActivity {
             MyApplication.setupPlayButtonColor(ModeTwoActivity.this, startClickableImageView, R.color.unloadedColor);
         }
 
+        // For app loading on startup
         MyApplication.addActivityListener(new MyApplication.ActivityListener() {
             @Override
             public void onIsPlayingChange() {
@@ -266,11 +288,13 @@ public class ModeTwoActivity extends AppCompatActivity {
 
         QuizData.isQuizModePlaying = true;
 
+        // Show all possible answers
         showAllChords();
 
     }
 
-    private void setQuizModeSize(int modeID) {
+    // Setup size for answer button
+    private void setAnswerSize(int modeID) {
         // Setup quizModeParentLayout size and padding
         ViewGroup.LayoutParams quizOptionParentSizeRules = quizOptionParentLayout[modeID].getLayoutParams();
 
@@ -291,7 +315,7 @@ public class ModeTwoActivity extends AppCompatActivity {
         quizModeTitleSizeRules.setMargins(0, 0, 0, width/10);
         quizOptionTitleTV[modeID].setLayoutParams(quizModeTitleSizeRules);
 
-        quizOptionTitleTV[modeID].setTextSize(TypedValue.COMPLEX_UNIT_PX, height/7);
+        quizOptionTitleTV[modeID].setTextSize(TypedValue.COMPLEX_UNIT_PX, height/7f);
 
 
         // Setup interval and chord (and tone) text size
@@ -300,6 +324,7 @@ public class ModeTwoActivity extends AppCompatActivity {
 
     }
 
+    // Handle what happens when one of the answers has been clicked
     private void handleClickOnOption(int id) {
         QuizData.waitingForQuizAnswer = false;
         QuizData.quizPlayingCurrentThing = false;
@@ -313,6 +338,7 @@ public class ModeTwoActivity extends AppCompatActivity {
         }
     }
 
+    // Read string form resources
     private String readResource(int id) {
         return ModeTwoActivity.this.getResources().getString(id);
     }
@@ -346,7 +372,7 @@ public class ModeTwoActivity extends AppCompatActivity {
         // Randomly choose correct answer
         QuizData.quizModeTwoCorrectAnswerID = rand.nextInt(4);
 
-        // Reset this
+        // Reset temporary variables
         for(int i = 0; i < quizOptionParentLayout.length; i++) {
             QuizData.quizModeTwoChordNameToShow[i] = null;
             QuizData.quizModeTwoChordNumberOneToShow[i] = null;
@@ -468,6 +494,7 @@ public class ModeTwoActivity extends AppCompatActivity {
         QuizData.waitingForQuizAnswer = true;
     }
 
+    // Play current interval/chord/tone on separate thread
     private void playCurrentThing() {
         QuizData.quizPlayingCurrentThing = true;
 
@@ -572,6 +599,7 @@ public class ModeTwoActivity extends AppCompatActivity {
 
     }
 
+    // Play current interval/chord/tone in given direction
     private void justPlayThis(Integer directionToPlay, int playingID) {
         try {
             Thread.sleep(10);
@@ -602,6 +630,7 @@ public class ModeTwoActivity extends AppCompatActivity {
         }
     }
 
+    // Show all answers
     private void showAllChords() {
         for(int i = 0; i < quizOptionParentLayout.length; i++) {
             if(QuizData.quizModeTwoChordNameToShow[i] == null) {
@@ -616,6 +645,7 @@ public class ModeTwoActivity extends AppCompatActivity {
     }
 
     // TODO: random key uses key borders, it is not checking if key sound is loaded, check if key sound is loaded
+    // Get base key to play (checking for key range)
     private int getRandomKey() {
         if(QuizData.quizIntervalToPlay != null) {
             return rand.nextInt(DatabaseData.upKeyBorder- DatabaseData.downKeyBorder- QuizData.quizIntervalToPlay.getDifference())+ DatabaseData.downKeyBorder;
@@ -644,6 +674,7 @@ public class ModeTwoActivity extends AppCompatActivity {
         return (key1%12 == key2%12);
     }
 
+    // Randomly set wrong answer to show
     private void setupWrongThingToShow(int id) {
         if(QuizData.quizModeTwoCorrectAnswerID == id) {
             // Don't set wrong answer where correct answer should be
@@ -655,9 +686,9 @@ public class ModeTwoActivity extends AppCompatActivity {
             setupWrongInterval(id);
         } else if(QuizData.quizChordToPlay != null) {
             setupWrongChord(id);
-        } else if(QuizData.quizIntervalToPlay == null && QuizData.quizChordToPlay == null && DatabaseData.playWhatTone) {
+        } else if(/*QuizData.quizIntervalToPlay == null && QuizData.quizChordToPlay == null &&*/ DatabaseData.playWhatTone) {
             setupWrongToneIfPlayWhatTone(id);
-        } else if(QuizData.quizIntervalToPlay == null && QuizData.quizChordToPlay == null && !DatabaseData.playWhatTone && DatabaseData.playWhatOctave) {
+        } else if(/*QuizData.quizIntervalToPlay == null && QuizData.quizChordToPlay == null && !DatabaseData.playWhatTone &&*/ DatabaseData.playWhatOctave) {
             setupWrongToneIfJustOctave(id);
         }
 
@@ -674,6 +705,7 @@ public class ModeTwoActivity extends AppCompatActivity {
 
     }
 
+    // If first random setting was not successful, try one more time
     private void setupWrongThingToShowSecondTry(int id) {
         // Show any checked interval, if there is any
         setupWrongInterval(id);
@@ -706,6 +738,7 @@ public class ModeTwoActivity extends AppCompatActivity {
 
     }
 
+    // Set random interval that is not playing (and is selected in options; and is not already set as other answer)
     private void setupWrongInterval(int id) {
         try {
             // Interval to show cannot be same as any other
@@ -721,6 +754,7 @@ public class ModeTwoActivity extends AppCompatActivity {
         }
     }
 
+    // Set random chord that is not playing (and is selected in options)
     private void setupWrongChord(int id) {
         try {
             // Chord to show cannot be same as any other
@@ -738,6 +772,7 @@ public class ModeTwoActivity extends AppCompatActivity {
         }
     }
 
+    // Set random tone that is not playing (and is selected in options) - when only tone is selected in options
     private void setupWrongToneIfPlayWhatTone(int id) {
         int tempRandomStartFrom = rand.nextInt(DatabaseData.upKeyBorder- DatabaseData.downKeyBorder)+ DatabaseData.downKeyBorder;
 
@@ -814,6 +849,7 @@ public class ModeTwoActivity extends AppCompatActivity {
         }
     }
 
+    // Set random tone that is not playing (and is selected in options) - when only octave is selected in options
     private void setupWrongToneIfJustOctave(int id) {
         // TODO: add min and max range support (user preference)
 
@@ -854,6 +890,7 @@ public class ModeTwoActivity extends AppCompatActivity {
     }
 
 
+    // Called when user chooses false answer
     private void gameOver() {
         // Save high score if greater than current
         QuizData.refreshQuizModeTwoHighScore();
@@ -863,15 +900,7 @@ public class ModeTwoActivity extends AppCompatActivity {
         showGameOverDialog();
     }
 
-
-
-//    private boolean isChordCorrect() {
-//        StringBuilder stringBuilder = new StringBuilder();
-//        stringBuilder.append(chordTextView.getText()).append(chordNumOneTextView.getText()).append(chordNumTwoTextView.getText());
-//
-//        return (MyApplication.quizCorrectAnswerName.equals(stringBuilder.toString()));
-//    }
-
+    // Start playing progress bar animation
     private void updateProgressBarAnimation(long duration) {
         try {
             if(!DatabaseData.showProgressBar && MyApplication.isLoadingFinished) {
@@ -892,6 +921,7 @@ public class ModeTwoActivity extends AppCompatActivity {
     }
 
 
+    // For different languages support
     @Override
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(LocaleHelper.onAttach(base, null));
@@ -936,7 +966,7 @@ public class ModeTwoActivity extends AppCompatActivity {
     }
 
 
-
+    // Stop all sounds from playing
     private void stopPlaying() {
         QuizData.quizPlayingID += 10;
         if(quizModeTwoPlayThread != null) {
@@ -949,6 +979,7 @@ public class ModeTwoActivity extends AppCompatActivity {
         updateProgressBarAnimation(0);
     }
 
+    // Set UI for when quiz is paused
     private void pauseQuiz() {
         startClickableImageView.setVisibility(View.VISIBLE);
         pauseClickableImageView.setVisibility(View.GONE);
@@ -958,6 +989,7 @@ public class ModeTwoActivity extends AppCompatActivity {
         QuizData.quizPlayingPaused = true;
     }
 
+    // Set UI for when quiz is resumed (playing)
     private void resumeQuiz() {
         startClickableImageView.setVisibility(View.GONE);
         pauseClickableImageView.setVisibility(View.VISIBLE);
@@ -967,6 +999,7 @@ public class ModeTwoActivity extends AppCompatActivity {
         QuizData.quizPlayingPaused = false;
     }
 
+    // Dialog shows when user chooses a wrong answer
     private void showGameOverDialog() {
         // Create an AlertDialog.Builder and set the message, and click listeners for the positive and negative buttons on the dialog.
         AlertDialog.Builder builder = new AlertDialog.Builder(this);

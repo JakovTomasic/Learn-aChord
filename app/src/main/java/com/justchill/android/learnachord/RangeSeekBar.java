@@ -45,6 +45,7 @@ import java.math.BigDecimal;
  * @author Alex Florescu (florescu@yahoo-inc.com)
  * @author Michael Keppler (bananeweizen@gmx.de)
  */
+// Used for range preference in settings
 public class RangeSeekBar<T extends Number> extends android.support.v7.widget.AppCompatImageView {
 
     public static final Integer DEFAULT_MINIMUM = 0;
@@ -54,11 +55,6 @@ public class RangeSeekBar<T extends Number> extends android.support.v7.widget.Ap
     private static final int INITIAL_PADDING_IN_DP = 8;
     private final int LINE_HEIGHT_IN_DP = 1;
     private final Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
-//    private final Bitmap thumbImage = BitmapFactory.decodeResource(getContext().getResources(), R.drawable.ic_seek_thumb_normal);
-//    private final Bitmap thumbPressedImage = BitmapFactory.decodeResource(getContext().getResources(),
-//            R.drawable.ic_seek_thumb_pressed);
-//    private final Bitmap thumbDisabledImage = BitmapFactory.decodeResource(getContext().getResources(),
-//            R.drawable.ic_seek_thumb_disabled);
 
     // 16 dp
     private final float thumbRadius = (16 * Resources.getSystem().getDisplayMetrics().density);

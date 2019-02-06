@@ -4,14 +4,9 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
-import android.graphics.drawable.GradientDrawable;
-import android.graphics.drawable.ShapeDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.view.ContextMenu;
 import android.view.KeyEvent;
@@ -39,39 +34,65 @@ import com.justchill.android.learnachord.database.DatabaseHandler;
 
 import java.util.Locale;
 
+// Other settings fragment
 public class PreferencesFragment extends Fragment {
 
+    // View of this fragment that is displaying in UI
     private View fragmentView;
 
+    // Spinner for selecting playing mode (random or custom)
     private Spinner playingModeSpinner;
+    // Question mark icon for opening playing mode help
     private TextView directionExplanationClickableTextView;
+    // Direction up option, clickable view and checkbox
     private View directionUpView;
     private CheckBox directionUpCheckBox;
+
+    // Direction down option, clickable view and checkbox
     private View directionDownView;
     private CheckBox directionDownCheckBox;
+
+    // Direction simultaneously option, clickable view and checkbox
     private View directionSameTimeView;
     private CheckBox directionSameTimeCheckBox;
+
+    // View and EditText for each tone duration
     private View tonesSeparationView;
     private EditText tonesSeparationEditText;
+
+    // View and EditText for delay between playings
     private View tonesDurationView;
     private EditText tonesDurationEditText;
+
+    // This is used to gain focus so focus can be removed from accessed EditText, not working perfectly
     private EditText uselessEditTextToRemoveFocus;
+
+    // Spinner for selecting app language
     private Spinner languageSpinner;
-    private TextView rangeTextView;
+
+    // TextView that is showing name of range's low key
     private TextView downBorderTextView;
+    // TextView that is showing name of range's high key
     private TextView upBorderTextView;
+
+    // Double seek bar for selecting range
     private RangeSeekBar<Integer> seekBar;
+
+    // View and checkbox for show progress circle option
     private View showProgressBarView;
     private CheckBox showProgressBarCheckBox;
+
+    // View and checkbox for show chord's intervals option
     private View showWhatIntervalsView;
     private CheckBox showWhatIntervalsCheckBox;
-    private Spinner chordTextSizeSpinner;
-//    private View chooseColorsView;
-//    private View updateToPremiumView;
 
+    // Spinner for changing text size
+    private Spinner chordTextSizeSpinner;
+
+    // Parent of all playing directions list
     private ViewGroup allPlayingModesParentView;
+    // Saving last playing direction that was touched - for move up and down feature
     private View contextMenuView;
-//    private CheckBox contextMenuCheckBox;
 
     private Context context;
 
@@ -81,8 +102,10 @@ public class PreferencesFragment extends Fragment {
         fragmentView = inflater.inflate(R.layout.fragment_preferences, container, false);
         context = getContext();
 
-        playingModeSpinner = (Spinner) fragmentView.findViewById(R.id.playing_mode_spinner);
-        directionExplanationClickableTextView = (TextView) fragmentView.findViewById(R.id.direction_explanation_clickable_text_view);
+        // Get all needed elements
+
+        playingModeSpinner = fragmentView.findViewById(R.id.playing_mode_spinner);
+        directionExplanationClickableTextView = fragmentView.findViewById(R.id.direction_explanation_clickable_text_view);
 
         directionUpView = fragmentView.findViewById(R.id.play_direction_up_clickable_view);
         directionUpCheckBox = fragmentView.findViewById(R.id.settings_up_check_box);
@@ -94,40 +117,35 @@ public class PreferencesFragment extends Fragment {
         directionSameTimeCheckBox = fragmentView.findViewById(R.id.settings_same_time_check_box);
 
         tonesSeparationView = fragmentView.findViewById(R.id.tones_separation_linear_layout);
-        tonesSeparationEditText = (EditText) fragmentView.findViewById(R.id.second_sound_delay_number_input);
+        tonesSeparationEditText = fragmentView.findViewById(R.id.second_sound_delay_number_input);
 
         tonesDurationView = fragmentView.findViewById(R.id.tones_duration_linear_layout);
-        tonesDurationEditText = (EditText) fragmentView.findViewById(R.id.between_chords_delay_number_input);
+        tonesDurationEditText = fragmentView.findViewById(R.id.between_chords_delay_number_input);
 
-        uselessEditTextToRemoveFocus = (EditText) fragmentView.findViewById(R.id.useless_edit_text_to_remove_focus);
+        uselessEditTextToRemoveFocus = fragmentView.findViewById(R.id.useless_edit_text_to_remove_focus);
 
-        languageSpinner = (Spinner) fragmentView.findViewById(R.id.language_spinner);
+        languageSpinner = fragmentView.findViewById(R.id.language_spinner);
 
-        rangeTextView = (TextView) fragmentView.findViewById(R.id.range_text_view);
-        downBorderTextView = (TextView) fragmentView.findViewById(R.id.down_border_text_view);
-        upBorderTextView = (TextView) fragmentView.findViewById(R.id.up_border_text_view);
+        downBorderTextView = fragmentView.findViewById(R.id.down_border_text_view);
+        upBorderTextView = fragmentView.findViewById(R.id.up_border_text_view);
         seekBar = fragmentView.findViewById(R.id.rangeSeekbar);
 
         showProgressBarView = fragmentView.findViewById(R.id.show_progress_bar_parent_layout);
-        showProgressBarCheckBox = (CheckBox) fragmentView.findViewById(R.id.settings_show_progress_bar_check_box);
+        showProgressBarCheckBox = fragmentView.findViewById(R.id.settings_show_progress_bar_check_box);
 
         showWhatIntervalsView = fragmentView.findViewById(R.id.show_what_intervals_parent_layout);
         showWhatIntervalsCheckBox = fragmentView.findViewById(R.id.settings_what_intervals_check_box);
 
-        chordTextSizeSpinner = (Spinner) fragmentView.findViewById(R.id.chord_text_size_spinner);
-
-//        chooseColorsView = fragmentView.findViewById(R.id.choose_colors_clickable_view);
-
-//        updateToPremiumView = fragmentView.findViewById(R.id.remove_ads_clickable_view);
+        chordTextSizeSpinner = fragmentView.findViewById(R.id.chord_text_size_spinner);
 
 
-        allPlayingModesParentView = (ViewGroup) fragmentView.findViewById(R.id.all_playing_modes_parent_layout);
+        allPlayingModesParentView = fragmentView.findViewById(R.id.all_playing_modes_parent_layout);
         contextMenuView = directionUpView;
-//        contextMenuCheckBox = directionUpCheckBox;
 
 
         setupPlayingModeSpinner();
 
+        // For move up and down feature (opening move up/down action picker on long press)
         registerForContextMenu(directionUpView);
         registerForContextMenu(directionDownView);
         registerForContextMenu(directionSameTimeView);
@@ -156,7 +174,6 @@ public class PreferencesFragment extends Fragment {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 contextMenuView = directionUpView;
-//                contextMenuCheckBox = directionUpCheckBox;
                 return false;
             }
         });
@@ -178,7 +195,6 @@ public class PreferencesFragment extends Fragment {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 contextMenuView = directionDownView;
-//                contextMenuCheckBox = directionDownCheckBox;
                 return false;
             }
         });
@@ -200,7 +216,6 @@ public class PreferencesFragment extends Fragment {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 contextMenuView = directionSameTimeView;
-//                contextMenuCheckBox = directionSameTimeCheckBox;
                 return false;
             }
         });
@@ -273,9 +288,12 @@ public class PreferencesFragment extends Fragment {
         setupChordTextSizeSpinner();
 
 
-        updateRoundButtonColor(downBorderTextView.getBackground());
-        updateRoundButtonColor(upBorderTextView.getBackground());
+        // Set color of range borders to play color instead of stop button color
+        // This don't need to be here as color is updated on stop playing in main activity, this is here just in case shit happens
+        MyApplication.setupPlayButtonColor(context, downBorderTextView, R.color.playButton);
+        MyApplication.setupPlayButtonColor(context, upBorderTextView, R.color.playButton);
 
+        // Set order of playing directions
         updatePlayingModeViews();
 
         return fragmentView;
@@ -285,6 +303,7 @@ public class PreferencesFragment extends Fragment {
     public void onResume() {
         super.onResume();
 
+        // On fragment resume set what duration numbers to show
         updateDurationViews();
     }
 
@@ -292,30 +311,17 @@ public class PreferencesFragment extends Fragment {
     public void onPause() {
         super.onPause();
 
+        // If settings are up to date (updated from database) save durations (tone and between playing)
         if(!DatabaseHandler.doSettingsNeedUpdate()) {
             handleTonesSeparationEditText(null);
             handleTonesDurationEditText();
         }
 
+        // Close the keyboard in case
         hideKeyboardFrom();
     }
 
-    private void updateRoundButtonColor(Drawable drawable) {
-        if (drawable instanceof ShapeDrawable) {
-            // cast to 'ShapeDrawable'
-            ShapeDrawable shapeDrawable = (ShapeDrawable) drawable;
-            shapeDrawable.getPaint().setColor(ContextCompat.getColor(MyApplication.getAppContext(), R.color.playButton));
-        } else if (drawable instanceof GradientDrawable) {
-            // cast to 'GradientDrawable'
-            GradientDrawable gradientDrawable = (GradientDrawable) drawable;
-            gradientDrawable.setColor(ContextCompat.getColor(MyApplication.getAppContext(), R.color.playButton));
-        } else if (drawable instanceof ColorDrawable) {
-            // alpha value may need to be set again after this call
-            ColorDrawable colorDrawable = (ColorDrawable) drawable;
-            colorDrawable.setColor(ContextCompat.getColor(MyApplication.getAppContext(), R.color.playButton));
-        }
-    }
-
+    // Saves each tone duration value, returns onEditAction's return value
     private boolean handleTonesSeparationEditText(Integer actionId) {
         try {
             if(!tonesSeparationEditText.getText().toString().isEmpty()) {
@@ -329,6 +335,7 @@ public class PreferencesFragment extends Fragment {
                         DatabaseData.refreshDirectionsCount();
                     }
                 } else {
+                    // Don't save value that is outside borders
                     if(value > DatabaseData.maxTonesSeparationTime) {
                         DatabaseData.tonesSeparationTime = DatabaseData.maxTonesSeparationTime;
                     } else if(value < DatabaseData.minTonesSeparationTime) {
@@ -353,12 +360,14 @@ public class PreferencesFragment extends Fragment {
         return false; // pass on to other listeners.
     }
 
+    // Saves delay between playing value, returns onEditAction's return value
     private boolean handleTonesDurationEditText() {
         hideKeyboardFrom();
 
         try {
             if(!tonesDurationEditText.getText().toString().isEmpty()) {
                 final double value = Double.valueOf(tonesDurationEditText.getText().toString()) * 1000.0;
+                // Don't save value that is outside borders
                 if(value > DatabaseData.maxChordDurationTime) {
                     DatabaseData.delayBetweenChords = DatabaseData.maxChordDurationTime;
                 } else if(value < DatabaseData.minChordDurationTime) {
@@ -376,6 +385,7 @@ public class PreferencesFragment extends Fragment {
         return true; // consume the action
     }
 
+    // Hides soft keyboard input
     private void hideKeyboardFrom() {
         tonesSeparationView.clearFocus();
         tonesDurationView.clearFocus();
@@ -388,24 +398,24 @@ public class PreferencesFragment extends Fragment {
         }
     }
 
+    // Set duration options GUI
     private void updateDurationViews() {
         // These two are to save number when it is changed and check unchecked
         handleTonesSeparationEditText(null);
-//        handleTonesDurationEditText();
 
         final String format = "%.2f"; // 2 decimal points
         tonesSeparationEditText.setText(String.format(Locale.US, format, DatabaseData.tonesSeparationTime / 1000));
         tonesDurationEditText.setText(String.format(Locale.US, format, DatabaseData.delayBetweenChords / 1000));
 
+        // If just simultaneously is selected, hide each tone duration option
         if(!DatabaseData.directionUp && !DatabaseData.directionDown && DatabaseData.directionSameTime) {
             tonesSeparationView.setVisibility(View.GONE);
-//            tonesDurationView.setVisibility(View.GONE);
         } else {
             tonesSeparationView.setVisibility(View.VISIBLE);
-//            tonesDurationView.setVisibility(View.VISIBLE);
         }
     }
 
+    // Sets GUI / range border keys' names depending on set language
     private void calculateRange(int minRange, int maxRange) {
         minRange--; // 0 to 60 (and not 1 - 61)
         maxRange--;
@@ -463,15 +473,17 @@ public class PreferencesFragment extends Fragment {
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
-//        menu.setHeaderTitle("Choose action");
+
         if(getActivity() != null) {
             getActivity().getMenuInflater().inflate(R.menu.custom_playing_mode_context_menu, menu);
         }
     }
 
+    // This runs when user tries to change playing directions' order
     @Override
     public boolean onContextItemSelected(MenuItem item) {
         if(DatabaseData.playingMode != DataContract.UserPrefEntry.PLAYING_MODE_CUSTOM) {
+            // If playing mode was random, set to custom and set directions to default (and then move selected one)
             DatabaseData.playingMode = DataContract.UserPrefEntry.PLAYING_MODE_CUSTOM;
             setupPlayingModeSpinner();
 
@@ -483,7 +495,6 @@ public class PreferencesFragment extends Fragment {
         int oldIndex;
         switch (item.getItemId()) {
             case R.id.move_up_option:
-//                Toast.makeText(context, "Option 1 selected", Toast.LENGTH_SHORT).show();
                 if(contextMenuView == directionDownView) {
                     oldIndex = DatabaseData.directionDownViewIndex;
                     if(oldIndex <= 0) {
@@ -520,7 +531,6 @@ public class PreferencesFragment extends Fragment {
                 updatePlayingModeViews();
                 return true;
             case R.id.move_down_option:
-//                Toast.makeText(context, "Option 2 selected", Toast.LENGTH_SHORT).show();
                 if(contextMenuView == directionDownView) {
                     oldIndex = DatabaseData.directionDownViewIndex;
                     if(oldIndex >= 2) {
@@ -561,13 +571,14 @@ public class PreferencesFragment extends Fragment {
         }
     }
 
+    // Sets up spinner for choosing playing mode
     private void setupPlayingModeSpinner() {
         // Create adapter for spinner. The list options are from the String array it will use
         // the spinner will use the default layout
 
         // Apply the adapter to the spinner
         // Specify dropdown layout style - custom spinner item - to change text and background color
-        playingModeSpinner.setAdapter(new ArrayAdapter<String>(context, R.layout.spinner_item,
+        playingModeSpinner.setAdapter(new ArrayAdapter<>(context, R.layout.spinner_item,
                 getResources().getStringArray(R.array.playing_mode_options)));
 
         playingModeSpinner.setSelection(DatabaseData.playingMode);
@@ -598,13 +609,14 @@ public class PreferencesFragment extends Fragment {
         });
     }
 
+    // Sets up spinner for choosing app language
     private void setupLanguageSpinner() {
         // Create adapter for spinner. The list options are from the String array it will use
         // the spinner will use the default layout
 
         // Apply the adapter to the spinner
         // Specify dropdown layout style - custom spinner item - to change text and background color
-        languageSpinner.setAdapter(new ArrayAdapter<String>(context, R.layout.spinner_item,
+        languageSpinner.setAdapter(new ArrayAdapter<>(context, R.layout.spinner_item,
                 getResources().getStringArray(R.array.language_options)));
 
         languageSpinner.setSelection(DatabaseData.appLanguage);
@@ -636,13 +648,14 @@ public class PreferencesFragment extends Fragment {
         });
     }
 
+    // Sets up spinner for choosing text size
     private void setupChordTextSizeSpinner() {
         // Create adapter for spinner. The list options are from the String array it will use
         // the spinner will use the default layout
 
         // Apply the adapter to the spinner
         // Specify dropdown layout style - custom spinner item - to change text and background color
-        chordTextSizeSpinner.setAdapter(new ArrayAdapter<String>(context, R.layout.spinner_item,
+        chordTextSizeSpinner.setAdapter(new ArrayAdapter<>(context, R.layout.spinner_item,
                 getResources().getStringArray(R.array.chord_text_size_options)));
 
         chordTextSizeSpinner.setSelection(DatabaseData.chordTextScalingMode);
@@ -674,6 +687,7 @@ public class PreferencesFragment extends Fragment {
         });
     }
 
+    // Adds playing direction view to playing directions parent
     private void addViewToParent(ViewGroup parent, int index) {
         if(DatabaseData.directionDownViewIndex == index) {
             parent.addView(directionDownView);
@@ -684,9 +698,8 @@ public class PreferencesFragment extends Fragment {
         }
     }
 
+    // Sets order of playing directions
     private void updatePlayingModeViews() {
-//        Log.d("Pref", MyApplication.directionUpViewIndex + ", " + MyApplication.directionDownViewIndex + ", " +
-//                MyApplication.directionSameTimeViewIndex);
         if(DatabaseData.playingMode == DataContract.UserPrefEntry.PLAYING_MODE_CUSTOM) {
             allPlayingModesParentView.removeAllViews();
             for(int i = 0; i < 3; i++) {
@@ -695,6 +708,7 @@ public class PreferencesFragment extends Fragment {
         } else {
             allPlayingModesParentView.removeAllViews();
             for(int i = 0; i < 3; i++) {
+                // This is written like this for future change flexibility
                 if(DataContract.UserPrefEntry.DIRECTION_DOWN_VIEW_DEFAULT_INDEX == i) {
                     allPlayingModesParentView.addView(directionDownView);
                 } else if(DataContract.UserPrefEntry.DIRECTION_SAME_TIME_VIEW_DEFAULT_INDEX == i) {
@@ -706,6 +720,7 @@ public class PreferencesFragment extends Fragment {
         }
     }
 
+    // Show explanation dialog when user clicks on question mark help icon
     private void showDirectionExplanationDialog() {
         // Create an AlertDialog.Builder and set the message, and click listeners for the positive and negative buttons on the dialog.
         AlertDialog.Builder builder = new AlertDialog.Builder(context);

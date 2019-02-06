@@ -14,25 +14,29 @@ import android.widget.TextView;
 import com.justchill.android.learnachord.intervalOrChord.Interval;
 import com.justchill.android.learnachord.database.DatabaseData;
 
+// ListView adapter for showing list of chord's intervals in main activity
 public class WhatIntervalsAdapter extends ArrayAdapter<Interval> {
 
-    private static final String LOG_TAG = IntervalAdapter.class.getName();
-
+    // Number of intervals that have already been played (or that are playing)
     private int numberOfIntervalsToShow;
+    // Array of intervals
     private Interval[] intervalsToShow;
+    // Direction in what chord is playing
     private int playingDirection;
 
-    // This needs to be public so it can be accessed from settings package classes
-    public WhatIntervalsAdapter(Activity context, Interval[] intervals, int nOfIntervalsToShow, int direction) {
+    WhatIntervalsAdapter(Activity context, Interval[] intervals, int nOfIntervalsToShow, int direction) {
         super(context, 0, intervals);
         numberOfIntervalsToShow = nOfIntervalsToShow;
         intervalsToShow = intervals;
         playingDirection = direction;
     }
 
+    // For getting a view, this is called every time user scrolls ListView for
+    // every new view that is starting to show (and while creating ListView)
     @NonNull
     @Override
     public View getView(final int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+        // Try to recycle other view
         View intervalView = convertView;
         if(intervalView == null) {
             intervalView = LayoutInflater.from(getContext()).inflate(R.layout.list_item_interval, parent, false);
@@ -43,7 +47,7 @@ public class WhatIntervalsAdapter extends ArrayAdapter<Interval> {
         TextView intervalTextView = intervalView.findViewById(R.id.interval_text_view);
 
 
-        // textSize -> text size of chord/interval text in MainActivity
+        // textSize == text size of chord/interval/tone text in MainActivity
         float textSize = (MyApplication.smallerDisplayDimensionPX * 0.75f) / 8 * DatabaseData.scaledDensity;
         intervalTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, textSize / 2.6f);
 
@@ -73,6 +77,7 @@ public class WhatIntervalsAdapter extends ArrayAdapter<Interval> {
         return intervalView;
     }
 
+    // Returns color from resources with given ID
     private int readResource(int id) {
         return ContextCompat.getColor(WhatIntervalsAdapter.this.getContext(), id);
     }

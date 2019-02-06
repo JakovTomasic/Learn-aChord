@@ -8,16 +8,17 @@ import android.support.v4.app.FragmentPagerAdapter;
 
 import com.justchill.android.learnachord.R;
 
+// Fragment pager adapter for options' (SettingsActivity's) ViewPager
 public class SimpleFragmentPagerAdapter extends FragmentPagerAdapter{
 
     private Context mContext;
 
-    // Was public, warning sad to set to package-private
     SimpleFragmentPagerAdapter(Context context, FragmentManager fm) {
         super(fm);
         mContext = context;
     }
 
+    // Returns item (fragment) at given position
     @Override
     public Fragment getItem(int position) {
         switch (position) {
@@ -37,6 +38,7 @@ public class SimpleFragmentPagerAdapter extends FragmentPagerAdapter{
         return 4;
     }
 
+    // Setting page titles
     @Nullable
     @Override
     public CharSequence getPageTitle(int position) {

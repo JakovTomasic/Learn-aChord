@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import com.justchill.android.learnachord.MyApplication;
 import com.justchill.android.learnachord.R;
 
+// Handles creating and updating (to newer version, on some app updates) database
 public class IntervalsDbHelper extends SQLiteOpenHelper {
 
     /**

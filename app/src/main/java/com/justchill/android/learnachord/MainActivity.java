@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Point;
-import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -25,21 +24,30 @@ import com.justchill.android.learnachord.quiz.ChooseQuizModeActivity;
 import com.justchill.android.learnachord.quiz.QuizData;
 import com.justchill.android.learnachord.settings.SettingsActivity;
 
+// Main activity, also main practicing mode
 public class MainActivity extends AppCompatActivity {
 
+    // Play/pause button
     private ImageView fabIV;
+    // Whole activity parent
     private ViewGroup parentLayout;
-    private Drawable fabIVBackground;
 
+    // Parent layout of progress bars
     private ViewGroup progressBarParentLayout;
 
+    // Layout of all interval/chord/tone names
     private ViewGroup chordTextViewLayout;
+    // Interval/chord/tone name text view
     private TextView chordTextView;
+    // Chord upper right number text view
     private TextView chordNumOneTextView;
+    // Chord lower right number text view
     private TextView chordNumTwoTextView;
 
+    // ListView that shows list of intervals when chord is playing
     private ListView whatIntervalsListView;
 
+    // Open quiz button
     private ViewGroup quizClickableIcon;
 
     // These two are replacing each other when rotating screen
@@ -59,22 +67,23 @@ public class MainActivity extends AppCompatActivity {
         // Change media volume when volume buttons are pressed
         setVolumeControlStream(AudioManager.STREAM_MUSIC);
 
+        // Initialize UI components
 
-        parentLayout = (ViewGroup) findViewById(R.id.main_activity_parent_layout);
-        chordTextViewLayout = (ViewGroup) findViewById(R.id.chord_text_view_linear_layout);
+        parentLayout = findViewById(R.id.main_activity_parent_layout);
+        chordTextViewLayout = findViewById(R.id.chord_text_view_linear_layout);
 
-        progressBarParentLayout = (ViewGroup) findViewById(R.id.progress_bar_ring_parent_layout);
+        progressBarParentLayout = findViewById(R.id.progress_bar_ring_parent_layout);
 
-        chordTextView = (TextView) findViewById(R.id.chord_text_view);
-        chordNumOneTextView = (TextView) findViewById(R.id.chord_number_one);
-        chordNumTwoTextView = (TextView) findViewById(R.id.chord_number_two);
+        chordTextView = findViewById(R.id.chord_text_view);
+        chordNumOneTextView = findViewById(R.id.chord_number_one);
+        chordNumTwoTextView = findViewById(R.id.chord_number_two);
 
         whatIntervalsListView = findViewById(R.id.what_intervals_list_view);
         if(!MyApplication.isPlaying()) {
             whatIntervalsListView.setVisibility(View.INVISIBLE);
         }
 
-        fabIV = (ImageView) findViewById(R.id.fab);
+        fabIV = findViewById(R.id.fab);
         fabIV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -92,8 +101,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        fabIVBackground = fabIV.getBackground(); // This must be called after fabIV is initialised
 
+        // For app loading on startup
         if(!MyApplication.isLoadingFinished) {
             fabIV.setClickable(false);
             fabIV.setFocusable(false);
@@ -115,6 +124,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+        // For app loading on startup
         MyApplication.addActivityListener(new MyApplication.ActivityListener() {
 
             @Override
@@ -131,7 +141,7 @@ public class MainActivity extends AppCompatActivity {
                             setDontTurnOffScreen(false);
                         }
 
-                            updatePlayStopButton();
+                        updatePlayStopButton();
 
                     }
                 });
@@ -142,6 +152,7 @@ public class MainActivity extends AppCompatActivity {
                 MainActivity.this.runOnUiThread(new Runnable() { // This doesn't need to be here for now
                     @Override
                     public void run() {
+                        // Make play button clickable and change it's color
                         fabIV.setClickable(true);
                         fabIV.setFocusable(true);
                         updatePlayStopButton();
@@ -151,16 +162,21 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
+        // Get screen width and height in pixels
         Display display = getWindowManager().getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);
         displayWidth = size.x;
         displayHeight = size.y;
 
+        // Save smaller dimension of the screen so image doesn't go out of screen
         if(MyApplication.smallerDisplayDimensionPX == null) {
             MyApplication.smallerDisplayDimensionPX = Math.min(displayWidth, displayHeight);
         }
 
+
+        // If intervals, chord or settings need to update / sync with database, do that.
+        // This will run when app opens (and later on sometimes)
 
         if(DatabaseHandler.doIntervalsNeedUpdate()) {
             DatabaseHandler.updateIntervalsOnSeparateThread();
@@ -181,22 +197,16 @@ public class MainActivity extends AppCompatActivity {
             chordTextViewLayout.setVisibility(View.INVISIBLE);
         }
 
-        QuizData.isQuizModePlaying = false;
     }
 
+    // For different languages support
     @Override
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(LocaleHelper.onAttach(base, null));
     }
 
+    // Set GUI appearance of the play/stop button and of list of chord's intervals
     private void updatePlayStopButton() {
-
-        // Get smaller dimension of the screen so image doesn't go out of screen
-        int smallerDisplayDimension = displayWidth;
-        if(displayHeight < smallerDisplayDimension) {
-            smallerDisplayDimension = displayHeight;
-        }
-
 
         // Set color
         if(!MyApplication.isLoadingFinished) {
@@ -208,17 +218,17 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
-        // Setup progress bar position and size
+        // Set progress bar position and size
         ViewGroup.LayoutParams progressBarSizeRules = progressBarParentLayout.getLayoutParams();
         int height_width_value_progressBarParentLayout, padding;
 
-        height_width_value_progressBarParentLayout = (int)(smallerDisplayDimension*0.75);
+        height_width_value_progressBarParentLayout = (int)(MyApplication.smallerDisplayDimensionPX*0.75);
         progressBarSizeRules.width = height_width_value_progressBarParentLayout;
         progressBarSizeRules.height = height_width_value_progressBarParentLayout;
         progressBarParentLayout.setLayoutParams(progressBarSizeRules);
 
 
-        // Setup play/stop button position
+        // Set play/stop button position
         RelativeLayout.LayoutParams positionRules = new RelativeLayout.LayoutParams(
                 RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
 
@@ -232,14 +242,14 @@ public class MainActivity extends AppCompatActivity {
         fabIV.setLayoutParams(positionRules);
 
 
-        // Setup play/stop button size
+        // Set play/stop button size
         ViewGroup.LayoutParams fabIVSizeRules = fabIV.getLayoutParams();
         int height_width_value;
 
-        // It works, don't touch it
+        // It works, don't touch it :)
         if(!MyApplication.isPlaying() || !MyApplication.isLoadingFinished) {
             height_width_value = (int)(height_width_value_progressBarParentLayout / 1.235) -
-                    dpToPx(progressBarThicknessDB*2) - smallerDisplayDimension / 120;
+                    dpToPx(progressBarThicknessDB*2) - MyApplication.smallerDisplayDimensionPX / 120;
             padding = height_width_value/3;
         } else {
             height_width_value = (int)(height_width_value_progressBarParentLayout / 5.3125);
@@ -252,7 +262,7 @@ public class MainActivity extends AppCompatActivity {
         fabIV.setLayoutParams(fabIVSizeRules);
 
 
-        // Setup play/stop button image
+        // Set play/stop button image
         if(MyApplication.isPlaying()) {
             fabIV.setImageResource(R.drawable.ic_pause);
         } else {
@@ -267,21 +277,18 @@ public class MainActivity extends AppCompatActivity {
         // Setup size for list view that shows what intervals are inside chord
         ViewGroup.LayoutParams whatIntervalsListViewLayoutParams = whatIntervalsListView.getLayoutParams();
 
-        whatIntervalsListViewLayoutParams.width = smallerDisplayDimension / 4;
+        whatIntervalsListViewLayoutParams.width = MyApplication.smallerDisplayDimensionPX / 4;
         whatIntervalsListView.setLayoutParams(whatIntervalsListViewLayoutParams);
 
     }
 
+    // Convert dp/dip (Density-independent Pixels) to px (pixels)
     public static int dpToPx(int dp)
     {
         return (int) (dp * Resources.getSystem().getDisplayMetrics().density);
     }
 
-    public static int pxToDp(int px)
-    {
-        return (int) (px / Resources.getSystem().getDisplayMetrics().density);
-    }
-
+    // Set or remove flag to stop turning off screen while playing (or dimming it)
     private void setDontTurnOffScreen(boolean dontTurnOffScreen) {
         try {
             // Is change needed
@@ -323,14 +330,19 @@ public class MainActivity extends AppCompatActivity {
         if(MyApplication.isPlaying()) {
             setDontTurnOffScreen(true);
         }
+
+        // User is not in the quiz
+        QuizData.isQuizModePlaying = false;
     }
 
+    // Set options menu
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main_menu, menu);
         return true;
     }
 
+    // Handle options menu action (here, only one is: open options)
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -344,10 +356,10 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    // For split screen support
     @Override
     public void onConfigurationChanged(Configuration newConfig) { // TODO: add better split screen support
         super.onConfigurationChanged(newConfig);
-//        Toast.makeText(this, "config", Toast.LENGTH_SHORT).show();
         updatePlayStopButton();
     }
 

@@ -29,58 +29,81 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Random;
 
+// Separate service for playing intervals, chords and tones
 public class ServicePlayer extends Service {
 
     // All sounds downloaded from http://theremin.music.uiowa.edu/MISpiano.html (ff sounds)
 
+    // In this sound pool all tone sounds are loaded on app creation and kept saved here
     private static SoundPool soundPool;
+    // List/array of sound IDs for all tones for playing them
     private int[] keySounds = new int[DataContract.UserPrefEntry.NUMBER_OF_KEYS]; // Now, there are 61 key sounds in raw R directory
+
+    // Is key[i] loaded ( 0 <= i < number of keys)
     private boolean[] keySoundLoaded = new boolean[DataContract.UserPrefEntry.NUMBER_OF_KEYS];
+    // Number of tones that needs load before user can start playing
     private final int soundsToLoadBeforePlaying = 25; // TODO: optimize this, loading sounds
     private boolean areAllSoundsLoaded = false;
+    // For making loading sounds synchronous (for showing sounds loading animation)
     private boolean waitSoundpoolToLoad = false;
 
+    // Audio manager for requesting audio focus
     private AudioManager audioManager;
 
+    // Interval that is currently playing (null if no interval is playing)
     private Interval currentInterval;
+    // Chord that is currently playing (null if no chord is playing)
     private Chord currentChord;
 
+    // Counters for how many times intervals/chords/tones have been played
+    // This resets very often, only use case is random algorithm
     private int intervalsPlayedFor;
     private int chordsPlayedFor;
     private int toneNotPlayedFor;
 
+    // Thread on that sounds are playing
     private Thread thread = null;
 
     // Manages what is being played, ID of current player so all previous know they need to shut the * up
     private int playingID = 0;
 
+    // Last key (base key, lowest key) that has been played (or is currently playing)
     private int lastKey = -1;
+
+    // Counters for how long every direction haven't been played (used by random algorithm)
     private int directionUpNotPlayedFor = 0;
     private int directionDownNotPlayedFor = 0;
     private int directionTogetherNotPlayedFor = 0;
 
-    // This is needed for refreshing activity
+    // This is needed for refreshing activity:
+    // Global variable for number of chords' intervals to show
     private int globalNumberOfIntervalsToShow = 0;
+    // Global variable for direction to play (also used for displaying chord's intervals)
     private int globalDirectionToPlay = 0;
     private boolean globalShowWhatIntervals = false;
 
+    // For initializing soundpool on api 21 and later
     private AudioAttributes audioAttributes;
     private AudioFocusRequest audioFocusRequest;
 
+    // For how long this interval/chord/tone has been played
     private int milisecPassed = 0;
+    // For how long this interval/chord/tone needs to be played (will be played)
     private int maxMilisecToPass = 0;
 
-    // For settings what to play next
-    final int PLAY_INTERVAL = 0;
-    final int PLAY_CHORD = 1;
-    final int PLAY_TONE = 2;
+    // For setting what to play next
+    private final int PLAY_INTERVAL = 0;
+    private final int PLAY_CHORD = 1;
+    private final int PLAY_TONE = 2;
 
+    // Global progress bar (in main activity)
     private ProgressBar progressBar = null;
 
     private ProgressBarAnimation progressBarAnimation;
-    // max displaying value for progress bar
+    // max displaying value for progress bar, 75 in main activity, 100 in quizzes
     private int max = 75;
 
+    // Handle audio focus changes
     AudioManager.OnAudioFocusChangeListener afChangeListener = new AudioManager.OnAudioFocusChangeListener() {
         public void onAudioFocusChange(int focusChange) {
             if (focusChange == AudioManager.AUDIOFOCUS_LOSS_TRANSIENT || focusChange == AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK) {
@@ -100,17 +123,18 @@ public class ServicePlayer extends Service {
         }
     };
 
+    // On binding service with activity, this service won't be bound, just returns null
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
         return null;
     }
 
+    // This method runs when service starts
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-//        Toast.makeText(getApplicationContext(), "onStartCommand bind", Toast.LENGTH_SHORT).show();
 
-        // Create and setup {@ling AudioManager} to request audio focus
+        // Create and setup AudioManager to request audio focus
         audioManager = (AudioManager) this.getBaseContext().getSystemService(Context.AUDIO_SERVICE);
 
         // TODO: 5 is number of sounds that can be played at same time, replace it with 6 when bigger chords are added (in 2 places)
@@ -121,8 +145,8 @@ public class ServicePlayer extends Service {
                     .setLegacyStreamType(AudioManager.STREAM_MUSIC)
                     .build();
 
-            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                audioFocusRequest = new AudioFocusRequest.Builder(AudioManager.AUDIOFOCUS_GAIN) // This is for later
+            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) { // >= api 26
+                audioFocusRequest = new AudioFocusRequest.Builder(AudioManager.AUDIOFOCUS_GAIN)
                         .setAudioAttributes(audioAttributes)
                         .setAcceptsDelayedFocusGain(false)
                         .setWillPauseWhenDucked(true)
@@ -132,9 +156,11 @@ public class ServicePlayer extends Service {
 
             soundPool = new SoundPool.Builder().setMaxStreams(5).setAudioAttributes(audioAttributes).build();
         } else {
-            soundPool = new SoundPool(5, AudioManager.STREAM_MUSIC, 0); // sryQuality = 0 is never implemented, can be any#
+            // sryQuality = 0 is never implemented, can be any number
+            soundPool = new SoundPool(5, AudioManager.STREAM_MUSIC, 0);
         }
 
+        // Sets listener for every sound load complete. Needed for showing sounds loading animation
         soundPool.setOnLoadCompleteListener(new SoundPool.OnLoadCompleteListener() {
             @Override
             public void onLoadComplete(SoundPool soundPool, int sampleID, int status) {
@@ -143,30 +169,19 @@ public class ServicePlayer extends Service {
             }
         });
 
-//        Thread debug = new Thread() {
-//            @Override
-//            public void run() {
-//                for(int i = 0; i < 1000; i++) {
-//                    Log.d("####", "######################## " + MyApplication.isPlaying() + ", " + MyApplication.isChordOrIntervalPlaying());
-//                    try {
-//                        Thread.sleep(2000);
-//                    } catch (InterruptedException e2) {
-//                        e2.printStackTrace();
-//                    }
-//                }
-//            }
-//        };
-//        debug.start();
-
+        // Load all sounds (tones)
         Thread soundPoolSetupThread = new Thread() {
             @Override
             public void run() {
+                // First load min number of tones for playing to be possible (and good)
                 for(int i = 0; i < DataContract.UserPrefEntry.NUMBER_OF_KEYS; i++) {
                     keySoundLoaded[i] = false;
                 }
+                // Load sounds and show loading animation
                 loadSound(DatabaseData.downKeyBorder, Math.min(DatabaseData.downKeyBorder+soundsToLoadBeforePlaying,
                         DataContract.UserPrefEntry.NUMBER_OF_KEYS), true);
 
+                // Then make playing possible (play button clickable)
                 do {
                     try {
                         MyApplication.getActivity().runOnUiThread(new Runnable() {
@@ -181,12 +196,14 @@ public class ServicePlayer extends Service {
 
                     try {
                         Thread.sleep(10);
-                    } catch (Exception e) {}
+                    } catch (Exception ignore) {}
                 } while(!MyApplication.isLoadingFinished);
 
 
+                // Reset progress bar / just set it to max
                 updateProgressBarAnimation(null, null);
 
+                // Load all sounds (that haven't been loaded)
                 loadSound(1, DataContract.UserPrefEntry.NUMBER_OF_KEYS, false);
                 areAllSoundsLoaded = true;
             }
@@ -206,6 +223,7 @@ public class ServicePlayer extends Service {
                 }
             }
 
+            // When activity resumed, reset UI
             @Override
             public void onActivityResumed() {
                 max = 100;
@@ -241,7 +259,7 @@ public class ServicePlayer extends Service {
                             updateTextView(text, null, null);
                         } else {
                             // If it is playing and it is not chord or interval, it is key (saved in lastKey)
-                            updateTextView(getKeyName(lastKey), null, null);
+                            updateTextView(MyApplication.getKeyName(lastKey), null, null);
                         }
                     }
 
@@ -291,6 +309,7 @@ public class ServicePlayer extends Service {
         });
 
 
+        // Set counters to 0 (start)
         intervalsPlayedFor = 0;
         chordsPlayedFor = 0;
         toneNotPlayedFor = 0;
@@ -308,24 +327,29 @@ public class ServicePlayer extends Service {
         soundPool = null;
     }
 
+    // Returns string from resources
     private static String readResource(int id) {
         return MyApplication.getAppContext().getResources().getString(id);
     }
 
+    // This plays one interval/chord or tone on specified way
     // Returns true if sound was played successfully
     public boolean playChord(final int oneKeyTime, final int betweenDelayMilisec, final Interval[] intervals, final int directionToPlay,
                              final int tempPlayID, final int lowestKey, final String chordName, final Integer chordNumberOne,
                              final Integer chordNumberTwo, final boolean showWhatIntervals) {
 
 
+        // Set global variable to match current data
         globalDirectionToPlay = directionToPlay;
         globalShowWhatIntervals = showWhatIntervals;
 
 
+        // List of keys
         ArrayList<Integer> key = new ArrayList<>();
 
         int rangeOfChord = 0;
 
+        // If interval in chord is cista prima, ignore that interval
         int tempAddIfCistaPrima = 0;
 
         key.add(1);
@@ -396,7 +420,7 @@ public class ServicePlayer extends Service {
         }
 
 
-        // Play chord key by key
+        // Play interval/chord key by key (or play tone)
         for(int i = 0; i < key.size(); i++) {
             globalNumberOfIntervalsToShow = i;
             if(soundPool != null) {
@@ -411,7 +435,7 @@ public class ServicePlayer extends Service {
                 }
             }
 
-            // Show each interval of chord (if it is chord) as it is playing
+            // Show each interval/chord/tone (if it is chord) as it is playing
             if(showWhatIntervals && intervals.length > 1) {
                 updateWhatIntervalsListView(i, intervals, directionToPlay);
             }
@@ -435,6 +459,7 @@ public class ServicePlayer extends Service {
             }
         }
 
+        // Wait for time between playing and if playing is finished earlier
         if(betweenDelayMilisec > 0) {
             try {
                 Thread.sleep(betweenDelayMilisec);
@@ -477,9 +502,8 @@ public class ServicePlayer extends Service {
         thread = new Thread() {
             @Override
             public void run() {
-//                Log.d(ServicePlayer.class.getSimpleName(), "run######################################################run");
 
-
+                // For settings what to play
                 int whatToPlay;
 
                 Interval[] intervalsToPlay;
@@ -490,6 +514,7 @@ public class ServicePlayer extends Service {
 
                 Integer directionToPlay;
 
+                // Reset global counters for random playing
                 directionUpNotPlayedFor = 0;
                 directionDownNotPlayedFor = 0;
                 directionTogetherNotPlayedFor = 0;
@@ -507,16 +532,19 @@ public class ServicePlayer extends Service {
                     }
                 }
 
+                // Stop playing (in case anything is playing)
                 stopSounds();
 
+                // Request audio focus and continue
                 if(requestAudioFocus() != AudioManager.AUDIOFOCUS_REQUEST_GRANTED || playingID != tempPlayID || !MyApplication.isUIVisible()) {
                     return;
                 }
 
 
                 do {
+                    // Just little delay so everything sets down
                     try {
-                        Thread.sleep(100); // Just little delay so everything sets down
+                        Thread.sleep(100);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
@@ -525,6 +553,9 @@ public class ServicePlayer extends Service {
                         break;
                     }
 
+                    /*
+                     * Set what to play
+                     */
 
                     try {
                         whatToPlay = setupWhatToPlay(rand);
@@ -535,6 +566,10 @@ public class ServicePlayer extends Service {
                         break;
                     }
 
+
+                    /*
+                     * Set exactly what interval/chord/tone to play
+                     */
 
                     if(whatToPlay == PLAY_INTERVAL) {
                         currentInterval = IntervalsList.getRandomPlayableInterval();
@@ -562,36 +597,38 @@ public class ServicePlayer extends Service {
                         currentChord = null;
                         currentInterval = null;
 
+                        // Get random key
                         int keyToPlay = randomInt(rand, DatabaseData.downKeyBorder, DatabaseData.upKeyBorder, 0, lastKey);
                         lastKey = keyToPlay;
-                        String keyName = getKeyName(keyToPlay);
+                        String keyName = MyApplication.getKeyName(keyToPlay);
 
                         maxMilisecToPass = oneKeyTime + betweenDelayMilisec;
                         milisecPassed = 0;
-                        updateProgressBarAnimation(null, null); // Start animation
+                        // Start animation
+                        updateProgressBarAnimation(null, null);
 
-                        playChord(oneKeyTime, betweenDelayMilisec, new Interval[]{IntervalsList.getInterval(0)}, MyApplication.directionSameID, tempPlayID, keyToPlay, keyName, null, null, false);
+                        playChord(oneKeyTime, betweenDelayMilisec, new Interval[]{IntervalsList.getInterval(0)}, MyApplication.directionSameID,
+                                tempPlayID, keyToPlay, keyName, null, null, false);
 
-                        IntervalsList.tickAllPlayableCountdowns();
-                        ChordsList.tickAllPlayableCountdowns();
-
-                        IntervalsList.increaseNotPlayedFor();
-                        ChordsList.increaseNotPlayedFor();
 
                         toneNotPlayedFor = 0;
-                        continue;
                     }
 
-                    if(currentInterval == null && currentChord == null) {
-                        continue;
-                    }
-
+                    // Tick all counters
 
                     IntervalsList.tickAllPlayableCountdowns();
                     ChordsList.tickAllPlayableCountdowns();
 
                     IntervalsList.increaseNotPlayedFor();
                     ChordsList.increaseNotPlayedFor();
+
+
+                    // If tone has been played (above), continue
+                    if(currentInterval == null && currentChord == null) {
+                        continue;
+                    }
+
+
 
                     intervalsToPlay = null;
 
@@ -645,11 +682,13 @@ public class ServicePlayer extends Service {
                     milisecPassed = 0;
 
                     if(DatabaseData.playingMode == DataContract.UserPrefEntry.PLAYING_MODE_CUSTOM) {
+                        // Custom mode, if more than 1 direction, multiply time with that number
                         maxMilisecToPass *= DatabaseData.directionsCount;
 
                         boolean showIntervals, intervalsShown = false;
 
-                        updateProgressBarAnimation(null, null); // Start animation
+                        // Start animation
+                        updateProgressBarAnimation(null, null);
 
                         // Loop through all possibilities
                         for(int i = Math.min(Math.min(MyApplication.directionUpID, MyApplication.directionDownID), MyApplication.directionSameID); i <=
@@ -676,7 +715,7 @@ public class ServicePlayer extends Service {
                     } else if(DatabaseData.playingMode == DataContract.UserPrefEntry.PLAYING_MODE_RANDOM) {
                         directionToPlay = null;
 
-                        // Warning: hardcoded 2 (3 places) and 3 (1 place) and "directionToPlay = i;"
+                        // Warning: hardcoded 2 (3 places)
                         // Get direction to play
                         if(DatabaseData.directionUp && directionUpNotPlayedFor >= DatabaseData.directionsCount * 2) {
                             directionToPlay = MyApplication.directionUpID;
@@ -688,6 +727,7 @@ public class ServicePlayer extends Service {
                             int randomNumb = rand.nextInt(DatabaseData.directionsCount);
                             int counter = 0;
                             // Loop through IDs (and numbers in between) until you come to Id that is in place of randomNumb (in order)
+                            // Written in this way so these constants can be changed
                             for(int i = Math.min(Math.min(MyApplication.directionUpID, MyApplication.directionDownID), MyApplication.directionSameID); i <=
                                     Math.max(Math.max(MyApplication.directionUpID, MyApplication.directionDownID), MyApplication.directionSameID); i++) {
                                 if((DatabaseData.directionUp && MyApplication.directionUpID == i) ||
@@ -705,11 +745,6 @@ public class ServicePlayer extends Service {
 
                         if(directionToPlay == null) {
                             Log.e("ServicePlayer","Random algorithm is not working (ServicePlayer)");
-
-//                            // remove this:
-//                            showToast("Random algorithm is not working (ServicePlayer)");
-
-                            // Something went wrong, try again
                             continue;
                         }
 
@@ -730,7 +765,8 @@ public class ServicePlayer extends Service {
 
                         updateProgressBarAnimation(null, null); // Start animation
 
-                        playChord(oneKeyTime, betweenDelayMilisec, intervalsToPlay, directionToPlay, tempPlayID, lastKey, nameToPlay, chordNumberOneToPlay, chordNumberTwoToPlay, true);
+                        playChord(oneKeyTime, betweenDelayMilisec, intervalsToPlay, directionToPlay, tempPlayID,
+                                lastKey, nameToPlay, chordNumberOneToPlay, chordNumberTwoToPlay, true);
                     }
 
                     // Make list of all intervals invisible
@@ -742,7 +778,8 @@ public class ServicePlayer extends Service {
                 // Cleanup after everything is finished
                 if(tempPlayID == playingID) {
                     ServicePlayer.this.stop();
-                    ServicePlayer.this.abandonAudioFocus(); // Abandon audio focus so other apps can stream audio
+                    // Abandon audio focus so other apps can stream audio
+                    ServicePlayer.this.abandonAudioFocus();
                     MyApplication.setIsPlaying(false);
                 }
             }
@@ -750,6 +787,8 @@ public class ServicePlayer extends Service {
         thread.start();
     }
 
+    // Returns what to play (one of the constants for interval, chord or tone)
+    // If something is wrong throws error
     private int setupWhatToPlay(Random rand) throws Exception {
         int whatToPlay;
 
@@ -802,6 +841,7 @@ public class ServicePlayer extends Service {
         return whatToPlay;
     }
 
+    // Stop/pause playing all sounds
     public void stopSounds() {
         try {
             soundPool.autoPause();
@@ -810,6 +850,7 @@ public class ServicePlayer extends Service {
         }
     }
 
+    // Stop playing all sounds
     public void stop() {
         playingID += 10; // So playing stops immediately (then playingID != tempPlayID), 10 if cheater-clicking
         stopSounds();
@@ -841,6 +882,7 @@ public class ServicePlayer extends Service {
         }
     }
 
+    // Load all sounds in range and, if chosen, show progress bar for loading these sounds (loading animation)
     private void loadSound(final int from, final int to, final boolean showProgress) {
         Class res = R.raw.class;
         long startTime;
@@ -905,14 +947,14 @@ public class ServicePlayer extends Service {
             MyApplication.getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    TextView chordTV = (TextView) MyApplication.getActivity().findViewById(R.id.chord_text_view);
+                    TextView chordTV = MyApplication.getActivity().findViewById(R.id.chord_text_view);
                     TextView numberOneTV = MyApplication.getActivity().findViewById(R.id.chord_number_one);
                     TextView numberTwoTV = MyApplication.getActivity().findViewById(R.id.chord_number_two);
 
                     MyApplication.updateTextView(chordTV, chordName, numberOneTV, chordNumberOne, numberTwoTV, chordNumberTwo);
 
                     if(DatabaseData.showProgressBar) {
-                        progressBar = (ProgressBar) MyApplication.getActivity().findViewById(R.id.ring_playing_progress_bar);
+                        progressBar = MyApplication.getActivity().findViewById(R.id.ring_playing_progress_bar);
                         progressBar.setProgress(0);
                     }
                 }
@@ -922,6 +964,7 @@ public class ServicePlayer extends Service {
         }
     }
 
+    // Show (update) list of chord's intervals in main activity
     public void updateWhatIntervalsListView(final int numberOfIntervalsToShow, final Interval[] intervals, final int directionToPlay) {
         if(MyApplication.getActivity() == null || !(MyApplication.getActivity() instanceof MainActivity)) {
             return;
@@ -942,6 +985,7 @@ public class ServicePlayer extends Service {
         }
     }
 
+    // Sets visibility for showing chord's intervals in main activity
     public void setWhatIntervalsListViewVisibility(final int visibility) {
         if(MyApplication.getActivity() == null || !(MyApplication.getActivity() instanceof MainActivity)) {
             return;
@@ -963,7 +1007,7 @@ public class ServicePlayer extends Service {
         }
     }
 
-    // This can be written better
+    // This could be written better
     // set?Percent = null -> animation 0 to 75 (100%), != null set %
     private void updateProgressBarAnimation(final Integer setFromPercent, final Integer setToPercent) {
         if(MyApplication.getActivity() == null || (MyApplication.isLoadingFinished && !(MyApplication.getActivity() instanceof MainActivity))) {
@@ -974,10 +1018,10 @@ public class ServicePlayer extends Service {
                 @Override
                 public void run() {
                     try {
-                        progressBar = (ProgressBar) MyApplication.getActivity().findViewById(R.id.ring_playing_progress_bar);
+                        progressBar = MyApplication.getActivity().findViewById(R.id.ring_playing_progress_bar);
                         if(MyApplication.getActivity() instanceof MainActivity) {
                             // background progress bar exist only in MainActivity
-                            ProgressBar backgroundProgresBar = (ProgressBar) MyApplication.getActivity().
+                            ProgressBar backgroundProgresBar = MyApplication.getActivity().
                                     findViewById(R.id.background_ring_progress_bar);
                             if(!DatabaseData.showProgressBar && MyApplication.isLoadingFinished) {
                                 backgroundProgresBar.setVisibility(View.INVISIBLE);
@@ -1026,35 +1070,7 @@ public class ServicePlayer extends Service {
         }
     }
 
-    private String getKeyName(int key) {
-        key--; // 0 to 60 (and not 1 - 61)
-
-        String[] keys = MyApplication.getAppContext().getResources().getStringArray(R.array.key_symbols);
-        StringBuilder stringBuilder = new StringBuilder();
-
-        if(DatabaseData.appLanguage == DataContract.UserPrefEntry.LANGUAGE_CROATIAN) {
-            int octaveNumber = (key/12) - 1;
-
-            if(octaveNumber > 0) {
-                stringBuilder.append(keys[key%12]);
-                stringBuilder.append(octaveNumber);
-            } else if(octaveNumber == 0) {
-                stringBuilder.append(keys[key%12]);
-            } else if(octaveNumber == -1) {
-                String str = keys[key%12];
-                String capitalizeFirstLetter = str.substring(0, 1).toUpperCase() + str.substring(1);
-                stringBuilder.append(capitalizeFirstLetter);
-            }
-
-            return stringBuilder.toString();
-        } else {
-            stringBuilder.append(keys[key%12]);
-            stringBuilder.append((key/12) + 2);
-
-            return stringBuilder.toString();
-        }
-    }
-
+    // Show given string as toast
     private void showToast(final String msg) {
         if(msg == null || msg.isEmpty()) {
             return;
@@ -1117,6 +1133,7 @@ public class ServicePlayer extends Service {
         return rand.nextInt(end-start+1) + start;
     }
 
+    // Check if number is inside list
     private boolean isInside(int number, int... newInt) {
         if(newInt == null) {
             return false;
@@ -1130,11 +1147,4 @@ public class ServicePlayer extends Service {
         return false;
     }
 
-    public int getPlayingID() {
-        return playingID;
-    }
-
-    public boolean isPlaying() {
-        return MyApplication.isPlaying() && MyApplication.isUIVisible();
-    }
 }

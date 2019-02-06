@@ -11,6 +11,7 @@ import com.justchill.android.learnachord.database.DatabaseData;
 import java.util.ArrayList;
 import java.util.Random;
 
+// List of all chords and methods for using that list
 public final class ChordsList {
 
     /*

@@ -23,31 +23,48 @@ import com.justchill.android.learnachord.database.DatabaseData;
 
 import java.util.ArrayList;
 
+// Main static class to get application context and other static things that don't belong anywhere else
 public class MyApplication extends Application {
 
+    // Context of the application
     @SuppressLint("StaticFieldLeak")
     private static Context context;
 
+    // Listener for ServicePlayer interface
     public interface ChangeListener {
+        // Called when isPlaying changes
         void onIsPlayingChange();
+        // Called when any of the activities resumes
         void onActivityResumed();
+        // Called when playingChordOrInterval changes
         void onPlayChordChange(Interval[] interval, int lowestKey, int directionToPlay);
+        // Called when playingKey changes
         void onPlayKey(Integer keyId);
     }
 
+    // Listener for loading sound when app opens (for when loading is finished)
     public interface ActivityListener {
+        // Called when isPlaying changes
         void onIsPlayingChange();
+        // Called when isLoadingFinished changes
         void onLoadingFinished();
     }
 
+    // Is UI of the app visible (is app opened)
     private static boolean UIVisible = false;
+    // Is sound randomly playing (in main activity)
     private static boolean isPlaying = false;
+    // Listener for ServicePlayer
     private static ChangeListener servicePlayerListener;
+    // Listeners for loading sound when app opens (for when loading is finished)
     private static ArrayList<ActivityListener> activityListeners = new ArrayList<>();
 
+    // Is just one interval/chord playing (not random looping, just one)
     private static boolean playingChordOrInterval = false;
+    // Is just one key playing
     private static boolean playingKey = false;
 
+    // Is sound loading finished
     public static boolean isLoadingFinished = false;
 
     // In eng language, mali durski 9 is different. Here are constants for it:
@@ -59,18 +76,22 @@ public class MyApplication extends Application {
     // Physical screen min(width, height)
     public static Integer smallerDisplayDimensionPX = null;
 
-    // To not change settings language until you restart settings (close and open)
-    // Otherwise, some chords (mali durski 9) are showed differently
+    // To not change options' language until you restart options (close and open)
+    // Otherwise, some chords (mali durski 9) will be showed differently
     public static int settingActivityLoadedLanguage = 0;
 
 
+    // This is activity that is currently opened, null if UI is not visible
     @SuppressLint("StaticFieldLeak")
     private static Activity activity = null;
 
+    // This is called when app is opened (created)
     public void onCreate() {
         super.onCreate();
+        // Set app context
         MyApplication.context = getApplicationContext();
 
+        // Start service
         Thread serviceThread = new Thread() {
             @Override
             public void run() {
@@ -96,15 +117,18 @@ public class MyApplication extends Application {
         MyApplication.activityListeners.add(listener);
     }
 
+    // Get application context. Needed for some static methods.
     public static Context getAppContext() {
         return MyApplication.context;
     }
 
+    // Called when eny activity pauses
     public static void activityPaused() {
         MyApplication.UIVisible = false;
         MyApplication.activity = null;
     }
 
+    // Called when eny activity resumes
     public static void activityResumed(Activity mActivity) {
         MyApplication.UIVisible = true;
         MyApplication.activity = mActivity;
@@ -114,6 +138,7 @@ public class MyApplication extends Application {
         }
     }
 
+    // Play just one key
     public static void playKey(int keyId) {
         MyApplication.playingKey = true;
 
@@ -122,6 +147,7 @@ public class MyApplication extends Application {
         }
     }
 
+    // Stop playing just one key
     public static void stopPlayingKey() {
         if(!MyApplication.playingKey) {
             return;
@@ -138,6 +164,7 @@ public class MyApplication extends Application {
         return MyApplication.UIVisible;
     }
 
+    // If isPlaying is set to true - random playing loop will start. If it is false, all playing will stop
     public static void setIsPlaying(boolean newBool) {
         MyApplication.isPlaying = newBool;
 
@@ -162,6 +189,7 @@ public class MyApplication extends Application {
         return MyApplication.playingChordOrInterval;
     }
 
+    // Play just one chord or interval in given direction on given key
     public static void playChord(Interval[] interval, int lowestKey, int directionToPlay) {
         MyApplication.playingChordOrInterval = true;
 
@@ -170,8 +198,10 @@ public class MyApplication extends Application {
         }
     }
 
+    // Stop playing chord/interval
     public static void stopPlayingChord() {
-        if(!isChordOrIntervalPlaying()) { // This must be here or rotation will stop everything
+        // This must be here or rotation will stop everything
+        if(!isChordOrIntervalPlaying()) {
             return;
         }
 
@@ -182,6 +212,7 @@ public class MyApplication extends Application {
         }
     }
 
+    // Called when sound loading is finished (app is ready to start playing)
     public static void loadingFinished() {
         MyApplication.isLoadingFinished = true;
 
@@ -207,8 +238,8 @@ public class MyApplication extends Application {
 
 
 
-    // Used in quiz:
 
+    // Returns the name of a given key as string
     public static String getKeyName(int key) {
         key--; // 0 to 60 (and not 1 - 61)
 
@@ -238,6 +269,7 @@ public class MyApplication extends Application {
         }
     }
 
+    // Set interval/chord/tone name text
     public static void updateTextView(final TextView chordTV, final String chordName, final TextView numberOneTV,
                                final String chordNumberOne, final TextView numberTwoTV, final String chordNumberTwo) {
         if(MyApplication.getActivity() == null) {
@@ -274,6 +306,7 @@ public class MyApplication extends Application {
         }
     }
 
+    // Returns interval/chord/tone name as string, for quiz mode three search
     public static String getChordNameAsString(String name, String numberOne, String numberTwo) {
         StringBuilder stringBuilder = new StringBuilder();
 
@@ -292,6 +325,7 @@ public class MyApplication extends Application {
         return stringBuilder.toString();
     }
 
+    // Check if given string has given substring, for quiz mode three search
     public static boolean doesStringContainSubstring(String string, String substring) {
         if(string == null) {
             return false;
@@ -303,7 +337,7 @@ public class MyApplication extends Application {
         return string.toLowerCase().contains(substring.toLowerCase());
     }
 
-
+    // For hiding soft input
     public static void hideKeyboardFromActivity(Activity activity) {
         InputMethodManager imm = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
         //Find the currently focused view, so we can grab the correct window token from it.
@@ -320,7 +354,7 @@ public class MyApplication extends Application {
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
-
+    // Set interval/chord/tone name text size
     public static void setupIntervalAndChordTextSize(TextView chordTextView, TextView chordNumOneTextView, TextView chordNumTwoTextView, float divideBy) {
         TextScaling.refreshScaledDensity();
 
@@ -333,6 +367,7 @@ public class MyApplication extends Application {
         chordNumTwoTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, chordTextViewTextSizePX/2);
     }
 
+    // Set given color of play/stop button
     public static void setupPlayButtonColor(Context context, View playButtonView, int color) {
         Drawable playButtonBackground = playButtonView.getBackground();
         if (playButtonBackground instanceof ShapeDrawable) { // This can be removed
@@ -351,7 +386,7 @@ public class MyApplication extends Application {
     }
 
 
-    // Read string from /res
+    // Read string from resources
     public static String readResource(int id, Resources resources) {
         if(resources == null) {
             resources = getAppContext().getResources();
@@ -359,11 +394,13 @@ public class MyApplication extends Application {
         return resources.getString(id);
     }
 
+    // For different languages support
     @Override
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(LocaleHelper.onAttach(base, null));
     }
 
+    // When something changes, set app language
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);

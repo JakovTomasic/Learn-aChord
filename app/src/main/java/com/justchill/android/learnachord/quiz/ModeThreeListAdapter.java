@@ -19,29 +19,37 @@ import com.justchill.android.learnachord.database.DatabaseData;
 
 import java.util.ArrayList;
 
+// Custom adapter for quiz mode three ListView (all possible answers)
 public class ModeThreeListAdapter extends ArrayAdapter<Integer> {
 
+    // List of all answers' IDs
     private ArrayList<Integer> listOfIDs;
 
-    public ModeThreeListAdapter(Activity context, ArrayList<Integer> list) {
+    ModeThreeListAdapter(Activity context, ArrayList<Integer> list) {
         super(context, 0, list);
 
         listOfIDs = list;
         QuizData.quizModeThreeListViews = new View[list.size()];
     }
 
-    public interface onViewClickListener {
+    // Interface for on click listener
+    interface onViewClickListener {
         void onViewClick();
     }
+    // On click listener
     private ModeThreeListAdapter.onViewClickListener onViewClickListener;
 
-    public void setListener(ModeThreeListAdapter.onViewClickListener listener) {
+    // Set on click listener
+    void setListener(ModeThreeListAdapter.onViewClickListener listener) {
         onViewClickListener = listener;
     }
 
+    // For getting a view, this is called every time user scrolls ListView for
+    // every new view that is starting to show (and while creating ListView)
     @NonNull
     @Override
     public View getView(final int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+        // Try to recycle other view
         View itemView = convertView;
         if(itemView == null) {
             itemView = LayoutInflater.from(getContext()).inflate(R.layout.list_item_quiz_mode_three, parent, false);
@@ -49,6 +57,7 @@ public class ModeThreeListAdapter extends ArrayAdapter<Integer> {
 
         final Integer itemID = listOfIDs.get(position);
 
+        // Set background (depending on if this view has been selected or not)
         if(QuizData.quizModeThreeSelectedID != null && QuizData.quizModeThreeSelectedID.equals(itemID)) {
             itemView.setBackgroundColor(MyApplication.getAppContext().getResources().getColor(R.color.quizModeThreeListViewSelectedBackgroundColor));
         } else {
@@ -76,7 +85,7 @@ public class ModeThreeListAdapter extends ArrayAdapter<Integer> {
                 // Mali durski/dominantni 9
                 MyApplication.updateTextView(intervalLabel, MyApplication.MD9_ENG_TEXT, chordNumOneLabel, MyApplication.MD9_ENG_ONE, chordNumTwoLabel, MyApplication.MD9_ENG_TWO);
             } else {
-                String tempName = null, tempNumberOne = null, tempNumberTwo = null;
+                String tempName, tempNumberOne = null, tempNumberTwo = null;
 
                 if(itemID < QuizData.quizModeThreeIntervalIDAdd) {
                     // Id is tone id

@@ -13,14 +13,19 @@ import com.justchill.android.learnachord.R;
 import com.justchill.android.learnachord.database.DatabaseData;
 import com.justchill.android.learnachord.database.DatabaseHandler;
 
-
+// Fragment for choosing to play tones or not and setting wanted tone recognition accuracy for quiz
 public class TonesFragment extends Fragment {
 
+    // View of this fragment that is displaying in UI
     private View fragmentView;
 
+    // Tone option button / clickable view
     private View whatToneClickableView;
+    // Tone option check box
     private CheckBox whatToneCheckBox;
+    // Octave option button / clickable view
     private View octaveOptionClickableView;
+    // Octave option check box
     private CheckBox octaveOptionCheckBox;
 
     @Override
@@ -28,6 +33,7 @@ public class TonesFragment extends Fragment {
         // Inflate the layout for this fragment
         fragmentView = inflater.inflate(R.layout.fragment_tones, container, false);
 
+        // For different languages support
         LocaleHelper.setLocale(getContext(), null);
 
 
@@ -63,11 +69,5 @@ public class TonesFragment extends Fragment {
 
         return fragmentView;
     }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-    }
-
 
 }

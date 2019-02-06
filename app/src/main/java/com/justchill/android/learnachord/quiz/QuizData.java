@@ -11,6 +11,7 @@ import com.justchill.android.learnachord.database.DatabaseHandler;
 
 import java.util.ArrayList;
 
+// Storing all data for quiz
 public class QuizData {
 
 

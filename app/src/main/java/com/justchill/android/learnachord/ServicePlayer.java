@@ -966,6 +966,7 @@ public class ServicePlayer extends Service {
 
     // Show (update) list of chord's intervals in main activity
     public void updateWhatIntervalsListView(final int numberOfIntervalsToShow, final Interval[] intervals, final int directionToPlay) {
+        // Update it only in MainActivity
         if(MyApplication.getActivity() == null || !(MyApplication.getActivity() instanceof MainActivity)) {
             return;
         }
@@ -987,6 +988,7 @@ public class ServicePlayer extends Service {
 
     // Sets visibility for showing chord's intervals in main activity
     public void setWhatIntervalsListViewVisibility(final int visibility) {
+        // Update it only in MainActivity
         if(MyApplication.getActivity() == null || !(MyApplication.getActivity() instanceof MainActivity)) {
             return;
         }
@@ -1007,10 +1009,11 @@ public class ServicePlayer extends Service {
         }
     }
 
-    // This could be written better
-    // set?Percent = null -> animation 0 to 75 (100%), != null set %
+    // Runs progress bar animation from given percent to given percent in time of current playing
+    // If both variables are set to null it will run full animation (from 0 to max)
     private void updateProgressBarAnimation(final Integer setFromPercent, final Integer setToPercent) {
         if(MyApplication.getActivity() == null || (MyApplication.isLoadingFinished && !(MyApplication.getActivity() instanceof MainActivity))) {
+            // This is only used in main activity for playing and in quiz for loading animation
             return;
         }
         try {

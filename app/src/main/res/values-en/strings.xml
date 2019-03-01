@@ -206,4 +206,12 @@
     <string name="ais">"a#"</string>
     <string name="h">"b"</string>
 
+
+
+
+    <!--Firebase-->
+    <string name="user_profile_activity_label">Profile</string>
+    <string name="action_user_profile_title">Profile</string>
+
+
 </resources>

@@ -3,7 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.justchill.android.learnachord">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <supports-screens android:largeScreens="true" android:xlargeScreens="true" />
+
 
 
     <!--android:windowSoftInputMode="stateAlwaysHidden" -> to not show keyboard when opening activity -->
@@ -96,6 +99,19 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".quiz.ChooseQuizModeActivity"/>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".firebase.UserProfileActivity"
+            android:label="@string/user_profile_activity_label"
+            android:parentActivityName=".MainActivity"
+            tools:targetApi="jelly_bean">
+            <!-- To support android 4.0 and lower: -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity"/>
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />

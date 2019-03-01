@@ -206,4 +206,11 @@
     <string name="ais">"ais"</string>
     <string name="h">"h"</string>
 
+
+
+
+    <!--Firebase-->
+    <string name="user_profile_activity_label">Račun</string>
+    <string name="action_user_profile_title">Račun</string>
+
 </resources>

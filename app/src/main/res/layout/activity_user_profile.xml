@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/userProfileActivityBackground">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center_horizontal">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/user_profile_photo_circle_image_view"
+                android:layout_width="125dp"
+                android:layout_height="125dp"
+                app:civ_border_width="4dp"
+                app:civ_border_color="@color/colorPrimary"
+                android:layout_marginTop="50dp"/>
+
+            <!--TODO: remove settingsTextStyle and add custom one-->
+            <TextView
+                android:id="@+id/user_display_name_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                style="@style/settingsTextStyle"/>
+
+            <!--<TextView-->
+                <!--android:id="@+id/test"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginTop="10dp"/>-->
+
+        </LinearLayout>
+
+
+
+
+    </RelativeLayout>
+
+
+
+
+</ScrollView>

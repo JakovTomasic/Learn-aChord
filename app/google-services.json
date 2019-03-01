@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "768883388000",
+    "firebase_url": "https://learnachord.firebaseio.com",
+    "project_id": "learnachord",
+    "storage_bucket": "learnachord.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:768883388000:android:401a1453ddd797cc",
+        "android_client_info": {
+          "package_name": "com.justchill.android.learnachord"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "768883388000-63b5ro2bce7j3dpf6dco9m6sdt73fstu.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.justchill.android.learnachord",
+            "certificate_hash": "a42bfbdbb4d103759b02c90f2654bd2432b23246"
+          }
+        },
+        {
+          "client_id": "768883388000-3mbedp0djp3jvvjell2spolulia4hcfa.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDjP4K2pIiSy7AjBCILHzWntq8Rc9nPWuc"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "768883388000-3mbedp0djp3jvvjell2spolulia4hcfa.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

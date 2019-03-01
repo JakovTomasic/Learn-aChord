@@ -19,7 +19,11 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.justchill.android.learnachord.database.DatabaseHandler;
+import com.justchill.android.learnachord.firebase.FirebaseHandler;
+import com.justchill.android.learnachord.firebase.User;
+import com.justchill.android.learnachord.firebase.UserProfileActivity;
 import com.justchill.android.learnachord.quiz.ChooseQuizModeActivity;
 import com.justchill.android.learnachord.quiz.QuizData;
 import com.justchill.android.learnachord.settings.SettingsActivity;
@@ -66,6 +70,22 @@ public class MainActivity extends AppCompatActivity {
 
         // Change media volume when volume buttons are pressed
         setVolumeControlStream(AudioManager.STREAM_MUSIC);
+
+
+        // If user has previously logged in, set it again
+        if(FirebaseHandler.user == null) {
+            FirebaseHandler.user = new User();
+        }
+        FirebaseHandler.user.firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+
+        // Download user photo for later use
+        if(FirebaseHandler.user.photo == null) {
+            try {
+                FirebaseHandler.setupUserPhoto();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
 
         // Initialize UI components
 
@@ -342,15 +362,21 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
-    // Handle options menu action (here, only one is: open options)
+    // Handle options menu action (there are two of them: options and profile)
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.action_options:
+            case R.id.action_options: // Open options
                 MyApplication.setIsPlaying(false);
 
                 Intent intent = new Intent(this, SettingsActivity.class);
                 startActivity(intent);
+                break;
+            case R.id.action_user_profile: // Open user profile
+                MyApplication.setIsPlaying(false);
+
+                Intent intent2 = new Intent(this, UserProfileActivity.class);
+                startActivity(intent2);
                 break;
         }
         return super.onOptionsItemSelected(item);

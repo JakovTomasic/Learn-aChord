@@ -11,4 +11,8 @@
         android:icon="@drawable/ic_settings"
         app:showAsAction="always"/>
 
+    <item
+        android:id="@+id/action_user_profile"
+        android:title="@string/action_user_profile_title" />
+
 </menu>

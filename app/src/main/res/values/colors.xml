@@ -54,7 +54,11 @@
     <color name="quizModeThreeListViewBackgroundDrawableColor">#38bb38</color>
 
 
-    <color name="settings_tab_selected_color">#FFFFFF</color>
-    <color name="settings_tab_indicator_color">#FFFFFF</color>
+    <color name="settingsTabSelectedColor">#FFFFFF</color>
+    <color name="settingsTabIndicatorColor">#FFFFFF</color>
+
+
+    <color name="userProfileActivityBackground">#f2fff2</color>
+
 
 </resources>

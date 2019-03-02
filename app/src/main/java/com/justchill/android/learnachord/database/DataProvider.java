@@ -11,6 +11,8 @@ import android.support.annotation.NonNull;
 
 import com.justchill.android.learnachord.MyApplication;
 import com.justchill.android.learnachord.R;
+import com.justchill.android.learnachord.firebase.FirebaseHandler;
+import com.justchill.android.learnachord.firebase.User;
 
 
 // Data provider - declares all actions that can be called through provider
@@ -84,8 +86,7 @@ public class DataProvider extends ContentProvider {
                 selection = DataContract.UserPrefEntry._ID + "=?";
                 selectionArgs = new String[] { String.valueOf(ContentUris.parseId(uri)) };
 
-                // This will perform a query on the pets table where the _id equals 3 to return a
-                // Cursor containing that row of the table.
+                // Returns a cursor containing that row of the table.
                 cursor = database.query(DataContract.UserPrefEntry.TABLE_NAME, projection, selection, selectionArgs,
                         null, null, sortOrder);
                 break;
@@ -398,6 +399,21 @@ public class DataProvider extends ContentProvider {
         }
 
 
+
+        // Get all achievement' progress keys (column names)
+        String[] achievementProgressKeys = MyApplication.getAppContext().getResources().getStringArray(R.array.achievement_progress_keys);
+        // Loop through all that data in ContentValues and check if it is valid
+        for (String progressKey : achievementProgressKeys) {
+            temp = values.getAsInteger(progressKey);
+            if (temp == null) {
+                throw new IllegalArgumentException("Data cannot be null");
+            }
+            if (!User.isAchievementProgressValid(temp)) {
+                throw new IllegalArgumentException("Data not valid: " + temp);
+            }
+        }
+
+
         // If there are no values to update, then don't try to update the database
         if (values.size() == 0) {
             return 0;
@@ -409,6 +425,7 @@ public class DataProvider extends ContentProvider {
         // Perform the update on the database and get the number of rows affected
         int rowsUpdated = database.update(DataContract.UserPrefEntry.TABLE_NAME, values, selection, selectionArgs);
 
+        // TODO: this is not maybe needed (as all data is already present)
         if(rowsUpdated > 0) {
             // If anything is changed update/refresh all intervals', chords' and options' data
             DatabaseHandler.setDoIntervalsNeedUpdate(true);
@@ -478,6 +495,11 @@ public class DataProvider extends ContentProvider {
                 values.put(preferenceKeys[17], DatabaseData.quizModeOneHighscore);
                 values.put(preferenceKeys[18], DatabaseData.quizModeTwoHighscore);
                 values.put(preferenceKeys[19], DatabaseData.quizModeThreeHighscore);
+
+                String[] achievementProgressKeys = MyApplication.getAppContext().getResources().getStringArray(R.array.achievement_progress_keys);
+                for (int i = 0; i < achievementProgressKeys.length; i++) {
+                    values.put(achievementProgressKeys[i], FirebaseHandler.user.achievementProgress.get(i));
+                }
 
                 // Run update with default data (set data to default)
                 rowsDeleted = update(ContentUris.withAppendedId(DataContract.UserPrefEntry.CONTENT_URI, 1), values, selection, selectionArgs);

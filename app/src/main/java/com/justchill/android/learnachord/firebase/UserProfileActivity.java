@@ -21,38 +21,42 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.justchill.android.learnachord.LocaleHelper;
 import com.justchill.android.learnachord.MyApplication;
 import com.justchill.android.learnachord.R;
+import com.justchill.android.learnachord.database.DatabaseHandler;
 
-import static com.justchill.android.learnachord.firebase.AchievementAdapter.maxAchievementProgressScore;
-
+// Activity for user account and achievements
 public class UserProfileActivity extends AppCompatActivity {
 
+    // Number for validating login
     private static final int RC_SIGN_IN = 100; // Any number
+
+    // TODO: set all sizes programmatically
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_profile);
 
+        // Declare UI elements
 
         View profileLinearLayoutLoginClickable = findViewById(R.id.profile_linear_layout_login_clickable);
         TextView userDisplayNameTV = findViewById(R.id.user_display_name_text_view);
 
-
+        // When user clicks on picture or name, try to log him in (in case user is logged out)
         profileLinearLayoutLoginClickable.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(FirebaseHandler.user.firebaseUser == null) {
                     FirebaseHandler.showLogInScreen(UserProfileActivity.this, RC_SIGN_IN);
-                } else {
-//                    Log.e("#####", FirebaseHandler.user.firebaseUser.getUid());
                 }
             }
         });
 
 
         if(FirebaseHandler.user.firebaseUser == null) {
+            // If user is not logged in, instead of name write "Login" to indicate how to log in
             userDisplayNameTV.setText(MyApplication.readResource(R.string.login, null));
         } else {
+            // If profile photo is downloaded, show it
             if(FirebaseHandler.user.photo != null) {
                 setProfilePhoto(this);
             }
@@ -63,9 +67,10 @@ public class UserProfileActivity extends AppCompatActivity {
 
         }
 
+        // Setup achievements' UI
         refreshAchievementProgressUI(this);
 
-        // Initially scroll to the top
+        // Initially, scroll to the top
         ScrollView parentScrollView = findViewById(R.id.user_profile_activity_parent_scroll_view);
         parentScrollView.smoothScrollTo(0, 0);
 
@@ -77,11 +82,36 @@ public class UserProfileActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
+
+        // Check internet connection on separate thread (in case connection is slow)
+        Thread checkInternetConnectionThread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                // If internet is not available, show error message
+                if(!MyApplication.isInternetAvailable()) {
+                    try {
+                        UserProfileActivity.this.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                TextView noInternetConnectionTV = findViewById(R.id.no_internet_connection_warning_text_view);
+                                noInternetConnectionTV.setVisibility(View.VISIBLE);
+                            }
+                        });
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+        checkInternetConnectionThread.start();
+
     }
 
-    /**** Method for Setting the Height of the ListView dynamically.
-     **** Hack to fix the issue of not showing all the items of the ListView
-     **** when placed inside a ScrollView  ****/
+    /*
+     * Method for Setting the Height of the ListView dynamically.
+     * Hack to fix the issue of not showing all the items of the ListView
+     * when placed inside a ScrollView
+     */
     public static void setListViewHeightBasedOnChildren(ListView listView) {
         ListAdapter listAdapter = listView.getAdapter();
         if (listAdapter == null)
@@ -103,6 +133,7 @@ public class UserProfileActivity extends AppCompatActivity {
         listView.setLayoutParams(params);
     }
 
+    // Try to add profile photo to the UI
     public static void setProfilePhoto(Activity activity) {
         try {
             ImageView profilePhotoCircleIV = activity.findViewById(R.id.user_profile_photo_circle_image_view);
@@ -112,6 +143,7 @@ public class UserProfileActivity extends AppCompatActivity {
         }
     }
 
+    // Setup achievements' UI
     public static void refreshAchievementProgressUI(Activity activity) {
         try {
             // Total progress score
@@ -119,11 +151,11 @@ public class UserProfileActivity extends AppCompatActivity {
             for(Integer i : FirebaseHandler.user.achievementProgress) {
                 totalAchievementProgressScore += Math.min(i, AchievementAdapter.maxAchievementProgressScore);
             }
-            // Max total progress score
+            // Max value of total progress score
             int maxTotalAchievementProgressScore = AchievementAdapter.maxAchievementProgressScore * User.numberOfAchievements;
 
 
-            // Set unlocked progress indicator view size (with layout_weight) depending on total progress
+            // Set locked and unlocked progress indicator view size (with layout_weight) depending on total progress
             View unlockedTotalProgressIndicatorView = activity.findViewById(R.id.achievement_total_progress_unlocked_indicator);
             LinearLayout.LayoutParams unlockedProgressIndicatorParams = new LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.WRAP_CONTENT,
@@ -132,7 +164,6 @@ public class UserProfileActivity extends AppCompatActivity {
             );
             unlockedTotalProgressIndicatorView.setLayoutParams(unlockedProgressIndicatorParams);
 
-            // Set locked progress indicator view size (with layout_weight) depending on total progress
             View lockedTotalProgressIndicatorView = activity.findViewById(R.id.achievement_total_progress_locked_indicator);
             LinearLayout.LayoutParams lockedProgressIndicatorParams = new LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.WRAP_CONTENT,
@@ -148,29 +179,22 @@ public class UserProfileActivity extends AppCompatActivity {
 
             achievementsListView.setAdapter(achievementAdapter);
 
+            // Set fixed height
             setListViewHeightBasedOnChildren(achievementsListView);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    // TODO: implement no internet indicator
-//    public boolean isInternetAvailable() {
-//        try {
-//            InetAddress ipAddr = InetAddress.getByName("google.com");
-//            //You can replace it with your name
-//            return !ipAddr.equals("");
-//
-//        } catch (Exception e) {
-//            return false;
-//        }
-//    }
 
+    // Called when user chooses with what platform to log in
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
+        // Handle it (save new user)
         FirebaseHandler.handleOnActivityResult(UserProfileActivity.this, RC_SIGN_IN, requestCode, resultCode, data);
+        // Exit activity (to refresh everything and for UX reasons)
         UserProfileActivity.this.finish();
     }
 
@@ -178,14 +202,6 @@ public class UserProfileActivity extends AppCompatActivity {
     @Override
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(LocaleHelper.onAttach(base, null));
-    }
-
-    public static void refreshData(Activity activity) {
-//        TextView tv1 = activity.findViewById(R.id.tv1);
-//        TextView tv2 = activity.findViewById(R.id.tv2);
-//
-//        tv1.setText(FirebaseHandler.user.value1);
-//        tv2.setText(FirebaseHandler.user.value2);
     }
 
     @Override
@@ -208,6 +224,7 @@ public class UserProfileActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.user_profile_menu, menu);
 
+        // If user is not logged in don't show logout button
         MenuItem logoutMenuItem = menu.findItem(R.id.action_logout);
         if(FirebaseHandler.user.firebaseUser == null) {
             logoutMenuItem.setVisible(false);
@@ -216,13 +233,14 @@ public class UserProfileActivity extends AppCompatActivity {
         return true;
     }
 
-    // Handle options menu action (there are two of them: options and profile)
+    // Handle options menu action
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.action_logout: // Open options
+            case R.id.action_logout: // Logout the user
                 FirebaseAuth.getInstance().signOut();
                 FirebaseHandler.user = new User();
+                DatabaseHandler.setDoAchievementsNeedUpdate(true);
                 UserProfileActivity.this.finish();
                 break;
         }

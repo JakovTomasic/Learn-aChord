@@ -5,6 +5,7 @@ import android.database.Cursor;
 
 import com.justchill.android.learnachord.MyApplication;
 import com.justchill.android.learnachord.R;
+import com.justchill.android.learnachord.firebase.FirebaseHandler;
 import com.justchill.android.learnachord.intervalOrChord.ChordsList;
 import com.justchill.android.learnachord.intervalOrChord.IntervalsList;
 
@@ -20,40 +21,46 @@ public class DatabaseHandler {
     private static boolean doesDbNeedUpdate = false;
     // do options need to change / set to data from database
     private static boolean doSettingsNeedUpdate = true;
+    // does achievement progress need to update / set to data from database
+    private static boolean doAchievementsNeedUpdate = true;
 
 
-    // Public get method
+    // Public get and set methods
     public static boolean doIntervalsNeedUpdate() {
         return doIntervalsNeedUpdate;
     }
-    // Public set methos
     public static void setDoIntervalsNeedUpdate(boolean newBool) {
         doIntervalsNeedUpdate = newBool;
     }
-    // Public get method
+
     public static boolean doChordsNeedUpdate() {
         return doChordsNeedUpdate;
     }
-    // Public set methos
     public static void setDoChordsNeedUpdate(boolean newBool) {
         doChordsNeedUpdate = newBool;
     }
-    // Public get method
+
     public static boolean doesDbNeedUpdate() {
         return doesDbNeedUpdate;
     }
-    // Public set methos
     public static void setDoesDbNeedUpdate(boolean newBool) {
         doesDbNeedUpdate = newBool;
     }
-    // Public get method
+
     public static boolean doSettingsNeedUpdate() {
         return doSettingsNeedUpdate;
     }
-    // Public set methos
     public static void setDoSettingsNeedUpdate(boolean newBool) {
         doSettingsNeedUpdate = newBool;
     }
+
+    public static boolean doAchievementsNeedUpdate() {
+        return doAchievementsNeedUpdate;
+    }
+    public static void setDoAchievementsNeedUpdate(boolean newBool) {
+        doAchievementsNeedUpdate = newBool;
+    }
+
 
 
     // Calls method to update intervals on separate thread
@@ -87,6 +94,16 @@ public class DatabaseHandler {
             }
         };
         userPrefThread3.start();
+    }
+
+    public static void updateAchievementsOnSeparateThread() {
+        Thread achievementsDatabaseThread = new Thread() {
+            @Override
+            public void run() {
+                updateAchievements();
+            }
+        };
+        achievementsDatabaseThread.start();
     }
 
     // Calls method to update database / save to database on separate thread
@@ -144,9 +161,8 @@ public class DatabaseHandler {
             cursor.close();
         }
 
-        // Intervals' data has just been got from database, no need to update intervals (anymore) or DB
+        // Intervals' data has just been got from database, no need to update intervals (anymore)
         setDoIntervalsNeedUpdate(false);
-        setDoesDbNeedUpdate(false);
     }
 
 
@@ -189,9 +205,8 @@ public class DatabaseHandler {
             cursor.close();
         }
 
-        // Chords' data has just been got from database, no need to update chords (anymore) or DB
+        // Chords' data has just been got from database, no need to update chords (anymore)
         setDoChordsNeedUpdate(false);
-        setDoesDbNeedUpdate(false);
     }
 
 
@@ -253,9 +268,8 @@ public class DatabaseHandler {
             cursor.close();
         }
 
-        // User preferences' data has just been got from database, no need to update it (anymore) or to update DB
+        // User preferences' data has just been got from database, no need to update it (anymore)
         setDoSettingsNeedUpdate(false);
-        setDoesDbNeedUpdate(false);
 
         // Refresh counter for number of checked directions (in case it has been changed)
         DatabaseData.refreshDirectionsCount();
@@ -264,6 +278,44 @@ public class DatabaseHandler {
         IntervalsList.updateAllIntervalsNames(MyApplication.getAppContext());
         ChordsList.updateAllChordsNames(MyApplication.getAppContext());
     }
+
+    // Set data for all achievements that is stored in database (achievement progress)
+    public static void updateAchievements() {
+        // Get list of database IDs for all achievements
+        String[] projection = MyApplication.getAppContext().getResources().getStringArray(R.array.achievement_progress_keys);
+        // Get ID of a row in DB (for now, DB has only one row)
+        String[] tempForID = { DataContract.UserPrefEntry._ID };
+        // Setup projection for database query (add ID to beginning)
+        projection = DataContract.concatenateTwoArrays(tempForID, projection);
+
+        // Get data from the database
+        Cursor cursor = MyApplication.getAppContext().getContentResolver().query(DataContract.UserPrefEntry.CONTENT_URI_FIRST_ROW,
+                projection, null, null, null);
+
+        // If there is no data, don't do nothing
+        if(cursor == null) {
+            return;
+        }
+
+        cursor.moveToFirst(); // Move the cursor to the first row (and only row, as it is now)
+
+        try {
+            // Gets all DB achievements' keys by order from R.array.achievement_progress_keys
+            String[] achievementKeys = MyApplication.getAppContext().getResources().getStringArray(R.array.achievement_progress_keys);
+            // Loop through all data
+            for (int i = 0; i < achievementKeys.length; i++) {
+                // Get and set data for every achievement that is in database
+                FirebaseHandler.user.setAchievementProgress(i, cursor.getInt(cursor.getColumnIndex(achievementKeys[i])));
+            }
+        } finally {
+            // At the end close connection to DB
+            cursor.close();
+        }
+
+        // Achievements' data has just been gotten from database, no need to update achievements (anymore)
+        setDoAchievementsNeedUpdate(false);
+    }
+
 
     public static void updateDatabase() {
         // Create new content values that will be written to the DB
@@ -319,14 +371,20 @@ public class DatabaseHandler {
         values.put(preferenceKeys[18], DatabaseData.quizModeTwoHighscore);
         values.put(preferenceKeys[19], DatabaseData.quizModeThreeHighscore);
 
+        String[] achievementProgressKeys = MyApplication.getAppContext().getResources().getStringArray(R.array.achievement_progress_keys);
+        for (int i = 0; i < achievementProgressKeys.length; i++) {
+            values.put(achievementProgressKeys[i], FirebaseHandler.user.achievementProgress.get(i));
+        }
+
         // Update the database with ContentValues data, returns how many rows were affected
         int newRowUri = MyApplication.getAppContext().getContentResolver().update(DataContract.UserPrefEntry.CONTENT_URI_FIRST_ROW,
                 values, null, null);
 
-        // Database has just been updated, no need to update anything anymore
+        // Database has just been updated, no need to update anything anymore (as we already have same data)
         setDoIntervalsNeedUpdate(false);
         setDoChordsNeedUpdate(false);
         setDoSettingsNeedUpdate(false);
+        setDoAchievementsNeedUpdate(false);
         setDoesDbNeedUpdate(false);
 
         // If some setting is changed update interval and chord names (in case it is language), and with that, set locale language

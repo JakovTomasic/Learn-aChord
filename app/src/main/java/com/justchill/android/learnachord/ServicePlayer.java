@@ -900,7 +900,7 @@ public class ServicePlayer extends Service {
                 waitSoundpoolToLoad = true;
 
                 // priority == 1 will be implemented later in android OS, 1 is recommended for future compatibility
-                keySounds[i-1] = soundPool.load(MyApplication.getActivity(), resID, 1);
+                keySounds[i-1] = soundPool.load(MyApplication.getAppContext(), resID, 1);
 
                 // Wait until sound is fully loaded
                 while(waitSoundpoolToLoad) {

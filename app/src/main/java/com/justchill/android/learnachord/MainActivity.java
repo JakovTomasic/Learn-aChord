@@ -31,10 +31,8 @@ import com.justchill.android.learnachord.settings.SettingsActivity;
 // Main activity, also main practicing mode
 public class MainActivity extends AppCompatActivity {
 
-
-
+    // For recreating activity on language change (if it is being recycled when returning from options)
     public static boolean languageChanged = false;
-
 
 
     // Play/pause button
@@ -185,21 +183,6 @@ public class MainActivity extends AppCompatActivity {
             MyApplication.smallerDisplayDimensionPX = Math.min(displayWidth, displayHeight);
         }
 
-
-        // If intervals, chord or settings need to update / sync with database, do that.
-        // This will run when app opens (and later on sometimes)
-
-        if(DatabaseHandler.doIntervalsNeedUpdate()) {
-            DatabaseHandler.updateIntervalsOnSeparateThread();
-        }
-
-        if(DatabaseHandler.doChordsNeedUpdate()) {
-            DatabaseHandler.updateChordsOnSeparateThread();
-        }
-
-        if(DatabaseHandler.doSettingsNeedUpdate()) {
-            DatabaseHandler.updateSettingsOnSeparateThread();
-        }
 
 
         if(MyApplication.isPlaying()) {
@@ -355,7 +338,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         // Get and save achievement progress data from cloud database
-        if(FirebaseHandler.user.updateAchievementProgress) {
+        if(User.updateAchievementProgress) {
             try {
                 FirebaseHandler.updateAchievementProgress();
             } catch (Exception e) {
@@ -364,12 +347,32 @@ public class MainActivity extends AppCompatActivity {
         }
 
         // Save current achievement progress data to cloud database
-        if(FirebaseHandler.user.updateAchievementProgressInCloud) {
+        if(User.updateAchievementProgressInCloud) {
             try {
                 FirebaseHandler.firestoreUpdateAchievementProgressInCloud();
             } catch (Exception e) {
                 e.printStackTrace();
             }
+        }
+
+
+        // If intervals, chord or settings need to update / sync with database, do that.
+        // This will run when app opens (and later on sometimes)
+
+        if(DatabaseHandler.doIntervalsNeedUpdate()) {
+            DatabaseHandler.updateIntervalsOnSeparateThread();
+        }
+
+        if(DatabaseHandler.doChordsNeedUpdate()) {
+            DatabaseHandler.updateChordsOnSeparateThread();
+        }
+
+        if(DatabaseHandler.doSettingsNeedUpdate()) {
+            DatabaseHandler.updateSettingsOnSeparateThread();
+        }
+
+        if(DatabaseHandler.doAchievementsNeedUpdate()) {
+            DatabaseHandler.updateAchievementsOnSeparateThread();
         }
 
 

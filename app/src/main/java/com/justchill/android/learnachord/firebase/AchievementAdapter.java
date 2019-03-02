@@ -15,22 +15,22 @@ import com.justchill.android.learnachord.R;
 
 import java.util.ArrayList;
 
-
+// Adapter for showing all achievements (their progresses)
 public class AchievementAdapter extends ArrayAdapter<Integer> {
 
-    // This needs to be public so it can be accessed from settings package classes
-    public AchievementAdapter(Activity context, ArrayList<Integer> achievements) {
+    AchievementAdapter(Activity context, ArrayList<Integer> achievements) {
         super(context, 0, achievements);
     }
 
-    public static final int maxAchievementProgressScore = 50;
+    // Biggest number to witch progress is being filled
+    static final int maxAchievementProgressScore = 50;
 
     // For getting a view, this is called every time user scrolls ListView for
     // every new view that is starting to show (and while creating ListView)
     @NonNull
     @Override
     public View getView(final int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-        // Try to recycle other view
+        // Try to recycle other view (that is not longer needed)
         View achievementView = convertView;
         if(achievementView == null) {
             achievementView = LayoutInflater.from(getContext()).inflate(R.layout.list_item_achievement, parent, false);
@@ -39,10 +39,11 @@ public class AchievementAdapter extends ArrayAdapter<Integer> {
         final Integer currentAchievementStatus = FirebaseHandler.user.achievementProgress.get(position);
 
 
-        TextView textView = achievementView.findViewById(R.id.achievement_score_text_view);
-        textView.setText(FirebaseHandler.user.achievementProgress.get(position).toString());
+        // Show score number
+        TextView achievementScoreTV = achievementView.findViewById(R.id.achievement_score_text_view);
+        achievementScoreTV.setText(FirebaseHandler.user.achievementProgress.get(position).toString());
 
-        // Set unlocked progress indicator view size (with layout_weight) depending on user progress
+        // Set locked and unlocked progress indicator view size (with layout_weight) depending on user progress:
         View unlockedProgressIndicatorView = achievementView.findViewById(R.id.achievement_progress_unlocked_indicator);
         LinearLayout.LayoutParams unlockedProgressIndicatorParams = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.WRAP_CONTENT,
@@ -51,7 +52,6 @@ public class AchievementAdapter extends ArrayAdapter<Integer> {
         );
         unlockedProgressIndicatorView.setLayoutParams(unlockedProgressIndicatorParams);
 
-        // Set locked progress indicator view size (with layout_weight) depending on user progress
         View lockedProgressIndicatorView = achievementView.findViewById(R.id.achievement_progress_locked_indicator);
         LinearLayout.LayoutParams lockedProgressIndicatorParams = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.WRAP_CONTENT,
@@ -61,11 +61,10 @@ public class AchievementAdapter extends ArrayAdapter<Integer> {
         lockedProgressIndicatorView.setLayoutParams(lockedProgressIndicatorParams);
 
 
-
+        // Set achievement description
         TextView achievementDescriptionTextView = achievementView.findViewById(R.id.achievement_description_text_view);
         achievementDescriptionTextView.setText(getAchievementDescription(position));
 
-        // TODO: finish this
 
 
         return achievementView;
@@ -110,6 +109,4 @@ public class AchievementAdapter extends ArrayAdapter<Integer> {
     }
 
 
-
 }
-

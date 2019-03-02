@@ -22,7 +22,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.SetOptions;
 import com.justchill.android.learnachord.MyApplication;
 import com.justchill.android.learnachord.R;
-import com.justchill.android.learnachord.database.DataContract;
+import com.justchill.android.learnachord.database.DatabaseHandler;
 
 import java.io.BufferedInputStream;
 import java.io.IOException;
@@ -34,14 +34,17 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+// Handles user account and achievements
 public class FirebaseHandler {
 
+    // Stores all current user data
     public static User user = null;
 
 
     // TODO: organize layouts and drawables in packages
 
 
+    // Shows login screen to choose with witch platform to login
     static void showLogInScreen(final Activity activity, int temp_RC_SIGN_IN) {
         // Choose authentication providers
         List<AuthUI.IdpConfig> providers = Arrays.asList(
@@ -52,12 +55,12 @@ public class FirebaseHandler {
                 AuthUI.getInstance()
                         .createSignInIntentBuilder()
                         .setAvailableProviders(providers)
-//                        .setIsSmartLockEnabled(false)
 //                        .setAlwaysShowSignInMethodScreen(true)
                         .build(),
                 temp_RC_SIGN_IN);
     }
 
+    // After user logs in, save user data
     static void handleOnActivityResult(Activity activity, int temp_RC_SIGN_IN, int requestCode, int resultCode, Intent data) {
         if (requestCode == temp_RC_SIGN_IN) {
             IdpResponse response = IdpResponse.fromResultIntent(data);
@@ -67,9 +70,10 @@ public class FirebaseHandler {
 
                 // Successfully signed in
                 user.firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-                // ...
+
 
             } else {
+                // TODO: handle this error
                 Toast.makeText(activity, "Login failed", Toast.LENGTH_SHORT).show();
                 // Sign in failed. If response is null the user canceled the
                 // sign-in flow using the back button. Otherwise check
@@ -79,48 +83,7 @@ public class FirebaseHandler {
         }
     }
 
-
-    // TODO: rename variables
-    static void readData(final String firstChild, final String secondChild, final String valueName, final Activity activity) {
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-
-        db.collection(firstChild).document(secondChild)
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        if (task.isSuccessful()) {
-                            DocumentSnapshot document = task.getResult();
-                            if (document != null && document.exists()) {
-                                Log.d("###", "DocumentSnapshot data: " + document.getData().get(valueName));
-                                try {
-                                    user.value1 = document.getData().get("dataValue1").toString();
-                                    user.value2 = document.getData().get("dataValue2").toString();
-                                } catch (Exception e) {
-                                    e.printStackTrace();
-                                }
-                            } else {
-                                Log.d("###", "No such document");
-                            }
-                        } else {
-                            Log.d("###", "get failed with ", task.getException());
-                        }
-
-                        try {
-                            activity.runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    UserProfileActivity.refreshData(activity);
-                                }
-                            });
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    }
-                });
-
-    }
-
+    // Download image from url
     private static Bitmap getImageBitmap(String url) {
         Bitmap bm = null;
         try {
@@ -138,6 +101,7 @@ public class FirebaseHandler {
         return bm;
     }
 
+    // Downloads and set on UI user account photo
     public static void setupUserPhoto() {
         Thread getUserPhotoThread = new Thread(new Runnable() {
             @Override
@@ -146,6 +110,7 @@ public class FirebaseHandler {
                     return;
                 }
 
+                // Loop through all data (if there is more of them) and save user profile photo as bitmap
                 for(UserInfo profile : FirebaseHandler.user.firebaseUser.getProviderData()) {
                     final Uri photoUrl = profile.getPhotoUrl();
 
@@ -156,11 +121,13 @@ public class FirebaseHandler {
                     FirebaseHandler.user.photo = getImageBitmap(photoUrl.toString());
                 }
 
+                // If there is no activity, don't change UI
                 if(MyApplication.getActivity() == null) {
                     return;
                 }
 
                 try {
+                    // Try to display user profile photo
                     if(MyApplication.getActivity() instanceof UserProfileActivity) {
                         MyApplication.getActivity().runOnUiThread(new Runnable() {
                             @Override
@@ -182,13 +149,14 @@ public class FirebaseHandler {
         Thread updateAchievementProgressThread = new Thread(new Runnable() {
             @Override
             public void run() {
+                // If user is logged out, data cannot be read
                 if(FirebaseHandler.user.firebaseUser == null) {
                     return;
                 }
 
-                // TODO: finish
                 FirebaseFirestore db = FirebaseFirestore.getInstance();
 
+                // Get all achievement data that belongs to logged in user (data is saved on firestore)
                 db.collection(FirebaseHandler.user.firebaseUser.getUid()).document(MyApplication.readResource(R.string.firestore_achievement_progress_document_name, null))
                         .get()
                         .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -201,19 +169,45 @@ public class FirebaseHandler {
                                         // Get all achievement' progress keys (column names)
                                         String[] achievementProgressKeys = MyApplication.getAppContext().getResources().getStringArray(R.array.achievement_progress_keys);
 
+                                        // Does cloud database need to be updated after we get all data
+                                        boolean tempUpdateAchievementProgressInCloud = false;
+                                        // Does local database need to be updated after we get all data
+                                        boolean tempUpdateAchievementProgressLocally = false;
+
                                         // Loop through all that data and save it
                                         for (int i = 0; i < achievementProgressKeys.length; i++) {
                                             try {
-                                                FirebaseHandler.user.achievementProgress.set(i,
-                                                        Math.max(FirebaseHandler.user.achievementProgress.get(i),
-                                                                Integer.parseInt(document.getData().get(achievementProgressKeys[i]).toString())));
+                                                Integer tempStoringValue = Integer.parseInt(document.getData().get(achievementProgressKeys[i]).toString());
+
+                                                // If data in cloud database is smaller (older) update cloud database (after we get all data)
+                                                if(tempStoringValue < FirebaseHandler.user.achievementProgress.get(i)) {
+                                                    tempUpdateAchievementProgressInCloud = true;
+                                                } else if(tempStoringValue > FirebaseHandler.user.achievementProgress.get(i)) {
+                                                    // If the data is greater (newer) update local database
+                                                    tempUpdateAchievementProgressLocally = true;
+                                                }
+
+                                                // Save data that is newer (greater)
+                                                FirebaseHandler.user.setAchievementProgress(i, tempStoringValue);
                                             } catch (Exception e) {
                                                 e.printStackTrace();
                                             }
                                         }
 
-                                        FirebaseHandler.user.updateAchievementProgress = false;
+                                        if(tempUpdateAchievementProgressInCloud) {
+                                            // Update achievements in cloud database
+                                            firestoreUpdateAchievementProgressInCloud();
+                                        }
 
+                                        if(tempUpdateAchievementProgressLocally) {
+                                            // Update achievements in local database
+                                            DatabaseHandler.updateDatabaseOnSeparateThread();
+                                        }
+
+                                        // Data reading is done
+                                        User.updateAchievementProgress = false;
+
+                                        // Try to show new data in UI
                                         try {
                                             if(MyApplication.getActivity() instanceof UserProfileActivity) {
                                                 MyApplication.getActivity().runOnUiThread(new Runnable() {
@@ -230,7 +224,7 @@ public class FirebaseHandler {
 
                                     } else {
                                         Log.d("###", "No such document");
-                                        // If there is no suck document, create it
+                                        // If there is no such document, create it
                                         firestoreUpdateAchievementProgressInCloud();
                                     }
                                 } else {
@@ -244,18 +238,19 @@ public class FirebaseHandler {
         updateAchievementProgressThread.start();
     }
 
-    // Write achievement progress data to could database
+    // Write achievement progress data to cloud database
     public static void firestoreUpdateAchievementProgressInCloud() {
         Thread firestoreUpdateAchievementProgressInCloudThread = new Thread(new Runnable() {
             @Override
             public void run() {
+                // If user is logged out, data cannot be written
                 if(FirebaseHandler.user.firebaseUser == null) {
                     return;
                 }
 
-                // TODO: finish
                 FirebaseFirestore db = FirebaseFirestore.getInstance();
 
+                // Set all values inside map
                 Map<String, Integer> mapOfValues = new HashMap<>();
 
                 // Get all achievement' progress keys (column names)
@@ -266,7 +261,8 @@ public class FirebaseHandler {
                     mapOfValues.put(achievementProgressKeys[i], FirebaseHandler.user.achievementProgress.get(i));
                 }
 
-                // SetOptions.merge() -> merges new input with old data (needed for not erasing old unspecified data)
+                //
+                // SetOptions.merge() -> merges new input with old data (needed for not erasing old data if unspecified)
                 db.collection(FirebaseHandler.user.firebaseUser.getUid()).document(MyApplication.readResource(R.string.firestore_achievement_progress_document_name, null))
                         .set(mapOfValues, SetOptions.merge())
                         .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -281,34 +277,11 @@ public class FirebaseHandler {
                                 // TODO: handle failure
                             }
                         });
+
+                User.updateAchievementProgressInCloud = false;
             }
         });
         firestoreUpdateAchievementProgressInCloudThread.start();
-    }
-
-
-    // TODO: rename variables
-    static void writeData(final String firstChild, final String secondChild, final String valueName, String value) {
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-
-        Map<String, Object> mapOfValues = new HashMap<>();
-        mapOfValues.put(valueName, value);
-
-        // SetOptions.merge() -> merges new input with old data (needed for not erasing old unspecified data)
-        db.collection(firstChild).document(secondChild)
-                .set(mapOfValues, SetOptions.merge())
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        // TODO: handle success
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        // TODO: handle failure
-                    }
-                });
     }
 
 

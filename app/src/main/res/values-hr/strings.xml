@@ -57,23 +57,6 @@
     <string name="chord_mali_molski_nonakord">MM</string> <!-- 9 -->
     <string name="chord_veliki_durski_nonakord">VD</string> <!-- 9 -->
 
-    <!--&lt;!&ndash;Interval full names&ndash;&gt;-->
-    <!--<string name="full_interval_cista_prima">čista prima</string>-->
-    <!--<string name="full_interval_mala_sekunda">mala sekunda</string>-->
-    <!--<string name="full_interval_velika_sekunda">v2</string>-->
-    <!--<string name="full_interval_mala_terca">m3</string>-->
-    <!--<string name="full_interval_velika_terca">v3</string>-->
-    <!--<string name="full_interval_smanjena_kvarta">sm4</string>-->
-    <!--<string name="full_interval_cista_kvarta">č4</string>-->
-    <!--<string name="full_interval_povecana_kvarta">pov4</string>-->
-    <!--<string name="full_interval_smanjena_kvinta">sm5</string>-->
-    <!--<string name="full_interval_cista_kvinta">č5</string>-->
-    <!--<string name="full_interval_povecana_kvinta">pov5</string>-->
-    <!--<string name="full_interval_mala_seksta">m6</string>-->
-    <!--<string name="full_interval_velika_seksta">v6</string>-->
-    <!--<string name="full_interval_mala_septima">m7</string>-->
-    <!--<string name="full_interval_velika_septima">v7</string>-->
-    <!--<string name="full_interval_cista_oktava">č8</string>-->
 
     <!--Settings section titles:-->
     <string name="settings_intervals">Intervali:</string>
@@ -237,5 +220,9 @@
     <string name="achievement_description_all_intervals_and_chords_easy">Igraj lagani kviz sa odabranim svim intervalima i akordima</string>
     <string name="achievement_description_all_intervals_and_chords_medium">Igraj srednje teški kviz sa odabranim svim intervalima i akordima</string>
     <string name="achievement_description_all_intervals_and_chords_hard">Igraj teški kviz sa odabranim svim intervalima i akordima</string>
+
+
+
+    <string name="no_internet_connection">Nema internetske veze</string>
 
 </resources>

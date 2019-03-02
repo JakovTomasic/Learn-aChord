@@ -64,4 +64,9 @@
     <color name="achievementProgressUnlockedColor">#8038ac38</color>
     <color name="achievementProgressLockedColor">#20000000</color>
 
+    <!--These three colors should be similar (in brightness etc.) -->
+    <color name="achievementColorGreen">#38ac38</color>
+    <color name="achievementColorYellow">#acac38</color>
+    <color name="achievementColorRed">#ac3838</color>
+
 </resources>

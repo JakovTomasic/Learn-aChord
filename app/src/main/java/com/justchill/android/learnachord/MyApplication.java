@@ -22,6 +22,7 @@ import com.justchill.android.learnachord.intervalOrChord.Interval;
 import com.justchill.android.learnachord.database.DataContract;
 import com.justchill.android.learnachord.database.DatabaseData;
 
+import java.net.InetAddress;
 import java.util.ArrayList;
 
 // Main static class to get application context and other static things that don't belong anywhere else
@@ -383,6 +384,18 @@ public class MyApplication extends Application {
             // alpha value may need to be set again after this call
             ColorDrawable colorDrawable = (ColorDrawable) playButtonBackground;
             colorDrawable.setColor(ContextCompat.getColor(context, color));
+        }
+    }
+
+
+    // Returns true if internet connection is present (not just connected to network)
+    public static boolean isInternetAvailable() {
+        try {
+            InetAddress ipAddr = InetAddress.getByName("google.com");
+            return !ipAddr.toString().equals("");
+
+        } catch (Exception e) {
+            return false;
         }
     }
 

@@ -13,7 +13,7 @@ public class IntervalsDbHelper extends SQLiteOpenHelper {
     /**
      * database version. If you change the database schema, you must increment the database version.
      */
-    private static final int DATABASE_VERSION = 2;
+    private static final int DATABASE_VERSION = 4;
     private static final String DATABASE_NAME = "settings.db";
 
     /**
@@ -109,9 +109,22 @@ public class IntervalsDbHelper extends SQLiteOpenHelper {
                 .append(0).append(endString);
         stringBuilder.append(preferenceKeys[18]).append(" INTEGER NOT NULL DEFAULT ")
                 .append(0).append(endString);
-        endString = ");";
         stringBuilder.append(preferenceKeys[19]).append(" INTEGER NOT NULL DEFAULT ")
                 .append(0).append(endString);
+
+
+        // Add achievement progress
+        String[] achievementProgressKeys = MyApplication.getAppContext().getResources().getStringArray(R.array.achievement_progress_keys);
+        for (int i = 0; i < achievementProgressKeys.length; i++) {
+            if(i >= achievementProgressKeys.length-1) {
+                // After last key set sql ending string
+                endString = ");";
+            }
+            stringBuilder.append(achievementProgressKeys[i]).append(" INTEGER NOT NULL DEFAULT ")
+                    .append(0).append(endString);
+        }
+
+
 
         String SQL_CREATE_INTERVALS_TABLE = stringBuilder.toString();
         // Execute the SQL statement
@@ -139,10 +152,14 @@ public class IntervalsDbHelper extends SQLiteOpenHelper {
         }
 
         for (int i = 0; i < preferenceKeys.length; i++) {
-            if(i >= preferenceKeys.length-1) {
+            stringBuilder.append(preferenceKeys[i]).append(endString);
+        }
+
+        for (int i = 0; i < achievementProgressKeys.length; i++) {
+            if(i >= achievementProgressKeys.length-1) {
                 endString = ")";
             }
-            stringBuilder.append(preferenceKeys[i]).append(endString);
+            stringBuilder.append(achievementProgressKeys[i]).append(endString);
         }
 
         stringBuilder.append(" VALUES (");
@@ -185,8 +202,15 @@ public class IntervalsDbHelper extends SQLiteOpenHelper {
         stringBuilder.append( Integer.toString(DataContract.UserPrefEntry.CHECKBOX_NOT_CHECKED) ).append(endString);
         stringBuilder.append( Integer.toString(0) ).append(endString);
         stringBuilder.append( Integer.toString(0) ).append(endString);
-        endString = ");";
         stringBuilder.append( Integer.toString(0) ).append(endString);
+
+        for (int i = 0; i < achievementProgressKeys.length; i++) {
+            if(i >= achievementProgressKeys.length-1) {
+                // After last key set sql ending string
+                endString = ");";
+            }
+            stringBuilder.append( Integer.toString(0) ).append(endString);
+        }
 
         String SQL_ADD_FIRST_ROW = stringBuilder.toString();
         // Execute the SQL statement

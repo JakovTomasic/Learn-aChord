@@ -90,6 +90,18 @@
             android:layout_below="@id/achievement_progress_label_parent_layout" />
 
 
+        <TextView
+            android:id="@+id/no_internet_connection_warning_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:text="@string/no_internet_connection"
+            android:gravity="center"
+            android:background="@color/stopButton"
+            android:textColor="@color/userProfileActivityBackground"
+            android:padding="1dp"
+            android:visibility="gone"/>
+
     </RelativeLayout>
 
 

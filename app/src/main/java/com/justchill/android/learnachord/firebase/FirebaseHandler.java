@@ -20,7 +20,7 @@ import com.google.firebase.auth.UserInfo;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.SetOptions;
-import com.justchill.android.learnachord.MainActivity;
+import com.justchill.android.learnachord.MyApplication;
 
 import java.io.BufferedInputStream;
 import java.io.IOException;
@@ -36,7 +36,11 @@ public class FirebaseHandler {
 
     public static User user = null;
 
-    static void showLogInScreen(Activity activity, int temp_RC_SIGN_IN) {
+
+    // TODO: organize layouts and drawables in packages
+
+
+    static void showLogInScreen(final Activity activity, int temp_RC_SIGN_IN) {
         // Choose authentication providers
         List<AuthUI.IdpConfig> providers = Arrays.asList(
                 new AuthUI.IdpConfig.GoogleBuilder().build());
@@ -46,6 +50,8 @@ public class FirebaseHandler {
                 AuthUI.getInstance()
                         .createSignInIntentBuilder()
                         .setAvailableProviders(providers)
+//                        .setIsSmartLockEnabled(false)
+//                        .setAlwaysShowSignInMethodScreen(true)
                         .build(),
                 temp_RC_SIGN_IN);
     }
@@ -131,23 +137,42 @@ public class FirebaseHandler {
     }
 
     public static void setupUserPhoto() {
-        for (UserInfo profile : FirebaseHandler.user.firebaseUser.getProviderData()) {
-            final Uri photoUrl = profile.getPhotoUrl();
+        Thread getUserPhotoThread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                if(FirebaseHandler.user.firebaseUser == null) {
+                    return;
+                }
 
-            if(photoUrl == null) {
-                continue;
-            }
+                for(UserInfo profile : FirebaseHandler.user.firebaseUser.getProviderData()) {
+                    final Uri photoUrl = profile.getPhotoUrl();
 
-            Thread getUserPhotoThread = new Thread(new Runnable() {
-                @Override
-                public void run() {
+                    if(photoUrl == null) {
+                        continue;
+                    }
+
                     FirebaseHandler.user.photo = getImageBitmap(photoUrl.toString());
                 }
-            });
-            getUserPhotoThread.start();
 
+                if(MyApplication.getActivity() == null) {
+                    return;
+                }
 
-        }
+                try {
+                    if(MyApplication.getActivity() instanceof UserProfileActivity) {
+                        MyApplication.getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                UserProfileActivity.setProfilePhoto(MyApplication.getActivity());
+                            }
+                        });
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        getUserPhotoThread.start();
     }
 
 

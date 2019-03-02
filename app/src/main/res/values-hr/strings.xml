@@ -210,7 +210,8 @@
 
 
     <!--Firebase-->
-    <string name="user_profile_activity_label">Račun</string>
-    <string name="action_user_profile_title">Račun</string>
+    <string name="user_profile_activity_label">Profil</string>
+    <string name="action_user_profile_title">Profil</string>
+    <string name="login">Prijava</string>
 
 </resources>

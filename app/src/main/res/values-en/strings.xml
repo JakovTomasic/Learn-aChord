@@ -212,6 +212,7 @@
     <!--Firebase-->
     <string name="user_profile_activity_label">Profile</string>
     <string name="action_user_profile_title">Profile</string>
+    <string name="login">Login</string>
 
 
 </resources>

@@ -31,6 +31,12 @@ import com.justchill.android.learnachord.settings.SettingsActivity;
 // Main activity, also main practicing mode
 public class MainActivity extends AppCompatActivity {
 
+
+
+    public static boolean languageChanged = false;
+
+
+
     // Play/pause button
     private ImageView fabIV;
     // Whole activity parent
@@ -71,21 +77,6 @@ public class MainActivity extends AppCompatActivity {
         // Change media volume when volume buttons are pressed
         setVolumeControlStream(AudioManager.STREAM_MUSIC);
 
-
-        // If user has previously logged in, set it again
-        if(FirebaseHandler.user == null) {
-            FirebaseHandler.user = new User();
-        }
-        FirebaseHandler.user.firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-
-        // Download user photo for later use
-        if(FirebaseHandler.user.photo == null) {
-            try {
-                FirebaseHandler.setupUserPhoto();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
 
         // Initialize UI components
 
@@ -308,6 +299,7 @@ public class MainActivity extends AppCompatActivity {
         return (int) (dp * Resources.getSystem().getDisplayMetrics().density);
     }
 
+    // TODO: add this to quiz too
     // Set or remove flag to stop turning off screen while playing (or dimming it)
     private void setDontTurnOffScreen(boolean dontTurnOffScreen) {
         try {
@@ -340,6 +332,27 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+
+        // Recreate main activity if language has been changed
+        if(languageChanged) {
+            recreate();
+            languageChanged = false;
+        }
+
+        // If user has previously logged in, set it again
+        if(FirebaseHandler.user == null) {
+            FirebaseHandler.user = new User();
+        }
+        FirebaseHandler.user.firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+
+        // Download user photo for later use
+        if(FirebaseHandler.user.photo == null) {
+            try {
+                FirebaseHandler.setupUserPhoto();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
 
         updatePlayStopButton();
 

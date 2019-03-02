@@ -1,19 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView
+    android:id="@+id/user_profile_activity_parent_scroll_view"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/userProfileActivityBackground">
 
     <RelativeLayout
+        android:id="@+id/profile_parent_relative_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+        <RelativeLayout
+            android:id="@+id/logout_clickable_view_relative_layout"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:background="?android:attr/selectableItemBackground"
+            android:clickable="true"
+            android:focusable="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/ic_logout"/>
+
+        </RelativeLayout>
+
+
         <LinearLayout
-            android:layout_width="match_parent"
+            android:id="@+id/profile_linear_layout_login_clickable"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:gravity="center_horizontal">
+            android:gravity="center_horizontal"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="50dp"
+            android:background="?android:attr/selectableItemBackground"
+            android:clickable="true"
+            android:focusable="true">
 
             <de.hdodenhof.circleimageview.CircleImageView
                 xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -22,7 +48,7 @@
                 android:layout_height="125dp"
                 app:civ_border_width="4dp"
                 app:civ_border_color="@color/colorPrimary"
-                android:layout_marginTop="50dp"/>
+                android:src="@drawable/ic_default_user_profile_photo"/>
 
             <!--TODO: remove settingsTextStyle and add custom one-->
             <TextView
@@ -32,15 +58,16 @@
                 android:layout_marginTop="25dp"
                 style="@style/settingsTextStyle"/>
 
-            <!--<TextView-->
-                <!--android:id="@+id/test"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_marginTop="10dp"/>-->
+
 
         </LinearLayout>
 
-
+        <ListView
+            android:id="@+id/user_achievements_list_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/profile_linear_layout_login_clickable"
+            android:layout_marginTop="25dp"/>
 
 
     </RelativeLayout>

@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import android.view.inputmethod.InputMethodManager;
 
 import com.justchill.android.learnachord.LocaleHelper;
+import com.justchill.android.learnachord.MainActivity;
 import com.justchill.android.learnachord.MyApplication;
 import com.justchill.android.learnachord.R;
 import com.justchill.android.learnachord.intervalOrChord.Chord;
@@ -103,6 +104,11 @@ public class SettingsActivity extends AppCompatActivity {
         }
 
         MyApplication.activityPaused();
+
+        // To recreate main activity if language has been changed (as it is being reused)
+        if(MyApplication.settingActivityLoadedLanguage != DatabaseData.appLanguage) {
+            MainActivity.languageChanged = true;
+        }
 
     }
 

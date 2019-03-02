@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/list_item_achievement_parent_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <!--TODO: finish this-->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="?android:attr/listPreferredItemHeight"
+        android:background="?android:attr/selectableItemBackground">
+
+        <ImageView
+            android:id="@+id/settings_interval_play_icon"
+            android:layout_width="@dimen/settings_play_button_size"
+            android:layout_height="match_parent"
+            android:padding="16dp"
+            android:src="@drawable/ic_play_arrow_settings" />
+
+        <TextView
+            android:id="@+id/settings_interval_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="8dp"
+            android:gravity="center_vertical"
+            android:textAllCaps="false"
+            android:textColor="@color/darkTextColor"
+            android:textSize="16sp"
+            android:text="Achievement description" />
+
+            <!--TODO: set back to tools: (text upthere)-->
+
+    </LinearLayout>
+
+</RelativeLayout>

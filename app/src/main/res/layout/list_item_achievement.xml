@@ -10,28 +10,61 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="?android:attr/listPreferredItemHeight"
-        android:background="?android:attr/selectableItemBackground">
+        android:orientation="horizontal">
+
+        <View
+            android:id="@+id/achievement_progress_unlocked_indicator"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/achievementProgressUnlockedColor"/>
+
+        <View
+            android:id="@+id/achievement_progress_locked_indicator"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0"
+            android:background="@color/achievementProgressLockedColor"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/achievement_parent_linear_layout"
+        android:layout_width="match_parent"
+        android:layout_height="?android:attr/listPreferredItemHeight">
 
         <ImageView
-            android:id="@+id/settings_interval_play_icon"
+            android:id="@+id/achievement_icon_image_view"
             android:layout_width="@dimen/settings_play_button_size"
             android:layout_height="match_parent"
             android:padding="16dp"
             android:src="@drawable/ic_play_arrow_settings" />
 
         <TextView
-            android:id="@+id/settings_interval_text_view"
+            android:id="@+id/achievement_description_text_view"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
             android:gravity="center_vertical"
             android:textAllCaps="false"
             android:textColor="@color/darkTextColor"
             android:textSize="16sp"
-            android:text="Achievement description" />
+            android:layout_weight="1"
+            tools:text="Achievement description" />
 
-            <!--TODO: set back to tools: (text upthere)-->
+        <TextView
+            android:id="@+id/achievement_score_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginRight="16dp"
+            android:gravity="center_vertical"
+            android:textAllCaps="false"
+            android:textColor="@color/darkTextColor"
+            android:textSize="16sp"
+            tools:text="25" />
 
     </LinearLayout>
+
 
 </RelativeLayout>

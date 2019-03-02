@@ -160,4 +160,27 @@
         <item>@string/small</item>
     </string-array>
 
+
+    <string-array name="achievement_progress_keys">
+        <item>"achievement_key_under_octave_easy"</item>
+        <item>"achievement_key_under_octave_medium"</item>
+        <item>"achievement_key_under_octave_hard"</item>
+
+        <item>"achievement_key_all_intervals_easy"</item>
+        <item>"achievement_key_all_intervals_medium"</item>
+        <item>"achievement_key_all_intervals_hard"</item>
+
+        <item>"achievement_key_triads_easy"</item>
+        <item>"achievement_key_triads_medium"</item>
+        <item>"achievement_key_triads_hard"</item>
+
+        <item>"achievement_key_all_chords_easy"</item>
+        <item>"achievement_key_all_chords_medium"</item>
+        <item>"achievement_key_all_chords_hard"</item>
+
+        <item>"achievement_key_all_intervals_and_chords_easy"</item>
+        <item>"achievement_key_all_intervals_and_chords_medium"</item>
+        <item>"achievement_key_all_intervals_and_chords_hard"</item>
+    </string-array>
+
 </resources>

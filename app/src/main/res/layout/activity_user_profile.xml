@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/user_profile_activity_parent_scroll_view"
-    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/userProfileActivityBackground">
@@ -11,68 +10,87 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <RelativeLayout
-            android:id="@+id/logout_clickable_view_relative_layout"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:background="?android:attr/selectableItemBackground"
-            android:clickable="true"
-            android:focusable="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentTop="true">
-
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:src="@drawable/ic_logout"/>
-
-        </RelativeLayout>
-
-
         <LinearLayout
             android:id="@+id/profile_linear_layout_login_clickable"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:gravity="center_horizontal"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="50dp"
             android:background="?android:attr/selectableItemBackground"
             android:clickable="true"
-            android:focusable="true">
+            android:focusable="true"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
 
-            <de.hdodenhof.circleimageview.CircleImageView
-                xmlns:app="http://schemas.android.com/apk/res-auto"
+            <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/user_profile_photo_circle_image_view"
                 android:layout_width="125dp"
                 android:layout_height="125dp"
-                app:civ_border_width="4dp"
+                android:src="@drawable/ic_default_user_profile_photo"
                 app:civ_border_color="@color/colorPrimary"
-                android:src="@drawable/ic_default_user_profile_photo"/>
+                app:civ_border_width="4dp" />
 
             <!--TODO: remove settingsTextStyle and add custom one-->
             <TextView
                 android:id="@+id/user_display_name_text_view"
+                style="@style/settingsTextStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="25dp"
-                style="@style/settingsTextStyle"/>
-
+                android:layout_marginTop="25dp" />
 
 
         </LinearLayout>
+
+        <RelativeLayout
+            android:id="@+id/achievement_progress_label_parent_layout"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/user_profile_progress_label_height"
+            android:layout_below="@id/profile_linear_layout_login_clickable"
+            android:layout_marginTop="25dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/user_profile_progress_label_height"
+                android:orientation="horizontal">
+
+                <View
+                    android:id="@+id/achievement_total_progress_unlocked_indicator"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0"
+                    android:background="@color/achievementProgressUnlockedColor"/>
+
+                <View
+                    android:id="@+id/achievement_total_progress_locked_indicator"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@color/achievementProgressLockedColor"/>
+
+            </LinearLayout>
+
+            <!--TODO: remove settingsTextStyle and add custom one-->
+            <TextView
+                android:id="@+id/achievement_progress_label_text_view"
+                style="@style/settingsTextStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="16dp"
+                android:text="@string/achievement_progress_label"
+                android:layout_centerVertical="true"/>
+
+        </RelativeLayout>
+
+
 
         <ListView
             android:id="@+id/user_achievements_list_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/profile_linear_layout_login_clickable"
-            android:layout_marginTop="25dp"/>
+            android:layout_below="@id/achievement_progress_label_parent_layout" />
 
 
     </RelativeLayout>
-
-
 
 
 </ScrollView>

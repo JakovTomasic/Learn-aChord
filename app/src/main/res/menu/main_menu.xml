@@ -6,13 +6,16 @@
     tools:context=".MainActivity">
 
     <item
+        android:id="@+id/action_user_profile"
+        android:title="@string/action_user_profile_title"
+        android:icon="@drawable/ic_account_circle"
+        app:showAsAction="always"/>
+
+    <item
         android:id="@+id/action_options"
         android:title="@string/options"
         android:icon="@drawable/ic_settings"
         app:showAsAction="always"/>
 
-    <item
-        android:id="@+id/action_user_profile"
-        android:title="@string/action_user_profile_title" />
 
 </menu>

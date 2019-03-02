@@ -58,7 +58,10 @@
     <color name="settingsTabIndicatorColor">#FFFFFF</color>
 
 
+
     <color name="userProfileActivityBackground">#f2fff2</color>
 
+    <color name="achievementProgressUnlockedColor">#8038ac38</color>
+    <color name="achievementProgressLockedColor">#20000000</color>
 
 </resources>

@@ -213,5 +213,29 @@
     <string name="user_profile_activity_label">Profil</string>
     <string name="action_user_profile_title">Profil</string>
     <string name="login">Prijava</string>
+    <string name="logout">Logout</string>
+
+    <string name="achievement_progress_label">Vaš napredak:</string>
+
+    <!--TODO: write this better-->
+    <string name="achievement_description_under_octave_easy">Igraj lagani kviz sa odabranim svim intervalima unutar oktave</string>
+    <string name="achievement_description_under_octave_medium">Igraj srednje teški kviz sa odabranim svim intervalima unutar oktave</string>
+    <string name="achievement_description_under_octave_hard">Igraj teški kviz sa odabranim svim intervalima unutar oktave</string>
+
+    <string name="achievement_description_all_intervals_easy">Igraj lagani kviz sa odabranim svim intervalima</string>
+    <string name="achievement_description_all_intervals_medium">Igraj srednje teški kviz sa odabranim svim intervalima</string>
+    <string name="achievement_description_all_intervals_hard">Igraj teški kviz sa odabranim svim intervalima</string>
+
+    <string name="achievement_description_triads_easy">Igraj lagani kviz sa odabranim svim trozvucima</string>
+    <string name="achievement_description_triads_medium">Igraj srednje teški kviz sa odabranim svim trozvucima</string>
+    <string name="achievement_description_triads_hard">Igraj teški kviz sa odabranim svim trozvucima</string>
+
+    <string name="achievement_description_all_chords_easy">Igraj lagani kviz sa odabranim svim akordima</string>
+    <string name="achievement_description_all_chords_medium">Igraj srednje teški kviz sa odabranim svim akordima</string>
+    <string name="achievement_description_all_chords_hard">Igraj teški kviz sa odabranim svim akordima</string>
+
+    <string name="achievement_description_all_intervals_and_chords_easy">Igraj lagani kviz sa odabranim svim intervalima i akordima</string>
+    <string name="achievement_description_all_intervals_and_chords_medium">Igraj srednje teški kviz sa odabranim svim intervalima i akordima</string>
+    <string name="achievement_description_all_intervals_and_chords_hard">Igraj teški kviz sa odabranim svim intervalima i akordima</string>
 
 </resources>

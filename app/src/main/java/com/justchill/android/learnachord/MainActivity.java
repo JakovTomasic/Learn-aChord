@@ -354,6 +354,26 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
+        // Get and save achievement progress data from cloud database
+        if(FirebaseHandler.user.updateAchievementProgress) {
+            try {
+                FirebaseHandler.updateAchievementProgress();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        // Save current achievement progress data to cloud database
+        if(FirebaseHandler.user.updateAchievementProgressInCloud) {
+            try {
+                FirebaseHandler.firestoreUpdateAchievementProgressInCloud();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+
+
         updatePlayStopButton();
 
         MyApplication.stopPlayingChord();

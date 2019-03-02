@@ -3,94 +3,38 @@ package com.justchill.android.learnachord.firebase;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import com.firebase.ui.auth.AuthUI;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.UserInfo;
 import com.justchill.android.learnachord.LocaleHelper;
 import com.justchill.android.learnachord.MyApplication;
 import com.justchill.android.learnachord.R;
 
-import java.net.InetAddress;
-import java.util.List;
+import static com.justchill.android.learnachord.firebase.AchievementAdapter.maxAchievementProgressScore;
 
 public class UserProfileActivity extends AppCompatActivity {
 
     private static final int RC_SIGN_IN = 100; // Any number
-
-    EditText textInput;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_profile);
 
-//
-////        if(FirebaseHandler.user != null) {
-////            Log.e("#####", FirebaseHandler.user.firebaseUser.getUid());
-////        }
-//
-//        Button loginButton = findViewById(R.id.login_button);
-//        loginButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//
-//            }
-//        });
-//
-//        Button logoutButton = findViewById(R.id.logout_button);
-//        logoutButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                FirebaseAuth.getInstance().signOut();
-//                FirebaseHandler.user.firebaseUser = null;
-//            }
-//        });
-//
-//
-//        textInput = findViewById(R.id.text_input);
-//
-//
-//        Button sendDataOneBtn = findViewById(R.id.send_data_one_btn);
-//        sendDataOneBtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                FirebaseHandler.writeData(FirebaseHandler.user.firebaseUser.getUid(), "Data",
-//                        "dataValue1", textInput.getText().toString());
-//                FirebaseHandler.readData(FirebaseHandler.user.firebaseUser.getUid(), "Data", "dataValue1", UserProfileActivity.this);
-//            }
-//        });
-//
-//        Button sendDataTwoBtn = findViewById(R.id.send_data_two_btn);
-//        sendDataTwoBtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                FirebaseHandler.writeData(FirebaseHandler.user.firebaseUser.getUid(), "Data",
-//                        "dataValue2", textInput.getText().toString());
-//                FirebaseHandler.readData(FirebaseHandler.user.firebaseUser.getUid(), "Data", "dataValue1", UserProfileActivity.this);
-//            }
-//        });
-//
-////        refreshData();
 
         View profileLinearLayoutLoginClickable = findViewById(R.id.profile_linear_layout_login_clickable);
-        View logoutClickableImageView = findViewById(R.id.logout_clickable_view_relative_layout);
         TextView userDisplayNameTV = findViewById(R.id.user_display_name_text_view);
 
 
@@ -105,72 +49,33 @@ public class UserProfileActivity extends AppCompatActivity {
             }
         });
 
-        logoutClickableImageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                FirebaseAuth.getInstance().signOut();
-                FirebaseHandler.user = new User();
-                UserProfileActivity.this.finish();
-            }
-        });
 
         if(FirebaseHandler.user.firebaseUser == null) {
-            logoutClickableImageView.setVisibility(View.GONE);
             userDisplayNameTV.setText(MyApplication.readResource(R.string.login, null));
         } else {
             if(FirebaseHandler.user.photo != null) {
                 setProfilePhoto(this);
             }
 
-            for (UserInfo profile : FirebaseHandler.user.firebaseUser.getProviderData()) {
-//                // Id of the provider (ex: google.com)
-//                String providerId = profile.getProviderId();
-//
-//                // UID specific to the provider
-//                String uid = profile.getUid();
+            // Get user name and write it
+            String name = FirebaseHandler.user.firebaseUser.getDisplayName();
+            userDisplayNameTV.setText(name);
 
-
-
-                // Name, email address, and profile photo Url
-                String name = profile.getDisplayName();
-                userDisplayNameTV.setText(name);
-
-
-//                String email = profile.getEmail();
-//                final Uri photoUrl = profile.getPhotoUrl();
-//
-//                Thread temp = new Thread(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        final Bitmap bitmap = getImageBitmap(photoUrl.toString());
-//
-//                        UserProfileActivity.this.runOnUiThread(new Runnable() {
-//                            @Override
-//                            public void run() {
-//                                profileIV.setImageBitmap(bitmap);
-//                            }
-//                        });
-//
-//                    }
-//                });
-//                temp.start();
-
-
-            }
         }
 
+        refreshAchievementProgressUI(this);
 
-        ListView achievementsListView = findViewById(R.id.user_achievements_list_view);
-        AchievementAdapter achievementAdapter = new AchievementAdapter(this, FirebaseHandler.user.achievements);
+        // Initially scroll to the top
+        ScrollView parentScrollView = findViewById(R.id.user_profile_activity_parent_scroll_view);
+        parentScrollView.smoothScrollTo(0, 0);
 
-        achievementsListView.setAdapter(achievementAdapter);
 
-        setListViewHeightBasedOnChildren(achievementsListView);
-
-        // TODO: fix start scroll position
-//        ScrollView parentScrollView = findViewById(R.id.user_profile_activity_parent_scroll_view);
-//        parentScrollView.scrollTo(0, 0);
-//        parentScrollView.fullScroll(ScrollView.FOCUS_UP);
+        // Get and save achievement progress data from cloud database
+        try {
+            FirebaseHandler.updateAchievementProgress();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
     }
 
@@ -202,6 +107,48 @@ public class UserProfileActivity extends AppCompatActivity {
         try {
             ImageView profilePhotoCircleIV = activity.findViewById(R.id.user_profile_photo_circle_image_view);
             profilePhotoCircleIV.setImageBitmap(FirebaseHandler.user.photo);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void refreshAchievementProgressUI(Activity activity) {
+        try {
+            // Total progress score
+            int totalAchievementProgressScore = 0;
+            for(Integer i : FirebaseHandler.user.achievementProgress) {
+                totalAchievementProgressScore += Math.min(i, AchievementAdapter.maxAchievementProgressScore);
+            }
+            // Max total progress score
+            int maxTotalAchievementProgressScore = AchievementAdapter.maxAchievementProgressScore * User.numberOfAchievements;
+
+
+            // Set unlocked progress indicator view size (with layout_weight) depending on total progress
+            View unlockedTotalProgressIndicatorView = activity.findViewById(R.id.achievement_total_progress_unlocked_indicator);
+            LinearLayout.LayoutParams unlockedProgressIndicatorParams = new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.WRAP_CONTENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT,
+                    Math.max(0, maxTotalAchievementProgressScore-totalAchievementProgressScore)
+            );
+            unlockedTotalProgressIndicatorView.setLayoutParams(unlockedProgressIndicatorParams);
+
+            // Set locked progress indicator view size (with layout_weight) depending on total progress
+            View lockedTotalProgressIndicatorView = activity.findViewById(R.id.achievement_total_progress_locked_indicator);
+            LinearLayout.LayoutParams lockedProgressIndicatorParams = new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.WRAP_CONTENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT,
+                    Math.max(0, maxTotalAchievementProgressScore-Math.max(0, maxTotalAchievementProgressScore-totalAchievementProgressScore))
+            );
+            lockedTotalProgressIndicatorView.setLayoutParams(lockedProgressIndicatorParams);
+
+
+            // Refresh list view adapter (and with that whole list view)
+            ListView achievementsListView = activity.findViewById(R.id.user_achievements_list_view);
+            AchievementAdapter achievementAdapter = new AchievementAdapter(activity, FirebaseHandler.user.achievementProgress);
+
+            achievementsListView.setAdapter(achievementAdapter);
+
+            setListViewHeightBasedOnChildren(achievementsListView);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -254,4 +201,32 @@ public class UserProfileActivity extends AppCompatActivity {
 
         MyApplication.activityPaused();
     }
+
+
+    // Set options menu
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.user_profile_menu, menu);
+
+        MenuItem logoutMenuItem = menu.findItem(R.id.action_logout);
+        if(FirebaseHandler.user.firebaseUser == null) {
+            logoutMenuItem.setVisible(false);
+        }
+
+        return true;
+    }
+
+    // Handle options menu action (there are two of them: options and profile)
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_logout: // Open options
+                FirebaseAuth.getInstance().signOut();
+                FirebaseHandler.user = new User();
+                UserProfileActivity.this.finish();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
 }

@@ -38,5 +38,6 @@
     <dimen name="settings_min_height">40dp</dimen>
     <dimen name="settings_preferences_play_tone_button_size">48dp</dimen>
 
+    <dimen name="user_profile_progress_label_height">30dp</dimen>
 
 </resources>

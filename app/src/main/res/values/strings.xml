@@ -218,6 +218,31 @@
     <string name="user_profile_activity_label">Profile</string>
     <string name="action_user_profile_title">Profile</string>
     <string name="login">Login</string>
+    <string name="logout">Logout</string>
 
+    <string name="achievement_progress_label">Your progress:</string>
+
+    <string name="firestore_achievement_progress_document_name" translatable="false">AchievementProgress</string>
+
+
+    <string name="achievement_description_under_octave_easy">Play easy quiz with all intervals inside one octave selected</string>
+    <string name="achievement_description_under_octave_medium">Play medium quiz with all intervals inside one octave selected</string>
+    <string name="achievement_description_under_octave_hard">Play hard quiz with all intervals inside one octave selected</string>
+
+    <string name="achievement_description_all_intervals_easy">Play easy quiz with all intervals selected</string>
+    <string name="achievement_description_all_intervals_medium">Play medium quiz with all intervals selected</string>
+    <string name="achievement_description_all_intervals_hard">Play hard quiz with all intervals selected</string>
+
+    <string name="achievement_description_triads_easy">Play easy quiz with all triads and their inversions selected</string>
+    <string name="achievement_description_triads_medium">Play medium quiz with all triads and their inversions selected</string>
+    <string name="achievement_description_triads_hard">Play hard quiz with all triads and their inversions selected</string>
+
+    <string name="achievement_description_all_chords_easy">Play easy quiz with all chords selected</string>
+    <string name="achievement_description_all_chords_medium">Play medium quiz with all chords selected</string>
+    <string name="achievement_description_all_chords_hard">Play hard quiz with all chords selected</string>
+
+    <string name="achievement_description_all_intervals_and_chords_easy">Play easy quiz with all intervals and chords selected</string>
+    <string name="achievement_description_all_intervals_and_chords_medium">Play medium quiz with all intervals and chords selected</string>
+    <string name="achievement_description_all_intervals_and_chords_hard">Play hard quiz with all intervals and chords selected</string>
 
 </resources>

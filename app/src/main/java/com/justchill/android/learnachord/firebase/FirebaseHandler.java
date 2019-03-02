@@ -21,6 +21,8 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.SetOptions;
 import com.justchill.android.learnachord.MyApplication;
+import com.justchill.android.learnachord.R;
+import com.justchill.android.learnachord.database.DataContract;
 
 import java.io.BufferedInputStream;
 import java.io.IOException;
@@ -173,6 +175,115 @@ public class FirebaseHandler {
             }
         });
         getUserPhotoThread.start();
+    }
+
+    // Read achievement progress data from could database
+    public static void updateAchievementProgress() {
+        Thread updateAchievementProgressThread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                if(FirebaseHandler.user.firebaseUser == null) {
+                    return;
+                }
+
+                // TODO: finish
+                FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+                db.collection(FirebaseHandler.user.firebaseUser.getUid()).document(MyApplication.readResource(R.string.firestore_achievement_progress_document_name, null))
+                        .get()
+                        .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                if (task.isSuccessful()) {
+                                    DocumentSnapshot document = task.getResult();
+                                    if (document != null && document.exists()) {
+
+                                        // Get all achievement' progress keys (column names)
+                                        String[] achievementProgressKeys = MyApplication.getAppContext().getResources().getStringArray(R.array.achievement_progress_keys);
+
+                                        // Loop through all that data and save it
+                                        for (int i = 0; i < achievementProgressKeys.length; i++) {
+                                            try {
+                                                FirebaseHandler.user.achievementProgress.set(i,
+                                                        Math.max(FirebaseHandler.user.achievementProgress.get(i),
+                                                                Integer.parseInt(document.getData().get(achievementProgressKeys[i]).toString())));
+                                            } catch (Exception e) {
+                                                e.printStackTrace();
+                                            }
+                                        }
+
+                                        FirebaseHandler.user.updateAchievementProgress = false;
+
+                                        try {
+                                            if(MyApplication.getActivity() instanceof UserProfileActivity) {
+                                                MyApplication.getActivity().runOnUiThread(new Runnable() {
+                                                    @Override
+                                                    public void run() {
+                                                        UserProfileActivity.refreshAchievementProgressUI(MyApplication.getActivity());
+                                                    }
+                                                });
+                                            }
+                                        } catch (Exception e) {
+                                            e.printStackTrace();
+                                        }
+
+
+                                    } else {
+                                        Log.d("###", "No such document");
+                                        // If there is no suck document, create it
+                                        firestoreUpdateAchievementProgressInCloud();
+                                    }
+                                } else {
+                                    Log.d("###", "get failed with ", task.getException());
+                                }
+                            }
+                        });
+
+            }
+        });
+        updateAchievementProgressThread.start();
+    }
+
+    // Write achievement progress data to could database
+    public static void firestoreUpdateAchievementProgressInCloud() {
+        Thread firestoreUpdateAchievementProgressInCloudThread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                if(FirebaseHandler.user.firebaseUser == null) {
+                    return;
+                }
+
+                // TODO: finish
+                FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+                Map<String, Integer> mapOfValues = new HashMap<>();
+
+                // Get all achievement' progress keys (column names)
+                String[] achievementProgressKeys = MyApplication.getAppContext().getResources().getStringArray(R.array.achievement_progress_keys);
+
+                // Loop through all that data and add it to mapOfValues
+                for (int i = 0; i < achievementProgressKeys.length; i++) {
+                    mapOfValues.put(achievementProgressKeys[i], FirebaseHandler.user.achievementProgress.get(i));
+                }
+
+                // SetOptions.merge() -> merges new input with old data (needed for not erasing old unspecified data)
+                db.collection(FirebaseHandler.user.firebaseUser.getUid()).document(MyApplication.readResource(R.string.firestore_achievement_progress_document_name, null))
+                        .set(mapOfValues, SetOptions.merge())
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                // TODO: handle success
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                // TODO: handle failure
+                            }
+                        });
+            }
+        });
+        firestoreUpdateAchievementProgressInCloudThread.start();
     }
 
 

@@ -21,6 +21,7 @@ import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.justchill.android.learnachord.database.DatabaseHandler;
+import com.justchill.android.learnachord.firebase.AchievementChecker;
 import com.justchill.android.learnachord.firebase.FirebaseHandler;
 import com.justchill.android.learnachord.firebase.User;
 import com.justchill.android.learnachord.firebase.UserProfileActivity;
@@ -391,6 +392,9 @@ public class MainActivity extends AppCompatActivity {
 
         // User is not in the quiz
         QuizData.isQuizModePlaying = false;
+
+        // Set that none of the quiz modes has been played recently (so the user can't get a quiz achievement anymore)
+        AchievementChecker.lastPlayedQuizMode = AchievementChecker.NULL_QUIZ_ID;
     }
 
     // Set options menu

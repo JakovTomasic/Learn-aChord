@@ -25,6 +25,7 @@ import com.justchill.android.learnachord.LocaleHelper;
 import com.justchill.android.learnachord.MyApplication;
 import com.justchill.android.learnachord.ProgressBarAnimation;
 import com.justchill.android.learnachord.R;
+import com.justchill.android.learnachord.firebase.AchievementChecker;
 import com.justchill.android.learnachord.intervalOrChord.Chord;
 import com.justchill.android.learnachord.intervalOrChord.ChordsList;
 import com.justchill.android.learnachord.intervalOrChord.Interval;
@@ -225,6 +226,7 @@ public class ModeThreeActivity extends AppCompatActivity {
                 if(QuizData.quizModeThreeCorrectID.equals(QuizData.quizModeThreeSelectedID)) {
                     scoreTextView.setText(String.valueOf(++QuizData.quizScore));
                     playNextThing(0);
+                    AchievementChecker.checkAchievements(QuizData.quizScore);
                 } else {
                     gameOver();
                 }
@@ -665,6 +667,8 @@ public class ModeThreeActivity extends AppCompatActivity {
         super.onResume();
 
         MyApplication.activityResumed(ModeThreeActivity.this);
+
+        AchievementChecker.lastPlayedQuizMode = AchievementChecker.QUIZ_MODE_THREE_ID;
 
 
         // If sound is being played, don't show progress bar (animation stops after screen rotation)

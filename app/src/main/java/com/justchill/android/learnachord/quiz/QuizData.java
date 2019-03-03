@@ -4,6 +4,7 @@ import android.view.View;
 
 import com.justchill.android.learnachord.MyApplication;
 import com.justchill.android.learnachord.R;
+import com.justchill.android.learnachord.firebase.AchievementChecker;
 import com.justchill.android.learnachord.firebase.FirebaseHandler;
 import com.justchill.android.learnachord.intervalOrChord.Chord;
 import com.justchill.android.learnachord.intervalOrChord.Interval;
@@ -83,24 +84,33 @@ public class QuizData {
     static void refreshQuizModeOneHighScore() {
         if(quizScore > DatabaseData.quizModeOneHighscore) {
             DatabaseData.quizModeOneHighscore = quizScore;
-            DatabaseHandler.updateDatabaseOnSeparateThread();
-            FirebaseHandler.updateHighScoreInCloud();
+            saveHighScores();
         }
     }
     static void refreshQuizModeTwoHighScore() {
         if(quizScore > DatabaseData.quizModeTwoHighscore) {
             DatabaseData.quizModeTwoHighscore = quizScore;
-            DatabaseHandler.updateDatabaseOnSeparateThread();
-            FirebaseHandler.updateHighScoreInCloud();
+            saveHighScores();
         }
     }
     static void refreshQuizModeThreeHighScore() {
         if(quizScore > DatabaseData.quizModeThreeHighscore) {
             DatabaseData.quizModeThreeHighscore = quizScore;
-            DatabaseHandler.updateDatabaseOnSeparateThread();
-            FirebaseHandler.updateHighScoreInCloud();
+            saveHighScores();
         }
     }
+
+    // This is repeating in above methods, saving high score and achievements data
+    private static void saveHighScores() {
+        // First, check if new achievement progress has been made
+        AchievementChecker.checkAchievements(quizScore);
+
+        DatabaseHandler.updateDatabaseOnSeparateThread();
+
+        FirebaseHandler.updateHighScoreInCloud();
+        FirebaseHandler.firestoreUpdateAchievementProgressInCloud();
+    }
+
 
 
     // Set background of every item in list with given color

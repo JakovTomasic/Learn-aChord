@@ -21,6 +21,7 @@ import com.justchill.android.learnachord.LocaleHelper;
 import com.justchill.android.learnachord.MyApplication;
 import com.justchill.android.learnachord.ProgressBarAnimation;
 import com.justchill.android.learnachord.R;
+import com.justchill.android.learnachord.firebase.AchievementChecker;
 import com.justchill.android.learnachord.intervalOrChord.Chord;
 import com.justchill.android.learnachord.intervalOrChord.ChordsList;
 import com.justchill.android.learnachord.intervalOrChord.Interval;
@@ -228,6 +229,7 @@ public class ModeOneActivity extends AppCompatActivity {
                 if(QuizData.quizModeOneCorrectAnswer) {
                     scoreTextView.setText(String.valueOf(++QuizData.quizScore));
                     playNextThing(0);
+                    AchievementChecker.checkAchievements(QuizData.quizScore);
                 } else {
                     gameOver();
                 }
@@ -244,6 +246,7 @@ public class ModeOneActivity extends AppCompatActivity {
                 if(!QuizData.quizModeOneCorrectAnswer) {
                     scoreTextView.setText(String.valueOf(++QuizData.quizScore));
                     playNextThing(0);
+                    AchievementChecker.checkAchievements(QuizData.quizScore);
                 } else {
                     gameOver();
                 }
@@ -733,6 +736,8 @@ public class ModeOneActivity extends AppCompatActivity {
         super.onResume();
 
         MyApplication.activityResumed(ModeOneActivity.this);
+
+        AchievementChecker.lastPlayedQuizMode = AchievementChecker.QUIZ_MODE_ONE_ID;
 
         showChord();
 

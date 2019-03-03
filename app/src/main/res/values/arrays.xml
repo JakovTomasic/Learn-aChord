@@ -183,4 +183,10 @@
         <item>"achievement_key_all_intervals_and_chords_hard"</item>
     </string-array>
 
+    <string-array name="high_score_database_keys">
+        <item>"quiz_mode_one_high_score_key"</item>
+        <item>"quiz_mode_two_high_score_key"</item>
+        <item>"quiz_mode_three_high_score_key"</item>
+    </string-array>
+
 </resources>

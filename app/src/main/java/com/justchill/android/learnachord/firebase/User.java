@@ -26,6 +26,10 @@ public class User {
     public static boolean updateAchievementProgressInCloud;
 
 
+    // Does cloud database need to update
+    public static boolean updateHighScoresInCloud;
+
+
     // Stores user profile photo that is downloaded on startup
     public Bitmap photo;
 
@@ -40,6 +44,7 @@ public class User {
 
         updateAchievementProgress = true;
         updateAchievementProgressInCloud = false;
+        updateHighScoresInCloud = false;
     }
 
     // Set achievement progress if it is greater than current one

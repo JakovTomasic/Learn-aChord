@@ -22,6 +22,7 @@ import com.justchill.android.learnachord.MyApplication;
 import com.justchill.android.learnachord.R;
 import com.justchill.android.learnachord.database.DatabaseData;
 import com.justchill.android.learnachord.database.DatabaseHandler;
+import com.justchill.android.learnachord.firebase.FirebaseHandler;
 
 // Activity where user can choose what quiz he will play
 public class ChooseQuizModeActivity extends AppCompatActivity {
@@ -149,7 +150,7 @@ public class ChooseQuizModeActivity extends AppCompatActivity {
 
     // Set new text to high score TextView when high score has been changed
     @SuppressLint("SetTextI18n")
-    private void resetQuizHighScoreViews() {
+    public void resetQuizHighScoreViews() {
         quizModeDescriptionTV[0].setText(readResource(R.string.highscore) + ":\n" + String.valueOf(DatabaseData.quizModeOneHighscore));
         quizModeDescriptionTV[1].setText(readResource(R.string.highscore) + ":\n" + String.valueOf(DatabaseData.quizModeTwoHighscore));
         quizModeDescriptionTV[2].setText(readResource(R.string.highscore) + ":\n" + String.valueOf(DatabaseData.quizModeThreeHighscore));
@@ -198,7 +199,10 @@ public class ChooseQuizModeActivity extends AppCompatActivity {
 
         // Update database if new high score has been set
         if(DatabaseHandler.doesDbNeedUpdate()) {
+            // Local DB
             DatabaseHandler.updateDatabaseOnSeparateThread();
+            // Firestore DB
+            FirebaseHandler.updateHighScoreInCloud();
         }
 
         MyApplication.activityPaused();
@@ -282,6 +286,7 @@ public class ChooseQuizModeActivity extends AppCompatActivity {
                 }
 
                 DatabaseHandler.setDoesDbNeedUpdate(true);
+                FirebaseHandler.updateHighScoreInCloud();
                 resetQuizHighScoreViews();
             }
         });

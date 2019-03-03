@@ -22,7 +22,9 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.SetOptions;
 import com.justchill.android.learnachord.MyApplication;
 import com.justchill.android.learnachord.R;
+import com.justchill.android.learnachord.database.DatabaseData;
 import com.justchill.android.learnachord.database.DatabaseHandler;
+import com.justchill.android.learnachord.quiz.ChooseQuizModeActivity;
 
 import java.io.BufferedInputStream;
 import java.io.IOException;
@@ -68,9 +70,11 @@ public class FirebaseHandler {
             if (resultCode == Activity.RESULT_OK) {
                 Toast.makeText(activity, "Login successful", Toast.LENGTH_SHORT).show();
 
-                // Successfully signed in
+                // Successfully logged in
                 user.firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
+                // Get data from database
+                User.updateAchievementProgress = true;
 
             } else {
                 // TODO: handle this error
@@ -261,7 +265,7 @@ public class FirebaseHandler {
                     mapOfValues.put(achievementProgressKeys[i], FirebaseHandler.user.achievementProgress.get(i));
                 }
 
-                //
+                // Get achievement data from firestore database
                 // SetOptions.merge() -> merges new input with old data (needed for not erasing old data if unspecified)
                 db.collection(FirebaseHandler.user.firebaseUser.getUid()).document(MyApplication.readResource(R.string.firestore_achievement_progress_document_name, null))
                         .set(mapOfValues, SetOptions.merge())
@@ -284,6 +288,119 @@ public class FirebaseHandler {
         firestoreUpdateAchievementProgressInCloudThread.start();
     }
 
+
+    // Read quiz high score data from could database
+    public static void firestoreUpdateHighScore() {
+        Thread updateHighScoreThread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                // If user is logged out, data cannot be read
+                if(FirebaseHandler.user.firebaseUser == null) {
+                    return;
+                }
+
+                FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+                // Get all high score data that belongs to logged in user (data is saved on firestore)
+                db.collection(FirebaseHandler.user.firebaseUser.getUid()).document(MyApplication.readResource(R.string.firestore_high_score_document_name, null))
+                        .get()
+                        .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                if (task.isSuccessful()) {
+                                    DocumentSnapshot document = task.getResult();
+                                    if (document != null && document.exists()) {
+
+                                        // Get all achievement' progress keys (column names)
+                                        String[] highScoreKeys = MyApplication.getAppContext().getResources().getStringArray(R.array.high_score_database_keys);
+
+                                        // Loop through all that data and save it
+                                        for (String key : highScoreKeys) {
+                                            try {
+                                                // Get and save greater data
+                                                DatabaseData.quizModeOneHighscore = Math.max(DatabaseData.quizModeOneHighscore,
+                                                        Integer.parseInt(document.getData().get(key).toString()));
+                                            } catch (Exception e) {
+                                                e.printStackTrace();
+                                            }
+                                        }
+
+                                        // Try to show new data in UI
+                                        try {
+                                            if(MyApplication.getActivity() instanceof ChooseQuizModeActivity) {
+                                                MyApplication.getActivity().runOnUiThread(new Runnable() {
+                                                    @Override
+                                                    public void run() {
+                                                        ((ChooseQuizModeActivity) MyApplication.getActivity()).resetQuizHighScoreViews();
+                                                    }
+                                                });
+                                            }
+                                        } catch (Exception e) {
+                                            e.printStackTrace();
+                                        }
+
+
+                                    } else {
+                                        Log.d("###", "No such document");
+                                        // If there is no such document, create it
+                                        updateHighScoreInCloud();
+                                    }
+                                } else {
+                                    Log.d("###", "get failed with ", task.getException());
+                                }
+                            }
+                        });
+
+            }
+        });
+        updateHighScoreThread.start();
+    }
+
+    // Write quiz high score progress data to cloud database
+    public static void updateHighScoreInCloud() {
+        Thread firestoreUpdateHighScoreInCloudThread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                // If user is logged out, data cannot be written
+                if(FirebaseHandler.user.firebaseUser == null) {
+                    return;
+                }
+
+                FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+                // Set all values inside map
+                Map<String, Integer> mapOfValues = new HashMap<>();
+
+                // Get all achievement' progress keys (column names)
+                String[] highScoreKeys = MyApplication.getAppContext().getResources().getStringArray(R.array.high_score_database_keys);
+
+                // Add all data to mapOfValues
+                mapOfValues.put(highScoreKeys[0], DatabaseData.quizModeOneHighscore);
+                mapOfValues.put(highScoreKeys[1], DatabaseData.quizModeTwoHighscore);
+                mapOfValues.put(highScoreKeys[2], DatabaseData.quizModeThreeHighscore);
+
+                // Get high score data from firestore database
+                // SetOptions.merge() -> merges new input with old data (needed for not erasing old data if unspecified)
+                db.collection(FirebaseHandler.user.firebaseUser.getUid()).document(MyApplication.readResource(R.string.firestore_high_score_document_name, null))
+                        .set(mapOfValues, SetOptions.merge())
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                // TODO: handle success
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                // TODO: handle failure
+                            }
+                        });
+
+                User.updateHighScoresInCloud = false;
+            }
+        });
+        firestoreUpdateHighScoreInCloudThread.start();
+    }
 
 }
 

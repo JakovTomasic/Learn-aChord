@@ -204,6 +204,7 @@
     <string name="achievement_progress_label">Your progress:</string>
 
     <string name="firestore_achievement_progress_document_name" translatable="false">AchievementProgress</string>
+    <string name="firestore_high_score_document_name" translatable="false">HighScore</string>
 
 
     <string name="achievement_description_under_octave_easy">Play easy quiz with all intervals inside one octave selected</string>

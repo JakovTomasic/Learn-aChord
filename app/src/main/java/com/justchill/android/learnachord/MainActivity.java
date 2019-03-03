@@ -341,6 +341,8 @@ public class MainActivity extends AppCompatActivity {
         if(User.updateAchievementProgress) {
             try {
                 FirebaseHandler.updateAchievementProgress();
+                // And by the way, get and save quiz high scores from cloud
+                FirebaseHandler.firestoreUpdateHighScore();
             } catch (Exception e) {
                 e.printStackTrace();
             }

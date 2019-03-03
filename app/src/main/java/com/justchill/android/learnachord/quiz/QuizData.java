@@ -4,6 +4,7 @@ import android.view.View;
 
 import com.justchill.android.learnachord.MyApplication;
 import com.justchill.android.learnachord.R;
+import com.justchill.android.learnachord.firebase.FirebaseHandler;
 import com.justchill.android.learnachord.intervalOrChord.Chord;
 import com.justchill.android.learnachord.intervalOrChord.Interval;
 import com.justchill.android.learnachord.database.DatabaseData;
@@ -83,18 +84,21 @@ public class QuizData {
         if(quizScore > DatabaseData.quizModeOneHighscore) {
             DatabaseData.quizModeOneHighscore = quizScore;
             DatabaseHandler.updateDatabaseOnSeparateThread();
+            FirebaseHandler.updateHighScoreInCloud();
         }
     }
     static void refreshQuizModeTwoHighScore() {
         if(quizScore > DatabaseData.quizModeTwoHighscore) {
             DatabaseData.quizModeTwoHighscore = quizScore;
             DatabaseHandler.updateDatabaseOnSeparateThread();
+            FirebaseHandler.updateHighScoreInCloud();
         }
     }
     static void refreshQuizModeThreeHighScore() {
         if(quizScore > DatabaseData.quizModeThreeHighscore) {
             DatabaseData.quizModeThreeHighscore = quizScore;
             DatabaseHandler.updateDatabaseOnSeparateThread();
+            FirebaseHandler.updateHighScoreInCloud();
         }
     }
 

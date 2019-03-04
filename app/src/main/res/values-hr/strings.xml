@@ -200,7 +200,7 @@
 
     <string name="achievement_progress_label">Vaš napredak:</string>
 
-    <!--TODO: write this better-->
+    <!--TODO: write this better (maybe?)-->
     <string name="achievement_description_under_octave_easy">Igraj lagani kviz sa odabranim svim intervalima unutar oktave</string>
     <string name="achievement_description_under_octave_medium">Igraj srednje teški kviz sa odabranim svim intervalima unutar oktave</string>
     <string name="achievement_description_under_octave_hard">Igraj teški kviz sa odabranim svim intervalima unutar oktave</string>
@@ -226,5 +226,7 @@
     <string name="no_internet_connection">Nema internetske veze</string>
 
     <string name="change_profile_photo_label_text">Odaberite profilnu sliku:</string>
+
+    <string name="login_successful_toast_message">Prijava uspješna</string>
 
 </resources>

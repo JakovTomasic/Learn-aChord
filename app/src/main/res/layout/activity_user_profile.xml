@@ -35,13 +35,13 @@
                 android:layout_margin="4dp"
                 tools:targetApi="lollipop" />
 
-            <!--TODO: remove settingsTextStyle and add custom one-->
             <TextView
                 android:id="@+id/user_display_name_text_view"
-                style="@style/settingsTextStyle"
+                style="@style/chooseProfileActivityTextStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="25dp" />
+                android:layout_marginTop="25dp"
+                tools:text="Login"/>
 
 
         </LinearLayout>
@@ -53,10 +53,9 @@
             android:layout_below="@id/profile_linear_layout_login_clickable"
             android:layout_marginTop="25dp">
 
-            <!--TODO: remove settingsTextStyle and add custom, one same as "your progress:"-->
             <TextView
                 android:id="@+id/change_profile_photo_label_text_view"
-                style="@style/settingsTextStyle"
+                style="@style/chooseProfileActivityTextStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/change_profile_photo_label_text"
@@ -159,10 +158,9 @@
 
             </LinearLayout>
 
-            <!--TODO: remove settingsTextStyle and add custom one-->
             <TextView
                 android:id="@+id/achievement_progress_label_text_view"
-                style="@style/settingsTextStyle"
+                style="@style/chooseProfileActivityTextStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingLeft="16dp"

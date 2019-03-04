@@ -65,7 +65,6 @@ public class FirebaseHandler {
                 value == IMAGE_TO_SET_TWITTER_ID || value == IMAGE_TO_SET_FROM_PHONE_ID);
     }
 
-    // TODO: organize layouts and drawables in packages
 
 
     // Max dimension of the image for bitmap scaling
@@ -75,12 +74,10 @@ public class FirebaseHandler {
     static void showLogInScreen(final Activity activity) {
         // Choose authentication providers
         List<AuthUI.IdpConfig> providers = Arrays.asList(
+                new AuthUI.IdpConfig.EmailBuilder().build(),
                 new AuthUI.IdpConfig.GoogleBuilder().build(),
                 new AuthUI.IdpConfig.FacebookBuilder().build(),
-                new AuthUI.IdpConfig.EmailBuilder().build(),
                 new AuthUI.IdpConfig.TwitterBuilder().build());
-
-        // TODO: customize
 
         // Create and launch sign-in intent
         activity.startActivityForResult(
@@ -89,6 +86,7 @@ public class FirebaseHandler {
                         .setAvailableProviders(providers)
                         .setIsSmartLockEnabled(false)
                         .setAlwaysShowSignInMethodScreen(true)
+                        .setTheme(R.style.loginActivityForResultTheme)
                         .build(),
                 UserProfileActivity.RC_SIGN_IN);
     }
@@ -101,7 +99,7 @@ public class FirebaseHandler {
             // User has just tried to log in
             if (resultCode == Activity.RESULT_OK) {
                 // User logged in successfully
-                Toast.makeText(activity, "Login successful", Toast.LENGTH_SHORT).show();
+                Toast.makeText(activity, MyApplication.readResource(R.string.login_successful_toast_message, null), Toast.LENGTH_SHORT).show();
 
                 // Save user (for getting some of it's data later on)
                 user.firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
@@ -110,8 +108,6 @@ public class FirebaseHandler {
                 User.updateAchievementProgress = true;
 
             } else {
-                // TODO: handle this error
-                Toast.makeText(activity, "Login failed", Toast.LENGTH_SHORT).show();
                 // Sign in failed. If response is null the user canceled the
                 // sign-in flow using the back button. Otherwise check
                 // response.getError().getErrorCode() and handle the error.
@@ -145,7 +141,6 @@ public class FirebaseHandler {
                     setupUserPhoto();
                 } catch (Exception e) {
                     e.printStackTrace();
-                    Toast.makeText(activity, "Something went wrong", Toast.LENGTH_LONG).show();
                 } finally {
                     try {
                         // Try to close image input stream after everything has been done
@@ -156,8 +151,6 @@ public class FirebaseHandler {
                 }
 
             } else {
-                // TODO: handle this error
-                Toast.makeText(activity, "You haven't picked Image", Toast.LENGTH_SHORT).show();
                 // Sign in failed. If response is null the user canceled the
                 // sign-in flow using the back button. Otherwise check
                 // response.getError().getErrorCode() and handle the error.
@@ -585,13 +578,13 @@ public class FirebaseHandler {
                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void aVoid) {
-                                // TODO: handle success
+
                             }
                         })
                         .addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
-                                // TODO: handle failure
+
                             }
                         });
 
@@ -699,13 +692,13 @@ public class FirebaseHandler {
                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void aVoid) {
-                                // TODO: handle success
+
                             }
                         })
                         .addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
-                                // TODO: handle failure
+
                             }
                         });
 

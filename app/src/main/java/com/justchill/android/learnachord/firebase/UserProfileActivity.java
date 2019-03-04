@@ -43,6 +43,9 @@ public class UserProfileActivity extends AppCompatActivity {
     // Parent layout of "Select new image" option
     private RelativeLayout chooseProfileParentRelativeLayout;
 
+    // Circle image view for displaying user photo
+    private ImageView profilePhotoCircleIV;
+
     // Linear layout for all new image options
     private View listOfAllPicturesToChangeParentView;
     private View loadingImagesrogressBar;
@@ -57,7 +60,6 @@ public class UserProfileActivity extends AppCompatActivity {
     private View photoTwitterSeparationView;
     private ImageView photoOptionChooseFromPhoneCircleIV;
 
-    // TODO: set all sizes programmatically
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -67,6 +69,8 @@ public class UserProfileActivity extends AppCompatActivity {
         // Declare UI elements
 
         chooseProfileParentRelativeLayout = findViewById(R.id.choose_profile_photo_parent_relative_layout);
+
+        profilePhotoCircleIV = findViewById(R.id.user_profile_photo_circle_image_view);
 
         listOfAllPicturesToChangeParentView = findViewById(R.id.list_of_all_pictures_linear_layout);
         loadingImagesrogressBar = findViewById(R.id.loading_images_progress_bar);
@@ -82,6 +86,13 @@ public class UserProfileActivity extends AppCompatActivity {
 
         View profileLinearLayoutLoginClickable = findViewById(R.id.profile_linear_layout_login_clickable);
         final TextView userDisplayNameTV = findViewById(R.id.user_display_name_text_view);
+
+
+        // Resize user profile photo to fit the screen properly
+        profilePhotoCircleIV.getLayoutParams().width = (int)(MyApplication.smallerDisplayDimensionPX/2.5f);
+        profilePhotoCircleIV.getLayoutParams().height = (int)(MyApplication.smallerDisplayDimensionPX/2.5f);
+        profileLinearLayoutLoginClickable.requestLayout();
+
 
         // When user clicks on picture or name, try to log him in (in case user is logged out)
         profileLinearLayoutLoginClickable.setOnClickListener(new View.OnClickListener() {
@@ -147,9 +158,6 @@ public class UserProfileActivity extends AppCompatActivity {
                                  */
                                 userDisplayNameTV.setText(MyApplication.readResource(R.string.login, null));
                             } else  {
-                                // show user profile photo
-                                FirebaseHandler.setupUserPhoto();
-
                                 // If user is logged in, write it's name
                                 if(FirebaseHandler.user.firebaseUser != null) {
                                     // Get user name and write it
@@ -157,6 +165,9 @@ public class UserProfileActivity extends AppCompatActivity {
                                     userDisplayNameTV.setText(name);
                                 }
                             }
+
+                            // show user profile photo
+                            FirebaseHandler.setupUserPhoto();
                         }
                     });
                 } catch (Exception e) {
@@ -277,8 +288,6 @@ public class UserProfileActivity extends AppCompatActivity {
                 chooseProfileParentRelativeLayout.getLayoutParams().height = 0;
                 chooseProfileParentRelativeLayout.requestLayout();
 
-                // TODO: add loading animation
-
                 // Choose profile picture from gallery
                 Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
                 photoPickerIntent.setType("image/*");
@@ -386,8 +395,10 @@ public class UserProfileActivity extends AppCompatActivity {
 
             // Handle it (save new user)
             FirebaseHandler.handleOnActivityResult(UserProfileActivity.this, requestCode, resultCode, data);
-            // Exit activity (to refresh everything and for UX reasons)
-            UserProfileActivity.this.finish();
+            if(resultCode == Activity.RESULT_OK) {
+                // Exit activity (to refresh everything and for UX reasons) if login was successful
+                UserProfileActivity.this.finish();
+            }
         } else if(requestCode == RC_GET_PICTURE) {
             // Activity with result was choose profile photo from gallery
 

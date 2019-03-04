@@ -66,4 +66,16 @@
         <item name="android:layout_weight">1</item>
     </style>
 
+
+
+    <style name="loginActivityForResultTheme">
+        <item name="android:background">@color/userProfileActivityBackground</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="chooseProfileActivityTextStyle">
+        <item name="android:textColor">@color/darkTextColor</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
 </resources>

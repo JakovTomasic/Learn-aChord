@@ -227,4 +227,6 @@
 
     <string name="change_profile_photo_label_text">Choose profile photo:</string>
 
+    <string name="login_successful_toast_message">Login successful</string>
+
 </resources>

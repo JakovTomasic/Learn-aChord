@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import com.justchill.android.learnachord.MyApplication;
 import com.justchill.android.learnachord.R;
+import com.justchill.android.learnachord.firebase.FirebaseHandler;
 
 // Handles creating and updating (to newer version, on some app updates) database
 public class IntervalsDbHelper extends SQLiteOpenHelper {
@@ -13,7 +14,7 @@ public class IntervalsDbHelper extends SQLiteOpenHelper {
     /**
      * database version. If you change the database schema, you must increment the database version.
      */
-    private static final int DATABASE_VERSION = 4;
+    private static final int DATABASE_VERSION = 5;
     private static final String DATABASE_NAME = "settings.db";
 
     /**
@@ -111,6 +112,9 @@ public class IntervalsDbHelper extends SQLiteOpenHelper {
                 .append(0).append(endString);
         stringBuilder.append(preferenceKeys[19]).append(" INTEGER NOT NULL DEFAULT ")
                 .append(0).append(endString);
+        stringBuilder.append(preferenceKeys[20]).append(" INTEGER NOT NULL DEFAULT ")
+                .append(FirebaseHandler.IMAGE_TO_SET_DEFAULT_ID).append(endString);
+        stringBuilder.append(preferenceKeys[21]).append(" TEXT").append(endString);
 
 
         // Add achievement progress
@@ -152,7 +156,10 @@ public class IntervalsDbHelper extends SQLiteOpenHelper {
         }
 
         for (int i = 0; i < preferenceKeys.length; i++) {
-            stringBuilder.append(preferenceKeys[i]).append(endString);
+            // Column at 21 won't be added (is null by default)
+            if(i != 21) {
+                stringBuilder.append(preferenceKeys[i]).append(endString);
+            }
         }
 
         for (int i = 0; i < achievementProgressKeys.length; i++) {
@@ -203,6 +210,8 @@ public class IntervalsDbHelper extends SQLiteOpenHelper {
         stringBuilder.append( Integer.toString(0) ).append(endString);
         stringBuilder.append( Integer.toString(0) ).append(endString);
         stringBuilder.append( Integer.toString(0) ).append(endString);
+        stringBuilder.append( Integer.toString(FirebaseHandler.IMAGE_TO_SET_DEFAULT_ID) ).append(endString);
+        // Empty row, path to profile photo from gallery is null by default
 
         for (int i = 0; i < achievementProgressKeys.length; i++) {
             if(i >= achievementProgressKeys.length-1) {

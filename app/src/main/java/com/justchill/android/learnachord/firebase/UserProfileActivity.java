@@ -43,6 +43,10 @@ public class UserProfileActivity extends AppCompatActivity {
     // Parent layout of "Select new image" option
     private RelativeLayout chooseProfileParentRelativeLayout;
 
+    // Linear layout for all new image options
+    private View listOfAllPicturesToChangeParentView;
+    private View loadingImagesrogressBar;
+
     // Views for select new profile photo option
     private ImageView photoOptionDefaultCircleIV;
     private ImageView photoOptionGoogleCircleIV;
@@ -63,6 +67,9 @@ public class UserProfileActivity extends AppCompatActivity {
         // Declare UI elements
 
         chooseProfileParentRelativeLayout = findViewById(R.id.choose_profile_photo_parent_relative_layout);
+
+        listOfAllPicturesToChangeParentView = findViewById(R.id.list_of_all_pictures_linear_layout);
+        loadingImagesrogressBar = findViewById(R.id.loading_images_progress_bar);
 
         photoOptionDefaultCircleIV = findViewById(R.id.choose_profile_photo_circle_image_view_default);
         photoOptionGoogleCircleIV = findViewById(R.id.choose_profile_photo_circle_image_view_google);
@@ -97,11 +104,14 @@ public class UserProfileActivity extends AppCompatActivity {
                                         // TODO: don't exit from activity when sign in is cancelled
                                     } else {
                                         // User is logged in or there is not valid internet connection
-                                        // If choose profile option is already opened, close it
                                         if(chooseProfileParentRelativeLayout.getHeight() > 0) {
+                                            // If choose profile option is already opened, close it
                                             chooseProfileParentRelativeLayout.getLayoutParams().height = 0;
                                             chooseProfileParentRelativeLayout.requestLayout();
                                         } else {
+                                            // First, show just loading animation
+                                            listOfAllPicturesToChangeParentView.setVisibility(View.GONE);
+                                            loadingImagesrogressBar.setVisibility(View.VISIBLE);
                                             // If choose profile option is not opened, open it
                                             showChooseProfileMenu();
                                         }
@@ -137,10 +147,8 @@ public class UserProfileActivity extends AppCompatActivity {
                                  */
                                 userDisplayNameTV.setText(MyApplication.readResource(R.string.login, null));
                             } else  {
-                                // If profile photo is downloaded, show it
-                                if(FirebaseHandler.user.photo != null) {
-                                    setProfilePhoto(UserProfileActivity.this);
-                                }
+                                // show user profile photo
+                                FirebaseHandler.setupUserPhoto();
 
                                 // If user is logged in, write it's name
                                 if(FirebaseHandler.user.firebaseUser != null) {
@@ -210,6 +218,9 @@ public class UserProfileActivity extends AppCompatActivity {
                 // Close choose profile picture option
                 chooseProfileParentRelativeLayout.getLayoutParams().height = 0;
                 chooseProfileParentRelativeLayout.requestLayout();
+
+                // Save what photo to show into database
+                DatabaseHandler.setDoesDbNeedUpdate(true);
             }
         });
         photoOptionGoogleCircleIV.setOnClickListener(new View.OnClickListener() {
@@ -222,6 +233,9 @@ public class UserProfileActivity extends AppCompatActivity {
                 // Close choose profile picture option
                 chooseProfileParentRelativeLayout.getLayoutParams().height = 0;
                 chooseProfileParentRelativeLayout.requestLayout();
+
+                // Save what photo to show into database
+                DatabaseHandler.setDoesDbNeedUpdate(true);
             }
         });
         photoOptionFacebookCircleIV.setOnClickListener(new View.OnClickListener() {
@@ -234,6 +248,9 @@ public class UserProfileActivity extends AppCompatActivity {
                 // Close choose profile picture option
                 chooseProfileParentRelativeLayout.getLayoutParams().height = 0;
                 chooseProfileParentRelativeLayout.requestLayout();
+
+                // Save what photo to show into database
+                DatabaseHandler.setDoesDbNeedUpdate(true);
             }
         });
         photoOptionTwitterCircleIV.setOnClickListener(new View.OnClickListener() {
@@ -246,6 +263,9 @@ public class UserProfileActivity extends AppCompatActivity {
                 // Close choose profile picture option
                 chooseProfileParentRelativeLayout.getLayoutParams().height = 0;
                 chooseProfileParentRelativeLayout.requestLayout();
+
+                // Save what photo to show into database
+                DatabaseHandler.setDoesDbNeedUpdate(true);
             }
         });
         photoOptionChooseFromPhoneCircleIV.setOnClickListener(new View.OnClickListener() {
@@ -303,7 +323,7 @@ public class UserProfileActivity extends AppCompatActivity {
                 // If there is no photo, set the default one
                 profilePhotoCircleIV.setImageResource(R.drawable.ic_default_user_profile_photo);
             } else {
-                // Set the photos
+                // Set the photo
                 profilePhotoCircleIV.setImageBitmap(FirebaseHandler.user.photo);
                 profilePhotoCircleIV.requestLayout();
             }
@@ -397,6 +417,15 @@ public class UserProfileActivity extends AppCompatActivity {
         MyApplication.activityPaused();
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+        // If database needs to update, save new values (new profile photo)
+        if(DatabaseHandler.doesDbNeedUpdate()) {
+            DatabaseHandler.updateDatabaseOnSeparateThread();
+        }
+    }
 
     // Set options menu
     @Override
@@ -490,6 +519,10 @@ public class UserProfileActivity extends AppCompatActivity {
                             MyApplication.getActivity().runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
+                                    // Stop loading animation
+                                    listOfAllPicturesToChangeParentView.setVisibility(View.VISIBLE);
+                                    loadingImagesrogressBar.setVisibility(View.GONE);
+
                                     // Get size of default photo to scale new photos the same vay
                                     int currentSize = photoOptionDefaultCircleIV.getHeight();
 

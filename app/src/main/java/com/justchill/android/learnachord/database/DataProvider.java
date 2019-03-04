@@ -398,6 +398,17 @@ public class DataProvider extends ContentProvider {
             throw new IllegalArgumentException("Mode three high score cannot be less than 0. High score: " + temp);
         }
 
+        // Number of profile image to show
+        temp = values.getAsInteger(preferenceKeys[20]);
+        if(temp == null) {
+            throw new IllegalArgumentException("Data cannot be null");
+        }
+        if(!FirebaseHandler.isImageToSetValueValid(temp)) {
+            throw new IllegalArgumentException("Given data not valid for variable FirebaseHandler.imageToSet: " + temp);
+        }
+
+        // At index 21 - gallery path to profile photo - don't need to be checked
+
 
 
         // Get all achievement' progress keys (column names)
@@ -491,10 +502,12 @@ public class DataProvider extends ContentProvider {
                 values.put(preferenceKeys[14], DataContract.UserPrefEntry.DIRECTION_SAME_TIME_VIEW_DEFAULT_INDEX);
                 values.put(preferenceKeys[15], DataContract.UserPrefEntry.CHECKBOX_NOT_CHECKED);
                 values.put(preferenceKeys[16], DataContract.UserPrefEntry.CHECKBOX_NOT_CHECKED);
-                // Don't delete high scores
+                // Don't delete high scores and order number of user image to show
                 values.put(preferenceKeys[17], DatabaseData.quizModeOneHighscore);
                 values.put(preferenceKeys[18], DatabaseData.quizModeTwoHighscore);
                 values.put(preferenceKeys[19], DatabaseData.quizModeThreeHighscore);
+                values.put(preferenceKeys[20], FirebaseHandler.imageToSet);
+                // Empty row, path to profile photo from gallery is null by default
 
                 String[] achievementProgressKeys = MyApplication.getAppContext().getResources().getStringArray(R.array.achievement_progress_keys);
                 for (int i = 0; i < achievementProgressKeys.length; i++) {

@@ -60,6 +60,11 @@ public class FirebaseHandler {
     // Stores witch photo to show
     public static int imageToSet = IMAGE_TO_SET_DEFAULT_ID;
 
+    public static boolean isImageToSetValueValid(int value) {
+        return (value == IMAGE_TO_SET_DEFAULT_ID || value == IMAGE_TO_SET_GOOGLE_ID || value == IMAGE_TO_SET_FACEBOOK_ID ||
+                value == IMAGE_TO_SET_TWITTER_ID || value == IMAGE_TO_SET_FROM_PHONE_ID);
+    }
+
     // TODO: organize layouts and drawables in packages
 
 
@@ -127,14 +132,14 @@ public class FirebaseHandler {
                     Uri imageUri = data.getData();
                     // Save path for later use
                     photoFromPhonePath = imageUri;
-                    // Create image stream to that path - for getting the image
-                    imageStream = activity.getContentResolver().openInputStream(imageUri);
 
 
                     // Save photo properly sized and rotated
-                    UserProfileActivity.fromPhonePhoto = Bitmap.createScaledBitmap(
-                            scaleImage(activity, imageUri), currentProfileSize, currentProfileSize, true);
+                    UserProfileActivity.fromPhonePhoto = getPhotoFromPhone(activity, imageUri, currentProfileSize);
 
+
+                    // Save what photo to show and it's path into database
+                    DatabaseHandler.setDoesDbNeedUpdate(true);
 
                     // Show photo in UI
                     setupUserPhoto();
@@ -286,6 +291,42 @@ public class FirebaseHandler {
     }
 
 
+    // Returns photo from phone
+    private static Bitmap getPhotoFromPhone(Activity activity, Uri imageUri, Integer imageScaleSize) {
+        if(imageUri == null || imageUri.toString().equals("")) {
+            return null;
+        }
+
+        InputStream imageStream = null;
+        try {
+            // Create image stream to that path - for getting the image
+            imageStream = activity.getContentResolver().openInputStream(imageUri);
+
+
+            // return properly rotated photo
+            if(imageScaleSize == null) {
+                // If size value is null, image doesn't need to be sized
+                return scaleImage(activity, imageUri);
+            } else {
+                // return photo that is properly sized
+                return Bitmap.createScaledBitmap(
+                        scaleImage(activity, imageUri), imageScaleSize, imageScaleSize, true);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                imageStream.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        // If something went wrong, just return null
+        return null;
+    }
+
+
     // Download (if needed) and show user account photo in the UI
     public static void setupUserPhoto() {
         Thread getUserPhotoThread = new Thread(new Runnable() {
@@ -294,7 +335,7 @@ public class FirebaseHandler {
                 // Reset user photo so we know if when something changes
                 FirebaseHandler.user.photo = null;
 
-                // Depending on what to show, handle that
+                // Depending on what to show, handle that (and save photo that is showing in FirebaseHandler.user.photo)
                 switch (imageToSet) {
                     case IMAGE_TO_SET_DEFAULT_ID:
                         // Photo is already null
@@ -309,6 +350,16 @@ public class FirebaseHandler {
                         FirebaseHandler.user.photo = UserProfileActivity.twitterPhoto;
                         break;
                     case IMAGE_TO_SET_FROM_PHONE_ID:
+                        if(UserProfileActivity.fromPhonePhoto == null) {
+                            // If phone photo is not set up, try to get if from gallery
+                            try {
+                                // Scale image to third of the smaller dimension of the display
+                                UserProfileActivity.fromPhonePhoto = getPhotoFromPhone(MyApplication.getActivity(),
+                                        FirebaseHandler.photoFromPhonePath, MyApplication.smallerDisplayDimensionPX/3);
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
                         FirebaseHandler.user.photo = UserProfileActivity.fromPhonePhoto;
                         break;
                 }
@@ -364,7 +415,6 @@ public class FirebaseHandler {
 
                 // If activity is visible, change the UI
                 if(MyApplication.getActivity() != null) {
-                    Log.e("########", "############################################################ done");
                     try {
                         // Try to display user profile photo
                         if(MyApplication.getActivity() instanceof UserProfileActivity) {

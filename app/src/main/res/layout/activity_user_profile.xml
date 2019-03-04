@@ -63,7 +63,17 @@
                 android:layout_alignParentTop="true"
                 android:layout_marginLeft="16dp"/>
 
+            <ProgressBar
+                android:id="@+id/loading_images_progress_bar"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_centerInParent="true"
+                android:visibility="gone"
+                android:layout_marginTop="48dp"
+                android:layout_marginBottom="48dp"/>
+
             <LinearLayout
+                android:id="@+id/list_of_all_pictures_linear_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/change_profile_photo_label_text_view"
@@ -116,6 +126,8 @@
 
 
             </LinearLayout>
+
+
 
         </RelativeLayout>
 

@@ -2,6 +2,7 @@ package com.justchill.android.learnachord.database;
 
 import android.content.ContentValues;
 import android.database.Cursor;
+import android.net.Uri;
 
 import com.justchill.android.learnachord.MyApplication;
 import com.justchill.android.learnachord.R;
@@ -262,6 +263,14 @@ public class DatabaseHandler {
             DatabaseData.quizModeOneHighscore = cursor.getInt(cursor.getColumnIndex(preferenceKeys[17]));
             DatabaseData.quizModeTwoHighscore = cursor.getInt(cursor.getColumnIndex(preferenceKeys[18]));
             DatabaseData.quizModeThreeHighscore = cursor.getInt(cursor.getColumnIndex(preferenceKeys[19]));
+            FirebaseHandler.imageToSet = cursor.getInt(cursor.getColumnIndex(preferenceKeys[20]));
+            try {
+                // Try to read this value in case it's not null
+                FirebaseHandler.photoFromPhonePath = Uri.parse(cursor.getString(cursor.getColumnIndex(preferenceKeys[21])));
+            } catch (NullPointerException e) {
+                FirebaseHandler.photoFromPhonePath = null;
+            }
+
 
         } finally {
             // At the end close connection to DB
@@ -370,6 +379,12 @@ public class DatabaseHandler {
         values.put(preferenceKeys[17], DatabaseData.quizModeOneHighscore);
         values.put(preferenceKeys[18], DatabaseData.quizModeTwoHighscore);
         values.put(preferenceKeys[19], DatabaseData.quizModeThreeHighscore);
+        values.put(preferenceKeys[20], FirebaseHandler.imageToSet);
+        String photoFromGalleryPathValue = "";
+        try {
+            photoFromGalleryPathValue = FirebaseHandler.photoFromPhonePath.toString();
+        } catch (Exception ignored) {}
+        values.put(preferenceKeys[21], photoFromGalleryPathValue);
 
         String[] achievementProgressKeys = MyApplication.getAppContext().getResources().getStringArray(R.array.achievement_progress_keys);
         for (int i = 0; i < achievementProgressKeys.length; i++) {

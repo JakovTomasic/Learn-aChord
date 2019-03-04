@@ -118,6 +118,9 @@
         <item>"quiz_mode_one_high_score"</item>
         <item>"quiz_mode_two_high_score"</item>
         <item>"quiz_mode_three_high_score"</item>
+
+        <item>"image_to_show_in_profile_id"</item>
+        <item>"custom_user_profile_photo_from_gallery_path"</item>
     </string-array>
 
     <string-array name="key_symbols">

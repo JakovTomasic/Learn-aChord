@@ -388,13 +388,17 @@ public class MyApplication extends Application {
     }
 
 
-    // Returns true if internet connection is present (not just connected to network)
+    /*
+     * Returns true if internet connection is present (not just connected to network)
+     * MUST BE CALLED FROM SEPARATE THREAD!!
+     */
     public static boolean isInternetAvailable() {
         try {
             InetAddress ipAddr = InetAddress.getByName("google.com");
             return !ipAddr.toString().equals("");
 
         } catch (Exception e) {
+            e.printStackTrace();
             return false;
         }
     }

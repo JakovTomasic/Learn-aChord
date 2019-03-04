@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/user_profile_activity_parent_scroll_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -22,13 +24,16 @@
             android:gravity="center_horizontal"
             android:orientation="vertical">
 
-            <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+            <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/user_profile_photo_circle_image_view"
                 android:layout_width="125dp"
                 android:layout_height="125dp"
                 android:src="@drawable/ic_default_user_profile_photo"
                 app:civ_border_color="@color/colorPrimary"
-                app:civ_border_width="4dp" />
+                app:civ_border_width="4dp"
+                android:elevation="2dp"
+                android:layout_margin="4dp"
+                tools:targetApi="lollipop" />
 
             <!--TODO: remove settingsTextStyle and add custom one-->
             <TextView
@@ -42,10 +47,83 @@
         </LinearLayout>
 
         <RelativeLayout
+            android:id="@+id/choose_profile_photo_parent_relative_layout"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_below="@id/profile_linear_layout_login_clickable"
+            android:layout_marginTop="25dp">
+
+            <!--TODO: remove settingsTextStyle and add custom, one same as "your progress:"-->
+            <TextView
+                android:id="@+id/change_profile_photo_label_text_view"
+                style="@style/settingsTextStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/change_profile_photo_label_text"
+                android:layout_alignParentTop="true"
+                android:layout_marginLeft="16dp"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/change_profile_photo_label_text_view"
+                android:orientation="horizontal"
+                android:layout_marginTop="8dp">
+
+                <View
+                    style="@style/chooseProfileSeparationViewStyle"/>
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/choose_profile_photo_circle_image_view_default"
+                    style="@style/chooseProfilePhotosPhotoStyle"/>
+
+                <View
+                    android:id="@+id/choose_profile_photo_separation_view_google"
+                    style="@style/chooseProfileSeparationViewStyle"/>
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/choose_profile_photo_circle_image_view_google"
+                    style="@style/chooseProfilePhotosPhotoStyle"/>
+
+                <View
+                    android:id="@+id/choose_profile_photo_separation_view_facebook"
+                    style="@style/chooseProfileSeparationViewStyle"/>
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/choose_profile_photo_circle_image_view_facebook"
+                    style="@style/chooseProfilePhotosPhotoStyle"/>
+
+                <View
+                    android:id="@+id/choose_profile_photo_separation_view_twitter"
+                    style="@style/chooseProfileSeparationViewStyle"/>
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/choose_profile_photo_circle_image_view_twitter"
+                    style="@style/chooseProfilePhotosPhotoStyle"/>
+
+                <View
+                    android:id="@+id/choose_profile_photo_separation_view_from_phone"
+                    style="@style/chooseProfileSeparationViewStyle"/>
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/choose_profile_photo_circle_image_view_from_phone"
+                    style="@style/chooseProfilePhotosPhotoStyle"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/ic_photo_library"/>
+
+                <View
+                    style="@style/chooseProfileSeparationViewStyle"/>
+
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+        <RelativeLayout
             android:id="@+id/achievement_progress_label_parent_layout"
             android:layout_width="match_parent"
             android:layout_height="@dimen/user_profile_progress_label_height"
-            android:layout_below="@id/profile_linear_layout_login_clickable"
+            android:layout_below="@id/choose_profile_photo_parent_relative_layout"
             android:layout_marginTop="25dp">
 
             <LinearLayout

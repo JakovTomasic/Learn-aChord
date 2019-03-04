@@ -52,4 +52,10 @@ dependencies {
 
     implementation 'com.yahoo.mobile.client.android.util.rangeseekbar:rangeseekbar-library:0.1.0'
     implementation 'de.hdodenhof:circleimageview:3.0.0'
+
+
+    // Facebook
+    implementation 'com.facebook.android:facebook-android-sdk:4.40.0'
+    // Twitter
+    implementation 'com.twitter.sdk.android:twitter:3.1.1'
 }

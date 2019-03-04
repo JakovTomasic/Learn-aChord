@@ -225,4 +225,6 @@
 
     <string name="no_internet_connection">No internet connection</string>
 
+    <string name="change_profile_photo_label_text">Choose profile photo:</string>
+
 </resources>

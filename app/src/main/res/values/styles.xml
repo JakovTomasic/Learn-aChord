@@ -42,4 +42,28 @@
         <item name="android:spotShadowAlpha" tools:ignore="NewApi">1</item>
     </style>
 
+
+    <style name="chooseProfilePhotosPhotoStyle">
+        <item name="android:elevation" tools:ignore="NewApi">2dp</item>
+        <item name="android:layout_margin">4dp</item>
+
+        <item name="android:ambientShadowAlpha" tools:ignore="NewApi">1</item>
+        <item name="android:spotShadowAlpha" tools:ignore="NewApi">1</item>
+
+
+        <item name="android:src">@drawable/ic_default_user_profile_photo</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">16</item>
+
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+    </style>
+
+    <style name="chooseProfileSeparationViewStyle">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_weight">1</item>
+    </style>
+
 </resources>

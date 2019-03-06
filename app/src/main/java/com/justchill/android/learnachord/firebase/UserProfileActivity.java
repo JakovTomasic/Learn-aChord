@@ -390,20 +390,11 @@ public class UserProfileActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if(requestCode == RC_SIGN_IN) {
-            // Activity with result was firebase sign in activity
-
-            // Handle it (save new user)
-            FirebaseHandler.handleOnActivityResult(UserProfileActivity.this, requestCode, resultCode, data);
-            if(resultCode == Activity.RESULT_OK) {
-                // Exit activity (to refresh everything and for UX reasons) if login was successful
-                UserProfileActivity.this.finish();
-            }
-        } else if(requestCode == RC_GET_PICTURE) {
-            // Activity with result was choose profile photo from gallery
-
-            // Handle it (save and display image)
-            FirebaseHandler.handleOnActivityResult(UserProfileActivity.this, requestCode, resultCode, data);
+        // Handle it
+        FirebaseHandler.handleOnActivityResult(UserProfileActivity.this, requestCode, resultCode, data);
+        if(requestCode == RC_SIGN_IN && resultCode == Activity.RESULT_OK) {
+            // Exit activity (to refresh everything and for UX reasons) if login was successful
+            UserProfileActivity.this.finish();
         }
 
     }
@@ -457,18 +448,13 @@ public class UserProfileActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_logout: // Logout the user
-                // Create new user (refresh / delete all user data locally)
                 FirebaseAuth.getInstance().signOut();
-                FirebaseHandler.user = new User();
 
-                // Update achievements
-                DatabaseHandler.setDoAchievementsNeedUpdate(true);
+                // Create new user (refresh / delete all user data locally)
+                FirebaseHandler.createNewUser();
 
-                // Forget user photos
-                googlePhoto = null;
-                facebookPhoto = null;
-                twitterPhoto = null;
-                fromPhonePhoto = null;
+                // Save that to DB
+                DatabaseHandler.updateDatabaseOnSeparateThread();
 
                 // Exit activity (to refresh everything and for UX reasons)
                 UserProfileActivity.this.finish();
@@ -476,6 +462,7 @@ public class UserProfileActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
 
     // Display menu for choosing new profile photo
     private void showChooseProfileMenu() {

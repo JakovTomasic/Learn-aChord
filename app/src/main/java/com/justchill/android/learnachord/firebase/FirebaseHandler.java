@@ -96,6 +96,8 @@ public class FirebaseHandler {
         IdpResponse response = IdpResponse.fromResultIntent(data);
 
         if (requestCode == UserProfileActivity.RC_SIGN_IN) {
+            // Activity with result was firebase sign in activity
+
             // User has just tried to log in
             if (resultCode == Activity.RESULT_OK) {
                 // User logged in successfully
@@ -104,8 +106,13 @@ public class FirebaseHandler {
                 // Save user (for getting some of it's data later on)
                 user.firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
-                // Get data from database
-                User.updateAchievementProgress = true;
+
+                // Create new user (refresh / delete all user data locally)
+                FirebaseHandler.createNewUser();
+
+                // Save that to DB
+                DatabaseHandler.updateDatabaseOnSeparateThread();
+
 
             } else {
                 // Sign in failed. If response is null the user canceled the
@@ -114,6 +121,8 @@ public class FirebaseHandler {
                 // ...
             }
         } else if (requestCode == UserProfileActivity.RC_GET_PICTURE) {
+            // Activity with result was choose profile photo from gallery
+
             // User has just chosen new profile photo from gallery
             if (resultCode == Activity.RESULT_OK) {
                 // Photo gotten successfully
@@ -159,6 +168,23 @@ public class FirebaseHandler {
         }
     }
 
+
+    // Erases all user specific data
+    public static void createNewUser() {
+        // Reset firebase user data (and achievements)
+        FirebaseHandler.user = new User();
+
+        // Reset all high scores
+        DatabaseData.quizModeOneHighscore = 0;
+        DatabaseData.quizModeTwoHighscore = 0;
+        DatabaseData.quizModeThreeHighscore = 0;
+
+        // Forget user photos
+        UserProfileActivity.googlePhoto = null;
+        UserProfileActivity.facebookPhoto = null;
+        UserProfileActivity.twitterPhoto = null;
+        UserProfileActivity.fromPhonePhoto = null;
+    }
 
     // Returns gallery image from given uri, properly sized and rotated (and cropped)
     private static Bitmap scaleImage(Context context, Uri photoUri) throws Exception {
@@ -454,7 +480,7 @@ public class FirebaseHandler {
 
 
 
-    // Read achievement progress data from could database
+    // Read achievement progress data from could database and saves it if it's better that current one
     public static void updateAchievementProgress() {
         Thread updateAchievementProgressThread = new Thread(new Runnable() {
             @Override
@@ -595,7 +621,7 @@ public class FirebaseHandler {
     }
 
 
-    // Read quiz high score data from could database
+    // Read quiz high score data from could database and saves it if it's better that current one
     public static void firestoreUpdateHighScore() {
         Thread updateHighScoreThread = new Thread(new Runnable() {
             @Override
@@ -620,15 +646,71 @@ public class FirebaseHandler {
                                         // Get all achievement' progress keys (column names)
                                         String[] highScoreKeys = MyApplication.getAppContext().getResources().getStringArray(R.array.high_score_database_keys);
 
-                                        // Loop through all that data and save it
-                                        for (String key : highScoreKeys) {
-                                            try {
-                                                // Get and save greater data
-                                                DatabaseData.quizModeOneHighscore = Math.max(DatabaseData.quizModeOneHighscore,
-                                                        Integer.parseInt(document.getData().get(key).toString()));
-                                            } catch (Exception e) {
-                                                e.printStackTrace();
+                                        // Does cloud database need to be updated after we get all data
+                                        boolean tempUpdateHighScoresInCloud = false;
+                                        // Does local database need to be updated after we get all data
+                                        boolean tempUpdateHighScoresLocally = false;
+
+                                        /*
+                                         * Read each high score and save it if it's greater than current one
+                                         * If the current one is greater, write it to cloud
+                                         */
+
+                                        int tempHighScoreCloudValue;
+                                        try {
+                                            // Get quiz mode one value
+                                            tempHighScoreCloudValue = Integer.parseInt(document.getData().get(highScoreKeys[0]).toString());
+
+                                            if(DatabaseData.quizModeOneHighscore > tempHighScoreCloudValue) {
+                                                tempUpdateHighScoresInCloud = true;
+                                            } else if(DatabaseData.quizModeOneHighscore < tempHighScoreCloudValue) {
+                                                tempUpdateHighScoresLocally = true;
                                             }
+                                            // Save greater value
+                                            DatabaseData.quizModeOneHighscore = Math.max(DatabaseData.quizModeOneHighscore, tempHighScoreCloudValue);
+                                        } catch (Exception e) {
+                                            e.printStackTrace();
+                                        }
+
+                                        try {
+                                            // Get quiz mode one value
+                                            tempHighScoreCloudValue = Integer.parseInt(document.getData().get(highScoreKeys[1]).toString());
+
+                                            if(DatabaseData.quizModeTwoHighscore > tempHighScoreCloudValue) {
+                                                tempUpdateHighScoresInCloud = true;
+                                            } else if(DatabaseData.quizModeTwoHighscore < tempHighScoreCloudValue) {
+                                                tempUpdateHighScoresLocally = true;
+                                            }
+                                            // Save greater value
+                                            DatabaseData.quizModeTwoHighscore = Math.max(DatabaseData.quizModeTwoHighscore, tempHighScoreCloudValue);
+                                        } catch (Exception e) {
+                                            e.printStackTrace();
+                                        }
+
+                                        try {
+                                            // Get quiz mode one value
+                                            tempHighScoreCloudValue = Integer.parseInt(document.getData().get(highScoreKeys[2]).toString());
+
+                                            if(DatabaseData.quizModeThreeHighscore > tempHighScoreCloudValue) {
+                                                tempUpdateHighScoresInCloud = true;
+                                            } else if(DatabaseData.quizModeThreeHighscore < tempHighScoreCloudValue) {
+                                                tempUpdateHighScoresLocally = true;
+                                            }
+                                            // Save greater value
+                                            DatabaseData.quizModeThreeHighscore = Math.max(DatabaseData.quizModeThreeHighscore, tempHighScoreCloudValue);
+                                        } catch (Exception e) {
+                                            e.printStackTrace();
+                                        }
+
+
+                                        if(tempUpdateHighScoresInCloud) {
+                                            // Update high scores in cloud database
+                                            updateHighScoreInCloud();
+                                        }
+
+                                        if(tempUpdateHighScoresLocally) {
+                                            // Update high scores in local database
+                                            DatabaseHandler.updateDatabaseOnSeparateThread();
                                         }
 
                                         // Try to show new data in UI

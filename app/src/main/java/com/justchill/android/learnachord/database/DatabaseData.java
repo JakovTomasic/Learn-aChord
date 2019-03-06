@@ -96,4 +96,22 @@ public class DatabaseData {
     static boolean isChordDurationTimeValid(double d) {
         return (d <= maxChordDurationTime && d >= minChordDurationTime);
     }
+
+
+    // TODO: implement this below
+
+
+    public static final int BOOLEAN_FALSE = 0;
+    public static final int BOOLEAN_TRUE = 1;
+
+    public static int logInHelpShowed = BOOLEAN_FALSE;
+    public static int mainActivityHelpShowed = BOOLEAN_FALSE;
+    public static int optionsActivityHelpShowed = BOOLEAN_FALSE;
+    public static int quizActivityHelpShowed = BOOLEAN_FALSE;
+    public static int userAccountActivityHelpShowed = BOOLEAN_FALSE;
+
+    public static boolean isBooleanDataSavedAsIntValid(int value) {
+        return (value == BOOLEAN_TRUE || value == BOOLEAN_FALSE);
+    }
+
 }

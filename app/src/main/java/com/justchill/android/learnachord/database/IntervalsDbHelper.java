@@ -14,7 +14,7 @@ public class IntervalsDbHelper extends SQLiteOpenHelper {
     /**
      * database version. If you change the database schema, you must increment the database version.
      */
-    private static final int DATABASE_VERSION = 5;
+    private static final int DATABASE_VERSION = 8;
     private static final String DATABASE_NAME = "settings.db";
 
     /**

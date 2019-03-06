@@ -69,4 +69,7 @@
     <color name="achievementColorYellow">#acac38</color>
     <color name="achievementColorRed">#ac3838</color>
 
+    <color name="achievementBorderColor">#38ac38</color>
+    <color name="achievementBackgroundColor">#397b39</color>
+
 </resources>

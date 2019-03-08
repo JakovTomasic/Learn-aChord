@@ -71,7 +71,7 @@ public class FirebaseHandler {
     private static final int MAX_IMAGE_DIMENSION = 1920;
 
     // Shows login screen to choose with witch platform to login
-    static void showLogInScreen(final Activity activity) {
+    public static void showLogInScreen(final Activity activity) {
         // Choose authentication providers
         List<AuthUI.IdpConfig> providers = Arrays.asList(
                 new AuthUI.IdpConfig.EmailBuilder().build(),
@@ -92,7 +92,7 @@ public class FirebaseHandler {
     }
 
     // After user logs in, save user data
-    static void handleOnActivityResult(Activity activity, int requestCode, int resultCode, Intent data) {
+    public static void handleOnActivityResult(Activity activity, int requestCode, int resultCode, Intent data) {
         IdpResponse response = IdpResponse.fromResultIntent(data);
 
         if (requestCode == UserProfileActivity.RC_SIGN_IN) {

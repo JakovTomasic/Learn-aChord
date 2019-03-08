@@ -233,6 +233,14 @@
 
 
 
+    <string name="log_in_help_dialog_text">
+        Želite li se prijaviti?\n
+        Bez prijave može doći do gubitka podataka.
+    </string>
+    <string name="ask_me_later">
+        Pitaj me kasnije
+    </string>
+
     <string name="main_activity_explanation_dialog_text">
         U glavnom načinu, intervali, akordi i tonovi koji su odabravni u opcijama biti će nasumično svirani i prikazani.\n
         Ovdje se može otvoriti kviz (gore lijevo), ovaj dijaloški okvir, Vaš profil i opcije (gore desno).

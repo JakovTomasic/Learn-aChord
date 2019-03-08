@@ -11,6 +11,7 @@ import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
 import android.media.AudioManager;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Display;
 import android.view.Gravity;
@@ -419,12 +420,23 @@ public class MainActivity extends AppCompatActivity {
                     // Wait one second
                     Thread.sleep(1000);
 
+                    // Check if internet connection is available (something like ping google.com)
+                    final boolean internetAvailable = MyApplication.isInternetAvailable();
+
                     MainActivity.this.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             try {
-                                // Show dialog
-                                if(DatabaseData.mainActivityHelpShowed == DatabaseData.BOOLEAN_FALSE) {
+                                // Show dialogs (if conditions are met)
+                                if(DatabaseData.logInHelpShowed == DatabaseData.BOOLEAN_FALSE &&
+                                        !DatabaseData.dontShowLogInHelp && internetAvailable) {
+                                    /*
+                                     * If log in help hasn't been showed yet and ask me later haven't
+                                     * been clicked and there is internet connection, ask user to log in
+                                     */
+                                    showLogInInitialDialog();
+                                } else if(DatabaseData.mainActivityHelpShowed == DatabaseData.BOOLEAN_FALSE) {
+                                    // If main activity help hasn't been showed yet, show it
                                     showMainActivityExplanationDialog();
                                 }
                             } catch (Exception e) {
@@ -478,6 +490,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        // Handles login after user logged in (from log in initial dialog; successfully or not)
+        FirebaseHandler.handleOnActivityResult(MainActivity.this, requestCode, resultCode, data);
+    }
+
+    @Override
     protected void onPause() {
         super.onPause();
 
@@ -512,6 +532,72 @@ public class MainActivity extends AppCompatActivity {
             DatabaseHandler.updateDatabaseOnSeparateThread();
         }
 
+    }
+
+    // Dialog asks user to log in. It automatically opens when user starts the app for the first time and later if user snoozes it
+    private void showLogInInitialDialog() {
+        // If user is already logged in, don't show this anymore
+        if(FirebaseHandler.user.firebaseUser != null) {
+            dontShowLogInInitialDialogAnymore();
+            return;
+        }
+
+        // Create an AlertDialog.Builder and set the message, and click listeners for the three buttons on the dialog.
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(R.string.log_in_help_dialog_text);
+        // Login button
+        builder.setPositiveButton(R.string.login, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                // Save data to not show this dialog anymore
+                dontShowLogInInitialDialogAnymore();
+
+                // Close the dialog
+                if (dialog != null) {
+                    dialog.dismiss();
+                }
+
+                // Open login activity
+                FirebaseHandler.showLogInScreen(MainActivity.this);
+            }
+        });
+        // Ask me later (snooze) button
+        builder.setNegativeButton(R.string.ask_me_later, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                // Don't show this dialog until app restarts
+                DatabaseData.dontShowLogInHelp = true;
+
+                // Close the dialog
+                if (dialog != null) {
+                    dialog.dismiss();
+                }
+            }
+        });
+        // Cancel button
+        builder.setNeutralButton(R.string.cancel, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                // Save data to not show this dialog anymore
+                dontShowLogInInitialDialogAnymore();
+
+                // Close the dialog
+                if (dialog != null) {
+                    dialog.dismiss();
+                }
+            }
+        });
+
+
+        // Create and show the AlertDialog
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+
+    }
+
+    public void dontShowLogInInitialDialogAnymore() {
+        // Save to the database (and as variable in app) that this dialog has been showed if this is the first time
+        if(DatabaseData.logInHelpShowed != DatabaseData.BOOLEAN_TRUE) {
+            DatabaseData.logInHelpShowed = DatabaseData.BOOLEAN_TRUE;
+            DatabaseHandler.updateDatabaseOnSeparateThread();
+        }
     }
 
 }

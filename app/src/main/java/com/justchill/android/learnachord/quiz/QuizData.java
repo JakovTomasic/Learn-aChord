@@ -4,6 +4,7 @@ import android.view.View;
 
 import com.justchill.android.learnachord.MyApplication;
 import com.justchill.android.learnachord.R;
+import com.justchill.android.learnachord.ServicePlayer;
 import com.justchill.android.learnachord.firebase.AchievementChecker;
 import com.justchill.android.learnachord.firebase.FirebaseHandler;
 import com.justchill.android.learnachord.intervalOrChord.Chord;
@@ -12,6 +13,7 @@ import com.justchill.android.learnachord.database.DatabaseData;
 import com.justchill.android.learnachord.database.DatabaseHandler;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 // Storing all data for quiz
 public class QuizData {
@@ -139,5 +141,24 @@ public class QuizData {
 
     }
 
+
+    // Get base key to play in a quiz(checking for key range and is key loaded)
+    public static int getRandomKey(Random rand) {
+        // There must be at least two octaves loaded, so this will always work
+        int lowKeyId = Math.max(ServicePlayer.lowestReadyKey, DatabaseData.downKeyBorder);
+        int highKeyId = Math.min(ServicePlayer.highestReadyKey, DatabaseData.upKeyBorder);
+
+        if(QuizData.quizIntervalToPlay != null) {
+            // Interval is playing (we need to know this to calculate with interval's range)
+            return rand.nextInt(highKeyId - lowKeyId - QuizData.quizIntervalToPlay.getDifference()) + lowKeyId;
+        }
+
+        if(QuizData.quizChordToPlay != null) {
+            // Chord is playing (we need to know this to calculate with chord's range)
+            return rand.nextInt(highKeyId - lowKeyId - QuizData.quizChordToPlay.getDifference()) + lowKeyId;
+        }
+
+        return rand.nextInt(highKeyId - lowKeyId) + lowKeyId;
+    }
 
 }

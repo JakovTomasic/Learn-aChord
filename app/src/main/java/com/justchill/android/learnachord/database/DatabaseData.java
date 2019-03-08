@@ -112,6 +112,9 @@ public class DatabaseData {
     public static int quizActivityHelpShowed = BOOLEAN_FALSE;
     public static int userProfileActivityHelpShowed = BOOLEAN_FALSE;
 
+    // Should log in help dialog be showed. For "ask me later" button to work (don't show after it was pressed)
+    public static boolean dontShowLogInHelp = false;
+
     // Check if data that is boolean saved as int valid (initial dialog box showed values)
     public static boolean isBooleanDataSavedAsIntValid(int value) {
         return (value == BOOLEAN_TRUE || value == BOOLEAN_FALSE);

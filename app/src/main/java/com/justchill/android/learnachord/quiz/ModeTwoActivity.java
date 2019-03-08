@@ -349,7 +349,8 @@ public class ModeTwoActivity extends AppCompatActivity {
 
     // Play next interval, chord or tone
     private void playNextThing(int numberOfRecursiveRuns) {
-        if(QuizData.waitingForQuizAnswer || numberOfRecursiveRuns > 5) {
+        if(QuizData.waitingForQuizAnswer || numberOfRecursiveRuns > 10) {
+            // If app is waiting for an answer (user input) or this has been tried too many times, don't play next thing
             return;
         }
 
@@ -457,8 +458,8 @@ public class ModeTwoActivity extends AppCompatActivity {
             QuizData.quizIntervalToPlay = null;
             QuizData.quizChordToPlay = null;
 
-            // Get random low key for playing (inside borders)
-            QuizData.quizLowestKey = getRandomKey();
+            // Get random low key for playing (inside borders and with loaded sound)
+            QuizData.quizLowestKey = QuizData.getRandomKey(rand);
 
             QuizData.quizModeTwoSelectedTones[QuizData.quizModeTwoCorrectAnswerID] = QuizData.quizLowestKey;
 
@@ -485,8 +486,8 @@ public class ModeTwoActivity extends AppCompatActivity {
 
 
         if(QuizData.quizIntervalToPlay != null || QuizData.quizChordToPlay != null) {
-            // Get random low key for playing (inside borders)
-            QuizData.quizLowestKey = getRandomKey();
+            // Get random low key for playing (inside borders and with loaded sound)
+            QuizData.quizLowestKey = QuizData.getRandomKey(rand);
         }
 
 
@@ -644,20 +645,6 @@ public class ModeTwoActivity extends AppCompatActivity {
                     QuizData.quizModeTwoChordNumberOneToShow[i], chordNumTwoTextView[i], QuizData.quizModeTwoChordNumberTwoToShow[i]);
 
         }
-    }
-
-    // TODO: random key uses key borders, it is not checking if key sound is loaded, check if key sound is loaded
-    // Get base key to play (checking for key range)
-    private int getRandomKey() {
-        if(QuizData.quizIntervalToPlay != null) {
-            return rand.nextInt(DatabaseData.upKeyBorder- DatabaseData.downKeyBorder- QuizData.quizIntervalToPlay.getDifference())+ DatabaseData.downKeyBorder;
-        }
-
-        if(QuizData.quizChordToPlay != null) {
-            return rand.nextInt(DatabaseData.upKeyBorder- DatabaseData.downKeyBorder- QuizData.quizChordToPlay.getDifference())+ DatabaseData.downKeyBorder;
-        }
-
-        return rand.nextInt(DatabaseData.upKeyBorder- DatabaseData.downKeyBorder)+ DatabaseData.downKeyBorder;
     }
 
     // Are two keys inside same octave

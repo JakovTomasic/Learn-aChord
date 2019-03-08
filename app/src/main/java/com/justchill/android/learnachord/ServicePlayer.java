@@ -34,6 +34,12 @@ public class ServicePlayer extends Service {
 
     // All sounds downloaded from http://theremin.music.uiowa.edu/MISpiano.html (ff sounds)
 
+
+    // Stores range of keys that have been loaded - for getting random key in the quiz
+    public static int lowestReadyKey = DataContract.UserPrefEntry.NUMBER_OF_KEYS;
+    public static int highestReadyKey = 1;
+
+
     // In this sound pool all tone sounds are loaded on app creation and kept saved here
     private static SoundPool soundPool;
     // List/array of sound IDs for all tones for playing them
@@ -202,6 +208,10 @@ public class ServicePlayer extends Service {
 
                 // Reset progress bar / just set it to max
                 updateProgressBarAnimation(null, null);
+
+
+                // Load all sounds below border (in descending order to keep lowestReadyKey valid)
+                loadSound(DatabaseData.downKeyBorder, 1, false);
 
                 // Load all sounds (that haven't been loaded)
                 loadSound(1, DataContract.UserPrefEntry.NUMBER_OF_KEYS, false);
@@ -886,8 +896,12 @@ public class ServicePlayer extends Service {
     private void loadSound(final int from, final int to, final boolean showProgress) {
         Class res = R.raw.class;
         long startTime;
-        for(int i = from; i <= to; i++) {
+
+        int adder = (from <= to) ? 1 : -1;
+
+        for(int i = from; i <= to; i += adder) {
             if(keySoundLoaded[i-1]) {
+                // If sound is loaded, continue loading other sounds
                 continue;
             }
             try {
@@ -914,7 +928,7 @@ public class ServicePlayer extends Service {
 
                 if(showProgress) {
                     // Instant set to percentage of sounds loaded
-                    updateProgressBarAnimation(null, (int)(((double)i/to) * ((float)max) )); // Update Progress Bar
+                    updateProgressBarAnimation(null, (int)(((double)i/Math.max(to, from)) * ((float)max) )); // Update Progress Bar
                 } else {
                     // If progress is not needed to show, process is running in background.
                     // Sleep for time that needed to load one sound, to ease off CPU
@@ -925,10 +939,14 @@ public class ServicePlayer extends Service {
                     }
                 }
                 keySoundLoaded[i-1] = true;
+
+                // Update range of loaded keys
+                lowestReadyKey = Math.min(lowestReadyKey, i);
+                highestReadyKey = Math.max(highestReadyKey, i);
             }
             catch (Exception e) { // This will loop until all keys are loaded or app is completely removed
                 Log.e("MyTag", "Failed to get raw id.", e);
-                i--;
+                i -= adder;
                 try {
                     Thread.sleep(1000);
                 } catch (InterruptedException e2) {

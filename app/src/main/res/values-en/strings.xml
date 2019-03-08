@@ -160,11 +160,11 @@
     <string name="quiz_mode_two_option_four_title">d)</string>
 
     <!--Quiz explanation dialog-->
-    <string name="quiz_explanation_dialog_text">Easy quiz mode plays one interval, chord or tone and shows another one.
+    <string name="quiz_explanation_dialog_text">Easy quiz mode plays one interval, chord or tone and displays another one.
         Then, you need to determine weather they are same. \n
-        Medium mode plays one interval, chord or tone and shows four of them. You need to choose the right one (the one that has been played). \n
+        Medium mode plays one interval, chord or tone and displays four of them. You need to choose the right one (the one that has been played). \n
         In hard mode, you need to select exactly what has been played. \n
-        Only intervals and chords that are selected in settings will be played or showed. If you selected tones you will be asked what tone is playing.
+        Only intervals and chords that are selected in settings will be played or displayed. If you selected tones you will be asked what tone is playing.
         If you selected just octave you will be asked in what octave that tone is.</string>
 
     <string name="quiz_reset_mode_one_highscore_message">Current high score for easy quiz will be deleted. Continue anyway?</string>
@@ -230,6 +230,14 @@
     <string name="login_successful_toast_message">Login successful</string>
 
 
+
+    <string name="log_in_help_dialog_text">
+        Do you want to log in?\n
+        Without logging in, losing your progress will be possible.
+    </string>
+    <string name="ask_me_later">
+        Ask me later
+    </string>
 
     <string name="main_activity_explanation_dialog_text">
         In the main mode, intervals, chords and tones that are selected in the options will be randomly played and displayed.\n

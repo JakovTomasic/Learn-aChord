@@ -17,7 +17,6 @@ import com.justchill.android.learnachord.LocaleHelper;
 import com.justchill.android.learnachord.MainActivity;
 import com.justchill.android.learnachord.MyApplication;
 import com.justchill.android.learnachord.R;
-import com.justchill.android.learnachord.firebase.FirebaseHandler;
 import com.justchill.android.learnachord.intervalOrChord.Chord;
 import com.justchill.android.learnachord.intervalOrChord.ChordsList;
 import com.justchill.android.learnachord.intervalOrChord.Interval;
@@ -93,6 +92,14 @@ public class SettingsActivity extends AppCompatActivity {
 
         MyApplication.activityResumed(SettingsActivity.this);
 
+        /*
+         * Show initial help dialog for this activity if it hasn't been showed yet
+         * (if this is the first time user opened this activity)
+         */
+        if(DatabaseData.settingsActivityHelpShowed == DatabaseData.BOOLEAN_FALSE) {
+            showSettingsActivityExplanationDialog();
+        }
+
     }
 
     @Override
@@ -160,6 +167,9 @@ public class SettingsActivity extends AppCompatActivity {
                 }
 
                 return true;
+            case R.id.action_more_info: // Open help dialog
+                showSettingsActivityExplanationDialog();
+                break;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -236,6 +246,34 @@ public class SettingsActivity extends AppCompatActivity {
         // Create and show the AlertDialog
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
+    }
+
+    // Dialog explains what settings (options) activity does. It automatically opens when user starts the app for the first time
+    private void showSettingsActivityExplanationDialog() {
+        // Create an AlertDialog.Builder and set the message, and click listener for the positive button on the dialog.
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(R.string.settings_activity_explanation_dialog_text);
+        builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                // When ok is clicked, close the dialog
+                if (dialog != null) {
+                    dialog.dismiss();
+                }
+            }
+        });
+
+
+        // Create and show the AlertDialog
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+
+
+        // Save to the database (and as variable in app) that this dialog has been showed if this is the first time
+        if(DatabaseData.settingsActivityHelpShowed != DatabaseData.BOOLEAN_TRUE) {
+            DatabaseData.settingsActivityHelpShowed = DatabaseData.BOOLEAN_TRUE;
+            DatabaseHandler.updateDatabaseOnSeparateThread();
+        }
+
     }
 
 }

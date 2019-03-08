@@ -121,6 +121,12 @@
 
         <item>"image_to_show_in_profile_id"</item>
         <item>"custom_user_profile_photo_from_gallery_path"</item>
+
+        <item>"log_in_help_dialog_showed"</item>
+        <item>"main_activity_help_dialog_showed"</item>
+        <item>"settings_activity_help_dialog_showed"</item>
+        <item>"quiz_activity_help_dialog_showed"</item>
+        <item>"user_profile_activity_help_dialog_showed"</item>
     </string-array>
 
     <string-array name="key_symbols">

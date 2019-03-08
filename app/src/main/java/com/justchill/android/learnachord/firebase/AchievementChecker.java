@@ -1,9 +1,14 @@
 package com.justchill.android.learnachord.firebase;
 
+import android.app.Activity;
 import android.util.Log;
+import android.view.View;
 
+import com.justchill.android.learnachord.MyApplication;
+import com.justchill.android.learnachord.R;
 import com.justchill.android.learnachord.intervalOrChord.ChordsList;
 import com.justchill.android.learnachord.intervalOrChord.IntervalsList;
+
 
 // Checks and saves achievements if accomplished
 public class AchievementChecker {
@@ -20,7 +25,12 @@ public class AchievementChecker {
     // Set values to all accomplished achievements
     public static void checkAchievements(int quizScore) {
         for(int achievementId = 0; achievementId < User.numberOfAchievements; achievementId++) {
-            if(isAchievementAccomplished(achievementId)) {
+            if(isAchievementAccomplished(achievementId) && quizScore > FirebaseHandler.user.achievementProgress.get(achievementId)) {
+                // Set score if all conditions are positive and if current score is greater that previous one
+                if(quizScore % 5 == 0) {
+                    // If new score is dividable by 5, show popup notification
+                    showPopup(MyApplication.getActivity());
+                }
                 FirebaseHandler.user.setAchievementProgress(achievementId, quizScore);
             }
         }
@@ -99,6 +109,72 @@ public class AchievementChecker {
     // Returns true if all chords are checked and can be played (are inside borders)
     private static boolean allChordsChecked() {
         return ChordsList.getCheckedChordsCountIncludingRange() >= ChordsList.getChordsCount();
+    }
+
+
+    // TODO: implement this
+    // Shows popup (notification, just information) when new achievement milestone is reached.
+    private static void showPopup(final Activity activity) {
+        if(activity == null) {
+            // If there is no activity, UI cannot be changed
+            return;
+        }
+
+        Thread showPopupThread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+//                try {
+//                    activity.runOnUiThread(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            try {
+//                                View popup = activity.findViewById(R.id.popup_included_layout);
+//                                TextView scoreTV = popup.findViewById(R.id.achievement_score_text_view);
+//
+//                                scoreTV.setText(String.valueOf(score));
+//                            } catch (Exception e) {
+//                                e.printStackTrace();
+//                            }
+//                        }
+//                    });
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+
+                // Show notification
+                setPopupVisibility(activity, View.VISIBLE);
+
+                // Wait for 3 sec
+                try {
+                    Thread.sleep(3000);
+                } catch (Exception ignored) {}
+
+                // Hide notification
+                setPopupVisibility(activity, View.GONE);
+
+            }
+        });
+        showPopupThread.start();
+    }
+
+    // Sets visibility of the achievement milestone popup (/notification)
+    private static void setPopupVisibility(final Activity activity, final int visibility) {
+        try {
+            activity.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+//                        View popup = activity.findViewById(R.id.popup_parent_layout);
+                        View popup = activity.findViewById(R.id.achievement_icon_image_view);
+                        popup.setVisibility(visibility);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 

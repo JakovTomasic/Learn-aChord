@@ -140,7 +140,7 @@
     <string name="move_down">Pomakni dolje</string>
 
     <!--Quiz-->
-    <string name="quiz_menu_details">Pomoć</string>
+    <string name="menu_help_more_details">Pomoć</string>
     <string name="quiz_menu_reset_mode_one">Resetiraj rekord laganog kviza</string>
     <string name="quiz_menu_reset_mode_two">Resetiraj rekord srednje teškog kviza</string>
     <string name="quiz_menu_reset_mode_three">Resetiraj rekord teškog kviza</string>
@@ -160,12 +160,14 @@
     <string name="quiz_mode_two_option_four_title">d)</string>
 
     <!--Quiz explanation dialog-->
-    <string name="quiz_explanation_dialog_text">\tU laganome načinu bit će odsviran i prikazan jedan interval, akord ili ton.
-        Trebat ćete odabrati je li ono što je odsvirano i prikazano, ili je prikazan neki drugi interval, akord ili ton. \n\t
-        Srednje težak način ponudit će četiri intervala, akorda ili tona. Vi trebate odabrati onaj koji je odsviran. \n\t
-        U teškom načinu morat ćete točno odabrati ono što je odsvirano. \n\t
-        Samo oni intervali i akordi koji su odabrani u postavkama će se svirati i prikazivati. Ako ste odabrali tonove, trebat ćete znati točno koji
-        je ton odsviran. Ako ste odabrali samo oktave, trebat ćete znati u kojoj se oktavi ton nalazi.</string>
+    <string name="quiz_explanation_dialog_text">U laganome načinu bit će odsviran i prikazan jedan interval, akord ili ton.
+        Potrebno je odabrati je li ono što je odsvirano i prikazano, ili je prikazan neki drugi interval, akord ili ton. \n
+        Srednje težak način ponudit će četiri intervala, akorda ili tona. Potrebno je odabrati onaj koji je odsviran. \n
+        U teškom načinu potrebno je točno odabrati ono što je odsvirano. \n
+        Samo oni intervali i akordi koji su odabrani u postavkama će se svirati i prikazivati.
+        Ako su odabrani tonovi, bit će potrebno znati točno koji je ton odsviran.
+        Ako su odabrane samo oktave, bit će potrebno znati u kojoj se oktavi ton nalazi.
+    </string>
 
     <string name="quiz_reset_mode_one_highscore_message">Trenutni rekord za lagani kviz bit će izbrisan. Želite li nastaviti?</string>
     <string name="quiz_reset_mode_two_highscore_message">Trenutni rekord za srednje težak kviz bit će izbrisan. Želite li nastaviti?</string>
@@ -198,28 +200,28 @@
     <string name="login">Prijava</string>
     <string name="logout">Logout</string>
 
-    <string name="achievement_progress_label">Vaš napredak:</string>
+    <string name="achievement_progress_label">Napredak:</string>
 
     <!--TODO: write this better (maybe?)-->
-    <string name="achievement_description_under_octave_easy">Igraj lagani kviz sa odabranim svim intervalima unutar oktave</string>
-    <string name="achievement_description_under_octave_medium">Igraj srednje teški kviz sa odabranim svim intervalima unutar oktave</string>
-    <string name="achievement_description_under_octave_hard">Igraj teški kviz sa odabranim svim intervalima unutar oktave</string>
+    <string name="achievement_description_under_octave_easy">Lagani kviz - svi intervali unutar oktave</string>
+    <string name="achievement_description_under_octave_medium">Srednje teški kviz - svi intervali unutar oktave</string>
+    <string name="achievement_description_under_octave_hard">Teški kviz - svi intervali unutar oktave</string>
 
-    <string name="achievement_description_all_intervals_easy">Igraj lagani kviz sa odabranim svim intervalima</string>
-    <string name="achievement_description_all_intervals_medium">Igraj srednje teški kviz sa odabranim svim intervalima</string>
-    <string name="achievement_description_all_intervals_hard">Igraj teški kviz sa odabranim svim intervalima</string>
+    <string name="achievement_description_all_intervals_easy">Lagani kviz - svi intervali</string>
+    <string name="achievement_description_all_intervals_medium">Srednje teški kviz - svi intervali</string>
+    <string name="achievement_description_all_intervals_hard">Teški kviz - svi intervali</string>
 
-    <string name="achievement_description_triads_easy">Igraj lagani kviz sa odabranim svim trozvucima</string>
-    <string name="achievement_description_triads_medium">Igraj srednje teški kviz sa odabranim svim trozvucima</string>
-    <string name="achievement_description_triads_hard">Igraj teški kviz sa odabranim svim trozvucima</string>
+    <string name="achievement_description_triads_easy">Lagani kviz - svi trozvuci</string>
+    <string name="achievement_description_triads_medium">Srednje teški kviz - svi trozvuci</string>
+    <string name="achievement_description_triads_hard">Teški kviz - svi trozvuci</string>
 
-    <string name="achievement_description_all_chords_easy">Igraj lagani kviz sa odabranim svim akordima</string>
-    <string name="achievement_description_all_chords_medium">Igraj srednje teški kviz sa odabranim svim akordima</string>
-    <string name="achievement_description_all_chords_hard">Igraj teški kviz sa odabranim svim akordima</string>
+    <string name="achievement_description_all_chords_easy">Lagani kviz - svi akordi</string>
+    <string name="achievement_description_all_chords_medium">Srednje teški kviz - svi akordi</string>
+    <string name="achievement_description_all_chords_hard">Teški kviz - svi akordi</string>
 
-    <string name="achievement_description_all_intervals_and_chords_easy">Igraj lagani kviz sa odabranim svim intervalima i akordima</string>
-    <string name="achievement_description_all_intervals_and_chords_medium">Igraj srednje teški kviz sa odabranim svim intervalima i akordima</string>
-    <string name="achievement_description_all_intervals_and_chords_hard">Igraj teški kviz sa odabranim svim intervalima i akordima</string>
+    <string name="achievement_description_all_intervals_and_chords_easy">Lagani kviz - svi intervali i akordi</string>
+    <string name="achievement_description_all_intervals_and_chords_medium">Srednje teški kviz - svi intervali i akordi</string>
+    <string name="achievement_description_all_intervals_and_chords_hard">Teški kviz - svi intervali i akordi</string>
 
 
 
@@ -228,5 +230,31 @@
     <string name="change_profile_photo_label_text">Odaberite profilnu sliku:</string>
 
     <string name="login_successful_toast_message">Prijava uspješna</string>
+
+
+
+    <string name="main_activity_explanation_dialog_text">
+        U glavnom načinu, intervali, akordi i tonovi koji su odabravni u opcijama biti će nasumično svirani i prikazani.\n
+        Ovdje se može otvoriti kviz (gore lijevo), ovaj dijaloški okvir, Vaš profil i opcije (gore desno).
+    </string>
+    <string name="settings_activity_explanation_dialog_text">
+        U opcijama, moguće je odabrati što će se i kako svirati.\n
+        INTERVALI i AKORDI - mogu se odabrati koji će se intervali i akordi svirati\n
+        TONOVI - može se odabrati točnost slušnog prepoznavanja tonova koja će se tražiti u kvizu\n
+        POSTAVKE - može se odabrati način sviranja, način prikaza i druge postavke
+    </string>
+    <string name="quiz_activity_explanation_dialog_text">
+        U kvizu, jedan interval, akord ili ton će biti odsviran.
+        Bit će potrebno odabrati točan odgovor ovisno o tome što je odsvirano.\n
+        Rezultat je broj uzastopnih točnih odgovora.\n
+        Otvaranjem dijaloškog okvira za pomoć (gore desno) može se vidjeti više informacija.
+    </string>
+    <string name="user_profile_activity_explanation_dialog_text">
+        Ovdje se može prijaviti kako bi se sva postignuća automatski spremala na internet.
+        Bez prijave može doći do gubitka podataka.\n
+        Nakon prijave moguće je promjeniti i profilnu sliku.
+        Ukoliko je odabrana zadana slika ili slika sa uređaja, mobilni podaci bit će očuvani.\n
+        Ovdje se može vidjeti i ukupan napredak.
+    </string>
 
 </resources>

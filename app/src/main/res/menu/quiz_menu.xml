@@ -6,9 +6,9 @@
     tools:context=".quiz.ChooseQuizModeActivity">
 
     <item
-        android:id="@+id/action_details"
-        android:title="@string/quiz_menu_details"
-        android:icon="@drawable/ic_help_more_details"
+        android:id="@+id/action_more_info"
+        android:title="@string/menu_help_more_details"
+        android:icon="@drawable/ic_info_light"
         app:showAsAction="ifRoom"/>
 
     <item

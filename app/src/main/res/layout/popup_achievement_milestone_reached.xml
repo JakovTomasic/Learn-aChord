@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="horizontal"
+    android:id="@+id/popup"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:clickable="true"
+    android:focusable="true"
+    android:background="@drawable/background_achievement_popup"
+    android:paddingTop="2dp"
+    android:paddingBottom="2dp"
+    android:paddingLeft="8dp"
+    android:paddingRight="8dp">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/achievement_icon_image_view"
+        android:layout_width="@dimen/settings_play_button_size"
+        android:layout_height="40dp"
+        android:src="@drawable/ach_one_test"
+        app:civ_border_color="@color/achievementBorderColor"
+        app:civ_border_width="4dp"
+        app:civ_circle_background_color="@color/achievementBackgroundColor"
+        android:elevation="2dp"
+        android:layout_margin="4dp"
+        tools:targetApi="lollipop" />
+
+    <!--TODO: remove this whole file-->
+
+    <TextView
+        android:id="@+id/achievement_score_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="16dp"
+        android:gravity="center_vertical"
+        android:textAllCaps="false"
+        android:textColor="@color/darkTextColor"
+        android:textSize="16sp"
+        tools:text="25" />
+
+</LinearLayout>

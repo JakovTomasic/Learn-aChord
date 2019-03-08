@@ -409,6 +409,51 @@ public class DataProvider extends ContentProvider {
 
         // At index 21 - gallery path to profile photo - don't need to be checked
 
+        // Has login help dialog been displayed
+        temp = values.getAsInteger(preferenceKeys[22]);
+        if(temp == null) {
+            throw new IllegalArgumentException("Data cannot be null");
+        }
+        if(!DatabaseData.isBooleanDataSavedAsIntValid(temp)) {
+            throw new IllegalArgumentException("Given data not valid for DatabaseData BOOLEAN data saved as int: " + temp);
+        }
+
+        // Has main activity help dialog been displayed
+        temp = values.getAsInteger(preferenceKeys[23]);
+        if(temp == null) {
+            throw new IllegalArgumentException("Data cannot be null");
+        }
+        if(!DatabaseData.isBooleanDataSavedAsIntValid(temp)) {
+            throw new IllegalArgumentException("Given data not valid for DatabaseData BOOLEAN data saved as int: " + temp);
+        }
+
+        // Has settings activity help dialog been displayed
+        temp = values.getAsInteger(preferenceKeys[24]);
+        if(temp == null) {
+            throw new IllegalArgumentException("Data cannot be null");
+        }
+        if(!DatabaseData.isBooleanDataSavedAsIntValid(temp)) {
+            throw new IllegalArgumentException("Given data not valid for DatabaseData BOOLEAN data saved as int: " + temp);
+        }
+
+        // Has quiz activity help dialog been displayed
+        temp = values.getAsInteger(preferenceKeys[25]);
+        if(temp == null) {
+            throw new IllegalArgumentException("Data cannot be null");
+        }
+        if(!DatabaseData.isBooleanDataSavedAsIntValid(temp)) {
+            throw new IllegalArgumentException("Given data not valid for DatabaseData BOOLEAN data saved as int: " + temp);
+        }
+
+        // Has user profile activity help dialog been displayed
+        temp = values.getAsInteger(preferenceKeys[26]);
+        if(temp == null) {
+            throw new IllegalArgumentException("Data cannot be null");
+        }
+        if(!DatabaseData.isBooleanDataSavedAsIntValid(temp)) {
+            throw new IllegalArgumentException("Given data not valid for DatabaseData BOOLEAN data saved as int: " + temp);
+        }
+
 
 
         // Get all achievement' progress keys (column names)
@@ -435,14 +480,6 @@ public class DataProvider extends ContentProvider {
 
         // Perform the update on the database and get the number of rows affected
         int rowsUpdated = database.update(DataContract.UserPrefEntry.TABLE_NAME, values, selection, selectionArgs);
-
-        // TODO: this is not maybe needed (as all data is already present)
-        if(rowsUpdated > 0) {
-            // If anything is changed update/refresh all intervals', chords' and options' data
-            DatabaseHandler.setDoIntervalsNeedUpdate(true);
-            DatabaseHandler.setDoChordsNeedUpdate(true);
-            DatabaseHandler.setDoSettingsNeedUpdate(true);
-        }
 
         // Return the number of rows updated
         return rowsUpdated;
@@ -508,6 +545,11 @@ public class DataProvider extends ContentProvider {
                 values.put(preferenceKeys[19], DatabaseData.quizModeThreeHighscore);
                 values.put(preferenceKeys[20], FirebaseHandler.imageToSet);
                 // Empty row, path to profile photo from gallery is null by default
+                values.put(preferenceKeys[22], DatabaseData.logInHelpShowed);
+                values.put(preferenceKeys[23], DatabaseData.mainActivityHelpShowed);
+                values.put(preferenceKeys[24], DatabaseData.settingsActivityHelpShowed);
+                values.put(preferenceKeys[25], DatabaseData.quizActivityHelpShowed);
+                values.put(preferenceKeys[26], DatabaseData.userProfileActivityHelpShowed);
 
                 String[] achievementProgressKeys = MyApplication.getAppContext().getResources().getStringArray(R.array.achievement_progress_keys);
                 for (int i = 0; i < achievementProgressKeys.length; i++) {

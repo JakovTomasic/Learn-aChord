@@ -36,7 +36,7 @@
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/achievement_icon_image_view"
-            android:layout_width="@dimen/settings_play_button_size"
+            android:layout_width="?android:attr/listPreferredItemHeight"
             android:layout_height="match_parent"
             android:src="@drawable/ach_one_test"
             app:civ_border_color="@color/achievementBorderColor"

@@ -40,4 +40,10 @@
 
     <dimen name="user_profile_progress_label_height">30dp</dimen>
 
+
+    <dimen name="popup_margin_top">20dp</dimen>
+    <dimen name="popup_height">?android:attr/listPreferredItemHeight</dimen>
+    <dimen name="popup_elevation">4dp</dimen>
+    <dimen name="popup_margin">4dp</dimen>
+
 </resources>

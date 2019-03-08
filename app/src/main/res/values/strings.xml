@@ -140,7 +140,7 @@
     <string name="move_down">Move down</string>
     
     <!--Quiz-->
-    <string name="quiz_menu_details">Help</string>
+    <string name="menu_help_more_details">Help</string>
     <string name="quiz_menu_reset_mode_one">Reset easy high score</string>
     <string name="quiz_menu_reset_mode_two">Reset medium high score</string>
     <string name="quiz_menu_reset_mode_three">Reset hard high score</string>
@@ -161,11 +161,12 @@
     <string name="quiz_mode_two_option_three_title">c)</string>
     <string name="quiz_mode_two_option_four_title">d)</string>
 
+    <!--TODO: remove tabs-->
     <!--Quiz explanation dialog-->
-    <string name="quiz_explanation_dialog_text">\tEasy quiz mode plays one interval, chord or tone and shows another one.
-        Then, you need to determine weather they are same. \n\t
-        Medium mode plays one interval, chord or tone and shows four of them. You need to choose the right one (the one that has been played). \n\t
-        In hard mode, you need to select exactly what has been played. \n\t
+    <string name="quiz_explanation_dialog_text">Easy quiz mode plays one interval, chord or tone and shows another one.
+        Then, you need to determine weather they are same. \n
+        Medium mode plays one interval, chord or tone and shows four of them. You need to choose the right one (the one that has been played). \n
+        In hard mode, you need to select exactly what has been played. \n
         Only intervals and chords that are selected in settings will be played or showed. If you selected tones you will be asked what tone is playing.
         If you selected just octave you will be asked in what octave that tone is.</string>
 
@@ -207,25 +208,25 @@
     <string name="firestore_high_score_document_name" translatable="false">HighScore</string>
 
 
-    <string name="achievement_description_under_octave_easy">Play easy quiz with all intervals inside one octave selected</string>
-    <string name="achievement_description_under_octave_medium">Play medium quiz with all intervals inside one octave selected</string>
-    <string name="achievement_description_under_octave_hard">Play hard quiz with all intervals inside one octave selected</string>
+    <string name="achievement_description_under_octave_easy">Easy quiz - all intervals inside one octave</string>
+    <string name="achievement_description_under_octave_medium">Medium quiz - all intervals inside one octave</string>
+    <string name="achievement_description_under_octave_hard">Hard quiz - all intervals inside one octave</string>
 
-    <string name="achievement_description_all_intervals_easy">Play easy quiz with all intervals selected</string>
-    <string name="achievement_description_all_intervals_medium">Play medium quiz with all intervals selected</string>
-    <string name="achievement_description_all_intervals_hard">Play hard quiz with all intervals selected</string>
+    <string name="achievement_description_all_intervals_easy">Easy quiz - all intervals</string>
+    <string name="achievement_description_all_intervals_medium">Medium quiz - all intervals</string>
+    <string name="achievement_description_all_intervals_hard">Hard quiz - all intervals</string>
 
-    <string name="achievement_description_triads_easy">Play easy quiz with all triads and their inversions selected</string>
-    <string name="achievement_description_triads_medium">Play medium quiz with all triads and their inversions selected</string>
-    <string name="achievement_description_triads_hard">Play hard quiz with all triads and their inversions selected</string>
+    <string name="achievement_description_triads_easy">Easy quiz - all triads and their inversions</string>
+    <string name="achievement_description_triads_medium">Medium quiz - all triads and their inversions</string>
+    <string name="achievement_description_triads_hard">Hard quiz - all triads and their inversions</string>
 
-    <string name="achievement_description_all_chords_easy">Play easy quiz with all chords selected</string>
-    <string name="achievement_description_all_chords_medium">Play medium quiz with all chords selected</string>
-    <string name="achievement_description_all_chords_hard">Play hard quiz with all chords selected</string>
+    <string name="achievement_description_all_chords_easy">Easy quiz - all chords</string>
+    <string name="achievement_description_all_chords_medium">Medium quiz - all chords</string>
+    <string name="achievement_description_all_chords_hard">Hard quiz - all chords</string>
 
-    <string name="achievement_description_all_intervals_and_chords_easy">Play easy quiz with all intervals and chords selected</string>
-    <string name="achievement_description_all_intervals_and_chords_medium">Play medium quiz with all intervals and chords selected</string>
-    <string name="achievement_description_all_intervals_and_chords_hard">Play hard quiz with all intervals and chords selected</string>
+    <string name="achievement_description_all_intervals_and_chords_easy">Easy quiz - all intervals and chords</string>
+    <string name="achievement_description_all_intervals_and_chords_medium">Medium quiz - all intervals and chords</string>
+    <string name="achievement_description_all_intervals_and_chords_hard">Hard quiz - all intervals and chords</string>
 
 
 
@@ -244,5 +245,30 @@
     <!--Twitter-->
     <string name="twitter_consumer_key" translatable="false">6lLTaNug7Ya8ODFylc1AKsoey</string>
     <string name="twitter_consumer_secret" translatable="false">whsXI9Jizyb8IVmWpwvarSDUULi1fR8kGiCtqZ2wFrhj540MgQ</string>
+
+
+
+    <string name="main_activity_explanation_dialog_text">
+        In the main mode, intervals, chords and tones that are selected in the options will be randomly played and displayed.\n
+        From here you can open quiz (top left corner), this dialog, your profile and options (top right corner).
+    </string>
+    <string name="settings_activity_explanation_dialog_text">
+        In the options, you can choose what and how will be played.\n
+        INTERVALS and CHORDS - select witch intervals and chords will be played\n
+        TONE - select level of tone recognition in the quiz\n
+        OPTIONS - change the way those intervals, chords and tones are played, displayed and more
+    </string>
+    <string name="quiz_activity_explanation_dialog_text">
+        In the quiz, one interval, chord or tone will be played and you will
+        need to choose the correct answer depending on what has been played.\n
+        A score is number of correct answers in a row.\n
+        For more information, open help dialog in top right corner.
+    </string>
+    <string name="user_profile_activity_explanation_dialog_text">
+        Here you can log in to automatically save all your progress to the cloud. Without logging in, losing your progress is possible.\n
+        After you login you can change your profile picture. Choose the default picture or picture from the device to save network data.\n
+        You can also see your overall progress.
+    </string>
+
 
 </resources>

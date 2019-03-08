@@ -1,7 +1,9 @@
 package com.justchill.android.learnachord.firebase;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -25,6 +27,7 @@ import com.google.firebase.auth.UserInfo;
 import com.justchill.android.learnachord.LocaleHelper;
 import com.justchill.android.learnachord.MyApplication;
 import com.justchill.android.learnachord.R;
+import com.justchill.android.learnachord.database.DatabaseData;
 import com.justchill.android.learnachord.database.DatabaseHandler;
 
 // Activity for user account and achievements
@@ -112,7 +115,6 @@ public class UserProfileActivity extends AppCompatActivity {
                                     if(FirebaseHandler.user.firebaseUser == null && tempIsInternetAvailable) {
                                         // If user is not logged in, log him in
                                         FirebaseHandler.showLogInScreen(UserProfileActivity.this);
-                                        // TODO: don't exit from activity when sign in is cancelled
                                     } else {
                                         // User is logged in or there is not valid internet connection
                                         if(chooseProfileParentRelativeLayout.getHeight() > 0) {
@@ -410,6 +412,15 @@ public class UserProfileActivity extends AppCompatActivity {
         super.onResume();
 
         MyApplication.activityResumed(UserProfileActivity.this);
+
+
+        /*
+         * Show initial help dialog for this activity if it hasn't been showed yet
+         * (if this is the first time user opened this activity)
+         */
+        if(DatabaseData.userProfileActivityHelpShowed == DatabaseData.BOOLEAN_FALSE) {
+            showUserProfileActivityExplanationDialog();
+        }
     }
 
     @Override
@@ -458,6 +469,9 @@ public class UserProfileActivity extends AppCompatActivity {
 
                 // Exit activity (to refresh everything and for UX reasons)
                 UserProfileActivity.this.finish();
+                break;
+            case R.id.action_more_info: // Open help dialog
+                showUserProfileActivityExplanationDialog();
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -561,6 +575,34 @@ public class UserProfileActivity extends AppCompatActivity {
             }
         });
         chooseProfileSetupThread.start();
+    }
+
+
+    // Dialog explains what user profile activity does. It automatically opens when user starts the app for the first time
+    private void showUserProfileActivityExplanationDialog() {
+        // Create an AlertDialog.Builder and set the message, and click listener for the positive button on the dialog.
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(R.string.user_profile_activity_explanation_dialog_text);
+        builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                // When ok is clicked, close the dialog
+                if (dialog != null) {
+                    dialog.dismiss();
+                }
+            }
+        });
+
+
+        // Create and show the AlertDialog
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+
+
+        // Save to the database (and as variable in app) that this dialog has been showed if this is the first time
+        if(DatabaseData.userProfileActivityHelpShowed != DatabaseData.BOOLEAN_TRUE) {
+            DatabaseData.userProfileActivityHelpShowed = DatabaseData.BOOLEAN_TRUE;
+            DatabaseHandler.updateDatabaseOnSeparateThread();
+        }
     }
 
 }

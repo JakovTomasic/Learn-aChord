@@ -270,6 +270,11 @@ public class DatabaseHandler {
             } catch (NullPointerException e) {
                 FirebaseHandler.photoFromPhonePath = null;
             }
+            DatabaseData.logInHelpShowed = cursor.getInt(cursor.getColumnIndex(preferenceKeys[22]));
+            DatabaseData.mainActivityHelpShowed = cursor.getInt(cursor.getColumnIndex(preferenceKeys[23]));
+            DatabaseData.settingsActivityHelpShowed = cursor.getInt(cursor.getColumnIndex(preferenceKeys[24]));
+            DatabaseData.quizActivityHelpShowed = cursor.getInt(cursor.getColumnIndex(preferenceKeys[25]));
+            DatabaseData.userProfileActivityHelpShowed = cursor.getInt(cursor.getColumnIndex(preferenceKeys[26]));
 
 
         } finally {
@@ -390,6 +395,11 @@ public class DatabaseHandler {
         for (int i = 0; i < achievementProgressKeys.length; i++) {
             values.put(achievementProgressKeys[i], FirebaseHandler.user.achievementProgress.get(i));
         }
+        values.put(preferenceKeys[22], DatabaseData.logInHelpShowed);
+        values.put(preferenceKeys[23], DatabaseData.mainActivityHelpShowed);
+        values.put(preferenceKeys[24], DatabaseData.settingsActivityHelpShowed);
+        values.put(preferenceKeys[25], DatabaseData.quizActivityHelpShowed);
+        values.put(preferenceKeys[26], DatabaseData.userProfileActivityHelpShowed);
 
         // Update the database with ContentValues data, returns how many rows were affected
         int newRowUri = MyApplication.getAppContext().getContentResolver().update(DataContract.UserPrefEntry.CONTENT_URI_FIRST_ROW,

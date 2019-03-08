@@ -111,6 +111,12 @@ public class ModeOneActivity extends AppCompatActivity {
         scoreTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(MyApplication.smallerDisplayDimensionPX / 16) * DatabaseData.scaledDensity);
         scoreTextView.setText(String.valueOf(QuizData.quizScore));
 
+        // TODO: implement or remove this
+        // Setup achievement milestone popup size
+        View test = findViewById(R.id.achievement_icon_image_view);
+        test.getLayoutParams().height = MyApplication.smallerDisplayDimensionPX / 8;
+        test.getLayoutParams().width = MyApplication.smallerDisplayDimensionPX / 8;
+
         // Setup progress bar size
         ViewGroup.LayoutParams progressBarSizeRules = timeLeftToPlayProgressBar.getLayoutParams();
         progressBarSizeRules.width = MyApplication.smallerDisplayDimensionPX / 8;

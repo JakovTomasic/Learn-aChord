@@ -237,4 +237,23 @@
     </LinearLayout>
 
 
+    <RelativeLayout
+        android:id="@+id/popup_parent_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/ring_playing_progress_bar"
+        android:layout_marginTop="@dimen/popup_margin_top"
+        android:visibility="gone">
+
+        <include
+            layout="@layout/popup_achievement_milestone_reached"
+            android:id="@+id/popup_included_layout"
+            android:visibility="visible"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/popup_height"
+            android:layout_margin="@dimen/popup_margin"/>
+
+    </RelativeLayout>
+
+
 </RelativeLayout>

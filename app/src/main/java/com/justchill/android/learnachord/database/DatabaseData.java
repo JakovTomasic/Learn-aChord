@@ -98,18 +98,21 @@ public class DatabaseData {
     }
 
 
-    // TODO: implement this below
 
 
+    // Constants for saving is has initial help dialog box been displayed
     public static final int BOOLEAN_FALSE = 0;
     public static final int BOOLEAN_TRUE = 1;
 
+    // Has login initial dialog box been showed (only first time when there is internet connection)
     public static int logInHelpShowed = BOOLEAN_FALSE;
+    // Has each activity initial dialog box been showed (only first time)
     public static int mainActivityHelpShowed = BOOLEAN_FALSE;
-    public static int optionsActivityHelpShowed = BOOLEAN_FALSE;
+    public static int settingsActivityHelpShowed = BOOLEAN_FALSE;
     public static int quizActivityHelpShowed = BOOLEAN_FALSE;
-    public static int userAccountActivityHelpShowed = BOOLEAN_FALSE;
+    public static int userProfileActivityHelpShowed = BOOLEAN_FALSE;
 
+    // Check if data that is boolean saved as int valid (initial dialog box showed values)
     public static boolean isBooleanDataSavedAsIntValid(int value) {
         return (value == BOOLEAN_TRUE || value == BOOLEAN_FALSE);
     }

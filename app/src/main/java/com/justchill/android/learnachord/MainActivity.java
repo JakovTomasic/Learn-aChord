@@ -1,25 +1,35 @@
 package com.justchill.android.learnachord;
 
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Point;
+import android.graphics.drawable.BitmapDrawable;
 import android.media.AudioManager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Display;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.justchill.android.learnachord.database.DatabaseData;
 import com.justchill.android.learnachord.database.DatabaseHandler;
 import com.justchill.android.learnachord.firebase.AchievementChecker;
 import com.justchill.android.learnachord.firebase.FirebaseHandler;
@@ -395,6 +405,39 @@ public class MainActivity extends AppCompatActivity {
 
         // Set that none of the quiz modes has been played recently (so the user can't get a quiz achievement anymore)
         AchievementChecker.lastPlayedQuizMode = AchievementChecker.NULL_QUIZ_ID;
+
+        /*
+         * Show initial help dialog for this activity if it hasn't been showed yet
+         * (if this is the first time user opened this activity)
+         * Show it only after one second for UX reasons and for app to read DB fist
+         * (and get info if this dialog has been displayed before)
+         */
+        Thread showMainActivityExplanationDialogDelayThread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    // Wait one second
+                    Thread.sleep(1000);
+
+                    MainActivity.this.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                // Show dialog
+                                if(DatabaseData.mainActivityHelpShowed == DatabaseData.BOOLEAN_FALSE) {
+                                    showMainActivityExplanationDialog();
+                                }
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    });
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        showMainActivityExplanationDialogDelayThread.start();
     }
 
     // Set options menu
@@ -420,6 +463,9 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent2 = new Intent(this, UserProfileActivity.class);
                 startActivity(intent2);
                 break;
+            case R.id.action_more_info: // Open help dialog
+                showMainActivityExplanationDialog();
+                break;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -437,6 +483,35 @@ public class MainActivity extends AppCompatActivity {
 
         MyApplication.activityPaused();
         setDontTurnOffScreen(false);
+    }
+
+
+    // Dialog explains what main activity does. It automatically opens when user starts the app for the first time
+    private void showMainActivityExplanationDialog() {
+        // Create an AlertDialog.Builder and set the message, and click listener for the positive (OK) button on the dialog.
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(R.string.main_activity_explanation_dialog_text);
+        builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                // When ok is clicked, close the dialog
+                if (dialog != null) {
+                    dialog.dismiss();
+                }
+            }
+        });
+
+
+        // Create and show the AlertDialog
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+
+
+        // Save to the database (and as variable in app) that this dialog has been showed if this is the first time
+        if(DatabaseData.mainActivityHelpShowed != DatabaseData.BOOLEAN_TRUE) {
+            DatabaseData.mainActivityHelpShowed = DatabaseData.BOOLEAN_TRUE;
+            DatabaseHandler.updateDatabaseOnSeparateThread();
+        }
+
     }
 
 }

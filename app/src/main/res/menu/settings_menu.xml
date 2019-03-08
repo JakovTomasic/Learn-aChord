@@ -3,6 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
+        android:id="@+id/action_more_info"
+        android:title="@string/menu_help_more_details"
+        android:icon="@drawable/ic_info_light"
+        app:showAsAction="ifRoom"/>
+
+    <item
         android:id="@+id/action_reset_options"
         android:title="@string/reset_options"
         app:showAsAction="never"/>

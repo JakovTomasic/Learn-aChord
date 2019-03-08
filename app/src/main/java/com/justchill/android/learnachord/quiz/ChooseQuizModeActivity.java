@@ -191,6 +191,14 @@ public class ChooseQuizModeActivity extends AppCompatActivity {
         QuizData.quizPlayingCurrentThing = false;
 
         QuizData.quizModeThreeShowSubmitButton = false;
+
+        /*
+         * Show initial help dialog for this activity if it hasn't been showed yet
+         * (if this is the first time user opened this activity)
+         */
+        if(DatabaseData.quizActivityHelpShowed == DatabaseData.BOOLEAN_FALSE) {
+            showQuizActivityExplanationDialog();
+        }
     }
 
     @Override
@@ -222,7 +230,7 @@ public class ChooseQuizModeActivity extends AppCompatActivity {
             case android.R.id.home:
                 finish();
                 return true;
-            case R.id.action_details:
+            case R.id.action_more_info: // Open help dialog
                 showQuizExplanationDialog();
                 return true;
             case R.id.action_reset_mode_one:
@@ -240,7 +248,7 @@ public class ChooseQuizModeActivity extends AppCompatActivity {
 
     // Show dialog that is explaining all quiz modes
     private void showQuizExplanationDialog() {
-        // Create an AlertDialog.Builder and set the message, and click listeners for the positive and negative buttons on the dialog.
+        // Create an AlertDialog.Builder and set the message, and click listeners for the positive (ok) button on the dialog.
         AlertDialog.Builder builder = new AlertDialog.Builder(ChooseQuizModeActivity.this);
         builder.setMessage(R.string.quiz_explanation_dialog_text);
         builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
@@ -303,6 +311,34 @@ public class ChooseQuizModeActivity extends AppCompatActivity {
         alertDialog.show();
     }
 
+
+    // Dialog explains what quiz activity does. It automatically opens when user starts the app for the first time
+    private void showQuizActivityExplanationDialog() {
+        // Create an AlertDialog.Builder and set the message, and click listener for the positive button on the dialog.
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(R.string.quiz_activity_explanation_dialog_text);
+        builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                // When ok is clicked, close the dialog
+                if (dialog != null) {
+                    dialog.dismiss();
+                }
+            }
+        });
+
+
+        // Create and show the AlertDialog
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+
+
+        // Save to the database (and as variable in app) that this dialog has been showed if this is the first time
+        if(DatabaseData.quizActivityHelpShowed != DatabaseData.BOOLEAN_TRUE) {
+            DatabaseData.quizActivityHelpShowed = DatabaseData.BOOLEAN_TRUE;
+            DatabaseHandler.updateDatabaseOnSeparateThread();
+        }
+
+    }
 
 
 }

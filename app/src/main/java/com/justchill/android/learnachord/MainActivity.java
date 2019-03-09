@@ -588,10 +588,16 @@ public class MainActivity extends AppCompatActivity {
 
         // Create and show the AlertDialog
         AlertDialog alertDialog = builder.create();
+
+        // Dialog can't be closed on back button click or on outside click
+        alertDialog.setCancelable(false);
+        alertDialog.setCanceledOnTouchOutside(false);
+
         alertDialog.show();
 
     }
 
+    // Save data to not show login dialog anymore
     public void dontShowLogInInitialDialogAnymore() {
         // Save to the database (and as variable in app) that this dialog has been showed if this is the first time
         if(DatabaseData.logInHelpShowed != DatabaseData.BOOLEAN_TRUE) {

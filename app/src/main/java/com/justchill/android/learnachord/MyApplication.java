@@ -14,6 +14,7 @@ import android.graphics.drawable.ShapeDrawable;
 import android.support.multidex.MultiDex;
 import android.support.v4.content.ContextCompat;
 import android.util.TypedValue;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
@@ -21,6 +22,7 @@ import android.widget.TextView;
 import com.justchill.android.learnachord.intervalOrChord.Interval;
 import com.justchill.android.learnachord.database.DataContract;
 import com.justchill.android.learnachord.database.DatabaseData;
+import com.justchill.android.learnachord.quiz.QuizData;
 
 import java.net.InetAddress;
 import java.util.ArrayList;
@@ -269,6 +271,46 @@ public class MyApplication extends Application {
 
             return stringBuilder.toString();
         }
+    }
+
+    // Returns view to set in quiz game over dialog (showing the
+    public static View getQuizGameOverDialogLayour(Activity activity, int score) {
+        // Get layout
+        LayoutInflater inflater = activity.getLayoutInflater();
+        View dialogLayout = inflater.inflate(R.layout.dialog_quiz_game_over_layout, null, false);
+
+        // Get chord (/interval/tones) text views
+        TextView chordNameTV = dialogLayout.findViewById(R.id.chord_text_view);
+        TextView chordNumberOneTV = dialogLayout.findViewById(R.id.chord_number_one);
+        TextView chordNumberTwoTV = dialogLayout.findViewById(R.id.chord_number_two);
+
+        // Initialize names
+        String correctName = null, correctNumberOne = null, correctNumberTwo = null;
+
+        // Set names depending on what has been played
+        if(QuizData.quizIntervalToPlay != null) {
+            correctName = QuizData.quizIntervalToPlay.getName();
+        }
+        else if(QuizData.quizChordToPlay != null) {
+            correctName = QuizData.quizChordToPlay.getName();
+            correctNumberOne = QuizData.quizChordToPlay.getNumberOneAsString();
+            correctNumberTwo = QuizData.quizChordToPlay.getNumberTwoAsString();
+        }
+        else
+        {
+            correctName = MyApplication.getKeyName(QuizData.quizLowestKey);
+        }
+
+        // Set that names to the TextViews
+        MyApplication.updateTextView(chordNameTV, correctName, chordNumberOneTV, correctNumberOne, chordNumberTwoTV, correctNumberTwo);
+
+
+        // Set score text
+        TextView scoreTV = dialogLayout.findViewById(R.id.quiz_final_score_text_view);
+        scoreTV.setText(MyApplication.readResource(R.string.quiz_game_over_score_text, null) + " " + String.valueOf(score));
+
+        // return the view
+        return dialogLayout;
     }
 
     // Set interval/chord/tone name text

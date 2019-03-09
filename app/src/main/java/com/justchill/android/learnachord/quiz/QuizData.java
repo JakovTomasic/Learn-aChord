@@ -41,11 +41,11 @@ public class QuizData {
     static boolean quizModeOneCorrectAnswer = true;
 
     // Temporary interval that is playing, null if chord or tone is playing
-    static Interval quizIntervalToPlay;
+    public static Interval quizIntervalToPlay;
     // Temporary chord that is playing, null if interval or tone is playing
-    static Chord quizChordToPlay;
+    public static Chord quizChordToPlay;
     // Temporary tone that is playing, null if interval or chord is playing
-    static int quizLowestKey;
+    public static int quizLowestKey;
 
     // Only for quiz mode one, temporary storing what to show
     static String quizChordNameToShow = "";

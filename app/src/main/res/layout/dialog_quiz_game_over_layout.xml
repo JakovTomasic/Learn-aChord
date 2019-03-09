@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <!--TODO: change this (make it better)-->
+
+    <LinearLayout
+        android:id="@+id/chord_text_view_linear_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_marginRight="16dp"
+        android:orientation="horizontal">
+
+        <!--For equal positioning-->
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1px"
+            android:layout_weight="5"
+            android:visibility="invisible" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <!--TODO: remove comment:-->
+            <!--<TextView-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="0dp"-->
+                <!--android:layout_weight="1"-->
+                <!--android:gravity="center"-->
+                <!--android:text="@string/quiz_game_over_message"/>-->
+
+            <TextView
+                android:id="@+id/quiz_final_score_text_view"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                tools:text="@string/quiz_game_over_score_text"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/quiz_game_over_correct_answer_is"/>
+
+        </LinearLayout>
+
+        <!--For equal positioning-->
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1px"
+            android:layout_weight="1"
+            android:visibility="invisible" />
+
+        <TextView
+            android:id="@+id/chord_text_view"
+            style="@style/chordTextStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textAllCaps="false"
+            android:textSize="58sp"
+            tools:text="MD" />
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/chord_number_one"
+                style="@style/chordTextStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:gravity="bottom|center_horizontal"
+                android:includeFontPadding="false"
+                android:text=""
+                android:textAllCaps="false"
+                android:textSize="27sp"
+                tools:text="6" />
+
+            <TextView
+                android:id="@+id/chord_number_two"
+                style="@style/chordTextStyle"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:gravity="top|center_horizontal"
+                android:includeFontPadding="false"
+                android:text=""
+                android:textAllCaps="false"
+                android:textSize="27sp"
+                tools:text="5" />
+
+
+        </LinearLayout>
+
+        <!--For equal positioning-->
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1px"
+            android:layout_weight="5"
+            android:visibility="invisible" />
+
+
+    </LinearLayout>
+
+</RelativeLayout>

@@ -9,6 +9,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.util.TypedValue;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -688,10 +689,11 @@ public class ModeOneActivity extends AppCompatActivity {
     private void gameOver() {
         // Save high score if greater than current
         QuizData.refreshQuizModeOneHighScore();
+
+        // Show dialog and then reset score
+        showGameOverDialog(QuizData.quizScore);
         QuizData.quizScore = 0;
 
-
-        showGameOverDialog();
     }
 
     // Start playing progress bar animation
@@ -806,10 +808,17 @@ public class ModeOneActivity extends AppCompatActivity {
     }
 
     // Dialog shows when user chooses a wrong answer
-    private void showGameOverDialog() {
+    private void showGameOverDialog(int score) {
         // Create an AlertDialog.Builder and set the message, and click listeners for the positive and negative buttons on the dialog.
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage(R.string.quiz_game_over_message);
+
+        // Set view of a dialog that displays score and the correct answer
+        builder.setView(MyApplication.getQuizGameOverDialogLayour(ModeOneActivity.this, score));
+
+        // Set title of a dialog
+        builder.setTitle(R.string.quiz_game_over_message);
+
+        // Set buttons and their onClick listeners
         builder.setPositiveButton(R.string.exit, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 finish();
@@ -827,6 +836,7 @@ public class ModeOneActivity extends AppCompatActivity {
                 QuizData.quizChordNumberTwoToShow = "";
                 QuizData.waitingForQuizAnswer = false;
 
+                // Reset score TextView
                 scoreTextView.setText(String.valueOf(QuizData.quizScore));
 
                 // User clicked the "try again" button, so dismiss the dialog and stay in quiz.
@@ -838,6 +848,11 @@ public class ModeOneActivity extends AppCompatActivity {
 
         // Create and show the AlertDialog
         AlertDialog alertDialog = builder.create();
+
+        // Dialog can't be closed on back button click or on outside click
+        alertDialog.setCancelable(false);
+        alertDialog.setCanceledOnTouchOutside(false);
+
         alertDialog.show();
     }
 

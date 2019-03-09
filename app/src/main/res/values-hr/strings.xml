@@ -150,7 +150,9 @@
     <string name="quiz_mode_three_title">Teško</string>
     <string name="highscore">Rekord</string>
 
-    <string name="quiz_game_over_message">Netočno</string>
+    <string name="quiz_game_over_message">Netočan odgovor</string>
+    <string name="quiz_game_over_correct_answer_is">Točan odgovor:</string>
+    <string name="quiz_game_over_score_text">Rezultat:</string>
     <string name="try_again">Pokušaj ponovno</string>
     <string name="exit">Izađi</string>
 
@@ -202,7 +204,6 @@
 
     <string name="achievement_progress_label">Napredak:</string>
 
-    <!--TODO: write this better (maybe?)-->
     <string name="achievement_description_under_octave_easy">Lagani kviz - svi intervali unutar oktave</string>
     <string name="achievement_description_under_octave_medium">Srednje teški kviz - svi intervali unutar oktave</string>
     <string name="achievement_description_under_octave_hard">Teški kviz - svi intervali unutar oktave</string>

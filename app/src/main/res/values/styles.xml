@@ -7,6 +7,10 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:navigationBarColor" tools:targetApi="lollipop">@color/navBarColor</item>
+
+        <!--Sets the default font for a whole application-->
+        <item name="android:fontFamily">@font/fira_sans_condensed</item>
+
     </style>
 
     <style name="settingsTextStyle">

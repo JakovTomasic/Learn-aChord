@@ -20,6 +20,7 @@ import android.widget.TextView;
 import com.justchill.android.learnachord.LocaleHelper;
 import com.justchill.android.learnachord.MyApplication;
 import com.justchill.android.learnachord.R;
+import com.justchill.android.learnachord.database.DataContract;
 import com.justchill.android.learnachord.database.DatabaseData;
 import com.justchill.android.learnachord.database.DatabaseHandler;
 import com.justchill.android.learnachord.firebase.FirebaseHandler;
@@ -196,7 +197,7 @@ public class ChooseQuizModeActivity extends AppCompatActivity {
          * Show initial help dialog for this activity if it hasn't been showed yet
          * (if this is the first time user opened this activity)
          */
-        if(DatabaseData.quizActivityHelpShowed == DatabaseData.BOOLEAN_FALSE) {
+        if(DatabaseData.quizActivityHelpShowed == DataContract.UserPrefEntry.BOOLEAN_FALSE) {
             showQuizActivityExplanationDialog();
         }
     }
@@ -333,8 +334,8 @@ public class ChooseQuizModeActivity extends AppCompatActivity {
 
 
         // Save to the database (and as variable in app) that this dialog has been showed if this is the first time
-        if(DatabaseData.quizActivityHelpShowed != DatabaseData.BOOLEAN_TRUE) {
-            DatabaseData.quizActivityHelpShowed = DatabaseData.BOOLEAN_TRUE;
+        if(DatabaseData.quizActivityHelpShowed != DataContract.UserPrefEntry.BOOLEAN_TRUE) {
+            DatabaseData.quizActivityHelpShowed = DataContract.UserPrefEntry.BOOLEAN_TRUE;
             DatabaseHandler.updateDatabaseOnSeparateThread();
         }
 

@@ -96,7 +96,7 @@ public class SettingsActivity extends AppCompatActivity {
          * Show initial help dialog for this activity if it hasn't been showed yet
          * (if this is the first time user opened this activity)
          */
-        if(DatabaseData.settingsActivityHelpShowed == DatabaseData.BOOLEAN_FALSE) {
+        if(DatabaseData.settingsActivityHelpShowed == DataContract.UserPrefEntry.BOOLEAN_FALSE) {
             showSettingsActivityExplanationDialog();
         }
 
@@ -269,8 +269,8 @@ public class SettingsActivity extends AppCompatActivity {
 
 
         // Save to the database (and as variable in app) that this dialog has been showed if this is the first time
-        if(DatabaseData.settingsActivityHelpShowed != DatabaseData.BOOLEAN_TRUE) {
-            DatabaseData.settingsActivityHelpShowed = DatabaseData.BOOLEAN_TRUE;
+        if(DatabaseData.settingsActivityHelpShowed != DataContract.UserPrefEntry.BOOLEAN_TRUE) {
+            DatabaseData.settingsActivityHelpShowed = DataContract.UserPrefEntry.BOOLEAN_TRUE;
             DatabaseHandler.updateDatabaseOnSeparateThread();
         }
 

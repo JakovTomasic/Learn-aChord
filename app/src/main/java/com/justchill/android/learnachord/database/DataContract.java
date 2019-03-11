@@ -80,10 +80,29 @@ public final class DataContract {
             return (i == LANGUAGE_ENGLISH || i == LANGUAGE_CROATIAN);
         }
 
+
+        // Constants for each tone duration
+        public static final double maxTonesSeparationTime = 10000.0; // 10 sec
+        public static final double minTonesSeparationTime = 0.0; // 0 sec
+        // Constants for duration between playing
+        public static final double maxChordDurationTime = 10000.0; // 10 sec
+        public static final double minChordDurationTime = 0.0; // 0 sec
+
         // Default each tone duration
         static final int DEFAULT_TONES_SEPARATION_TIME = 1000; // 1 sec
         // Default delay between intervals/chords
         static final int DEFAULT_INTERVAL_DURATION_TIME = 1000; // 1 sec
+
+        // Checks if each tone duration is valid (inside predefined borders)
+        static boolean isTonesSeparationTimeValid(double d) {
+            return (d <= maxTonesSeparationTime && d >= minTonesSeparationTime);
+        }
+
+        // Checks if delay between intervals/chords is valid (inside predefined borders)
+        static boolean isChordDurationTimeValid(double d) {
+            return (d <= maxChordDurationTime && d >= minChordDurationTime);
+        }
+
 
         // Total number of keys
         public static final int NUMBER_OF_KEYS = 61;
@@ -116,6 +135,30 @@ public final class DataContract {
         public static final int DIRECTION_DOWN_VIEW_DEFAULT_INDEX = 1;
         public static final int DIRECTION_SAME_TIME_VIEW_DEFAULT_INDEX = 2;
 
+        // This needs to be called when some of the directions are checked or unchecked
+        // Refreshes counter for number of directions checked
+        public static void refreshDirectionsCount() {
+            DatabaseData.directionsCount = 0;
+            if(DatabaseData.directionUp) {
+                DatabaseData.directionsCount++;
+            }
+            if(DatabaseData.directionDown) {
+                DatabaseData.directionsCount++;
+            }
+            if(DatabaseData.directionSameTime) {
+                DatabaseData.directionsCount++;
+            }
+        }
+
+
+        // Constants for saving is has initial help dialog box been displayed
+        public static final int BOOLEAN_FALSE = 0;
+        public static final int BOOLEAN_TRUE = 1;
+
+        // Check if data that is boolean saved as int valid (initial dialog box showed values)
+        public static boolean isBooleanDataSavedAsIntValid(int value) {
+            return (value == BOOLEAN_TRUE || value == BOOLEAN_FALSE);
+        }
     }
 
     // Custom method to concatenate two String arrays

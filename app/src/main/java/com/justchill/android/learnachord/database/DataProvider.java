@@ -248,9 +248,9 @@ public class DataProvider extends ContentProvider {
         if(temp == null) {
             throw new IllegalArgumentException("Data cannot be null");
         }
-        if(!DatabaseData.isTonesSeparationTimeValid((double) temp)) {
-            throw new IllegalArgumentException("Data " + temp + " is out of borders, min border: " + DatabaseData.minTonesSeparationTime
-                    + ", max border: " + DatabaseData.maxTonesSeparationTime);
+        if(!DataContract.UserPrefEntry.isTonesSeparationTimeValid((double) temp)) {
+            throw new IllegalArgumentException("Data " + temp + " is out of borders, min border: " + DataContract.UserPrefEntry.minTonesSeparationTime
+                    + ", max border: " + DataContract.UserPrefEntry.maxTonesSeparationTime);
         }
 
         // Delay between intervals/chords
@@ -258,9 +258,9 @@ public class DataProvider extends ContentProvider {
         if(temp == null) {
             throw new IllegalArgumentException("Data cannot be null");
         }
-        if(!DatabaseData.isChordDurationTimeValid((double) temp)) {
-            throw new IllegalArgumentException("Data " + temp + " is out of borders, min border: " + DatabaseData.minChordDurationTime
-                    + ", max border: " + DatabaseData.maxChordDurationTime);
+        if(!DataContract.UserPrefEntry.isChordDurationTimeValid((double) temp)) {
+            throw new IllegalArgumentException("Data " + temp + " is out of borders, min border: " + DataContract.UserPrefEntry.minChordDurationTime
+                    + ", max border: " + DataContract.UserPrefEntry.maxChordDurationTime);
         }
 
         // Language
@@ -414,7 +414,7 @@ public class DataProvider extends ContentProvider {
         if(temp == null) {
             throw new IllegalArgumentException("Data cannot be null");
         }
-        if(!DatabaseData.isBooleanDataSavedAsIntValid(temp)) {
+        if(!DataContract.UserPrefEntry.isBooleanDataSavedAsIntValid(temp)) {
             throw new IllegalArgumentException("Given data not valid for DatabaseData BOOLEAN data saved as int: " + temp);
         }
 
@@ -423,7 +423,7 @@ public class DataProvider extends ContentProvider {
         if(temp == null) {
             throw new IllegalArgumentException("Data cannot be null");
         }
-        if(!DatabaseData.isBooleanDataSavedAsIntValid(temp)) {
+        if(!DataContract.UserPrefEntry.isBooleanDataSavedAsIntValid(temp)) {
             throw new IllegalArgumentException("Given data not valid for DatabaseData BOOLEAN data saved as int: " + temp);
         }
 
@@ -432,7 +432,7 @@ public class DataProvider extends ContentProvider {
         if(temp == null) {
             throw new IllegalArgumentException("Data cannot be null");
         }
-        if(!DatabaseData.isBooleanDataSavedAsIntValid(temp)) {
+        if(!DataContract.UserPrefEntry.isBooleanDataSavedAsIntValid(temp)) {
             throw new IllegalArgumentException("Given data not valid for DatabaseData BOOLEAN data saved as int: " + temp);
         }
 
@@ -441,7 +441,7 @@ public class DataProvider extends ContentProvider {
         if(temp == null) {
             throw new IllegalArgumentException("Data cannot be null");
         }
-        if(!DatabaseData.isBooleanDataSavedAsIntValid(temp)) {
+        if(!DataContract.UserPrefEntry.isBooleanDataSavedAsIntValid(temp)) {
             throw new IllegalArgumentException("Given data not valid for DatabaseData BOOLEAN data saved as int: " + temp);
         }
 
@@ -450,7 +450,7 @@ public class DataProvider extends ContentProvider {
         if(temp == null) {
             throw new IllegalArgumentException("Data cannot be null");
         }
-        if(!DatabaseData.isBooleanDataSavedAsIntValid(temp)) {
+        if(!DataContract.UserPrefEntry.isBooleanDataSavedAsIntValid(temp)) {
             throw new IllegalArgumentException("Given data not valid for DatabaseData BOOLEAN data saved as int: " + temp);
         }
 

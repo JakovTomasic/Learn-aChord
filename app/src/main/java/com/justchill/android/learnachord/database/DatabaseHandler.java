@@ -286,7 +286,7 @@ public class DatabaseHandler {
         setDoSettingsNeedUpdate(false);
 
         // Refresh counter for number of checked directions (in case it has been changed)
-        DatabaseData.refreshDirectionsCount();
+        DataContract.UserPrefEntry.refreshDirectionsCount();
 
         // If language changes translate interval and chord names, and with that, set locale language
         IntervalsList.updateAllIntervalsNames(MyApplication.getAppContext());

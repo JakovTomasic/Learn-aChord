@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -89,6 +91,9 @@ public class PreferencesFragment extends Fragment {
     // Spinner for changing text size
     private Spinner chordTextSizeSpinner;
 
+    // Clickable view to send customer support mail
+    private View contactUsClickableView;
+
     // Parent of all playing directions list
     private ViewGroup allPlayingModesParentView;
     // Saving last playing direction that was touched - for move up and down feature
@@ -138,6 +143,8 @@ public class PreferencesFragment extends Fragment {
 
         chordTextSizeSpinner = fragmentView.findViewById(R.id.chord_text_size_spinner);
 
+        contactUsClickableView = fragmentView.findViewById(R.id.contact_us_clickable_text_view);
+
 
         allPlayingModesParentView = fragmentView.findViewById(R.id.all_playing_modes_parent_layout);
         contextMenuView = directionUpView;
@@ -164,7 +171,7 @@ public class PreferencesFragment extends Fragment {
                 directionUpCheckBox.setChecked(!directionUpCheckBox.isChecked());
                 DatabaseData.directionUp = directionUpCheckBox.isChecked();
 
-                DatabaseData.refreshDirectionsCount();
+                DataContract.UserPrefEntry.refreshDirectionsCount();
 
                 DatabaseHandler.setDoesDbNeedUpdate(true);
                 updateDurationViews();
@@ -185,7 +192,7 @@ public class PreferencesFragment extends Fragment {
                 directionDownCheckBox.setChecked(!directionDownCheckBox.isChecked());
                 DatabaseData.directionDown = directionDownCheckBox.isChecked();
 
-                DatabaseData.refreshDirectionsCount();
+                DataContract.UserPrefEntry.refreshDirectionsCount();
 
                 DatabaseHandler.setDoesDbNeedUpdate(true);
                 updateDurationViews();
@@ -206,7 +213,7 @@ public class PreferencesFragment extends Fragment {
                 directionSameTimeCheckBox.setChecked(!directionSameTimeCheckBox.isChecked());
                 DatabaseData.directionSameTime = directionSameTimeCheckBox.isChecked();
 
-                DatabaseData.refreshDirectionsCount();
+                DataContract.UserPrefEntry.refreshDirectionsCount();
 
                 DatabaseHandler.setDoesDbNeedUpdate(true);
                 updateDurationViews();
@@ -288,6 +295,15 @@ public class PreferencesFragment extends Fragment {
         setupChordTextSizeSpinner();
 
 
+        // When user clicks to contact us button, open mail and send it
+        contactUsClickableView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                sendContactUsMail();
+            }
+        });
+
+
         // Set color of range borders to play color instead of stop button color
         // This don't need to be here as color is updated on stop playing in main activity, this is here just in case shit happens
         MyApplication.setupPlayButtonColor(context, downBorderTextView, R.color.playButton);
@@ -332,14 +348,14 @@ public class PreferencesFragment extends Fragment {
                         DatabaseData.directionDown = false;
                         DatabaseData.directionSameTime = true;
 
-                        DatabaseData.refreshDirectionsCount();
+                        DataContract.UserPrefEntry.refreshDirectionsCount();
                     }
                 } else {
                     // Don't save value that is outside borders
-                    if(value > DatabaseData.maxTonesSeparationTime) {
-                        DatabaseData.tonesSeparationTime = DatabaseData.maxTonesSeparationTime;
-                    } else if(value < DatabaseData.minTonesSeparationTime) {
-                        DatabaseData.tonesSeparationTime = DatabaseData.minTonesSeparationTime;
+                    if(value > DataContract.UserPrefEntry.maxTonesSeparationTime) {
+                        DatabaseData.tonesSeparationTime = DataContract.UserPrefEntry.maxTonesSeparationTime;
+                    } else if(value < DataContract.UserPrefEntry.minTonesSeparationTime) {
+                        DatabaseData.tonesSeparationTime = DataContract.UserPrefEntry.minTonesSeparationTime;
                     } else {
                         DatabaseData.tonesSeparationTime = value;
                     }
@@ -368,10 +384,10 @@ public class PreferencesFragment extends Fragment {
             if(!tonesDurationEditText.getText().toString().isEmpty()) {
                 final double value = Double.valueOf(tonesDurationEditText.getText().toString()) * 1000.0;
                 // Don't save value that is outside borders
-                if(value > DatabaseData.maxChordDurationTime) {
-                    DatabaseData.delayBetweenChords = DatabaseData.maxChordDurationTime;
-                } else if(value < DatabaseData.minChordDurationTime) {
-                    DatabaseData.delayBetweenChords = DatabaseData.minChordDurationTime;
+                if(value > DataContract.UserPrefEntry.maxChordDurationTime) {
+                    DatabaseData.delayBetweenChords = DataContract.UserPrefEntry.maxChordDurationTime;
+                } else if(value < DataContract.UserPrefEntry.minChordDurationTime) {
+                    DatabaseData.delayBetweenChords = DataContract.UserPrefEntry.minChordDurationTime;
                 } else {
                     DatabaseData.delayBetweenChords = value;
                 }
@@ -718,6 +734,28 @@ public class PreferencesFragment extends Fragment {
                 }
             }
         }
+    }
+
+    // Open mail app and allow user to send feedback mail
+    private void sendContactUsMail() {
+        // New intent to send mail to the specified address
+        Intent intent = new Intent(Intent.ACTION_SENDTO);
+        // Send mail to "justchill.apps@gmail.com". Only email apps should handle this
+        intent.setData(Uri.parse("mailto:justchill.apps@gmail.com"));
+        // Set mail title
+        intent.putExtra(Intent.EXTRA_SUBJECT, MyApplication.readResource(R.string.app_name, null) +
+                ": " + MyApplication.readResource(R.string.contact_us, null));
+//        intent.putExtra(Intent.EXTRA_TEXT, "Here, you can add specified default text of the mail");
+
+        try {
+            // Try to send mail if possible
+            if (intent.resolveActivity(getActivity().getPackageManager()) != null) {
+                startActivity(intent);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
     // Show explanation dialog when user clicks on question mark help icon

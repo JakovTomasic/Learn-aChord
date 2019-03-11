@@ -599,6 +599,35 @@
 
         </LinearLayout>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/settings_shadow_translation_x_inverted"
+            android:layout_marginBottom="@dimen/settings_shadow_elevation"
+            android:background="@color/settingsBackground"
+            android:elevation="@dimen/settings_shadow_elevation"
+            android:orientation="vertical"
+            android:translationX="@dimen/settings_shadow_translation_x">
+
+
+            <TextView
+                android:id="@+id/contact_us_clickable_text_view"
+                style="@style/settingsTextStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:minHeight="@dimen/settings_min_height"
+                android:paddingLeft="@dimen/settings_additional_padding"
+                android:text="@string/contact_us"
+                android:layout_marginTop="12dp"
+                android:background="?android:attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true"
+                android:paddingTop="@dimen/settings_layout_separations_half"
+                android:paddingBottom="@dimen/settings_layout_separations_half" />
+
+        </LinearLayout>
+
     </LinearLayout>
 
 

@@ -27,6 +27,7 @@ import com.google.firebase.auth.UserInfo;
 import com.justchill.android.learnachord.LocaleHelper;
 import com.justchill.android.learnachord.MyApplication;
 import com.justchill.android.learnachord.R;
+import com.justchill.android.learnachord.database.DataContract;
 import com.justchill.android.learnachord.database.DatabaseData;
 import com.justchill.android.learnachord.database.DatabaseHandler;
 
@@ -343,6 +344,7 @@ public class UserProfileActivity extends AppCompatActivity {
         }
     }
 
+    // TODO: finish this
     // Setup achievements' UI
     public static void refreshAchievementProgressUI(Activity activity) {
         try {
@@ -418,7 +420,7 @@ public class UserProfileActivity extends AppCompatActivity {
          * Show initial help dialog for this activity if it hasn't been showed yet
          * (if this is the first time user opened this activity)
          */
-        if(DatabaseData.userProfileActivityHelpShowed == DatabaseData.BOOLEAN_FALSE) {
+        if(DatabaseData.userProfileActivityHelpShowed == DataContract.UserPrefEntry.BOOLEAN_FALSE) {
             showUserProfileActivityExplanationDialog();
         }
     }
@@ -599,8 +601,8 @@ public class UserProfileActivity extends AppCompatActivity {
 
 
         // Save to the database (and as variable in app) that this dialog has been showed if this is the first time
-        if(DatabaseData.userProfileActivityHelpShowed != DatabaseData.BOOLEAN_TRUE) {
-            DatabaseData.userProfileActivityHelpShowed = DatabaseData.BOOLEAN_TRUE;
+        if(DatabaseData.userProfileActivityHelpShowed != DataContract.UserPrefEntry.BOOLEAN_TRUE) {
+            DatabaseData.userProfileActivityHelpShowed = DataContract.UserPrefEntry.BOOLEAN_TRUE;
             DatabaseHandler.updateDatabaseOnSeparateThread();
         }
     }

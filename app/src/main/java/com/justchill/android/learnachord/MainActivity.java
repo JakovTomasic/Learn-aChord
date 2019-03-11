@@ -1,6 +1,5 @@
 package com.justchill.android.learnachord;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -8,28 +7,23 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Point;
-import android.graphics.drawable.BitmapDrawable;
 import android.media.AudioManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Display;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.justchill.android.learnachord.database.DataContract;
 import com.justchill.android.learnachord.database.DatabaseData;
 import com.justchill.android.learnachord.database.DatabaseHandler;
 import com.justchill.android.learnachord.firebase.AchievementChecker;
@@ -428,14 +422,14 @@ public class MainActivity extends AppCompatActivity {
                         public void run() {
                             try {
                                 // Show dialogs (if conditions are met)
-                                if(DatabaseData.logInHelpShowed == DatabaseData.BOOLEAN_FALSE &&
+                                if(DatabaseData.logInHelpShowed == DataContract.UserPrefEntry.BOOLEAN_FALSE &&
                                         !DatabaseData.dontShowLogInHelp && internetAvailable) {
                                     /*
                                      * If log in help hasn't been showed yet and ask me later haven't
                                      * been clicked and there is internet connection, ask user to log in
                                      */
                                     showLogInInitialDialog();
-                                } else if(DatabaseData.mainActivityHelpShowed == DatabaseData.BOOLEAN_FALSE) {
+                                } else if(DatabaseData.mainActivityHelpShowed == DataContract.UserPrefEntry.BOOLEAN_FALSE) {
                                     // If main activity help hasn't been showed yet, show it
                                     showMainActivityExplanationDialog();
                                 }
@@ -527,8 +521,8 @@ public class MainActivity extends AppCompatActivity {
 
 
         // Save to the database (and as variable in app) that this dialog has been showed if this is the first time
-        if(DatabaseData.mainActivityHelpShowed != DatabaseData.BOOLEAN_TRUE) {
-            DatabaseData.mainActivityHelpShowed = DatabaseData.BOOLEAN_TRUE;
+        if(DatabaseData.mainActivityHelpShowed != DataContract.UserPrefEntry.BOOLEAN_TRUE) {
+            DatabaseData.mainActivityHelpShowed = DataContract.UserPrefEntry.BOOLEAN_TRUE;
             DatabaseHandler.updateDatabaseOnSeparateThread();
         }
 
@@ -600,8 +594,8 @@ public class MainActivity extends AppCompatActivity {
     // Save data to not show login dialog anymore
     public void dontShowLogInInitialDialogAnymore() {
         // Save to the database (and as variable in app) that this dialog has been showed if this is the first time
-        if(DatabaseData.logInHelpShowed != DatabaseData.BOOLEAN_TRUE) {
-            DatabaseData.logInHelpShowed = DatabaseData.BOOLEAN_TRUE;
+        if(DatabaseData.logInHelpShowed != DataContract.UserPrefEntry.BOOLEAN_TRUE) {
+            DatabaseData.logInHelpShowed = DataContract.UserPrefEntry.BOOLEAN_TRUE;
             DatabaseHandler.updateDatabaseOnSeparateThread();
         }
     }

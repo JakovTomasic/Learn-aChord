@@ -9,13 +9,6 @@ import java.util.Locale;
 // Stores all database (option, user preference) data
 public class DatabaseData {
 
-    // Constants for each tone duration
-    public static final double maxTonesSeparationTime = 10000.0; // 10 sec
-    public static final double minTonesSeparationTime = 0.0; // 0 sec
-    // Constants for duration between playing
-    public static final double maxChordDurationTime = 10000.0; // 10 sec
-    public static final double minChordDurationTime = 0.0; // 0 sec
-
     // Get default device language. If language of the device is croatian, set croatian. Otherwise, set english.
     @SuppressLint("ConstantLocale")
     static final int DEFAULT_SYSTEM_LANGUAGE = Locale.getDefault().getLanguage().equals("hr") ? DataContract.UserPrefEntry.LANGUAGE_CROATIAN :
@@ -71,53 +64,15 @@ public class DatabaseData {
     public static int quizModeThreeHighscore = 0;
 
 
-
-    // This needs to be called when some of the directions are checked or unchecked
-    // Refreshes counter for number of directions checked
-    public static void refreshDirectionsCount() {
-        directionsCount = 0;
-        if(directionUp) {
-            directionsCount++;
-        }
-        if(directionDown) {
-            directionsCount++;
-        }
-        if(directionSameTime) {
-            directionsCount++;
-        }
-    }
-
-    // Checks if each tone duration is valid (inside predefined borders)
-    static boolean isTonesSeparationTimeValid(double d) {
-        return (d <= maxTonesSeparationTime && d >= minTonesSeparationTime);
-    }
-
-    // Checks if delay between intervals/chords is valid (inside predefined borders)
-    static boolean isChordDurationTimeValid(double d) {
-        return (d <= maxChordDurationTime && d >= minChordDurationTime);
-    }
-
-
-
-
-    // Constants for saving is has initial help dialog box been displayed
-    public static final int BOOLEAN_FALSE = 0;
-    public static final int BOOLEAN_TRUE = 1;
-
     // Has login initial dialog box been showed (only first time when there is internet connection)
-    public static int logInHelpShowed = BOOLEAN_FALSE;
+    public static int logInHelpShowed = DataContract.UserPrefEntry.BOOLEAN_FALSE;
     // Has each activity initial dialog box been showed (only first time)
-    public static int mainActivityHelpShowed = BOOLEAN_FALSE;
-    public static int settingsActivityHelpShowed = BOOLEAN_FALSE;
-    public static int quizActivityHelpShowed = BOOLEAN_FALSE;
-    public static int userProfileActivityHelpShowed = BOOLEAN_FALSE;
+    public static int mainActivityHelpShowed = DataContract.UserPrefEntry.BOOLEAN_FALSE;
+    public static int settingsActivityHelpShowed = DataContract.UserPrefEntry.BOOLEAN_FALSE;
+    public static int quizActivityHelpShowed = DataContract.UserPrefEntry.BOOLEAN_FALSE;
+    public static int userProfileActivityHelpShowed = DataContract.UserPrefEntry.BOOLEAN_FALSE;
 
     // Should log in help dialog be showed. For "ask me later" button to work (don't show after it was pressed)
     public static boolean dontShowLogInHelp = false;
-
-    // Check if data that is boolean saved as int valid (initial dialog box showed values)
-    public static boolean isBooleanDataSavedAsIntValid(int value) {
-        return (value == BOOLEAN_TRUE || value == BOOLEAN_FALSE);
-    }
 
 }

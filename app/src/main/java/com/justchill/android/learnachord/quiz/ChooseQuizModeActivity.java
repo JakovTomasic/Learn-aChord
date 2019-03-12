@@ -139,7 +139,7 @@ public class ChooseQuizModeActivity extends AppCompatActivity {
         quizModeTitleSizeRules.setMargins(0, 0, 0, width/10);
         quizModeTitleTV[modeID].setLayoutParams(quizModeTitleSizeRules);
 
-        quizModeTitleTV[modeID].setTextSize(TypedValue.COMPLEX_UNIT_PX, height/7f);
+        quizModeTitleTV[modeID].setTextSize(TypedValue.COMPLEX_UNIT_PX, height/8f);
 
 
 
@@ -251,6 +251,7 @@ public class ChooseQuizModeActivity extends AppCompatActivity {
     private void showQuizExplanationDialog() {
         // Create an AlertDialog.Builder and set the message, and click listeners for the positive (ok) button on the dialog.
         AlertDialog.Builder builder = new AlertDialog.Builder(ChooseQuizModeActivity.this);
+        builder.setTitle(R.string.quiz_explanation_dialog_title);
         builder.setMessage(R.string.quiz_explanation_dialog_text);
         builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
@@ -317,6 +318,7 @@ public class ChooseQuizModeActivity extends AppCompatActivity {
     private void showQuizActivityExplanationDialog() {
         // Create an AlertDialog.Builder and set the message, and click listener for the positive button on the dialog.
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(R.string.quiz_activity_explanation_dialog_title);
         builder.setMessage(R.string.quiz_activity_explanation_dialog_text);
         builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {

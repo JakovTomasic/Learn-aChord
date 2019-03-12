@@ -109,8 +109,8 @@
     <string name="play_what_octave">Octave</string>
 
     <!--Direction explanation dialog-->
-    <string name="direction_explanation_dialog"> \tRandom mode randomly plays intervals and chords in one of the selected playing modes.\n\t
-    Custom mode plays intervals and chords in all selected modes by order (top to bottom).\n\t
+    <string name="direction_explanation_dialog">Random mode randomly plays intervals and chords in one of the selected playing modes.\n
+    Custom mode plays intervals and chords in all selected modes by order (top to bottom).\n
     To change order press and hold on one of the modes and choose action.</string>
 
     <!--Language options-->
@@ -128,6 +128,7 @@
     <string name="large">Large</string>
 
     <!--Warning dialogs-->
+    <string name="settings_warning_dialogs_title">Error</string>
     <string name="all_directions_unchecked_error">None of the playing directions are selected! Playing won\'t be possible.</string>
     <string name="all_intervals_and_chords_unchecked_error">None of the intervals or chords are selected! Playing won\'t be possible.</string>
     <string name="too_small_range_error">Selected range is too small for some intervals or chords! Unplayable intervals and chords will be unselected</string>
@@ -162,10 +163,11 @@
     <string name="quiz_mode_two_option_four_title">d)</string>
 
     <!--Quiz explanation dialog-->
+    <string name="quiz_explanation_dialog_title">Quiz</string>
     <string name="quiz_explanation_dialog_text">Easy quiz mode plays one interval, chord or tone and displays another one.
-        Then, you need to determine weather they are same. \n
-        Medium mode plays one interval, chord or tone and displays four of them. You need to choose the right one (the one that has been played). \n
-        In hard mode, you need to select exactly what has been played. \n
+        Then, you need to determine weather they are same.\n
+        Medium mode plays one interval, chord or tone and displays four of them. You need to choose the right one (the one that has been played).\n
+        In hard mode, you need to select exactly what has been played.\n
         Only intervals and chords that are selected in settings will be played or displayed. If you selected tones you will be asked what tone is playing.
         If you selected just octave you will be asked in what octave that tone is.</string>
 
@@ -233,6 +235,7 @@
 
 
 
+    <string name="log_in_help_dialog_title">Log in?</string>
     <string name="log_in_help_dialog_text">
         Do you want to log in?\n
         Without logging in, losing your progress will be possible.
@@ -241,26 +244,30 @@
         Ask me later
     </string>
 
+    <string name="main_activity_explanation_dialog_title">Main mode</string>
     <string name="main_activity_explanation_dialog_text">
         In the main mode, intervals, chords and tones that are selected in the options will be randomly played and displayed.\n
         From here you can open quiz (top left corner), this dialog, your profile and options (top right corner).
     </string>
+    <string name="settings_activity_explanation_dialog_title">Options</string>
     <string name="settings_activity_explanation_dialog_text">
         In the options, you can choose what and how will be played.\n
         INTERVALS and CHORDS - select witch intervals and chords will be played\n
         TONE - select level of tone recognition in the quiz\n
         OPTIONS - change the way those intervals, chords and tones are played, displayed and more
     </string>
+    <string name="quiz_activity_explanation_dialog_title">Quiz</string>
     <string name="quiz_activity_explanation_dialog_text">
         In the quiz, one interval, chord or tone will be played and you will
         need to choose the correct answer depending on what has been played.\n
         A score is number of correct answers in a row.\n
         For more information, open help dialog in top right corner.
     </string>
+    <string name="user_profile_activity_explanation_dialog_title">Profile</string>
     <string name="user_profile_activity_explanation_dialog_text">
         Here you can log in to automatically save all your progress to the cloud. Without logging in, losing your progress is possible.\n
         After you login you can change your profile picture. Choose the default picture or picture from the device to save network data.\n
-        You can also see your overall progress.
+        You can also see your overall progress (max progress is 50).
     </string>
 
     <string name="contact_us">Contact us</string>

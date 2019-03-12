@@ -61,8 +61,8 @@
 
     <color name="userProfileActivityBackground">#f2fff2</color>
 
-    <color name="achievementProgressUnlockedColor">#8038ac38</color>
-    <color name="achievementProgressLockedColor">#20000000</color>
+    <color name="achievementProgressUnlockedColor">#AA38ac38</color>
+    <color name="achievementProgressLockedColor">#10000000</color>
 
     <!--These three colors should be similar (in brightness etc.) -->
     <color name="achievementColorGreen">#38ac38</color>

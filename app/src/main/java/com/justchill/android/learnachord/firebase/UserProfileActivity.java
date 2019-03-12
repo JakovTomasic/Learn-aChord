@@ -69,6 +69,7 @@ public class UserProfileActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_profile);
+        setTitle(R.string.user_profile_activity_label);
 
         // Declare UI elements
 
@@ -344,7 +345,6 @@ public class UserProfileActivity extends AppCompatActivity {
         }
     }
 
-    // TODO: finish this
     // Setup achievements' UI
     public static void refreshAchievementProgressUI(Activity activity) {
         try {
@@ -466,7 +466,11 @@ public class UserProfileActivity extends AppCompatActivity {
                 // Create new user (refresh / delete all user data locally)
                 FirebaseHandler.createNewUser();
 
-                // Save that to DB
+                // Show log in help dialog next time user opens an app
+                DatabaseData.dontShowLogInHelp = true;
+                DatabaseData.logInHelpShowed = DataContract.UserPrefEntry.BOOLEAN_FALSE;
+
+                // Save that to the DB
                 DatabaseHandler.updateDatabaseOnSeparateThread();
 
                 // Exit activity (to refresh everything and for UX reasons)
@@ -584,6 +588,7 @@ public class UserProfileActivity extends AppCompatActivity {
     private void showUserProfileActivityExplanationDialog() {
         // Create an AlertDialog.Builder and set the message, and click listener for the positive button on the dialog.
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(R.string.user_profile_activity_explanation_dialog_title);
         builder.setMessage(R.string.user_profile_activity_explanation_dialog_text);
         builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {

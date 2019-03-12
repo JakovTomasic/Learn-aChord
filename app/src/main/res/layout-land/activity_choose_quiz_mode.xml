@@ -38,6 +38,7 @@
 
                 <TextView
                     android:id="@+id/quiz_mode_one_title_text_view"
+                    style="@style/chooseQuizModeTitleStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="20dp"
@@ -47,6 +48,7 @@
 
                 <TextView
                     android:id="@+id/quiz_mode_one_description_text_view"
+                    style="@style/chooseQuizModeDescriptionStyle"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1"
@@ -94,6 +96,7 @@
                 <!--Between 1/2 and 1/3 of height is text size-->
                 <TextView
                     android:id="@+id/quiz_mode_two_title_text_view"
+                    style="@style/chooseQuizModeTitleStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="20dp"
@@ -103,6 +106,7 @@
 
                 <TextView
                     android:id="@+id/quiz_mode_two_description_text_view"
+                    style="@style/chooseQuizModeDescriptionStyle"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1"
@@ -150,6 +154,7 @@
                 <!--Between 1/2 and 1/3 of height is text size-->
                 <TextView
                     android:id="@+id/quiz_mode_three_title_text_view"
+                    style="@style/chooseQuizModeTitleStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="20dp"
@@ -159,6 +164,7 @@
 
                 <TextView
                     android:id="@+id/quiz_mode_three_description_text_view"
+                    style="@style/chooseQuizModeDescriptionStyle"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1"

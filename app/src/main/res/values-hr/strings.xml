@@ -109,8 +109,8 @@
     <string name="play_what_octave">Oktava</string>
 
     <!--Direction explanation dialog-->
-    <string name="direction_explanation_dialog"> \tNasumičan način nasumično svira intervale i akorde u jednom od odabranih načina.\n\t
-    Prilagodljiv način svira intervale i akorde na sve odabrane načine redom (odozgora prema dolje).\n\t
+    <string name="direction_explanation_dialog">Nasumičan način nasumično svira intervale i akorde u jednom od odabranih načina.\n
+    Prilagodljiv način svira intervale i akorde na sve odabrane načine redom (odozgora prema dolje).\n
     Da biste promijenili redosljed pritisnite i držite jedan on načina te odaberite radnju.</string>
 
     <!--Language options-->
@@ -128,6 +128,7 @@
     <string name="large">Velika</string>
 
     <!--Warning dialogs-->
+    <string name="settings_warning_dialogs_title">Greška</string>
     <string name="all_directions_unchecked_error">Niti jedan način sviranja nije odabran! Sviranje neće biti moguće.</string>
     <string name="all_intervals_and_chords_unchecked_error">Odaberite barem jedan interval ili akord! U suprotnom, sviranje neće biti moguće.</string>
     <string name="too_small_range_error">Odabran raspon je nedovoljno velik za neke intervale ili akorde! Ti intervali i akordi bit će odznačeni.</string>
@@ -162,10 +163,11 @@
     <string name="quiz_mode_two_option_four_title">d)</string>
 
     <!--Quiz explanation dialog-->
+    <string name="quiz_explanation_dialog_title">Kviz</string>
     <string name="quiz_explanation_dialog_text">U laganome načinu bit će odsviran i prikazan jedan interval, akord ili ton.
-        Potrebno je odabrati je li ono što je odsvirano i prikazano, ili je prikazan neki drugi interval, akord ili ton. \n
-        Srednje težak način ponudit će četiri intervala, akorda ili tona. Potrebno je odabrati onaj koji je odsviran. \n
-        U teškom načinu potrebno je točno odabrati ono što je odsvirano. \n
+        Potrebno je odabrati je li ono što je odsvirano i prikazano, ili je prikazan neki drugi interval, akord ili ton.\n
+        Srednje težak način ponudit će četiri intervala, akorda ili tona. Potrebno je odabrati onaj koji je odsviran.\n
+        U teškom načinu potrebno je točno odabrati ono što je odsvirano.\n
         Samo oni intervali i akordi koji su odabrani u postavkama će se svirati i prikazivati.
         Ako su odabrani tonovi, bit će potrebno znati točno koji je ton odsviran.
         Ako su odabrane samo oktave, bit će potrebno znati u kojoj se oktavi ton nalazi.
@@ -234,6 +236,7 @@
 
 
 
+    <string name="log_in_help_dialog_title">Prijava?</string>
     <string name="log_in_help_dialog_text">
         Želite li se prijaviti?\n
         Bez prijave može doći do gubitka podataka.
@@ -242,28 +245,32 @@
         Pitaj me kasnije
     </string>
 
+    <string name="main_activity_explanation_dialog_title">Glavni način</string>
     <string name="main_activity_explanation_dialog_text">
         U glavnom načinu, intervali, akordi i tonovi koji su odabravni u opcijama biti će nasumično svirani i prikazani.\n
         Ovdje se može otvoriti kviz (gore lijevo), ovaj dijaloški okvir, Vaš profil i opcije (gore desno).
     </string>
+    <string name="settings_activity_explanation_dialog_title">Opcije</string>
     <string name="settings_activity_explanation_dialog_text">
         U opcijama, moguće je odabrati što će se i kako svirati.\n
-        INTERVALI i AKORDI - mogu se odabrati koji će se intervali i akordi svirati\n
+        INTERVALI i AKORDI - mogu se odabrati intervali i akordi koji će se svirati\n
         TONOVI - može se odabrati točnost slušnog prepoznavanja tonova koja će se tražiti u kvizu\n
         POSTAVKE - može se odabrati način sviranja, način prikaza i druge postavke
     </string>
+    <string name="quiz_activity_explanation_dialog_title">Kviz</string>
     <string name="quiz_activity_explanation_dialog_text">
         U kvizu, jedan interval, akord ili ton će biti odsviran.
         Bit će potrebno odabrati točan odgovor ovisno o tome što je odsvirano.\n
         Rezultat je broj uzastopnih točnih odgovora.\n
         Otvaranjem dijaloškog okvira za pomoć (gore desno) može se vidjeti više informacija.
     </string>
+    <string name="user_profile_activity_explanation_dialog_title">Profil</string>
     <string name="user_profile_activity_explanation_dialog_text">
         Ovdje se može prijaviti kako bi se sva postignuća automatski spremala na internet.
         Bez prijave može doći do gubitka podataka.\n
         Nakon prijave moguće je promjeniti i profilnu sliku.
         Ukoliko je odabrana zadana slika ili slika sa uređaja, mobilni podaci bit će očuvani.\n
-        Ovdje se može vidjeti i ukupan napredak.
+        Ovdje se može vidjeti i ukupan napredak (najveći napredak je 50).
     </string>
 
     <string name="contact_us">Kontakt</string>

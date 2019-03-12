@@ -288,7 +288,6 @@ public class MainActivity extends AppCompatActivity {
         return (int) (dp * Resources.getSystem().getDisplayMetrics().density);
     }
 
-    // TODO: add this to quiz too
     // Set or remove flag to stop turning off screen while playing (or dimming it)
     private void setDontTurnOffScreen(boolean dontTurnOffScreen) {
         try {
@@ -504,6 +503,7 @@ public class MainActivity extends AppCompatActivity {
     private void showMainActivityExplanationDialog() {
         // Create an AlertDialog.Builder and set the message, and click listener for the positive (OK) button on the dialog.
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(R.string.main_activity_explanation_dialog_title);
         builder.setMessage(R.string.main_activity_explanation_dialog_text);
         builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
@@ -538,6 +538,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Create an AlertDialog.Builder and set the message, and click listeners for the three buttons on the dialog.
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(R.string.log_in_help_dialog_title);
         builder.setMessage(R.string.log_in_help_dialog_text);
         // Login button
         builder.setPositiveButton(R.string.login, new DialogInterface.OnClickListener() {
@@ -564,6 +565,11 @@ public class MainActivity extends AppCompatActivity {
                 if (dialog != null) {
                     dialog.dismiss();
                 }
+
+                // If main activity help hasn't been showed yet, show it
+                if(DatabaseData.mainActivityHelpShowed == DataContract.UserPrefEntry.BOOLEAN_FALSE) {
+                    showMainActivityExplanationDialog();
+                }
             }
         });
         // Cancel button
@@ -575,6 +581,11 @@ public class MainActivity extends AppCompatActivity {
                 // Close the dialog
                 if (dialog != null) {
                     dialog.dismiss();
+                }
+
+                // If main activity help hasn't been showed yet, show it
+                if(DatabaseData.mainActivityHelpShowed == DataContract.UserPrefEntry.BOOLEAN_FALSE) {
+                    showMainActivityExplanationDialog();
                 }
             }
         });

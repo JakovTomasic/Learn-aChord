@@ -178,6 +178,7 @@ public class SettingsActivity extends AppCompatActivity {
     private void showNoDirectionConfirmationDialog() {
         // Create an AlertDialog.Builder and set the message, and click listeners for the positive and negative buttons on the dialog.
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(R.string.settings_warning_dialogs_title);
         builder.setMessage(R.string.all_directions_unchecked_error);
         builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
@@ -202,6 +203,7 @@ public class SettingsActivity extends AppCompatActivity {
     private void showNoIntervalsOrChordsConfirmationDialog() {
         // Create an AlertDialog.Builder and set the message, and click listeners for the positive and negative buttons on the dialog.
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(R.string.settings_warning_dialogs_title);
         builder.setMessage(R.string.all_intervals_and_chords_unchecked_error);
         builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
@@ -226,6 +228,7 @@ public class SettingsActivity extends AppCompatActivity {
     private void showSmallRangeConfirmationDialog() {
         // Create an AlertDialog.Builder and set the message, and click listeners for the positive and negative buttons on the dialog.
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(R.string.settings_warning_dialogs_title);
         builder.setMessage(R.string.too_small_range_error);
         builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
@@ -252,6 +255,7 @@ public class SettingsActivity extends AppCompatActivity {
     private void showSettingsActivityExplanationDialog() {
         // Create an AlertDialog.Builder and set the message, and click listener for the positive button on the dialog.
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(R.string.settings_activity_explanation_dialog_title);
         builder.setMessage(R.string.settings_activity_explanation_dialog_text);
         builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {

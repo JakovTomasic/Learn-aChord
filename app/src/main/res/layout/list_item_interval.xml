@@ -13,9 +13,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:textSize="26sp"
         android:textAllCaps="false"
         android:textColor="@color/darkTextColor"
-        tools:text="@string/chord_durski"/>
+        android:textSize="26sp"
+        tools:text="@string/chord_durski" />
 
 </LinearLayout>

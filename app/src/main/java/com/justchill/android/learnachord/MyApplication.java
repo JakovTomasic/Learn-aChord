@@ -306,8 +306,8 @@ public class MyApplication extends Application {
 
 
         // Set score text
-        TextView scoreTV = dialogLayout.findViewById(R.id.quiz_final_score_text_view);
-        scoreTV.setText(MyApplication.readResource(R.string.quiz_game_over_score_text, null) + " " + String.valueOf(score));
+        TextView scoreValueTV = dialogLayout.findViewById(R.id.quiz_final_score_value_text_view);
+        scoreValueTV.setText(String.valueOf(score));
 
         // return the view
         return dialogLayout;

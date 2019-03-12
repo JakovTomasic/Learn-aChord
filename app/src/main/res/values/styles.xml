@@ -9,7 +9,7 @@
         <item name="android:navigationBarColor" tools:targetApi="lollipop">@color/navBarColor</item>
 
         <!--Sets the default font for a whole application-->
-        <item name="android:fontFamily">@font/fira_sans_condensed</item>
+        <item name="android:fontFamily">@font/coda</item>
 
     </style>
 
@@ -46,6 +46,13 @@
         <item name="android:spotShadowAlpha" tools:ignore="NewApi">1</item>
     </style>
 
+    <style name="chooseQuizModeTitleStyle">
+        <item name="android:textColor">@color/quizBackgroundColor</item>
+    </style>
+
+    <style name="chooseQuizModeDescriptionStyle">
+
+    </style>
 
     <style name="chooseProfilePhotosPhotoStyle">
         <item name="android:elevation" tools:ignore="NewApi">2dp</item>

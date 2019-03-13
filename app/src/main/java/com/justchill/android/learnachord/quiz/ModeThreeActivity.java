@@ -60,6 +60,9 @@ public class ModeThreeActivity extends AppCompatActivity {
     // Submit button view
     private View submitAnswerButton;
 
+    // Achievement icon to show on milestone reach
+    private View achievementIconView;
+
 
     // Temporary random object
     private Random rand;
@@ -108,6 +111,8 @@ public class ModeThreeActivity extends AppCompatActivity {
         searchTextInput = findViewById(R.id.quiz_mode_three_search_text_input);
         submitAnswerButton = findViewById(R.id.quiz_mode_three_submit_answer_clickable_layout);
 
+        achievementIconView = findViewById(R.id.achievement_icon_image_view);
+
 
         // Setup score text view text size
         scoreTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(MyApplication.smallerDisplayDimensionPX / 16) * DatabaseData.scaledDensity);
@@ -126,6 +131,12 @@ public class ModeThreeActivity extends AppCompatActivity {
         submitAnswerViewSizeRules.width = MyApplication.smallerDisplayDimensionPX / 6;
         submitAnswerViewSizeRules.height = MyApplication.smallerDisplayDimensionPX / 6;
         submitAnswerButton.setLayoutParams(submitAnswerViewSizeRules);
+
+
+
+        // Setup achievement milestone popup size
+        achievementIconView.getLayoutParams().height = MyApplication.smallerDisplayDimensionPX / 8;
+        achievementIconView.getLayoutParams().width = MyApplication.smallerDisplayDimensionPX / 8;
 
 
         // Setup start button size

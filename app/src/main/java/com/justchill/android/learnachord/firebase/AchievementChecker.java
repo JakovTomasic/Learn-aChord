@@ -22,6 +22,9 @@ public class AchievementChecker {
     // What quiz has been played recently (becomes NULL_QUIZ_ID if none is recent)
     public static int lastPlayedQuizMode = NULL_QUIZ_ID;
 
+    // Thread that will show achievement when milestone is reached
+    private static Thread showPopupThread;
+
     // Set values to all accomplished achievements
     public static void checkAchievements(int quizScore) {
         for(int achievementId = 0; achievementId < User.numberOfAchievements; achievementId++) {
@@ -120,7 +123,13 @@ public class AchievementChecker {
             return;
         }
 
-        Thread showPopupThread = new Thread(new Runnable() {
+        // If achievement icon is already showing, finish that first
+        try {
+            showPopupThread.interrupt();
+        } catch (Exception ignored) {}
+
+
+        showPopupThread = new Thread(new Runnable() {
             @Override
             public void run() {
 //                try {

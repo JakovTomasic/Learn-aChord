@@ -56,6 +56,9 @@ public class ModeOneActivity extends AppCompatActivity {
     // Correct/true and wrong/false answer button
     private View trueAnswer, falseAnswer;
 
+    // Achievement icon to show on milestone reach
+    private View achievementIconView;
+
 
     // Temporary random object
     private Random rand;
@@ -105,6 +108,9 @@ public class ModeOneActivity extends AppCompatActivity {
         trueAnswer = findViewById(R.id.true_answer_parent_layout);
         falseAnswer = findViewById(R.id.false_answer_parent_layout);
 
+        achievementIconView = findViewById(R.id.achievement_icon_image_view);
+
+
         // Setup interval and chord text size
         MyApplication.setupIntervalAndChordTextSize(chordTextView, chordNumOneTextView, chordNumTwoTextView, 1);
 
@@ -112,11 +118,9 @@ public class ModeOneActivity extends AppCompatActivity {
         scoreTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(MyApplication.smallerDisplayDimensionPX / 16) * DatabaseData.scaledDensity);
         scoreTextView.setText(String.valueOf(QuizData.quizScore));
 
-        // TODO: implement or remove this
         // Setup achievement milestone popup size
-        View test = findViewById(R.id.achievement_icon_image_view);
-        test.getLayoutParams().height = MyApplication.smallerDisplayDimensionPX / 8;
-        test.getLayoutParams().width = MyApplication.smallerDisplayDimensionPX / 8;
+        achievementIconView.getLayoutParams().height = MyApplication.smallerDisplayDimensionPX / 8;
+        achievementIconView.getLayoutParams().width = MyApplication.smallerDisplayDimensionPX / 8;
 
         // Setup progress bar size
         ViewGroup.LayoutParams progressBarSizeRules = timeLeftToPlayProgressBar.getLayoutParams();

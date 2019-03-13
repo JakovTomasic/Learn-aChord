@@ -51,6 +51,9 @@ public class ModeTwoActivity extends AppCompatActivity {
     // Number of intervals and chords checked/chosen/enabled in options
     private int checkedIntervals, checkedChords;
 
+    // Achievement icon to show on milestone reach
+    private View achievementIconView;
+
     // Just a little delay between playing
     private static final long addMS = 100;
 
@@ -151,6 +154,8 @@ public class ModeTwoActivity extends AppCompatActivity {
                 findViewById(R.id.option_four_chord_number_two)
         };
 
+        achievementIconView = findViewById(R.id.achievement_icon_image_view);
+
 
         height = (int)(MyApplication.smallerDisplayDimensionPX/2.5f);
         width = height/3*2;
@@ -189,6 +194,11 @@ public class ModeTwoActivity extends AppCompatActivity {
         progressBarSizeRules.height = MyApplication.smallerDisplayDimensionPX / 8;
         timeLeftToPlayProgressBar.setLayoutParams(progressBarSizeRules);
 
+
+
+        // Setup achievement milestone popup size
+        achievementIconView.getLayoutParams().height = MyApplication.smallerDisplayDimensionPX / 8;
+        achievementIconView.getLayoutParams().width = MyApplication.smallerDisplayDimensionPX / 8;
 
 
         // Setup start button size

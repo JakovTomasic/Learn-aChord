@@ -38,12 +38,12 @@
             android:id="@+id/achievement_icon_image_view"
             android:layout_width="?android:attr/listPreferredItemHeight"
             android:layout_height="match_parent"
-            android:src="@drawable/ach_one_test"
+            android:src="@drawable/ach_ic_one_green"
             app:civ_border_color="@color/achievementBorderColor"
             app:civ_border_width="4dp"
-            app:civ_circle_background_color="@color/achievementBackgroundColor"
-            android:elevation="2dp"
-            android:layout_margin="4dp"
+            app:civ_circle_background_color="@color/quizBackgroundColor"
+            android:elevation="@dimen/achievement_elevation"
+            android:layout_margin="@dimen/achievement_margin"
             tools:targetApi="lollipop" />
 
         <TextView

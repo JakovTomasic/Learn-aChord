@@ -27,15 +27,24 @@ public class AchievementChecker {
 
     // Set values to all accomplished achievements
     public static void checkAchievements(int quizScore) {
+
+        // Achievement icon to show (the biggest one)
+        int idOfPopupToShow = -1;
+
         for(int achievementId = 0; achievementId < User.numberOfAchievements; achievementId++) {
             if(isAchievementAccomplished(achievementId) && quizScore > FirebaseHandler.user.achievementProgress.get(achievementId)) {
                 // Set score if all conditions are positive and if current score is greater that previous one
                 if(quizScore % 5 == 0) {
                     // If new score is dividable by 5, show popup notification
-                    showPopup(MyApplication.getActivity());
+                    idOfPopupToShow = achievementId;
                 }
                 FirebaseHandler.user.setAchievementProgress(achievementId, quizScore);
             }
+        }
+
+        if(idOfPopupToShow >= 0) {
+            // Show popup with the biggest value (if any)
+            showPopup(MyApplication.getActivity(), idOfPopupToShow);
         }
     }
 
@@ -117,7 +126,7 @@ public class AchievementChecker {
 
     // TODO: implement this
     // Shows popup (notification, just information) when new achievement milestone is reached.
-    private static void showPopup(final Activity activity) {
+    private static void showPopup(final Activity activity, final int achievementId) {
         if(activity == null) {
             // If there is no activity, UI cannot be changed
             return;
@@ -132,23 +141,28 @@ public class AchievementChecker {
         showPopupThread = new Thread(new Runnable() {
             @Override
             public void run() {
-//                try {
-//                    activity.runOnUiThread(new Runnable() {
-//                        @Override
-//                        public void run() {
-//                            try {
-//                                View popup = activity.findViewById(R.id.popup_included_layout);
-//                                TextView scoreTV = popup.findViewById(R.id.achievement_score_text_view);
-//
-//                                scoreTV.setText(String.valueOf(score));
-//                            } catch (Exception e) {
-//                                e.printStackTrace();
-//                            }
-//                        }
-//                    });
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                }
+                try {
+                    activity.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                // Set achievement icon resource and color
+                                de.hdodenhof.circleimageview.CircleImageView iconIV = activity.findViewById(R.id.achievement_icon_image_view);
+                                iconIV.setImageResource(AchievementAdapter.getAchievementIconResource(achievementId));
+                                iconIV.setBorderColor(AchievementAdapter.getAchievementBorderColorResource(achievementId));
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    });
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                // Little delay for colors and pictures to set up
+                try {
+                    Thread.sleep(100);
+                } catch (Exception ignored) {}
 
                 // Show notification
                 setPopupVisibility(activity, View.VISIBLE);
@@ -173,7 +187,6 @@ public class AchievementChecker {
                 @Override
                 public void run() {
                     try {
-//                        View popup = activity.findViewById(R.id.popup_parent_layout);
                         View popup = activity.findViewById(R.id.achievement_icon_image_view);
                         popup.setVisibility(visibility);
                     } catch (Exception e) {

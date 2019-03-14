@@ -170,12 +170,19 @@
         </RelativeLayout>
 
 
+        <View
+            android:id="@+id/your_progress_separation_view"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#80000000"
+            android:layout_below="@id/achievement_progress_label_parent_layout" />
+
 
         <ListView
             android:id="@+id/user_achievements_list_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/achievement_progress_label_parent_layout" />
+            android:layout_below="@id/your_progress_separation_view" />
 
 
         <TextView

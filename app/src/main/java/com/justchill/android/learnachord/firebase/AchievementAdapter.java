@@ -114,83 +114,46 @@ public class AchievementAdapter extends ArrayAdapter<Integer> {
         }
     }
 
-//    private int getAchievementIconResource(int position) {
-//        switch (position) {
-//            case 0:
-//                return R.drawable.ach_test_ic1;
-//            case 1:
-//                return R.drawable.ach_test_ic1;
-//            case 2:
-//                return R.drawable.ach_test_ic1;
-//            case 3:
-//                return R.drawable.ach_test_ic2;
-//            case 4:
-//                return R.drawable.ach_test_ic2;
-//            case 5:
-//                return R.drawable.ach_test_ic2;
-//            case 6:
-//                return R.drawable.ach_test_ic3;
-//            case 7:
-//                return R.drawable.ach_test_ic3;
-//            case 8:
-//                return R.drawable.ach_test_ic3;
-//            case 9:
-//                return R.drawable.ach_test_ic4;
-//            case 10:
-//                return R.drawable.ach_test_ic4;
-//            case 11:
-//                return R.drawable.ach_test_ic4;
-//            case 12:
-//                return R.drawable.ach_test_ic5;
-//            case 13:
-//                return R.drawable.ach_test_ic5;
-//            case 14:
-//                return R.drawable.ach_test_ic5;
-//            default:
-//                return R.drawable.ach_test_ic1; // TODO: return something normal
-//        }
-//    }
-
     // Returns achievement icon based on position in the list
-    private int getAchievementIconResource(int position) {
+    static int getAchievementIconResource(int position) {
         switch (position) {
             case 0:
-                return R.drawable.ach_one_one_test;
+                return R.drawable.ach_ic_one_green;
             case 1:
-                return R.drawable.ach_one_two_test;
+                return R.drawable.ach_ic_one_yellow;
             case 2:
-                return R.drawable.ach_one_three_test;
+                return R.drawable.ach_ic_one_red;
             case 3:
-                return R.drawable.ach_two_test;
+                return R.drawable.ach_ic_two_green;
             case 4:
-                return R.drawable.ach_two_test;
+                return R.drawable.ach_ic_two_yellow;
             case 5:
-                return R.drawable.ach_two_test;
+                return R.drawable.ach_ic_two_red;
             case 6:
-                return R.drawable.ach_three_test;
+                return R.drawable.ach_ic_three_green;
             case 7:
-                return R.drawable.ach_three_test;
+                return R.drawable.ach_ic_three_yellow;
             case 8:
-                return R.drawable.ach_three_test;
+                return R.drawable.ach_ic_three_red;
             case 9:
-                return R.drawable.ach_four_test;
+                return R.drawable.ach_ic_four_green;
             case 10:
-                return R.drawable.ach_four_test;
+                return R.drawable.ach_ic_four_yellow;
             case 11:
-                return R.drawable.ach_four_test;
+                return R.drawable.ach_ic_four_red;
             case 12:
-                return R.drawable.ach_five_test;
+                return R.drawable.ach_ic_five_green;
             case 13:
-                return R.drawable.ach_five_test;
+                return R.drawable.ach_ic_five_yellow;
             case 14:
-                return R.drawable.ach_five_test;
+                return R.drawable.ach_ic_five_red;
             default:
-                return R.drawable.ach_one_test; // TODO: return something normal
+                return R.drawable.ach_ic_one_green;
         }
     }
 
     // Returns achievement border color based on position in the list
-    private int getAchievementBorderColorResource(int position) {
+    static int getAchievementBorderColorResource(int position) {
         switch (position) {
             case 0:
                 return getColor(R.color.achievementColorGreen);
@@ -223,16 +186,16 @@ public class AchievementAdapter extends ArrayAdapter<Integer> {
             case 14:
                 return getColor(R.color.achievementColorRed);
             default:
-                return getColor(R.color.achievementColorGreen); // TODO: return something normal
+                return getColor(R.color.achievementColorGreen);
         }
     }
 
     // Returns color number resources based on it's id
-    private int getColor(int resId) {
+    private static int getColor(int resId) {
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            return getContext().getResources().getColor(resId, null);
+            return MyApplication.getAppContext().getResources().getColor(resId, null);
         } else {
-            return getContext().getResources().getColor(resId);
+            return MyApplication.getAppContext().getResources().getColor(resId);
         }
     }
 

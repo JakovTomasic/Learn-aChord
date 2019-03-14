@@ -38,11 +38,12 @@
         android:id="@+id/achievement_icon_image_view"
         android:layout_width="?android:attr/listPreferredItemHeight"
         android:layout_height="?android:attr/listPreferredItemHeight"
-        android:src="@drawable/ach_one_test"
+        android:src="@drawable/ach_ic_one_green"
         app:civ_border_color="@color/achievementBorderColor"
         app:civ_border_width="4dp"
-        app:civ_circle_background_color="@color/achievementBackgroundColor"
-        android:elevation="2dp"
+        app:civ_circle_background_color="@color/quizBackgroundColor"
+        android:elevation="@dimen/achievement_elevation"
+        android:layout_margin="@dimen/achievement_margin"
         android:layout_toRightOf="@id/quiz_score_text_view"
         tools:targetApi="lollipop"
         android:visibility="gone"/>
@@ -250,25 +251,6 @@
             android:visibility="invisible" />
 
     </LinearLayout>
-
-
-    <RelativeLayout
-        android:id="@+id/popup_parent_layout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/ring_playing_progress_bar"
-        android:layout_marginTop="@dimen/popup_margin_top"
-        android:visibility="gone">
-
-        <include
-            layout="@layout/popup_achievement_milestone_reached"
-            android:id="@+id/popup_included_layout"
-            android:visibility="visible"
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/popup_height"
-            android:layout_margin="@dimen/popup_margin"/>
-
-    </RelativeLayout>
 
 
 </RelativeLayout>

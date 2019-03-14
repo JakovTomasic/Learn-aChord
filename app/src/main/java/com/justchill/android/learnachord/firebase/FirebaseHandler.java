@@ -290,8 +290,21 @@ public class FirebaseHandler {
         return orientation;
     }
 
+    // Scale photo to match display size
+    private static Bitmap scaleBitmap(Bitmap bitmap) {
+        if(bitmap == null) {
+            return null;
+        }
 
-    // Download image from url
+        try {
+            int bitmapSize = (int)(MyApplication.smallerDisplayDimensionPX/2.5f);
+            return Bitmap.createScaledBitmap(bitmap, bitmapSize, bitmapSize, true);
+        } catch (Exception ignored) {}
+
+        return bitmap;
+    }
+
+    // Download image from url and scale if properly
     static Bitmap getImageBitmap(String url) {
         Bitmap bm = null;
         try {
@@ -304,9 +317,10 @@ public class FirebaseHandler {
             bis.close();
             is.close();
         } catch (IOException e) {
-            Log.e("###", "Error getting bitmap", e);
+            Log.e("FirebaseHandler", "Error getting bitmap", e);
         }
-        return bm;
+
+        return scaleBitmap(bm);
     }
 
 
@@ -325,7 +339,7 @@ public class FirebaseHandler {
             // return properly rotated photo
             if(imageScaleSize == null) {
                 // If size value is null, image doesn't need to be sized
-                return scaleImage(activity, imageUri);
+                return scaleBitmap(scaleImage(activity, imageUri));
             } else {
                 // return photo that is properly sized
                 return Bitmap.createScaledBitmap(

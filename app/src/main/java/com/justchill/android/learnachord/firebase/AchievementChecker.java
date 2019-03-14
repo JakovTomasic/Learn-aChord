@@ -124,7 +124,6 @@ public class AchievementChecker {
     }
 
 
-    // TODO: implement this
     // Shows popup (notification, just information) when new achievement milestone is reached.
     private static void showPopup(final Activity activity, final int achievementId) {
         if(activity == null) {

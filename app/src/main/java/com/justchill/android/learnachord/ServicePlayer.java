@@ -48,7 +48,7 @@ public class ServicePlayer extends Service {
     // Is key[i] loaded ( 0 <= i < number of keys)
     private boolean[] keySoundLoaded = new boolean[DataContract.UserPrefEntry.NUMBER_OF_KEYS];
     // Number of tones that needs load before user can start playing
-    private final int soundsToLoadBeforePlaying = 25; // TODO: optimize this, loading sounds
+    private final int soundsToLoadBeforePlaying = 25;
     private boolean areAllSoundsLoaded = false;
     // For making loading sounds synchronous (for showing sounds loading animation)
     private boolean waitSoundpoolToLoad = false;

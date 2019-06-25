@@ -20,7 +20,7 @@
             android:id="@+id/settings_interval_play_icon"
             android:layout_width="@dimen/settings_play_button_size"
             android:layout_height="match_parent"
-            android:background="?android:attr/selectableItemBackground"
+            android:background="?selectableItemBackgroundBorderless"
             android:clickable="true"
             android:focusable="true"
             android:padding="16dp"

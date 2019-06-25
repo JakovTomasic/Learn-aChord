@@ -50,10 +50,10 @@ public class FirebaseHandler {
 
     // Constants for storing witch photo to show
     public static final int IMAGE_TO_SET_DEFAULT_ID = 0;
-    public static final int IMAGE_TO_SET_GOOGLE_ID = 1;
-    public static final int IMAGE_TO_SET_FACEBOOK_ID = 2;
-    public static final int IMAGE_TO_SET_TWITTER_ID = 3;
-    public static final int IMAGE_TO_SET_FROM_PHONE_ID = 4;
+    static final int IMAGE_TO_SET_GOOGLE_ID = 1;
+    static final int IMAGE_TO_SET_FACEBOOK_ID = 2;
+    static final int IMAGE_TO_SET_TWITTER_ID = 3;
+    static final int IMAGE_TO_SET_FROM_PHONE_ID = 4;
 
     // Stores path to the photo chosen from gallery
     public static Uri photoFromPhonePath = null;

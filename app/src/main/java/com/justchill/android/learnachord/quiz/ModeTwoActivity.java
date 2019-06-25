@@ -970,7 +970,7 @@ public class ModeTwoActivity extends AppCompatActivity {
 
 
     // Stop all sounds from playing
-    private void stopPlaying() {
+    public void stopPlaying() {
         QuizData.quizPlayingID += 10;
         if(quizModeTwoPlayThread != null) {
             quizModeTwoPlayThread.interrupt();
@@ -983,7 +983,7 @@ public class ModeTwoActivity extends AppCompatActivity {
     }
 
     // Set UI for when quiz is paused
-    private void pauseQuiz() {
+    public void pauseQuiz() {
         startClickableImageView.setVisibility(View.VISIBLE);
         pauseClickableImageView.setVisibility(View.GONE);
 

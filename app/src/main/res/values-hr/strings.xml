@@ -239,7 +239,7 @@
     <string name="log_in_help_dialog_title">Prijava?</string>
     <string name="log_in_help_dialog_text">
         Želite li se prijaviti?\n
-        Bez prijave može doći do gubitka podataka.
+        Bez prijave može doći do gubitka rekorda i napretka.
     </string>
     <string name="ask_me_later">
         Pitaj me kasnije
@@ -267,7 +267,7 @@
     <string name="user_profile_activity_explanation_dialog_title">Profil</string>
     <string name="user_profile_activity_explanation_dialog_text">
         Ovdje se može prijaviti kako bi se sva postignuća automatski spremala na internet.
-        Bez prijave može doći do gubitka podataka.\n
+        Bez prijave može doći do gubitka rekorda i napretka.\n
         Nakon prijave moguće je promjeniti i profilnu sliku.
         Ukoliko je odabrana zadana slika ili slika sa uređaja, mobilni podaci bit će očuvani.\n
         Ovdje se može vidjeti i ukupan napredak (najveći napredak je 50).

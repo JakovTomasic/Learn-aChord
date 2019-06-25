@@ -3,6 +3,7 @@ package com.justchill.android.learnachord;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.media.AudioAttributes;
 import android.media.AudioFocusRequest;
 import android.media.AudioManager;
@@ -109,6 +110,10 @@ public class ServicePlayer extends Service {
     // max displaying value for progress bar, 75 in main activity, 100 in quizzes
     private int max = 75;
 
+    // Needed for not being noisy (for handling headphone disconnecting during playtime) - to stop playing on headphone removal
+    private IntentFilter myNoisyIntentFilter = new IntentFilter(AudioManager.ACTION_AUDIO_BECOMING_NOISY);
+    private BecomingNoisyReceiver myNoisyAudioStreamReceiver = new BecomingNoisyReceiver();
+
     // Handle audio focus changes
     AudioManager.OnAudioFocusChangeListener afChangeListener = new AudioManager.OnAudioFocusChangeListener() {
         public void onAudioFocusChange(int focusChange) {
@@ -196,9 +201,7 @@ public class ServicePlayer extends Service {
                                 MyApplication.loadingFinished();
                             }
                         });
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
+                    } catch (Exception ignore) {}
 
                     try {
                         Thread.sleep(10);
@@ -225,6 +228,8 @@ public class ServicePlayer extends Service {
             public void onIsPlayingChange() {
                 stop();
                 if(MyApplication.isPlaying()) {
+                    // Register receiver for not being noisy (for handling headphone disconnecting during playtime)
+                    registerReceiver(myNoisyAudioStreamReceiver, myNoisyIntentFilter);
                     play((int) DatabaseData.tonesSeparationTime, (int) DatabaseData.delayBetweenChords, ++playingID);
                 } else {
                     if(!MyApplication.isChordOrIntervalPlaying() && !QuizData.quizPlayingCurrentThing) {
@@ -284,6 +289,8 @@ public class ServicePlayer extends Service {
             public void onPlayChordChange(final Interval[] interval, final int lowestKey, final int directionToPlay) {
                 stop();
                 if(interval != null) {
+                    // Register receiver for not being noisy (for handling headphone disconnecting during playtime)
+                    registerReceiver(myNoisyAudioStreamReceiver, myNoisyIntentFilter);
                     thread = new Thread(new Runnable() {
                         @Override
                         public void run() {
@@ -301,6 +308,8 @@ public class ServicePlayer extends Service {
             public void onPlayKey(final Integer keyId) {
                 stop();
                 if(keyId != null) {
+                    // Register receiver for not being noisy (for handling headphone disconnecting during playtime)
+                    registerReceiver(myNoisyAudioStreamReceiver, myNoisyIntentFilter);
                     if(MyApplication.isUIVisible()) {
                         thread = new Thread(new Runnable() {
                             @Override
@@ -870,6 +879,10 @@ public class ServicePlayer extends Service {
         }
         updateProgressBarAnimation(max, max);
 
+        // Unregister receiver for not being noisy (for handling headphone disconnecting during playtime)
+        try {
+            unregisterReceiver(myNoisyAudioStreamReceiver);
+        } catch (Exception ignored) {}
     }
 
 

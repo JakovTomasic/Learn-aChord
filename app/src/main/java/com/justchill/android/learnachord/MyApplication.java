@@ -13,6 +13,7 @@ import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.ShapeDrawable;
 import android.support.multidex.MultiDex;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatDelegate;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -103,6 +104,9 @@ public class MyApplication extends Application {
             }
         };
         serviceThread.start();
+
+        // Turns off night mode in the app - fix for some weird UI changes (colors)
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
     }
 
     public static ChangeListener getServicePlayerListener() {

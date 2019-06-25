@@ -69,6 +69,8 @@
 
         <item name="android:clickable">true</item>
         <item name="android:focusable">true</item>
+
+        <item name="android:foreground">?selectableItemBackgroundBorderless</item>
     </style>
 
     <style name="chooseProfileSeparationViewStyle">
@@ -80,7 +82,7 @@
 
 
     <style name="loginActivityForResultTheme">
-        <item name="android:background">@color/userProfileActivityBackground</item>
+        <item name="android:windowBackground">@color/userProfileActivityBackground</item>
         <item name="windowNoTitle">true</item>
     </style>
 

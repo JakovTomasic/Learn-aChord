@@ -429,22 +429,22 @@ public class FirebaseHandler {
                     }
                 }
 
-                // If image is from the gallery, wait until app activity opens
-                if(imageToSet == IMAGE_TO_SET_FROM_PHONE_ID) {
-                    // Don't wait for over half minute
-                    for(int i = 0; i < 50*30; i++) {
-                        try {
-                            Thread.sleep(20);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-
-                        // When activity opens, exit loop
-                        if(MyApplication.getActivity() != null) {
-                            break;
-                        }
-                    }
-                }
+//                // If image is from the gallery, wait until app activity opens
+//                if(imageToSet == IMAGE_TO_SET_FROM_PHONE_ID) {
+//                    // Don't wait for over half minute
+//                    for(int i = 0; i < 50*30; i++) {
+//                        try {
+//                            Thread.sleep(20);
+//                        } catch (Exception e) {
+//                            e.printStackTrace();
+//                        }
+//
+//                        // When activity opens, exit loop
+//                        if(MyApplication.getActivity() != null) {
+//                            break;
+//                        }
+//                    }
+//                }
 
                 // If activity is visible, change the UI
                 if(MyApplication.getActivity() != null) {

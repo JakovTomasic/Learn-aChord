@@ -1,12 +1,19 @@
 package com.justchill.android.learnachord.firebase;
 
 import android.app.Activity;
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.DisplayMetrics;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -67,9 +74,16 @@ public class AchievementAdapter extends ArrayAdapter<Integer> {
         achievementDescriptionTextView.setText(getAchievementDescription(position));
 
 
-        // Set achievement icon resource and color
         de.hdodenhof.circleimageview.CircleImageView iconIV = achievementView.findViewById(R.id.achievement_icon_image_view);
-        iconIV.setImageResource(getAchievementIconResource(position));
+        // Read drawable from resources and create it's bitmap
+        Drawable dr = getContext().getResources().getDrawable(getAchievementIconResource(position));
+        Bitmap bitmap = ((BitmapDrawable) dr).getBitmap();
+
+        // Size to scale drawable to, it's minimum of default size and display size
+        int displaySize = Math.min(((BitmapDrawable) dr).getBitmap().getWidth(), getAchievementIconSize());
+
+        // Set achievement icon resource (properly scaled) and color
+        iconIV.setImageBitmap(Bitmap.createScaledBitmap(bitmap, displaySize, displaySize, true));
         iconIV.setBorderColor(getAchievementBorderColorResource(position));
 
 
@@ -197,6 +211,17 @@ public class AchievementAdapter extends ArrayAdapter<Integer> {
         } else {
             return MyApplication.getAppContext().getResources().getColor(resId);
         }
+    }
+
+    // Returns px size in witch will achievement icon be displayed
+    private int getAchievementIconSize() {
+        TypedValue value = new TypedValue();
+        DisplayMetrics metrics = new DisplayMetrics();
+
+        getContext().getTheme().resolveAttribute(android.R.attr.listPreferredItemHeight, value, true);
+        ((WindowManager) (getContext().getSystemService(Context.WINDOW_SERVICE))).getDefaultDisplay().getMetrics(metrics);
+
+        return (int)TypedValue.complexToDimension(value.data, metrics);
     }
 
 

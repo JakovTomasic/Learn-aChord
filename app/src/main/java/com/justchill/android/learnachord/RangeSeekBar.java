@@ -46,7 +46,7 @@ import java.math.BigDecimal;
  * @author Michael Keppler (bananeweizen@gmx.de)
  */
 // Used for range preference in settings
-public class RangeSeekBar<T extends Number> extends android.support.v7.widget.AppCompatImageView {
+public class RangeSeekBar<T extends Number> extends androidx.appcompat.widget.AppCompatImageView {
 
     public static final Integer DEFAULT_MINIMUM = 0;
     public static final Integer DEFAULT_MAXIMUM = 100;

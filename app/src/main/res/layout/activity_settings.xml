@@ -8,7 +8,7 @@
     android:id="@+id/settings_activity_parent_view"
     tools:context="com.justchill.android.learnachord.settings.SettingsActivity">
 
-    <android.support.design.widget.TabLayout
+    <com.google.android.material.tabs.TabLayout
         android:id="@+id/sliding_tabs"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -18,7 +18,7 @@
         app:tabIndicatorColor="@color/settingsTabIndicatorColor"
         android:background="@color/TabLayoutBackground"/>
 
-    <android.support.v4.view.ViewPager
+    <androidx.viewpager.widget.ViewPager
         android:id="@+id/viewpager"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

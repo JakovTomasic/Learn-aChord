@@ -101,6 +101,7 @@
     <string name="show_progress_bar">Show progress circle</string>
     <string name="show_what_intervals">Show chord\'s intervals</string>
     <string name="chord_text_size">Text size</string>
+    <string name="reminder_interval">Reminder</string>
     <string name="question_mark" translatable="false">\?</string>
 
     <!--Tones option settings-->
@@ -126,6 +127,14 @@
     <string name="small">Small</string>
     <string name="normal">Normal</string>
     <string name="large">Large</string>
+
+    <!--Reminder time interval options-->
+    <string name="never">Never</string>
+    <string name="hour">Hour</string>
+    <string name="day">Day</string>
+    <string name="week">Week</string>
+    <string name="month">Month</string>
+    <string name="custom_reminder_time_interval">Custom</string>
 
     <!--Warning dialogs-->
     <string name="settings_warning_dialogs_title">Error</string>

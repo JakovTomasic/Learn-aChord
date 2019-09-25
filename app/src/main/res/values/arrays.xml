@@ -169,6 +169,14 @@
         <item>@string/small</item>
     </string-array>
 
+    <string-array name="reminder_time_interval_options">
+        <item>@string/never</item>
+        <item>@string/day</item>
+        <item>@string/week</item>
+        <item>@string/month</item>
+        <item>@string/custom_reminder_time_interval</item>
+    </string-array>
+
 
     <string-array name="achievement_progress_keys">
         <item>"achievement_key_under_octave_easy"</item>
@@ -196,6 +204,10 @@
         <item>"quiz_mode_one_high_score_key"</item>
         <item>"quiz_mode_two_high_score_key"</item>
         <item>"quiz_mode_three_high_score_key"</item>
+    </string-array>
+
+    <string-array name="last_time_app_used_key">
+        <item>"last_time_app_used_in_millis_key"</item>
     </string-array>
 
 </resources>

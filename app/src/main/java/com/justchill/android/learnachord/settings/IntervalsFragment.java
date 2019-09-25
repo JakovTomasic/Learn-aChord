@@ -36,8 +36,6 @@ public class IntervalsFragment extends Fragment {
         allIntervalsCB = fragmentView.findViewById(R.id.all_intervals_check);
         setAllIntervalsCB();
 
-        // For different languages support
-        LocaleHelper.setLocale(getContext(), null);
 
         return fragmentView;
     }

@@ -36,8 +36,6 @@ public class ChordsFragment extends Fragment {
         allChordsCB = fragmentView.findViewById(R.id.all_chords_check);
         setAllChordsCB();
 
-        // For different languages support
-        LocaleHelper.setLocale(getContext(), null);
 
         return fragmentView;
     }

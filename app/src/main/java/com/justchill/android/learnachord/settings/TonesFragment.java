@@ -33,8 +33,6 @@ public class TonesFragment extends Fragment {
         // Inflate the layout for this fragment
         fragmentView = inflater.inflate(R.layout.fragment_tones, container, false);
 
-        // For different languages support
-        LocaleHelper.setLocale(getContext(), null);
 
 
         whatToneClickableView = fragmentView.findViewById(R.id.what_tone_parent_layout);

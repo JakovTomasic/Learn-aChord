@@ -120,6 +120,13 @@ public final class DataContract {
                     || i == CHORD_TEXT_SCALING_MODE_NORMAL || i == CHORD_TEXT_SCALING_MODE_LARGE);
         }
 
+        // Constant numbers for text scaling modes (also used for displaying order in spinner in settings)
+        public static final int REMINDER_TIME_INTERVAL_NEVER = 0;
+        public static final int REMINDER_TIME_INTERVAL_HOUR = 1;
+        public static final int REMINDER_TIME_INTERVAL_DAY = 2;
+        public static final int REMINDER_TIME_INTERVAL_WEEK = 3;
+        public static final int REMINDER_TIME_INTERVAL_MONTH = 4;
+
         // Constant for random playing mode
         public static final int PLAYING_MODE_RANDOM = 0;
         // Constant for custom playing mode

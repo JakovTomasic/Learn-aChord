@@ -489,7 +489,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/settings_shadow_translation_x_inverted"
-            android:layout_marginBottom="@dimen/settings_shadow_elevation"
             android:background="@color/settingsBackground"
             android:elevation="@dimen/settings_shadow_elevation"
             android:orientation="vertical"
@@ -599,6 +598,10 @@
 
         </LinearLayout>
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/settings_separation" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -609,6 +612,32 @@
             android:orientation="vertical"
             android:translationX="@dimen/settings_shadow_translation_x">
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="@dimen/settings_layout_separations"
+                android:paddingBottom="@dimen/settings_layout_separations_half"
+                android:minHeight="@dimen/settings_min_height"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/settingsTextStyle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:paddingLeft="@dimen/settings_additional_padding"
+                    android:paddingRight="@dimen/settings_additional_padding"
+                    android:text="@string/reminder_interval" />
+
+                <Spinner
+                    android:id="@+id/reminder_interval_spinner"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/settings_min_height"
+                    android:layout_gravity="center_vertical"
+                    android:spinnerMode="dropdown" />
+
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/contact_us_clickable_text_view"
@@ -619,7 +648,7 @@
                 android:minHeight="@dimen/settings_min_height"
                 android:paddingLeft="@dimen/settings_additional_padding"
                 android:text="@string/contact_us"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="@dimen/settings_check_box_margin_right"
                 android:background="?android:attr/selectableItemBackground"
                 android:clickable="true"
                 android:focusable="true"

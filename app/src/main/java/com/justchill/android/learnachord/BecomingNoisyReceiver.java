@@ -10,7 +10,7 @@ import com.justchill.android.learnachord.quiz.ModeThreeActivity;
 import com.justchill.android.learnachord.quiz.ModeTwoActivity;
 import com.justchill.android.learnachord.quiz.QuizData;
 
-// Stops playing all sounds (or pauses quiz) called when headphones are disconnected
+// Stops playing all sounds (or pauses quiz), called when headphones are disconnected
 public class BecomingNoisyReceiver extends BroadcastReceiver {
 
     @Override

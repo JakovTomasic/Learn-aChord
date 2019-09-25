@@ -251,7 +251,11 @@ public class MyApplication extends Application {
     public static String getKeyName(int key) {
         key--; // 0 to 60 (and not 1 - 61)
 
-        String[] keys = MyApplication.getAppContext().getResources().getStringArray(R.array.key_symbols);
+        // Set language
+        Context context = LocaleHelper.setLocale(getAppContext(), LocaleHelper.getLanguageLabel());
+        Resources resources = context.getResources();
+
+        String[] keys = resources.getStringArray(R.array.key_symbols);
         StringBuilder stringBuilder = new StringBuilder();
 
         if(DatabaseData.appLanguage == DataContract.UserPrefEntry.LANGUAGE_CROATIAN) {
@@ -465,13 +469,6 @@ public class MyApplication extends Application {
 
         // Fix for not opening app on older versions after firebase integration
         MultiDex.install(this);
-    }
-
-    // When something changes, set app language
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-        LocaleHelper.setLocale(this, null);
     }
 
 

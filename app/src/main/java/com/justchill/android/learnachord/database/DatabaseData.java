@@ -42,6 +42,12 @@ public class DatabaseData {
     // Chord/Interval/Tone text size, equals to one of the constants in DataContract.UserPrefEntry
     public static int chordTextScalingMode = DataContract.UserPrefEntry.CHORD_TEXT_SCALING_MODE_AUTO;
 
+    // TODO: add these to DB
+    // Number of hours/days/weeks/months after witch to remind user to use app
+    public static int reminderIntervalNumber = 1;
+    // Chord/Interval/Tone text size, equals to one of the constants in DataContract.UserPrefEntry
+    public static int reminderIntervalMode = DataContract.UserPrefEntry.REMINDER_TIME_INTERVAL_WEEK;
+
     // Playing mode, equals to one of the constants in DataContract.UserPrefEntry
     public static int playingMode = DataContract.UserPrefEntry.PLAYING_MODE_RANDOM;
 
@@ -74,5 +80,8 @@ public class DatabaseData {
 
     // Should log in help dialog be showed. For "ask me later" button to work (don't show after it was pressed)
     public static boolean dontShowLogInHelp = false;
+
+    // TODO: add this
+    public static long lastTimeAppUsedInMillis = System.currentTimeMillis();
 
 }

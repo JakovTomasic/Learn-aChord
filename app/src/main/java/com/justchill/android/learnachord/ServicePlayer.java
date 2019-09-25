@@ -4,6 +4,7 @@ import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.res.Resources;
 import android.media.AudioAttributes;
 import android.media.AudioFocusRequest;
 import android.media.AudioManager;
@@ -346,9 +347,13 @@ public class ServicePlayer extends Service {
         soundPool = null;
     }
 
-    // Returns string from resources
+    // Returns string from selected languages' resources
     private static String readResource(int id) {
-        return MyApplication.getAppContext().getResources().getString(id);
+        // Set language
+        Context context = LocaleHelper.setLocale(MyApplication.getAppContext(), LocaleHelper.getLanguageLabel());
+        Resources resources = context.getResources();
+
+        return resources.getString(id);
     }
 
     // This plays one interval/chord or tone on specified way
@@ -814,7 +819,7 @@ public class ServicePlayer extends Service {
         // Random sets what to play (interval or chord)
         if(DatabaseData.directionsCount <= 0) {
             if(!DatabaseData.playWhatTone && !DatabaseData.playWhatOctave) {
-                showToast(readResource(R.string.no_checked_playing_type_error));
+                showToast(MyApplication.getAppContext().getResources().getString(R.string.no_checked_playing_type_error));
                 throw new Exception();
             } else {
                 whatToPlay = PLAY_TONE;
@@ -831,7 +836,7 @@ public class ServicePlayer extends Service {
             // Is there any selected interval or chord
             if(IntervalsList.getCheckedIntervalCount() + ChordsList.getCheckedChordsCount() <= 0) {
                 if(!DatabaseData.playWhatTone && !DatabaseData.playWhatOctave) {
-                    showToast(readResource(R.string.no_checked_intervals_error));
+                    showToast(MyApplication.getAppContext().getResources().getString(R.string.no_checked_intervals_error));
                     throw new Exception();
                 } else {
                     whatToPlay = PLAY_TONE;

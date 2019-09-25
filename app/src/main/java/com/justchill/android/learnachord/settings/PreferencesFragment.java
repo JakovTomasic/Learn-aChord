@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
@@ -91,6 +92,9 @@ public class PreferencesFragment extends Fragment {
     // Spinner for changing text size
     private Spinner chordTextSizeSpinner;
 
+    // Spinner for changing reminder time interval
+    private Spinner reminderIntervalSpinner;
+
     // Clickable view to send customer support mail
     private View contactUsClickableView;
 
@@ -142,6 +146,8 @@ public class PreferencesFragment extends Fragment {
         showWhatIntervalsCheckBox = fragmentView.findViewById(R.id.settings_what_intervals_check_box);
 
         chordTextSizeSpinner = fragmentView.findViewById(R.id.chord_text_size_spinner);
+
+        reminderIntervalSpinner = fragmentView.findViewById(R.id.reminder_interval_spinner);
 
         contactUsClickableView = fragmentView.findViewById(R.id.contact_us_clickable_text_view);
 
@@ -294,6 +300,8 @@ public class PreferencesFragment extends Fragment {
 
         setupChordTextSizeSpinner();
 
+        setupReminderIntervalSpinner();
+
 
         // When user clicks to contact us button, open mail and send it
         contactUsClickableView.setOnClickListener(new View.OnClickListener() {
@@ -436,7 +444,11 @@ public class PreferencesFragment extends Fragment {
         minRange--; // 0 to 60 (and not 1 - 61)
         maxRange--;
 
-        String[] keys = getResources().getStringArray(R.array.key_symbols);
+        // Set locale language
+        Context context = LocaleHelper.setLocale(MyApplication.getAppContext(), LocaleHelper.getLanguageLabel());
+        Resources resources = context.getResources();
+
+        String[] keys = resources.getStringArray(R.array.key_symbols);
         StringBuilder stringBuilder = new StringBuilder();
 
         if(DatabaseData.appLanguage == DataContract.UserPrefEntry.LANGUAGE_CROATIAN) {
@@ -599,7 +611,6 @@ public class PreferencesFragment extends Fragment {
 
         playingModeSpinner.setSelection(DatabaseData.playingMode);
 
-        // Set the integer mSelected to the constant values
         playingModeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -637,7 +648,6 @@ public class PreferencesFragment extends Fragment {
 
         languageSpinner.setSelection(DatabaseData.appLanguage);
 
-        // Set the integer mSelected to the constant values
         languageSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -652,7 +662,6 @@ public class PreferencesFragment extends Fragment {
                     DatabaseHandler.setDoesDbNeedUpdate(true);
                 }
 
-                LocaleHelper.setLocale(context, null);
 
             }
 
@@ -676,7 +685,6 @@ public class PreferencesFragment extends Fragment {
 
         chordTextSizeSpinner.setSelection(DatabaseData.chordTextScalingMode);
 
-        // Set the integer mSelected to the constant values
         chordTextSizeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -699,6 +707,72 @@ public class PreferencesFragment extends Fragment {
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
                 chordTextSizeSpinner.setSelection(DatabaseData.chordTextScalingMode);
+            }
+        });
+    }
+
+    // Returns order number of item that should be selected in spinner
+    private void setReminderIntervalSpinnerSelection() {
+        int valueToSet;
+        switch (DatabaseData.reminderIntervalMode) {
+            case DataContract.UserPrefEntry.REMINDER_TIME_INTERVAL_HOUR:
+                valueToSet = 4;
+                break;
+            case DataContract.UserPrefEntry.REMINDER_TIME_INTERVAL_DAY:
+                valueToSet = 1;
+                break;
+            case DataContract.UserPrefEntry.REMINDER_TIME_INTERVAL_WEEK:
+                valueToSet = 2;
+                break;
+            case DataContract.UserPrefEntry.REMINDER_TIME_INTERVAL_MONTH:
+                valueToSet = 3;
+                break;
+            default:
+                valueToSet = 0;
+        }
+
+        if(DatabaseData.reminderIntervalNumber == 1) reminderIntervalSpinner.setSelection(valueToSet);
+        else reminderIntervalSpinner.setSelection(4); // custom
+    }
+
+    // Sets up spinner for choosing reminders' time interval
+    private void setupReminderIntervalSpinner() {
+        // Create adapter for spinner. The list options are from the String array it will use
+        // the spinner will use the default layout
+
+        // Apply the adapter to the spinner
+        // Specify dropdown layout style - custom spinner item - to change text and background color
+        reminderIntervalSpinner.setAdapter(new ArrayAdapter<>(context, R.layout.spinner_item,
+                getResources().getStringArray(R.array.reminder_time_interval_options)));
+
+        setReminderIntervalSpinnerSelection();
+
+        reminderIntervalSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String selection = (String) parent.getItemAtPosition(position);
+                if (!TextUtils.isEmpty(selection)) {
+                    DatabaseData.reminderIntervalNumber = 1;
+                    // TODO: test this comparison after language is changed
+                    if (selection.equals(getString(R.string.never))) {
+                        DatabaseData.reminderIntervalMode = DataContract.UserPrefEntry.REMINDER_TIME_INTERVAL_NEVER;
+                    } else if (selection.equals(getString(R.string.day))) {
+                        DatabaseData.reminderIntervalMode = DataContract.UserPrefEntry.REMINDER_TIME_INTERVAL_DAY;
+                    } else if (selection.equals(getString(R.string.week))) {
+                        DatabaseData.reminderIntervalMode = DataContract.UserPrefEntry.REMINDER_TIME_INTERVAL_WEEK;
+                    } else if (selection.equals(getString(R.string.month))) {
+                        DatabaseData.reminderIntervalMode = DataContract.UserPrefEntry.REMINDER_TIME_INTERVAL_MONTH;
+                    } else {
+                        // TODO: open popup settings
+                    }
+                    DatabaseHandler.setDoesDbNeedUpdate(true);
+                }
+            }
+
+            // Because AdapterView is an abstract class, onNothingSelected must be defined
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                setReminderIntervalSpinnerSelection();
             }
         });
     }

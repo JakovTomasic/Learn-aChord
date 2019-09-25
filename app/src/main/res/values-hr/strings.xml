@@ -103,6 +103,7 @@
     <string name="show_progress_bar">Prikaz trajanja</string>
     <string name="show_what_intervals">Prikaz intervala akorda</string>
     <string name="chord_text_size">Veličina slova</string>
+    <string name="reminder_interval">Podsjetnik</string>
 
     <!--Tones option settings-->
     <string name="play_what_tone">Ton</string>
@@ -126,6 +127,14 @@
     <string name="small">Mala</string>
     <string name="normal">Normalno</string>
     <string name="large">Velika</string>
+
+    <!--Reminder time interval options-->
+    <string name="never">Nikada</string> <!--TODO: nikada or nikad-->
+    <string name="hour">Sat</string>
+    <string name="day">Dan</string>
+    <string name="week">Tjedan</string>
+    <string name="month">Mjesec</string>
+    <string name="custom_reminder_time_interval">Prilagodi</string>
 
     <!--Warning dialogs-->
     <string name="settings_warning_dialogs_title">Greška</string>

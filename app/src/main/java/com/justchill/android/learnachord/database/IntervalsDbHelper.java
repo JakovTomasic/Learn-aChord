@@ -3,8 +3,6 @@ package com.justchill.android.learnachord.database;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.provider.ContactsContract;
-import android.util.Log;
 
 import com.justchill.android.learnachord.MyApplication;
 import com.justchill.android.learnachord.R;
@@ -259,38 +257,16 @@ public class IntervalsDbHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // This deletes all userPref on DB update and then sets them to new default values
 
-        // TODO: this doesn't work for some reason
+        // Get titles of all column names from settings
+        String[] preferenceKeys = MyApplication.getAppContext().getResources().getStringArray(R.array.preference_keys);
 
-        try {
-            DatabaseHandler.updateIntervals();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        try {
-            DatabaseHandler.updateChords();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        try {
-            DatabaseHandler.updateAchievements();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        try {
-            LegacyDatabaseHandler.updateSettingsDbV11();
-        } catch (Exception e) {
-            e.printStackTrace();
+        // Added reminder notification to DB version 12
+        if(oldVersion < 12) {
+            db.execSQL("ALTER TABLE " + DataContract.UserPrefEntry.TABLE_NAME + " ADD COLUMN " + preferenceKeys[27] + " INTEGER NOT NULL DEFAULT 1;");
+            db.execSQL("ALTER TABLE " + DataContract.UserPrefEntry.TABLE_NAME + " ADD COLUMN " + preferenceKeys[28] + " INTEGER NOT NULL DEFAULT " + DataContract.UserPrefEntry.REMINDER_TIME_INTERVAL_WEEK + ";");
+            db.execSQL("ALTER TABLE " + DataContract.UserPrefEntry.TABLE_NAME + " ADD COLUMN " + preferenceKeys[29] + " INTEGER NOT NULL DEFAULT 0;");
         }
 
-        DatabaseHandler.setDoIntervalsNeedUpdate(false);
-        DatabaseHandler.setDoChordsNeedUpdate(false);
-        DatabaseHandler.setDoAchievementsNeedUpdate(false);
-        DatabaseHandler.setDoSettingsNeedUpdate(false);
-        DatabaseHandler.setDoesDbNeedUpdate(true);
-
-        String SQL_DELETE_TABLE = "DROP TABLE " + DataContract.UserPrefEntry.TABLE_NAME + ";";
-        db.execSQL(SQL_DELETE_TABLE); // Execute the SQL statement
-        this.onCreate(db);
     }
 
 }

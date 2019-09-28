@@ -80,6 +80,7 @@ public class DatabaseData {
     // Should log in help dialog be showed. For "ask me later" button to work (don't show after it was pressed)
     public static boolean dontShowLogInHelp = false;
 
+    // TODO: check if this is 0
     // Stores time in milliseconds of last time user has used he app, for showing reminders to use the app
     public static long lastTimeAppUsedInMillis = System.currentTimeMillis();
 

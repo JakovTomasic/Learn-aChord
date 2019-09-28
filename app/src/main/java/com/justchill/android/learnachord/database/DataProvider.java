@@ -7,7 +7,6 @@ import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 
@@ -609,7 +608,7 @@ public class DataProvider extends ContentProvider {
                 values.put(preferenceKeys[26], DatabaseData.userProfileActivityHelpShowed);
                 values.put(preferenceKeys[27], 1);
                 values.put(preferenceKeys[28], DataContract.UserPrefEntry.REMINDER_TIME_INTERVAL_WEEK);
-                values.put(preferenceKeys[29], System.currentTimeMillis());
+                values.put(preferenceKeys[29], DatabaseData.lastTimeAppUsedInMillis = System.currentTimeMillis());
 
                 String[] achievementProgressKeys = MyApplication.getAppContext().getResources().getStringArray(R.array.achievement_progress_keys);
                 for (int i = 0; i < achievementProgressKeys.length; i++) {

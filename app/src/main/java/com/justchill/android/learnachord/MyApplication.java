@@ -5,7 +5,6 @@ import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
@@ -14,12 +13,15 @@ import android.graphics.drawable.ShapeDrawable;
 import androidx.multidex.MultiDex;
 import androidx.core.content.ContextCompat;
 import androidx.appcompat.app.AppCompatDelegate;
+
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 
+import com.justchill.android.learnachord.database.DatabaseHandler;
 import com.justchill.android.learnachord.intervalOrChord.Interval;
 import com.justchill.android.learnachord.database.DataContract;
 import com.justchill.android.learnachord.database.DatabaseData;
@@ -127,16 +129,21 @@ public class MyApplication extends Application {
 
     // Get application context. Needed for some static methods.
     public static Context getAppContext() {
-        return MyApplication.context;
+        // If context is set to another language, return it to default UI language
+        String languageId = MyApplication.context.getResources().getString(R.string.language_id);
+        if(Integer.parseInt(languageId) == DatabaseData.DEFAULT_SYSTEM_LANGUAGE)
+            return MyApplication.context;
+
+        return LocaleHelper.setLocale(MyApplication.context, LocaleHelper.getLanguageLabel(DatabaseData.DEFAULT_SYSTEM_LANGUAGE));
     }
 
-    // Called when eny activity pauses
+    // Called when any activity pauses
     public static void activityPaused() {
         MyApplication.UIVisible = false;
         MyApplication.activity = null;
     }
 
-    // Called when eny activity resumes
+    // Called when any activity resumes
     public static void activityResumed(Activity mActivity) {
         MyApplication.UIVisible = true;
         MyApplication.activity = mActivity;
@@ -144,6 +151,9 @@ public class MyApplication extends Application {
         if(servicePlayerListener != null) {
             servicePlayerListener.onActivityResumed();
         }
+
+        // App is being used
+        DatabaseHandler.writeLastTimeAppUsedOnSeparateThread();
     }
 
     // Play just one key
@@ -252,7 +262,7 @@ public class MyApplication extends Application {
         key--; // 0 to 60 (and not 1 - 61)
 
         // Set language
-        Context context = LocaleHelper.setLocale(getAppContext(), LocaleHelper.getLanguageLabel());
+        Context context = LocaleHelper.setLocale(getAppContext(), LocaleHelper.getLanguageLabel(DatabaseData.appLanguage));
         Resources resources = context.getResources();
 
         String[] keys = resources.getStringArray(R.array.key_symbols);
@@ -271,14 +281,12 @@ public class MyApplication extends Application {
                 String capitalizeFirstLetter = str.substring(0, 1).toUpperCase() + str.substring(1);
                 stringBuilder.append(capitalizeFirstLetter);
             }
-
-            return stringBuilder.toString();
         } else {
             stringBuilder.append(keys[key%12]);
             stringBuilder.append((key/12) + 2);
-
-            return stringBuilder.toString();
         }
+
+        return stringBuilder.toString();
     }
 
     // Returns view to set in quiz game over dialog (showing the

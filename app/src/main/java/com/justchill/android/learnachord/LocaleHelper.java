@@ -32,7 +32,7 @@ public class LocaleHelper {
 
     public static Context onAttach(Context context, String defaultLanguage) {
         if(defaultLanguage == null) {
-            defaultLanguage = getLanguageLabel();
+            defaultLanguage = getLanguageLabel(DatabaseData.DEFAULT_SYSTEM_LANGUAGE);
         }
 
         String lang = getPersistedData(context, defaultLanguage);
@@ -45,7 +45,7 @@ public class LocaleHelper {
 
     public static Context setLocale(Context context, String language) {
         if(language == null) {
-            language = getLanguageLabel();
+            language = getLanguageLabel(DatabaseData.appLanguage);
         }
 
         persist(context, language);
@@ -59,7 +59,7 @@ public class LocaleHelper {
 
     private static String getPersistedData(Context context, String defaultLanguage) {
         if(defaultLanguage == null) {
-            defaultLanguage = getLanguageLabel();
+            defaultLanguage = getLanguageLabel(DatabaseData.appLanguage);
         }
 
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
@@ -68,7 +68,7 @@ public class LocaleHelper {
 
     private static void persist(Context context, String language) {
         if(language == null) {
-            language = getLanguageLabel();
+            language = getLanguageLabel(DatabaseData.appLanguage);
         }
 
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
@@ -81,7 +81,7 @@ public class LocaleHelper {
     @TargetApi(Build.VERSION_CODES.N)
     private static Context updateResources(Context context, String language) {
         if(language == null) {
-            language = getLanguageLabel();
+            language = getLanguageLabel(DatabaseData.appLanguage);
         }
 
         Locale locale = new Locale(language);
@@ -96,7 +96,7 @@ public class LocaleHelper {
 
     private static Context updateResourcesLegacy(Context context, String language) {
         if(language == null) {
-            language = getLanguageLabel();
+            language = getLanguageLabel(DatabaseData.appLanguage);
         }
 
         Locale locale = new Locale(language);
@@ -115,8 +115,8 @@ public class LocaleHelper {
         return context;
     }
 
-    public static String getLanguageLabel() {
-        switch (DatabaseData.appLanguage) {
+    public static String getLanguageLabel(int languageId) {
+        switch (languageId) {
             case DataContract.UserPrefEntry.LANGUAGE_CROATIAN:
                 return DataContract.UserPrefEntry.CROATIAN_LANGUAGE_TAG;
             default:

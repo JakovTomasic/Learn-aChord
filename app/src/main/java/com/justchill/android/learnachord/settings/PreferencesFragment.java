@@ -445,7 +445,7 @@ public class PreferencesFragment extends Fragment {
         maxRange--;
 
         // Set locale language
-        Context context = LocaleHelper.setLocale(MyApplication.getAppContext(), LocaleHelper.getLanguageLabel());
+        Context context = LocaleHelper.setLocale(MyApplication.getAppContext(), LocaleHelper.getLanguageLabel(DatabaseData.appLanguage));
         Resources resources = context.getResources();
 
         String[] keys = resources.getStringArray(R.array.key_symbols);
@@ -714,7 +714,7 @@ public class PreferencesFragment extends Fragment {
     // Returns order number of item that should be selected in spinner
     private void setReminderIntervalSpinnerSelection() {
         int valueToSet;
-        switch (DatabaseData.reminderIntervalMode) {
+        switch (DatabaseData.reminderTimeIntervalMode) {
             case DataContract.UserPrefEntry.REMINDER_TIME_INTERVAL_HOUR:
                 valueToSet = 4;
                 break;
@@ -731,7 +731,7 @@ public class PreferencesFragment extends Fragment {
                 valueToSet = 0;
         }
 
-        if(DatabaseData.reminderIntervalNumber == 1) reminderIntervalSpinner.setSelection(valueToSet);
+        if(DatabaseData.reminderTimeIntervalNumber == 1) reminderIntervalSpinner.setSelection(valueToSet);
         else reminderIntervalSpinner.setSelection(4); // custom
     }
 
@@ -752,16 +752,16 @@ public class PreferencesFragment extends Fragment {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String selection = (String) parent.getItemAtPosition(position);
                 if (!TextUtils.isEmpty(selection)) {
-                    DatabaseData.reminderIntervalNumber = 1;
+                    DatabaseData.reminderTimeIntervalNumber = 1;
                     // TODO: test this comparison after language is changed
                     if (selection.equals(getString(R.string.never))) {
-                        DatabaseData.reminderIntervalMode = DataContract.UserPrefEntry.REMINDER_TIME_INTERVAL_NEVER;
+                        DatabaseData.reminderTimeIntervalMode = DataContract.UserPrefEntry.REMINDER_TIME_INTERVAL_NEVER;
                     } else if (selection.equals(getString(R.string.day))) {
-                        DatabaseData.reminderIntervalMode = DataContract.UserPrefEntry.REMINDER_TIME_INTERVAL_DAY;
+                        DatabaseData.reminderTimeIntervalMode = DataContract.UserPrefEntry.REMINDER_TIME_INTERVAL_DAY;
                     } else if (selection.equals(getString(R.string.week))) {
-                        DatabaseData.reminderIntervalMode = DataContract.UserPrefEntry.REMINDER_TIME_INTERVAL_WEEK;
+                        DatabaseData.reminderTimeIntervalMode = DataContract.UserPrefEntry.REMINDER_TIME_INTERVAL_WEEK;
                     } else if (selection.equals(getString(R.string.month))) {
-                        DatabaseData.reminderIntervalMode = DataContract.UserPrefEntry.REMINDER_TIME_INTERVAL_MONTH;
+                        DatabaseData.reminderTimeIntervalMode = DataContract.UserPrefEntry.REMINDER_TIME_INTERVAL_MONTH;
                     } else {
                         // TODO: open popup settings
                     }

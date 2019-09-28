@@ -3,6 +3,8 @@ package com.justchill.android.learnachord.database;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.provider.ContactsContract;
+import android.util.Log;
 
 import com.justchill.android.learnachord.MyApplication;
 import com.justchill.android.learnachord.R;
@@ -14,7 +16,7 @@ public class IntervalsDbHelper extends SQLiteOpenHelper {
     /**
      * database version. If you change the database schema, you must increment the database version.
      */
-    private static final int DATABASE_VERSION = 11;
+    private static final int DATABASE_VERSION = 12;
     private static final String DATABASE_NAME = "settings.db";
 
     /**
@@ -43,14 +45,14 @@ public class IntervalsDbHelper extends SQLiteOpenHelper {
         String[] intervalKeys = MyApplication.getAppContext().getResources().getStringArray(R.array.interval_keys);
         for (String key : intervalKeys) {
             stringBuilder.append(key).append(" INTEGER NOT NULL DEFAULT ")
-                    .append(Integer.toString(DataContract.UserPrefEntry.CHECKBOX_CHECKED)).append(endString);
+                    .append(DataContract.UserPrefEntry.CHECKBOX_CHECKED).append(endString);
         }
 
         // Add intervals above octave
         String[] intervalKeysAboveOctave = MyApplication.getAppContext().getResources().getStringArray(R.array.interval_keys_above_octave);
         for (String key : intervalKeysAboveOctave) {
             stringBuilder.append(key).append(" INTEGER NOT NULL DEFAULT ")
-                    .append(Integer.toString(DataContract.UserPrefEntry.CHECKBOX_NOT_CHECKED)).append(endString);
+                    .append(DataContract.UserPrefEntry.CHECKBOX_NOT_CHECKED).append(endString);
         }
 
         // Add chords
@@ -60,9 +62,9 @@ public class IntervalsDbHelper extends SQLiteOpenHelper {
 
             // Be careful if order of keys are changed
             if(i == 0 || i == 3 || i == 10) {
-                stringBuilder.append(Integer.toString(DataContract.UserPrefEntry.CHECKBOX_CHECKED));
+                stringBuilder.append(DataContract.UserPrefEntry.CHECKBOX_CHECKED);
             } else {
-                stringBuilder.append(Integer.toString(DataContract.UserPrefEntry.CHECKBOX_NOT_CHECKED));
+                stringBuilder.append(DataContract.UserPrefEntry.CHECKBOX_NOT_CHECKED);
             }
 
             stringBuilder.append(endString);
@@ -125,6 +127,12 @@ public class IntervalsDbHelper extends SQLiteOpenHelper {
                 .append(DataContract.UserPrefEntry.BOOLEAN_FALSE).append(endString);
         stringBuilder.append(preferenceKeys[26]).append(" INTEGER NOT NULL DEFAULT ")
                 .append(DataContract.UserPrefEntry.BOOLEAN_FALSE).append(endString);
+        stringBuilder.append(preferenceKeys[27]).append(" INTEGER NOT NULL DEFAULT ")
+                .append(1).append(endString);
+        stringBuilder.append(preferenceKeys[28]).append(" INTEGER NOT NULL DEFAULT ")
+                .append(DataContract.UserPrefEntry.REMINDER_TIME_INTERVAL_WEEK).append(endString);
+        stringBuilder.append(preferenceKeys[29]).append(" INTEGER NOT NULL DEFAULT ")
+                .append(0).append(endString);
 
 
         // Add achievement progress
@@ -184,56 +192,59 @@ public class IntervalsDbHelper extends SQLiteOpenHelper {
         endString = ", ";
 
         for (String key : intervalKeys) {
-            stringBuilder.append( Integer.toString(DataContract.UserPrefEntry.CHECKBOX_CHECKED) ).append(endString);
+            stringBuilder.append(DataContract.UserPrefEntry.CHECKBOX_CHECKED).append(endString);
         }
 
         for (String key : intervalKeysAboveOctave) {
-            stringBuilder.append( Integer.toString(DataContract.UserPrefEntry.CHECKBOX_NOT_CHECKED) ).append(endString);
+            stringBuilder.append(DataContract.UserPrefEntry.CHECKBOX_NOT_CHECKED).append(endString);
         }
 
         for (int i = 0; i < chordKeys.length; i++) {
             // Be careful if order of keys are changed
             if(i == 0 || i == 3 || i == 10) {
-                stringBuilder.append( Integer.toString(DataContract.UserPrefEntry.CHECKBOX_CHECKED) ).append(endString);
+                stringBuilder.append(DataContract.UserPrefEntry.CHECKBOX_CHECKED).append(endString);
             } else {
-                stringBuilder.append( Integer.toString(DataContract.UserPrefEntry.CHECKBOX_NOT_CHECKED) ).append(endString);
+                stringBuilder.append(DataContract.UserPrefEntry.CHECKBOX_NOT_CHECKED).append(endString);
             }
         }
 
-        stringBuilder.append( Integer.toString(DataContract.UserPrefEntry.CHECKBOX_CHECKED) ).append(endString);
-        stringBuilder.append( Integer.toString(DataContract.UserPrefEntry.CHECKBOX_NOT_CHECKED) ).append(endString);
-        stringBuilder.append( Integer.toString(DataContract.UserPrefEntry.CHECKBOX_NOT_CHECKED) ).append(endString);
-        stringBuilder.append( Integer.toString(DataContract.UserPrefEntry.DEFAULT_TONES_SEPARATION_TIME) ).append(endString);
-        stringBuilder.append( Integer.toString(DataContract.UserPrefEntry.DEFAULT_INTERVAL_DURATION_TIME) ).append(endString);
-        stringBuilder.append( Integer.toString(DatabaseData.DEFAULT_SYSTEM_LANGUAGE) ).append(endString);
-        stringBuilder.append( Integer.toString(1) ).append(endString);
-        stringBuilder.append( Integer.toString(DataContract.UserPrefEntry.NUMBER_OF_KEYS) ).append(endString);
-        stringBuilder.append( Integer.toString(DataContract.UserPrefEntry.CHECKBOX_CHECKED) ).append(endString);
-        stringBuilder.append( Integer.toString(DataContract.UserPrefEntry.CHECKBOX_CHECKED) ).append(endString);
-        stringBuilder.append( Integer.toString(DataContract.UserPrefEntry.CHORD_TEXT_SCALING_MODE_AUTO) ).append(endString);
-        stringBuilder.append( Integer.toString(DataContract.UserPrefEntry.PLAYING_MODE_RANDOM) ).append(endString);
-        stringBuilder.append( Integer.toString(DataContract.UserPrefEntry.DIRECTION_UP_VIEW_DEFAULT_INDEX) ).append(endString);
-        stringBuilder.append( Integer.toString(DataContract.UserPrefEntry.DIRECTION_DOWN_VIEW_DEFAULT_INDEX) ).append(endString);
-        stringBuilder.append( Integer.toString(DataContract.UserPrefEntry.DIRECTION_SAME_TIME_VIEW_DEFAULT_INDEX) ).append(endString);
-        stringBuilder.append( Integer.toString(DataContract.UserPrefEntry.CHECKBOX_NOT_CHECKED) ).append(endString);
-        stringBuilder.append( Integer.toString(DataContract.UserPrefEntry.CHECKBOX_NOT_CHECKED) ).append(endString);
-        stringBuilder.append( Integer.toString(0) ).append(endString);
-        stringBuilder.append( Integer.toString(0) ).append(endString);
-        stringBuilder.append( Integer.toString(0) ).append(endString);
-        stringBuilder.append( Integer.toString(FirebaseHandler.IMAGE_TO_SET_DEFAULT_ID) ).append(endString);
+        stringBuilder.append(DataContract.UserPrefEntry.CHECKBOX_CHECKED).append(endString);
+        stringBuilder.append(DataContract.UserPrefEntry.CHECKBOX_NOT_CHECKED).append(endString);
+        stringBuilder.append(DataContract.UserPrefEntry.CHECKBOX_NOT_CHECKED).append(endString);
+        stringBuilder.append(DataContract.UserPrefEntry.DEFAULT_TONES_SEPARATION_TIME).append(endString);
+        stringBuilder.append(DataContract.UserPrefEntry.DEFAULT_INTERVAL_DURATION_TIME).append(endString);
+        stringBuilder.append(DatabaseData.DEFAULT_SYSTEM_LANGUAGE).append(endString);
+        stringBuilder.append(1).append(endString);
+        stringBuilder.append(DataContract.UserPrefEntry.NUMBER_OF_KEYS).append(endString);
+        stringBuilder.append(DataContract.UserPrefEntry.CHECKBOX_CHECKED).append(endString);
+        stringBuilder.append(DataContract.UserPrefEntry.CHECKBOX_CHECKED).append(endString);
+        stringBuilder.append(DataContract.UserPrefEntry.CHORD_TEXT_SCALING_MODE_AUTO).append(endString);
+        stringBuilder.append(DataContract.UserPrefEntry.PLAYING_MODE_RANDOM).append(endString);
+        stringBuilder.append(DataContract.UserPrefEntry.DIRECTION_UP_VIEW_DEFAULT_INDEX).append(endString);
+        stringBuilder.append(DataContract.UserPrefEntry.DIRECTION_DOWN_VIEW_DEFAULT_INDEX).append(endString);
+        stringBuilder.append(DataContract.UserPrefEntry.DIRECTION_SAME_TIME_VIEW_DEFAULT_INDEX).append(endString);
+        stringBuilder.append(DataContract.UserPrefEntry.CHECKBOX_NOT_CHECKED).append(endString);
+        stringBuilder.append(DataContract.UserPrefEntry.CHECKBOX_NOT_CHECKED).append(endString);
+        stringBuilder.append(0).append(endString);
+        stringBuilder.append(0).append(endString);
+        stringBuilder.append(0).append(endString);
+        stringBuilder.append(FirebaseHandler.IMAGE_TO_SET_DEFAULT_ID).append(endString);
         // Empty row, path to profile photo from gallery is null by default
-        stringBuilder.append( Integer.toString(DataContract.UserPrefEntry.BOOLEAN_FALSE) ).append(endString);
-        stringBuilder.append( Integer.toString(DataContract.UserPrefEntry.BOOLEAN_FALSE) ).append(endString);
-        stringBuilder.append( Integer.toString(DataContract.UserPrefEntry.BOOLEAN_FALSE) ).append(endString);
-        stringBuilder.append( Integer.toString(DataContract.UserPrefEntry.BOOLEAN_FALSE) ).append(endString);
-        stringBuilder.append( Integer.toString(DataContract.UserPrefEntry.BOOLEAN_FALSE) ).append(endString);
+        stringBuilder.append(DataContract.UserPrefEntry.BOOLEAN_FALSE).append(endString);
+        stringBuilder.append(DataContract.UserPrefEntry.BOOLEAN_FALSE).append(endString);
+        stringBuilder.append(DataContract.UserPrefEntry.BOOLEAN_FALSE).append(endString);
+        stringBuilder.append(DataContract.UserPrefEntry.BOOLEAN_FALSE).append(endString);
+        stringBuilder.append(DataContract.UserPrefEntry.BOOLEAN_FALSE).append(endString);
+        stringBuilder.append(1).append(endString);
+        stringBuilder.append(DataContract.UserPrefEntry.REMINDER_TIME_INTERVAL_WEEK).append(endString);
+        stringBuilder.append(System.currentTimeMillis()).append(endString);
 
         for (int i = 0; i < achievementProgressKeys.length; i++) {
             if(i >= achievementProgressKeys.length-1) {
                 // After last key set sql ending string
                 endString = ");";
             }
-            stringBuilder.append( Integer.toString(0) ).append(endString);
+            stringBuilder.append(0).append(endString);
         }
 
         String SQL_ADD_FIRST_ROW = stringBuilder.toString();
@@ -248,7 +259,34 @@ public class IntervalsDbHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // This deletes all userPref on DB update and then sets them to new default values
 
-        // TODO: first save data that exist and then update it, just call old DataProvider.query(...);
+        // TODO: this doesn't work for some reason
+
+        try {
+            DatabaseHandler.updateIntervals();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
+            DatabaseHandler.updateChords();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
+            DatabaseHandler.updateAchievements();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
+            LegacyDatabaseHandler.updateSettingsDbV11();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        DatabaseHandler.setDoIntervalsNeedUpdate(false);
+        DatabaseHandler.setDoChordsNeedUpdate(false);
+        DatabaseHandler.setDoAchievementsNeedUpdate(false);
+        DatabaseHandler.setDoSettingsNeedUpdate(false);
+        DatabaseHandler.setDoesDbNeedUpdate(true);
 
         String SQL_DELETE_TABLE = "DROP TABLE " + DataContract.UserPrefEntry.TABLE_NAME + ";";
         db.execSQL(SQL_DELETE_TABLE); // Execute the SQL statement

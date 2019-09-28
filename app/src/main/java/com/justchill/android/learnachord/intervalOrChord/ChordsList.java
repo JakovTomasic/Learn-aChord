@@ -48,7 +48,7 @@ public final class ChordsList {
     // Static initializer. This is run the first time anything is called from this class.
     static {
         // Set locale language
-        Context context = LocaleHelper.setLocale(MyApplication.getAppContext(), LocaleHelper.getLanguageLabel());
+        Context context = LocaleHelper.setLocale(MyApplication.getAppContext(), LocaleHelper.getLanguageLabel(DatabaseData.appLanguage));
         Resources resources = context.getResources();
 
         // Durski 5 3
@@ -140,7 +140,7 @@ public final class ChordsList {
     // Update names depending on language and set locale language
     public static void updateAllChordsNames(Context tempContext) {
         // Set language
-        Context context = LocaleHelper.setLocale(tempContext, LocaleHelper.getLanguageLabel());
+        Context context = LocaleHelper.setLocale(tempContext, LocaleHelper.getLanguageLabel(DatabaseData.appLanguage));
         Resources resources = context.getResources();
 
         getChord(0).setName(MyApplication.readResource(R.string.chord_durski, resources));

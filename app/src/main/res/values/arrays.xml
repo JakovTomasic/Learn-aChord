@@ -127,6 +127,10 @@
         <item>"settings_activity_help_dialog_showed"</item>
         <item>"quiz_activity_help_dialog_showed"</item>
         <item>"user_profile_activity_help_dialog_showed"</item>
+
+        <item>"reminder_time_interval_number"</item>
+        <item>"reminder_interval_mode"</item>
+        <item>"last_time_app_used_millis"</item>
     </string-array>
 
     <string-array name="key_symbols">

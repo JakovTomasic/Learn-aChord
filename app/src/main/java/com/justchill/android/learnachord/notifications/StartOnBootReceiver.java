@@ -12,7 +12,7 @@ import com.justchill.android.learnachord.database.DataContract;
 import com.justchill.android.learnachord.database.DatabaseData;
 
 
-// Runs on boot and every t milliseconds to check if reminder should be sent
+// Runs on boot and every t milliseconds (and on boot) to check if reminder should be sent
 public class StartOnBootReceiver extends BroadcastReceiver {
 
     private static final AlarmManager alarmMgr = (AlarmManager)MyApplication.getAppContext().getSystemService(Context.ALARM_SERVICE);
@@ -31,7 +31,7 @@ public class StartOnBootReceiver extends BroadcastReceiver {
 
         }
 
-        NotificationHelper.showReminderNotification();
+        NotificationHandler.showReminderNotification();
     }
 
     // Schedules alarm for periodic "should it show reminder" check
@@ -54,7 +54,7 @@ public class StartOnBootReceiver extends BroadcastReceiver {
     // Returns repeating alarm interval value in milliseconds
     private static Integer getRepeatingAlarmInterval() {
         int valueToReturn = 1000;
-        switch (DatabaseData.reminderIntervalMode) {
+        switch (DatabaseData.reminderTimeIntervalMode) {
             case DataContract.UserPrefEntry.REMINDER_TIME_INTERVAL_HOUR:
                 valueToReturn *= 60 * 60;
                 break;

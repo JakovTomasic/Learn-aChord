@@ -127,6 +127,12 @@ public final class DataContract {
         public static final int REMINDER_TIME_INTERVAL_WEEK = 3;
         public static final int REMINDER_TIME_INTERVAL_MONTH = 4;
 
+        // Check if reminder interval mode data match any of the constants (is it valid)
+        static boolean isReminderTimeModeAcceptable(int i) {
+            return (i == REMINDER_TIME_INTERVAL_NEVER || i == REMINDER_TIME_INTERVAL_HOUR || i == REMINDER_TIME_INTERVAL_DAY
+                    || i == REMINDER_TIME_INTERVAL_WEEK || i == REMINDER_TIME_INTERVAL_MONTH);
+        }
+
         // Constant for random playing mode
         public static final int PLAYING_MODE_RANDOM = 0;
         // Constant for custom playing mode
@@ -163,7 +169,7 @@ public final class DataContract {
         public static final int BOOLEAN_TRUE = 1;
 
         // Check if data that is boolean saved as int valid (initial dialog box showed values)
-        public static boolean isBooleanDataSavedAsIntValid(int value) {
+        static boolean isBooleanDataSavedAsIntValid(int value) {
             return (value == BOOLEAN_TRUE || value == BOOLEAN_FALSE);
         }
     }

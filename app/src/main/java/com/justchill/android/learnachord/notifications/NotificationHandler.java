@@ -12,7 +12,7 @@ import com.justchill.android.learnachord.R;
 
 
 // Handles showing notifications (for now, that's only reminder notification)
-public class NotificationHelper extends ContextWrapper {
+public class NotificationHandler extends ContextWrapper {
 
     // TODO: popup notification
     // TODO: on API 29 notifications are showed inside linear layout
@@ -28,7 +28,7 @@ public class NotificationHelper extends ContextWrapper {
     private static NotificationManager manager;
 
 
-    public NotificationHelper(Context base) {
+    public NotificationHandler(Context base) {
         super(base);
 
         // Create one channel all reminders will be sent to

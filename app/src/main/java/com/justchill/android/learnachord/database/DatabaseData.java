@@ -11,7 +11,7 @@ public class DatabaseData {
 
     // Get default device language. If language of the device is croatian, set croatian. Otherwise, set english.
     @SuppressLint("ConstantLocale")
-    static final int DEFAULT_SYSTEM_LANGUAGE = Locale.getDefault().getLanguage().equals("hr") ? DataContract.UserPrefEntry.LANGUAGE_CROATIAN :
+    public static final int DEFAULT_SYSTEM_LANGUAGE = Locale.getDefault().getLanguage().equals("hr") ? DataContract.UserPrefEntry.LANGUAGE_CROATIAN :
             DataContract.UserPrefEntry.LANGUAGE_ENGLISH;
     // Language of the app, equals to one of the languages constants in DataContract.UserPrefEntry
     public static int appLanguage = DEFAULT_SYSTEM_LANGUAGE;
@@ -42,11 +42,10 @@ public class DatabaseData {
     // Chord/Interval/Tone text size, equals to one of the constants in DataContract.UserPrefEntry
     public static int chordTextScalingMode = DataContract.UserPrefEntry.CHORD_TEXT_SCALING_MODE_AUTO;
 
-    // TODO: add these to DB
     // Number of hours/days/weeks/months after witch to remind user to use app
-    public static int reminderIntervalNumber = 1;
-    // Chord/Interval/Tone text size, equals to one of the constants in DataContract.UserPrefEntry
-    public static int reminderIntervalMode = DataContract.UserPrefEntry.REMINDER_TIME_INTERVAL_WEEK;
+    public static int reminderTimeIntervalNumber = 1;
+    // Reminder interval number multiplier, to show reminders every n hours/days/weeks/months
+    public static int reminderTimeIntervalMode = DataContract.UserPrefEntry.REMINDER_TIME_INTERVAL_WEEK;
 
     // Playing mode, equals to one of the constants in DataContract.UserPrefEntry
     public static int playingMode = DataContract.UserPrefEntry.PLAYING_MODE_RANDOM;
@@ -81,7 +80,7 @@ public class DatabaseData {
     // Should log in help dialog be showed. For "ask me later" button to work (don't show after it was pressed)
     public static boolean dontShowLogInHelp = false;
 
-    // TODO: add this
+    // Stores time in milliseconds of last time user has used he app, for showing reminders to use the app
     public static long lastTimeAppUsedInMillis = System.currentTimeMillis();
 
 }

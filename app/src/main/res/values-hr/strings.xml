@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!--<string name="app_name" translatable="false">Learn aChord</string>-->
+    <string name="language_id">1</string>
     <string name="options">Opcije</string>
     <string name="reset_options">Resetiraj opcije</string>
     <string name="quiz">Kviz</string>

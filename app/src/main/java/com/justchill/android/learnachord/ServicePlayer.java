@@ -350,7 +350,7 @@ public class ServicePlayer extends Service {
     // Returns string from selected languages' resources
     private static String readResource(int id) {
         // Set language
-        Context context = LocaleHelper.setLocale(MyApplication.getAppContext(), LocaleHelper.getLanguageLabel());
+        Context context = LocaleHelper.setLocale(MyApplication.getAppContext(), LocaleHelper.getLanguageLabel(DatabaseData.appLanguage));
         Resources resources = context.getResources();
 
         return resources.getString(id);

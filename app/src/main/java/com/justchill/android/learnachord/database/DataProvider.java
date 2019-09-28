@@ -7,6 +7,8 @@ import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 
 import com.justchill.android.learnachord.MyApplication;
@@ -156,12 +158,42 @@ public class DataProvider extends ContentProvider {
                 // arguments will be a String array containing the actual ID.
                 selection = DataContract.UserPrefEntry._ID + "=?";
                 selectionArgs = new String[] { String.valueOf(ContentUris.parseId(uri)) };
-                return updateData(uri, contentValues, selection, selectionArgs);
+                if(contentValues.size() > 1) return updateData(uri, contentValues, selection, selectionArgs);
+                else return setLastTimeAppUsed(uri, contentValues, selection, selectionArgs);
             default:
                 throw new IllegalArgumentException("Update is not supported for " + uri);
         }
     }
 
+    // Writes to database just last time app has been used in millis
+    private int setLastTimeAppUsed(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
+
+        // Get all options' / user preferences' keys (column names)
+        String[] preferenceKeys = MyApplication.getAppContext().getResources().getStringArray(R.array.preference_keys);
+
+        // Stores time in milliseconds of last time user has used he app
+        Integer temp = values.getAsInteger(preferenceKeys[29]);
+        if(temp == null) {
+            throw new IllegalArgumentException("Data cannot be null");
+        }
+        if(temp < 1000) {
+            throw new IllegalArgumentException("Last time app has been used in millis data not valid: " + temp);
+        }
+
+        // If there are no values to update, then don't try to update the database
+        if (values.size() == 0) {
+            return 0;
+        }
+
+        // Get database to update it
+        SQLiteDatabase database = mIntervalsDbHelper.getWritableDatabase();
+
+        // Perform the update on the database and get the number of rows affected
+        // Return the number of rows updated
+        return database.update(DataContract.UserPrefEntry.TABLE_NAME, values, selection, selectionArgs);
+    }
+
+    // Writes all data to database
     private int updateData(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
         // The values for the fields (that aren't present in the ContentValues object) will stay the same as before.
 
@@ -454,6 +486,33 @@ public class DataProvider extends ContentProvider {
             throw new IllegalArgumentException("Given data not valid for DatabaseData BOOLEAN data saved as int: " + temp);
         }
 
+        // Number of hours/days/weeks/months after witch to remind user to use app
+        temp = values.getAsInteger(preferenceKeys[27]);
+        if(temp == null) {
+            throw new IllegalArgumentException("Data cannot be null");
+        }
+        if(temp < 1) {
+            throw new IllegalArgumentException("Reminder time interval number data invalid: " + temp);
+        }
+
+        // Reminder interval number multiplier, to show reminders every n hours/days/weeks/months
+        temp = values.getAsInteger(preferenceKeys[28]);
+        if(temp == null) {
+            throw new IllegalArgumentException("Data cannot be null");
+        }
+        if(!DataContract.UserPrefEntry.isReminderTimeModeAcceptable(temp)) {
+            throw new IllegalArgumentException("Reminder time interval mode data invalid: " + temp);
+        }
+
+        // Stores time in milliseconds of last time user has used he app
+        temp = values.getAsInteger(preferenceKeys[29]);
+        if(temp == null) {
+            throw new IllegalArgumentException("Data cannot be null");
+        }
+        if(temp < 1000) {
+            throw new IllegalArgumentException("Last time app has been used in millis data not valid: " + temp);
+        }
+
 
 
         // Get all achievement' progress keys (column names)
@@ -479,10 +538,8 @@ public class DataProvider extends ContentProvider {
         SQLiteDatabase database = mIntervalsDbHelper.getWritableDatabase();
 
         // Perform the update on the database and get the number of rows affected
-        int rowsUpdated = database.update(DataContract.UserPrefEntry.TABLE_NAME, values, selection, selectionArgs);
-
         // Return the number of rows updated
-        return rowsUpdated;
+        return database.update(DataContract.UserPrefEntry.TABLE_NAME, values, selection, selectionArgs);
     }
 
     @Override
@@ -550,6 +607,9 @@ public class DataProvider extends ContentProvider {
                 values.put(preferenceKeys[24], DatabaseData.settingsActivityHelpShowed);
                 values.put(preferenceKeys[25], DatabaseData.quizActivityHelpShowed);
                 values.put(preferenceKeys[26], DatabaseData.userProfileActivityHelpShowed);
+                values.put(preferenceKeys[27], 1);
+                values.put(preferenceKeys[28], DataContract.UserPrefEntry.REMINDER_TIME_INTERVAL_WEEK);
+                values.put(preferenceKeys[29], System.currentTimeMillis());
 
                 String[] achievementProgressKeys = MyApplication.getAppContext().getResources().getStringArray(R.array.achievement_progress_keys);
                 for (int i = 0; i < achievementProgressKeys.length; i++) {

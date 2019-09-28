@@ -20,7 +20,7 @@ public final class IntervalsList {
     // Static initializer. This is run the first time anything is called from this class.
     static {
         // Set locale language
-        Context context = LocaleHelper.setLocale(MyApplication.getAppContext(), LocaleHelper.getLanguageLabel());
+        Context context = LocaleHelper.setLocale(MyApplication.getAppContext(), LocaleHelper.getLanguageLabel(DatabaseData.appLanguage));
         Resources resources = context.getResources();
 
         ALL_INTERVALS.add(new Interval(0, MyApplication.readResource(R.string.interval_cista_prima, resources)));
@@ -65,7 +65,7 @@ public final class IntervalsList {
     // Update names depending on language and set locale language
     public static void updateAllIntervalsNames(Context tempContext) {
         // Set language
-        Context context = LocaleHelper.setLocale(tempContext, LocaleHelper.getLanguageLabel());
+        Context context = LocaleHelper.setLocale(tempContext, LocaleHelper.getLanguageLabel(DatabaseData.appLanguage));
         Resources resources = context.getResources();
 
         getInterval(0).setName(MyApplication.readResource(R.string.interval_cista_prima, resources));

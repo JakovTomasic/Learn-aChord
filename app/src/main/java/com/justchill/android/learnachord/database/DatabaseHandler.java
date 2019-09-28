@@ -118,6 +118,17 @@ public class DatabaseHandler {
         userPrefThread.start();
     }
 
+    // Calls method to write last time app has been used in milliseconds to database on separate thread
+    public static void writeLastTimeAppUsedOnSeparateThread() {
+        Thread lastTimeUsedThread = new Thread() {
+            @Override
+            public void run() {
+                writeLastTimeAppUsed();
+            }
+        };
+        lastTimeUsedThread.start();
+    }
+
 
     // Set data for all intervals that is stored in database (is interval checked)
     public static void updateIntervals() {
@@ -275,6 +286,9 @@ public class DatabaseHandler {
             DatabaseData.settingsActivityHelpShowed = cursor.getInt(cursor.getColumnIndex(preferenceKeys[24]));
             DatabaseData.quizActivityHelpShowed = cursor.getInt(cursor.getColumnIndex(preferenceKeys[25]));
             DatabaseData.userProfileActivityHelpShowed = cursor.getInt(cursor.getColumnIndex(preferenceKeys[26]));
+            DatabaseData.reminderTimeIntervalNumber = cursor.getInt(cursor.getColumnIndex(preferenceKeys[27]));
+            DatabaseData.reminderTimeIntervalMode = cursor.getInt(cursor.getColumnIndex(preferenceKeys[28]));
+            DatabaseData.lastTimeAppUsedInMillis = cursor.getLong(cursor.getColumnIndex(preferenceKeys[29]));
 
 
         } finally {
@@ -400,6 +414,9 @@ public class DatabaseHandler {
         values.put(preferenceKeys[24], DatabaseData.settingsActivityHelpShowed);
         values.put(preferenceKeys[25], DatabaseData.quizActivityHelpShowed);
         values.put(preferenceKeys[26], DatabaseData.userProfileActivityHelpShowed);
+        values.put(preferenceKeys[27], DatabaseData.reminderTimeIntervalNumber);
+        values.put(preferenceKeys[28], DatabaseData.reminderTimeIntervalMode);
+        values.put(preferenceKeys[29], DatabaseData.lastTimeAppUsedInMillis = System.currentTimeMillis());
 
         // Update the database with ContentValues data, returns how many rows were affected
         int newRowUri = MyApplication.getAppContext().getContentResolver().update(DataContract.UserPrefEntry.CONTENT_URI_FIRST_ROW,
@@ -417,6 +434,23 @@ public class DatabaseHandler {
             IntervalsList.updateAllIntervalsNames(MyApplication.getAppContext());
             ChordsList.updateAllChordsNames(MyApplication.getAppContext());
         }
+    }
+
+    // Writes last time app has been used in milliseconds to database
+    public static void writeLastTimeAppUsed() {
+        // Create new content values that will be written to the DB
+        ContentValues values = new ContentValues();
+
+        // Get all preferences' DB keys
+        String[] preferenceKeys = MyApplication.getAppContext().getResources().getStringArray(R.array.preference_keys);
+
+        // Set last Time app has been used in millis
+        values.put(preferenceKeys[29], DatabaseData.lastTimeAppUsedInMillis = System.currentTimeMillis());
+
+        // Update the database with ContentValues data, returns how many rows were affected
+        int newRowUri = MyApplication.getAppContext().getContentResolver().update(DataContract.UserPrefEntry.CONTENT_URI_FIRST_ROW,
+                values, null, null);
+
     }
 
 }

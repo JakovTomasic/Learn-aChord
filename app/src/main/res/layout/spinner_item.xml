@@ -16,3 +16,4 @@
     android:textAppearance="?android:attr/textAppearanceLargePopupMenu"
     android:singleLine="true"
     android:ellipsize="marquee"/>
+    <!--    TODO: make this look little bit better-->

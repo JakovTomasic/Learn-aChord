@@ -94,6 +94,10 @@ public class PreferencesFragment extends Fragment {
 
     // Spinner for changing reminder time interval
     private Spinner reminderIntervalSpinner;
+    // Parent view, number input and spinner for custom reminder time interval
+    private View reminderCustomView;
+    private EditText reminderCustomEditText;
+    private Spinner reminderCustomIntervalSpinner;
 
     // Clickable view to send customer support mail
     private View contactUsClickableView;
@@ -148,6 +152,10 @@ public class PreferencesFragment extends Fragment {
         chordTextSizeSpinner = fragmentView.findViewById(R.id.chord_text_size_spinner);
 
         reminderIntervalSpinner = fragmentView.findViewById(R.id.reminder_interval_spinner);
+
+        reminderCustomView = fragmentView.findViewById(R.id.custom_reminder_parent_view);
+        reminderCustomEditText = fragmentView.findViewById(R.id.custom_reminder_time_interval_number);
+        reminderCustomIntervalSpinner = fragmentView.findViewById(R.id.custom_reminder_interval_spinner);
 
         contactUsClickableView = fragmentView.findViewById(R.id.contact_us_clickable_text_view);
 
@@ -302,6 +310,16 @@ public class PreferencesFragment extends Fragment {
 
         setupReminderIntervalSpinner();
 
+        updateCustomReminderLayout(false);
+        reminderCustomEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                hideKeyboardFrom();
+                setCustomReminderNumber();
+                return true;
+            }
+        });
+
 
         // When user clicks to contact us button, open mail and send it
         contactUsClickableView.setOnClickListener(new View.OnClickListener() {
@@ -339,6 +357,11 @@ public class PreferencesFragment extends Fragment {
         if(!DatabaseHandler.doSettingsNeedUpdate()) {
             handleTonesSeparationEditText(null);
             handleTonesDurationEditText();
+        }
+
+        // If custom reminder menu is visible, save it's content
+        if(reminderCustomView.getVisibility() == View.VISIBLE) {
+            setCustomReminderNumber();
         }
 
         // Close the keyboard in case
@@ -413,6 +436,7 @@ public class PreferencesFragment extends Fragment {
     private void hideKeyboardFrom() {
         tonesSeparationView.clearFocus();
         tonesDurationView.clearFocus();
+        reminderCustomView.clearFocus();
 
         uselessEditTextToRemoveFocus.requestFocus();
 
@@ -711,7 +735,7 @@ public class PreferencesFragment extends Fragment {
         });
     }
 
-    // Returns order number of item that should be selected in spinner
+    // Selects item that should be selected in the interval spinner
     private void setReminderIntervalSpinnerSelection() {
         int valueToSet;
         switch (DatabaseData.reminderTimeIntervalMode) {
@@ -752,19 +776,25 @@ public class PreferencesFragment extends Fragment {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String selection = (String) parent.getItemAtPosition(position);
                 if (!TextUtils.isEmpty(selection)) {
-                    DatabaseData.reminderTimeIntervalNumber = 1;
                     // TODO: test this comparison after language is changed
+                    boolean customSelected = false;
                     if (selection.equals(getString(R.string.never))) {
+                        DatabaseData.reminderTimeIntervalNumber = 1;
                         DatabaseData.reminderTimeIntervalMode = DataContract.UserPrefEntry.REMINDER_TIME_INTERVAL_NEVER;
                     } else if (selection.equals(getString(R.string.day))) {
+                        DatabaseData.reminderTimeIntervalNumber = 1;
                         DatabaseData.reminderTimeIntervalMode = DataContract.UserPrefEntry.REMINDER_TIME_INTERVAL_DAY;
                     } else if (selection.equals(getString(R.string.week))) {
+                        DatabaseData.reminderTimeIntervalNumber = 1;
                         DatabaseData.reminderTimeIntervalMode = DataContract.UserPrefEntry.REMINDER_TIME_INTERVAL_WEEK;
                     } else if (selection.equals(getString(R.string.month))) {
+                        DatabaseData.reminderTimeIntervalNumber = 1;
                         DatabaseData.reminderTimeIntervalMode = DataContract.UserPrefEntry.REMINDER_TIME_INTERVAL_MONTH;
                     } else {
-                        // TODO: open popup settings
+                        customSelected = true;
                     }
+                    // Show or hide custom reminder time layout
+                    updateCustomReminderLayout(customSelected);
                     DatabaseHandler.setDoesDbNeedUpdate(true);
                 }
             }
@@ -773,6 +803,89 @@ public class PreferencesFragment extends Fragment {
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
                 setReminderIntervalSpinnerSelection();
+            }
+        });
+    }
+
+    // Saves reminder time interval number based on custom text input
+    private void setCustomReminderNumber() {
+        try {
+            int reminderNumber = Integer.parseInt(reminderCustomEditText.getText().toString());
+            if(reminderNumber < 1) {
+                DatabaseData.reminderTimeIntervalNumber = 1;
+                DatabaseData.reminderTimeIntervalMode = DataContract.UserPrefEntry.REMINDER_TIME_INTERVAL_NEVER;
+            } else {
+                DatabaseData.reminderTimeIntervalNumber = reminderNumber;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    // Selects item that should be selected in the custom interval spinner
+    private void setCustomReminderIntervalSpinnerSelection() {
+        int valueToSet;
+        switch (DatabaseData.reminderTimeIntervalMode) {
+            case DataContract.UserPrefEntry.REMINDER_TIME_INTERVAL_HOUR:
+                valueToSet = 0;
+                break;
+            case DataContract.UserPrefEntry.REMINDER_TIME_INTERVAL_DAY:
+                valueToSet = 1;
+                break;
+            case DataContract.UserPrefEntry.REMINDER_TIME_INTERVAL_MONTH:
+                valueToSet = 3;
+                break;
+            default: // Week is the default mode
+                valueToSet = 2;
+        }
+
+        reminderCustomIntervalSpinner.setSelection(valueToSet);
+    }
+
+    // Sets up layout for custom reminder time options
+    private void updateCustomReminderLayout(boolean makeLayoutVisible) {
+        // Set view visibility
+        if(DatabaseData.reminderTimeIntervalNumber != 1 || makeLayoutVisible ||
+                DatabaseData.reminderTimeIntervalMode == DataContract.UserPrefEntry.REMINDER_TIME_INTERVAL_HOUR) {
+            reminderCustomView.setVisibility(View.VISIBLE);
+        } else {
+            reminderCustomView.setVisibility(View.GONE);
+        }
+
+        // Set number text
+        reminderCustomEditText.setText(String.valueOf(DatabaseData.reminderTimeIntervalNumber));
+
+
+        // Setup time interval mode spinner
+
+        reminderCustomIntervalSpinner.setAdapter(new ArrayAdapter<>(context, R.layout.spinner_item,
+                getResources().getStringArray(R.array.custom_reminder_time_interval_options)));
+
+        setCustomReminderIntervalSpinnerSelection();
+
+        reminderCustomIntervalSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String selection = (String) parent.getItemAtPosition(position);
+                if (!TextUtils.isEmpty(selection)) {
+                    // TODO: test this comparison after language is changed
+                    if (selection.equals(getString(R.string.hour))) {
+                        DatabaseData.reminderTimeIntervalMode = DataContract.UserPrefEntry.REMINDER_TIME_INTERVAL_HOUR;
+                    } else if (selection.equals(getString(R.string.day))) {
+                        DatabaseData.reminderTimeIntervalMode = DataContract.UserPrefEntry.REMINDER_TIME_INTERVAL_DAY;
+                    } else if (selection.equals(getString(R.string.month))) {
+                        DatabaseData.reminderTimeIntervalMode = DataContract.UserPrefEntry.REMINDER_TIME_INTERVAL_MONTH;
+                    } else { // Week is the default mode
+                        DatabaseData.reminderTimeIntervalMode = DataContract.UserPrefEntry.REMINDER_TIME_INTERVAL_WEEK;
+                    }
+                    DatabaseHandler.setDoesDbNeedUpdate(true);
+                }
+            }
+
+            // Because AdapterView is an abstract class, onNothingSelected must be defined
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                setCustomReminderIntervalSpinnerSelection();
             }
         });
     }

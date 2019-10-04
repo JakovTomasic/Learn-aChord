@@ -181,6 +181,13 @@
         <item>@string/custom_reminder_time_interval</item>
     </string-array>
 
+    <string-array name="custom_reminder_time_interval_options">
+        <item>@string/hour</item>
+        <item>@string/day</item>
+        <item>@string/week</item>
+        <item>@string/month</item>
+    </string-array>
+
 
     <string-array name="achievement_progress_keys">
         <item>"achievement_key_under_octave_easy"</item>

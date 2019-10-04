@@ -171,7 +171,7 @@ public class DataProvider extends ContentProvider {
         String[] preferenceKeys = MyApplication.getAppContext().getResources().getStringArray(R.array.preference_keys);
 
         // Stores time in milliseconds of last time user has used he app
-        Integer temp = values.getAsInteger(preferenceKeys[29]);
+        Long temp = values.getAsLong(preferenceKeys[29]);
         if(temp == null) {
             throw new IllegalArgumentException("Data cannot be null");
         }
@@ -504,12 +504,12 @@ public class DataProvider extends ContentProvider {
         }
 
         // Stores time in milliseconds of last time user has used he app
-        temp = values.getAsInteger(preferenceKeys[29]);
-        if(temp == null) {
+        Long longTemp = values.getAsLong(preferenceKeys[29]);
+        if(longTemp == null) {
             throw new IllegalArgumentException("Data cannot be null");
         }
-        if(temp < 1000) {
-            throw new IllegalArgumentException("Last time app has been used in millis data not valid: " + temp);
+        if(longTemp < 1000) {
+            throw new IllegalArgumentException("Last time app has been used in millis data not valid: " + longTemp);
         }
 
 

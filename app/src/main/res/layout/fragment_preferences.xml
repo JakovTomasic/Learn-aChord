@@ -639,6 +639,47 @@
 
             </LinearLayout>
 
+            <!--TODO: make this prettier-->
+            <LinearLayout
+                android:id="@+id/custom_reminder_parent_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="@dimen/settings_layout_separations_half"
+                android:orientation="horizontal"
+                android:gravity="center">
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3" />
+
+                <EditText
+                    android:id="@+id/custom_reminder_time_interval_number"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:gravity="center"
+                    android:imeOptions="actionDone"
+                    android:inputType="number"
+                    android:maxLength="3"
+                    android:selectAllOnFocus="true"
+                    android:textColor="@color/darkTextColor" />
+
+                <Spinner
+                    android:id="@+id/custom_reminder_interval_spinner"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/settings_min_height"
+                    android:layout_gravity="center_vertical"
+                    android:spinnerMode="dropdown" />
+
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3" />
+
+            </LinearLayout>
+
             <TextView
                 android:id="@+id/contact_us_clickable_text_view"
                 style="@style/settingsTextStyle"

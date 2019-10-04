@@ -414,7 +414,7 @@ public class MainActivity extends AppCompatActivity {
                     Thread.sleep(1000);
 
                     // Check if internet connection is available (something like ping google.com)
-                    final boolean internetAvailable = MyApplication.isInternetAvailable();
+                    final boolean internetAvailable = MyApplication.recheckInternetAvailability();
 
                     MainActivity.this.runOnUiThread(new Runnable() {
                         @Override

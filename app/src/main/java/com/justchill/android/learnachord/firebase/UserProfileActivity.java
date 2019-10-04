@@ -106,7 +106,6 @@ public class UserProfileActivity extends AppCompatActivity {
                 Thread handleClickOnProfilePhotoThread = new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        // Check internet connection on this thread
                         final boolean tempIsInternetAvailable = MyApplication.isInternetAvailable();
                         try {
                             // Continue on UI thread
@@ -148,7 +147,6 @@ public class UserProfileActivity extends AppCompatActivity {
         Thread setupUserProfilePhotoAndNameThread = new Thread(new Runnable() {
             @Override
             public void run() {
-                // Check internet connection on this thread
                 final boolean tempIsInternetAvailable = MyApplication.isInternetAvailable();
                 try {
                     // Continue on UI thread
@@ -197,28 +195,11 @@ public class UserProfileActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-
-        // Check internet connection on separate thread (in case connection is slow)
-        Thread checkInternetConnectionThread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                // If internet is not available, show error message
-                if(!MyApplication.isInternetAvailable()) {
-                    try {
-                        UserProfileActivity.this.runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                TextView noInternetConnectionTV = findViewById(R.id.no_internet_connection_warning_text_view);
-                                noInternetConnectionTV.setVisibility(View.VISIBLE);
-                            }
-                        });
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        });
-        checkInternetConnectionThread.start();
+        // If internet is not available, show error message
+        if(!MyApplication.isInternetAvailable()) {
+            TextView noInternetConnectionTV = findViewById(R.id.no_internet_connection_warning_text_view);
+            noInternetConnectionTV.setVisibility(View.VISIBLE);
+        }
 
 
         // Choose profile picture options (listener for each picture)
@@ -329,15 +310,18 @@ public class UserProfileActivity extends AppCompatActivity {
     }
 
     // Try to add profile photo to the UI
-    public static void setProfilePhoto(Activity activity) {
+    public void setProfilePhoto() {
         try {
-            ImageView profilePhotoCircleIV = activity.findViewById(R.id.user_profile_photo_circle_image_view);
+            // Get size of default profile photo for scaling bitmap, scale it down if it's too big
+            int sizeToSet = Math.min(photoOptionDefaultCircleIV.getHeight(), FirebaseHandler.user.photo.getHeight());
+
+            ImageView profilePhotoCircleIV = findViewById(R.id.user_profile_photo_circle_image_view);
             if(FirebaseHandler.user.photo == null) {
                 // If there is no photo, set the default one
                 profilePhotoCircleIV.setImageResource(R.drawable.ic_default_user_profile_photo);
             } else {
                 // Set the photo
-                profilePhotoCircleIV.setImageBitmap(FirebaseHandler.user.photo);
+                profilePhotoCircleIV.setImageBitmap(Bitmap.createScaledBitmap(FirebaseHandler.user.photo, sizeToSet, sizeToSet, true));
                 profilePhotoCircleIV.requestLayout();
             }
         } catch (Exception e) {
@@ -541,7 +525,7 @@ public class UserProfileActivity extends AppCompatActivity {
                                     listOfAllPicturesToChangeParentView.setVisibility(View.VISIBLE);
                                     loadingImagesrogressBar.setVisibility(View.GONE);
 
-                                    // Get size of default photo to scale new photos the same vay
+                                    // Get size of default photo to scale new photos the same way
                                     int currentSize = photoOptionDefaultCircleIV.getHeight();
 
                                     /*

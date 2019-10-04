@@ -87,6 +87,9 @@ public class MyApplication extends Application {
     // Otherwise, some chords (mali durski 9) will be showed differently
     public static int settingActivityLoadedLanguage = 0;
 
+    // Stores result of last check if internet was available
+    private static boolean isInternetAvailable = false;
+
 
     // This is activity that is currently opened, null if UI is not visible
     @SuppressLint("StaticFieldLeak")
@@ -450,15 +453,20 @@ public class MyApplication extends Application {
      * Returns true if internet connection is present (not just connected to network)
      * MUST BE CALLED FROM SEPARATE THREAD!!
      */
-    public static boolean isInternetAvailable() {
+    public static boolean recheckInternetAvailability() {
         try {
             InetAddress ipAddr = InetAddress.getByName("google.com");
-            return !ipAddr.toString().equals("");
-
+            isInternetAvailable = !ipAddr.toString().equals("");
         } catch (Exception e) {
             e.printStackTrace();
-            return false;
+            isInternetAvailable = false;
         }
+        return isInternetAvailable;
+    }
+
+    // Returns if internet is currently available (or when last time checked)
+    public static boolean isInternetAvailable() {
+        return isInternetAvailable;
     }
 
 

@@ -38,6 +38,7 @@ public class StartOnBootReceiver extends BroadcastReceiver {
     public static void scheduleRepeatingAlarm() {
         cancelRepeatingAlarm();
         try {
+            // TODO: set check interval depending on choosed time interval
             alarmMgr.setInexactRepeating(AlarmManager.RTC, SystemClock.elapsedRealtime() +
                     AlarmManager.INTERVAL_HALF_HOUR, AlarmManager.INTERVAL_HALF_HOUR, alarmIntent);
         } catch (Exception ignored) {}

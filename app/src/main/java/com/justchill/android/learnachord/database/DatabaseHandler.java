@@ -9,6 +9,7 @@ import com.justchill.android.learnachord.R;
 import com.justchill.android.learnachord.firebase.FirebaseHandler;
 import com.justchill.android.learnachord.intervalOrChord.ChordsList;
 import com.justchill.android.learnachord.intervalOrChord.IntervalsList;
+import com.justchill.android.learnachord.notifications.StartOnBootReceiver;
 
 // Handles reading/writing to database
 public class DatabaseHandler {
@@ -429,10 +430,12 @@ public class DatabaseHandler {
         setDoAchievementsNeedUpdate(false);
         setDoesDbNeedUpdate(false);
 
-        // If some setting is changed update interval and chord names (in case it is language), and with that, set locale language
+        // If some setting is changed update interval and chord names (in case it is language)
         if(newRowUri > 0) {
             IntervalsList.updateAllIntervalsNames(MyApplication.getAppContext());
             ChordsList.updateAllChordsNames(MyApplication.getAppContext());
+            // In case reminder settings have been changed, reschedule reminder alarm
+            StartOnBootReceiver.scheduleRepeatingAlarm();
         }
     }
 
@@ -450,6 +453,42 @@ public class DatabaseHandler {
         // Update the database with ContentValues data, returns how many rows were affected
         int newRowUri = MyApplication.getAppContext().getContentResolver().update(DataContract.UserPrefEntry.CONTENT_URI_FIRST_ROW,
                 values, null, null);
+
+    }
+
+    // TODO: remove this
+    public static Long[] getAlarmVariables() {
+        // Get list of database IDs for all options (saved user preferences)
+        String[] tempProjection = MyApplication.getAppContext().getResources().getStringArray(R.array.preference_keys);
+        String[] preferenceKeys = {tempProjection[27], tempProjection[28], tempProjection[29]};
+        // Get ID of a row in DB (for now, DB has only one row)
+        String[] tempForID = { DataContract.UserPrefEntry._ID };
+        // Setup projection for database query (add ID to beginning)
+        String[] projection = DataContract.concatenateTwoArrays(tempForID, preferenceKeys); // projection MUST have _ID
+
+        // Get data from the database
+        Cursor cursor = MyApplication.getAppContext().getContentResolver().query(DataContract.UserPrefEntry.CONTENT_URI_FIRST_ROW,
+                projection, null, null, null);
+
+        // If there is no data, don't do nothing
+        if(cursor == null) {
+            return null;
+        }
+
+        cursor.moveToFirst(); // Move the cursor to the first row (and only row for now)
+
+        Long[] values = {0L, 0L, 0L};
+
+        try {
+            values[0] = (long)cursor.getInt(cursor.getColumnIndex(preferenceKeys[0]));
+            values[1] = (long)cursor.getInt(cursor.getColumnIndex(preferenceKeys[1]));
+            values[2] = cursor.getLong(cursor.getColumnIndex(preferenceKeys[2]));
+        } finally {
+            // At the end close connection to DB
+            cursor.close();
+        }
+
+        return values;
 
     }
 

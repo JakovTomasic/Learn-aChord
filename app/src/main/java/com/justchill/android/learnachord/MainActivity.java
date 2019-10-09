@@ -443,6 +443,9 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         showMainActivityExplanationDialogDelayThread.start();
+
+        // If servicePlayer isn't running, start it
+        MyApplication.startServicePlayerService();
     }
 
     // Set options menu

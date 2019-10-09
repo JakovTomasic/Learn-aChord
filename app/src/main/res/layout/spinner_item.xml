@@ -10,10 +10,11 @@
     android:gravity="left|center_vertical"
     android:textColor="@color/darkTextColor"
     android:padding="5dp"
+    android:paddingLeft="32dp"
+    android:paddingRight="32dp"
     tools:text="Test"
 
     style="?android:attr/dropDownItemStyle"
     android:textAppearance="?android:attr/textAppearanceLargePopupMenu"
     android:singleLine="true"
     android:ellipsize="marquee"/>
-    <!--    TODO: make this look little bit better-->

@@ -19,41 +19,38 @@ public final class IntervalsList {
 
     // Static initializer. This is run the first time anything is called from this class.
     static {
-        // Set locale language
-        Context context = LocaleHelper.setLocale(MyApplication.getAppContext(), LocaleHelper.getLanguageLabel(DatabaseData.appLanguage));
-        Resources resources = context.getResources();
 
-        ALL_INTERVALS.add(new Interval(0, MyApplication.readResource(R.string.interval_cista_prima, resources)));
-        ALL_INTERVALS.add(new Interval(1, MyApplication.readResource(R.string.interval_mala_sekunda, resources)));
-        ALL_INTERVALS.add(new Interval(2, MyApplication.readResource(R.string.interval_velika_sekunda, resources)));
-        ALL_INTERVALS.add(new Interval(3, MyApplication.readResource(R.string.interval_mala_terca, resources)));
-        ALL_INTERVALS.add(new Interval(4, MyApplication.readResource(R.string.interval_velika_terca, resources)));
+        ALL_INTERVALS.add(new Interval(0, MyApplication.getStringByLocal(R.string.interval_cista_prima)));
+        ALL_INTERVALS.add(new Interval(1, MyApplication.getStringByLocal(R.string.interval_mala_sekunda)));
+        ALL_INTERVALS.add(new Interval(2, MyApplication.getStringByLocal(R.string.interval_velika_sekunda)));
+        ALL_INTERVALS.add(new Interval(3, MyApplication.getStringByLocal(R.string.interval_mala_terca)));
+        ALL_INTERVALS.add(new Interval(4, MyApplication.getStringByLocal(R.string.interval_velika_terca)));
 //        ALL_INTERVALS.add(new Interval(4, readResource(R.string.interval_smanjena_kvarta, resources)));
-        ALL_INTERVALS.add(new Interval(5, MyApplication.readResource(R.string.interval_cista_kvarta, resources)));
-        ALL_INTERVALS.add(new Interval(6, MyApplication.readResource(R.string.interval_povecana_kvarta, resources) + "/" +
-                MyApplication.readResource(R.string.interval_smanjena_kvinta, resources)));
+        ALL_INTERVALS.add(new Interval(5, MyApplication.getStringByLocal(R.string.interval_cista_kvarta)));
+        ALL_INTERVALS.add(new Interval(6, MyApplication.getStringByLocal(R.string.interval_povecana_kvarta) + "/" +
+                MyApplication.getStringByLocal(R.string.interval_smanjena_kvinta)));
 //        ALL_INTERVALS.add(new Interval(6, readResource(R.string.interval_smanjena_kvinta, resources)));
-        ALL_INTERVALS.add(new Interval(7, MyApplication.readResource(R.string.interval_cista_kvinta, resources)));
+        ALL_INTERVALS.add(new Interval(7, MyApplication.getStringByLocal(R.string.interval_cista_kvinta)));
 //        ALL_INTERVALS.add(new Interval(8, readResource(R.string.interval_povecana_kvinta, resources)));
-        ALL_INTERVALS.add(new Interval(8, MyApplication.readResource(R.string.interval_mala_seksta, resources)));
-        ALL_INTERVALS.add(new Interval(9, MyApplication.readResource(R.string.interval_velika_seksta, resources)));
-        ALL_INTERVALS.add(new Interval(10, MyApplication.readResource(R.string.interval_mala_septima, resources)));
-        ALL_INTERVALS.add(new Interval(11, MyApplication.readResource(R.string.interval_velika_septima, resources)));
-        ALL_INTERVALS.add(new Interval(12, MyApplication.readResource(R.string.interval_cista_oktava, resources)));
+        ALL_INTERVALS.add(new Interval(8, MyApplication.getStringByLocal(R.string.interval_mala_seksta)));
+        ALL_INTERVALS.add(new Interval(9, MyApplication.getStringByLocal(R.string.interval_velika_seksta)));
+        ALL_INTERVALS.add(new Interval(10, MyApplication.getStringByLocal(R.string.interval_mala_septima)));
+        ALL_INTERVALS.add(new Interval(11, MyApplication.getStringByLocal(R.string.interval_velika_septima)));
+        ALL_INTERVALS.add(new Interval(12, MyApplication.getStringByLocal(R.string.interval_cista_oktava)));
 
-        ALL_INTERVALS.add(new Interval(13, MyApplication.readResource(R.string.interval_mala_nona, resources)));
-        ALL_INTERVALS.add(new Interval(14, MyApplication.readResource(R.string.interval_velika_nona, resources)));
-        ALL_INTERVALS.add(new Interval(15, MyApplication.readResource(R.string.interval_mala_decima, resources)));
-        ALL_INTERVALS.add(new Interval(16, MyApplication.readResource(R.string.interval_velika_decima, resources)));
-        ALL_INTERVALS.add(new Interval(17, MyApplication.readResource(R.string.interval_cista_undecima, resources)));
-        ALL_INTERVALS.add(new Interval(18, MyApplication.readResource(R.string.interval_povecana_undecima, resources) + "/" +
-                MyApplication.readResource(R.string.interval_smanjena_duodecima, resources)));
-        ALL_INTERVALS.add(new Interval(19, MyApplication.readResource(R.string.interval_cista_duodecima, resources)));
-        ALL_INTERVALS.add(new Interval(20, MyApplication.readResource(R.string.interval_mala_tercdecima, resources)));
-        ALL_INTERVALS.add(new Interval(21, MyApplication.readResource(R.string.interval_velika_tercdecima, resources)));
-        ALL_INTERVALS.add(new Interval(22, MyApplication.readResource(R.string.interval_mala_kvartdecima, resources)));
-        ALL_INTERVALS.add(new Interval(23, MyApplication.readResource(R.string.interval_velika_kvartdecima, resources)));
-        ALL_INTERVALS.add(new Interval(24, MyApplication.readResource(R.string.interval_cista_kvintdecima, resources)));
+        ALL_INTERVALS.add(new Interval(13, MyApplication.getStringByLocal(R.string.interval_mala_nona)));
+        ALL_INTERVALS.add(new Interval(14, MyApplication.getStringByLocal(R.string.interval_velika_nona)));
+        ALL_INTERVALS.add(new Interval(15, MyApplication.getStringByLocal(R.string.interval_mala_decima)));
+        ALL_INTERVALS.add(new Interval(16, MyApplication.getStringByLocal(R.string.interval_velika_decima)));
+        ALL_INTERVALS.add(new Interval(17, MyApplication.getStringByLocal(R.string.interval_cista_undecima)));
+        ALL_INTERVALS.add(new Interval(18, MyApplication.getStringByLocal(R.string.interval_povecana_undecima) + "/" +
+                MyApplication.getStringByLocal(R.string.interval_smanjena_duodecima)));
+        ALL_INTERVALS.add(new Interval(19, MyApplication.getStringByLocal(R.string.interval_cista_duodecima)));
+        ALL_INTERVALS.add(new Interval(20, MyApplication.getStringByLocal(R.string.interval_mala_tercdecima)));
+        ALL_INTERVALS.add(new Interval(21, MyApplication.getStringByLocal(R.string.interval_velika_tercdecima)));
+        ALL_INTERVALS.add(new Interval(22, MyApplication.getStringByLocal(R.string.interval_mala_kvartdecima)));
+        ALL_INTERVALS.add(new Interval(23, MyApplication.getStringByLocal(R.string.interval_velika_kvartdecima)));
+        ALL_INTERVALS.add(new Interval(24, MyApplication.getStringByLocal(R.string.interval_cista_kvintdecima)));
     }
 
     private IntervalsList() {}
@@ -63,42 +60,38 @@ public final class IntervalsList {
     }
 
     // Update names depending on language and set locale language
-    public static void updateAllIntervalsNames(Context tempContext) {
-        // Set language
-        Context context = LocaleHelper.setLocale(tempContext, LocaleHelper.getLanguageLabel(DatabaseData.appLanguage));
-        Resources resources = context.getResources();
-
-        getInterval(0).setName(MyApplication.readResource(R.string.interval_cista_prima, resources));
-        getInterval(1).setName(MyApplication.readResource(R.string.interval_mala_sekunda, resources));
-        getInterval(2).setName(MyApplication.readResource(R.string.interval_velika_sekunda, resources));
-        getInterval(3).setName(MyApplication.readResource(R.string.interval_mala_terca, resources));
-        getInterval(4).setName(MyApplication.readResource(R.string.interval_velika_terca, resources));
+    public static void updateAllIntervalsNames() {
+        getInterval(0).setName(MyApplication.getStringByLocal(R.string.interval_cista_prima));
+        getInterval(1).setName(MyApplication.getStringByLocal(R.string.interval_mala_sekunda));
+        getInterval(2).setName(MyApplication.getStringByLocal(R.string.interval_velika_sekunda));
+        getInterval(3).setName(MyApplication.getStringByLocal(R.string.interval_mala_terca));
+        getInterval(4).setName(MyApplication.getStringByLocal(R.string.interval_velika_terca));
 //        getInterval(4).setName(readResource(R.string.interval_smanjena_kvarta, resources));
-        getInterval(5).setName(MyApplication.readResource(R.string.interval_cista_kvarta, resources));
-        getInterval(6).setName(MyApplication.readResource(R.string.interval_povecana_kvarta, resources) + "/" +
-                MyApplication.readResource(R.string.interval_smanjena_kvinta, resources));
+        getInterval(5).setName(MyApplication.getStringByLocal(R.string.interval_cista_kvarta));
+        getInterval(6).setName(MyApplication.getStringByLocal(R.string.interval_povecana_kvarta) + "/" +
+                MyApplication.getStringByLocal(R.string.interval_smanjena_kvinta));
 //        getInterval(6).setName(readResource(R.string.interval_smanjena_kvinta, resources));
-        getInterval(7).setName(MyApplication.readResource(R.string.interval_cista_kvinta, resources));
+        getInterval(7).setName(MyApplication.getStringByLocal(R.string.interval_cista_kvinta));
 //        getInterval(8).setName(readResource(R.string.interval_povecana_kvinta, resources));
-        getInterval(8).setName(MyApplication.readResource(R.string.interval_mala_seksta, resources));
-        getInterval(9).setName(MyApplication.readResource(R.string.interval_velika_seksta, resources));
-        getInterval(10).setName(MyApplication.readResource(R.string.interval_mala_septima, resources));
-        getInterval(11).setName(MyApplication.readResource(R.string.interval_velika_septima, resources));
-        getInterval(12).setName(MyApplication.readResource(R.string.interval_cista_oktava, resources));
+        getInterval(8).setName(MyApplication.getStringByLocal(R.string.interval_mala_seksta));
+        getInterval(9).setName(MyApplication.getStringByLocal(R.string.interval_velika_seksta));
+        getInterval(10).setName(MyApplication.getStringByLocal(R.string.interval_mala_septima));
+        getInterval(11).setName(MyApplication.getStringByLocal(R.string.interval_velika_septima));
+        getInterval(12).setName(MyApplication.getStringByLocal(R.string.interval_cista_oktava));
 
-        getInterval(13).setName(MyApplication.readResource(R.string.interval_mala_nona, resources));
-        getInterval(14).setName(MyApplication.readResource(R.string.interval_velika_nona, resources));
-        getInterval(15).setName(MyApplication.readResource(R.string.interval_mala_decima, resources));
-        getInterval(16).setName(MyApplication.readResource(R.string.interval_velika_decima, resources));
-        getInterval(17).setName(MyApplication.readResource(R.string.interval_cista_undecima, resources));
-        getInterval(18).setName(MyApplication.readResource(R.string.interval_povecana_undecima, resources) + "/" +
-                MyApplication.readResource(R.string.interval_smanjena_duodecima, resources));
-        getInterval(19).setName(MyApplication.readResource(R.string.interval_cista_duodecima, resources));
-        getInterval(20).setName(MyApplication.readResource(R.string.interval_mala_tercdecima, resources));
-        getInterval(21).setName(MyApplication.readResource(R.string.interval_velika_tercdecima, resources));
-        getInterval(22).setName(MyApplication.readResource(R.string.interval_mala_kvartdecima, resources));
-        getInterval(23).setName(MyApplication.readResource(R.string.interval_velika_kvartdecima, resources));
-        getInterval(24).setName(MyApplication.readResource(R.string.interval_cista_kvintdecima, resources));
+        getInterval(13).setName(MyApplication.getStringByLocal(R.string.interval_mala_nona));
+        getInterval(14).setName(MyApplication.getStringByLocal(R.string.interval_velika_nona));
+        getInterval(15).setName(MyApplication.getStringByLocal(R.string.interval_mala_decima));
+        getInterval(16).setName(MyApplication.getStringByLocal(R.string.interval_velika_decima));
+        getInterval(17).setName(MyApplication.getStringByLocal(R.string.interval_cista_undecima));
+        getInterval(18).setName(MyApplication.getStringByLocal(R.string.interval_povecana_undecima) + "/" +
+                MyApplication.getStringByLocal(R.string.interval_smanjena_duodecima));
+        getInterval(19).setName(MyApplication.getStringByLocal(R.string.interval_cista_duodecima));
+        getInterval(20).setName(MyApplication.getStringByLocal(R.string.interval_mala_tercdecima));
+        getInterval(21).setName(MyApplication.getStringByLocal(R.string.interval_velika_tercdecima));
+        getInterval(22).setName(MyApplication.getStringByLocal(R.string.interval_mala_kvartdecima));
+        getInterval(23).setName(MyApplication.getStringByLocal(R.string.interval_velika_kvartdecima));
+        getInterval(24).setName(MyApplication.getStringByLocal(R.string.interval_cista_kvintdecima));
 
     }
 

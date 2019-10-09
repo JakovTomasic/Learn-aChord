@@ -24,12 +24,8 @@ public class StartOnBootReceiver extends BroadcastReceiver {
     private static boolean reminderVariablesLoaded = false;
 
     @Override
-    public void onReceive(Context context, Intent intent) {
+    public void onReceive(Context context, final Intent intent) {
         Log.d(this.getClass().getName(), "OnReceive called");
-        if (Intent.ACTION_BOOT_COMPLETED.equals(intent.getAction())) {
-            // Runs only on boot, schedule alarm for periodic "should it show reminder" check
-            scheduleRepeatingAlarm();
-        }
 
         // Load all static variables from DB (for reminder)
         if(!reminderVariablesLoaded) {
@@ -37,26 +33,35 @@ public class StartOnBootReceiver extends BroadcastReceiver {
                 @Override
                 public void run() {
                     DatabaseHandler.updateSettings();
-                    if(!MyApplication.isUIVisible()) {
-                        alarmCheck();
-                    }
+                    toDoOnReceive(intent);
                     reminderVariablesLoaded = true;
                 }
             });
             loadReminderVariables.start();
-        } else if(!MyApplication.isUIVisible()) {
-            // If app is opened, something went wrong, don't show reminder
-            alarmCheck();
+        } else {
+            toDoOnReceive(intent);
         }
 
-
     }
+
+    // Does everything when onReceive is called, after all settings data is loaded
+    public void toDoOnReceive(Intent intent) {
+        if (Intent.ACTION_BOOT_COMPLETED.equals(intent.getAction())) {
+            // Runs only on boot, schedule alarm for periodic "should it show reminder" check
+            scheduleRepeatingAlarm();
+        }
+
+        // If app is opened, something went wrong, don't show reminder
+        if(!MyApplication.isUIVisible()) {
+            alarmCheck();
+        }
+    }
+
 
     // Schedules alarm for periodic "should it show reminder" check, turns it off if reminder is turned off
     public static void scheduleRepeatingAlarm() {
         cancelRepeatingAlarm();
         try {
-            // TODO: set check interval depending on chosen time interval
             // TODO: maybe change RTC to something else (if it doesn't show reminder when checked or if it wakes the screen up)
             if(DatabaseData.reminderTimeIntervalMode != DataContract.UserPrefEntry.REMINDER_TIME_INTERVAL_NEVER)
                 alarmMgr.setInexactRepeating(AlarmManager.RTC, SystemClock.elapsedRealtime() +

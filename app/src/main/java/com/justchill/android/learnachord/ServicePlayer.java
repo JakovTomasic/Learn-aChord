@@ -4,7 +4,6 @@ import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.res.Resources;
 import android.media.AudioAttributes;
 import android.media.AudioFocusRequest;
 import android.media.AudioManager;
@@ -41,6 +40,8 @@ public class ServicePlayer extends Service {
     public static int lowestReadyKey = DataContract.UserPrefEntry.NUMBER_OF_KEYS;
     public static int highestReadyKey = 1;
 
+    // Stores if this service has been started
+    public static boolean isServiceStarted = false;
 
     // In this sound pool all tone sounds are loaded on app creation and kept saved here
     private static SoundPool soundPool;
@@ -146,10 +147,12 @@ public class ServicePlayer extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 
+        // Service has been started
+        isServiceStarted = true;
+
         // Create and setup AudioManager to request audio focus
         audioManager = (AudioManager) this.getBaseContext().getSystemService(Context.AUDIO_SERVICE);
 
-        // TODO: 5 is number of sounds that can be played at same time, replace it with 6 when bigger chords are added (in 2 places)
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) { // >= api 21
             audioAttributes = new AudioAttributes.Builder()
                     .setUsage(AudioAttributes.USAGE_MEDIA)
@@ -165,6 +168,12 @@ public class ServicePlayer extends Service {
                         .setOnAudioFocusChangeListener(afChangeListener)
                         .build();
             }
+
+            /*
+             *
+             * 5 is number of sounds that can be played at same time, replace it with 6 when bigger chords are added (in 2 places)
+             *
+             */
 
             soundPool = new SoundPool.Builder().setMaxStreams(5).setAudioAttributes(audioAttributes).build();
         } else {
@@ -268,9 +277,9 @@ public class ServicePlayer extends Service {
                             String text = currentInterval.getName();
                             // This interval has unique name (two rows)
                             if(currentInterval.getDifference() == 6) {
-                                text = readResource(R.string.interval_povecana_kvarta) + "\n/" + readResource(R.string.interval_smanjena_kvinta);
+                                text = MyApplication.getStringByLocal(R.string.interval_povecana_kvarta) + "\n/" + MyApplication.getStringByLocal(R.string.interval_smanjena_kvinta);
                             } else if(currentInterval.getDifference() == 18) {
-                                text = readResource(R.string.interval_povecana_undecima) + "\n/" + readResource(R.string.interval_smanjena_duodecima);
+                                text = MyApplication.getStringByLocal(R.string.interval_povecana_undecima) + "\n/" + MyApplication.getStringByLocal(R.string.interval_smanjena_duodecima);
                             }
                             updateTextView(text, null, null);
                         } else {
@@ -347,15 +356,6 @@ public class ServicePlayer extends Service {
         soundPool = null;
     }
 
-    // Returns string from selected languages' resources
-    private static String readResource(int id) {
-        // Set language
-        Context context = LocaleHelper.setLocale(MyApplication.getAppContext(), LocaleHelper.getLanguageLabel(DatabaseData.appLanguage));
-        Resources resources = context.getResources();
-
-        return resources.getString(id);
-    }
-
     // This plays one interval/chord or tone on specified way
     // Returns true if sound was played successfully
     public boolean playChord(final int oneKeyTime, final int betweenDelayMilisec, final Interval[] intervals, final int directionToPlay,
@@ -425,9 +425,9 @@ public class ServicePlayer extends Service {
                 String text = chordName;
                 // This interval has unique name (two rows)
                 if(intervals.length == 1 && intervals[0].getDifference() == 6) {
-                    text = readResource(R.string.interval_povecana_kvarta) + "\n/" + readResource(R.string.interval_smanjena_kvinta);
+                    text = MyApplication.getStringByLocal(R.string.interval_povecana_kvarta) + "\n/" + MyApplication.getStringByLocal(R.string.interval_smanjena_kvinta);
                 } else if(intervals.length == 1 && intervals[0].getDifference() == 18) {
-                    text = readResource(R.string.interval_povecana_undecima) + "\n/" + readResource(R.string.interval_smanjena_duodecima);
+                    text = MyApplication.getStringByLocal(R.string.interval_povecana_undecima) + "\n/" + MyApplication.getStringByLocal(R.string.interval_smanjena_duodecima);
                 }
                 // String.valueOf(null) == "null"
                 updateTextView(text, chordNumberOne == null ? null : String.valueOf(chordNumberOne), chordNumberTwo == null ? null : String.valueOf(chordNumberTwo));

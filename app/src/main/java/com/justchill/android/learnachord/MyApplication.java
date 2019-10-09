@@ -1,20 +1,26 @@
 package com.justchill.android.learnachord;
 
 import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.AssetManager;
+import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.ShapeDrawable;
+
+import androidx.annotation.NonNull;
 import androidx.multidex.MultiDex;
 import androidx.core.content.ContextCompat;
 import androidx.appcompat.app.AppCompatDelegate;
 
-import android.util.Log;
+import android.os.Build;
+import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,6 +35,7 @@ import com.justchill.android.learnachord.quiz.QuizData;
 
 import java.net.InetAddress;
 import java.util.ArrayList;
+import java.util.Locale;
 
 // Main static class to get application context and other static things that don't belong anywhere else
 public class MyApplication extends Application {
@@ -101,17 +108,26 @@ public class MyApplication extends Application {
         // Set app context
         MyApplication.context = getApplicationContext();
 
-        // Start service
-        Thread serviceThread = new Thread() {
-            @Override
-            public void run() {
-                startService(new Intent(getApplicationContext(), ServicePlayer.class));
-            }
-        };
-        serviceThread.start();
+        startServicePlayerService();
 
         // Turns off night mode in the app - fix for some weird UI changes (colors)
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+    }
+
+    // Starts service for playing tones if it isn't started already, fix for when app starts before UI (on boot)
+    public static void startServicePlayerService() {
+        if(ServicePlayer.isServiceStarted || !isUIVisible()) return;
+        Thread serviceThread = new Thread() {
+            @Override
+            public void run() {
+                try {
+                    getAppContext().startService(new Intent(getAppContext(), ServicePlayer.class));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+        serviceThread.start();
     }
 
     public static ChangeListener getServicePlayerListener() {
@@ -130,14 +146,14 @@ public class MyApplication extends Application {
         MyApplication.activityListeners.add(listener);
     }
 
-    // Get application context. Needed for some static methods.
+    // Get application context. Needed for some static methods. Also sets default language
     public static Context getAppContext() {
         // If context is set to another language, return it to default UI language
         String languageId = MyApplication.context.getResources().getString(R.string.language_id);
         if(Integer.parseInt(languageId) == DatabaseData.DEFAULT_SYSTEM_LANGUAGE)
             return MyApplication.context;
 
-        return LocaleHelper.setLocale(MyApplication.context, LocaleHelper.getLanguageLabel(DatabaseData.DEFAULT_SYSTEM_LANGUAGE));
+        return MyApplication.context = LocaleHelper.setLocale(MyApplication.context, LocaleHelper.getLanguageLabel(DatabaseData.DEFAULT_SYSTEM_LANGUAGE));
     }
 
     // Called when any activity pauses
@@ -264,11 +280,7 @@ public class MyApplication extends Application {
     public static String getKeyName(int key) {
         key--; // 0 to 60 (and not 1 - 61)
 
-        // Set language
-        Context context = LocaleHelper.setLocale(getAppContext(), LocaleHelper.getLanguageLabel(DatabaseData.appLanguage));
-        Resources resources = context.getResources();
-
-        String[] keys = resources.getStringArray(R.array.key_symbols);
+        String[] keys = MyApplication.getStringArrayByLocal(R.array.key_symbols);
         StringBuilder stringBuilder = new StringBuilder();
 
         if(DatabaseData.appLanguage == DataContract.UserPrefEntry.LANGUAGE_CROATIAN) {
@@ -476,6 +488,82 @@ public class MyApplication extends Application {
             resources = getAppContext().getResources();
         }
         return resources.getString(id);
+    }
+
+    // Returns string from selected languages' resources
+    @NonNull
+    public static String getStringByLocal(int resId) {
+        Context context = MyApplication.context;
+        String locale = LocaleHelper.getLanguageLabel(DatabaseData.appLanguage);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1)
+            return getStringByLocalPlus17(context, resId, locale);
+        else
+            return getStringByLocalBefore17(context, resId, locale);
+    }
+
+    @NonNull
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
+    private static String getStringByLocalPlus17(Context context, int resId, String locale) {
+        Configuration configuration = new Configuration(context.getResources().getConfiguration());
+        configuration.setLocale(new Locale(locale));
+        return context.createConfigurationContext(configuration).getResources().getString(resId);
+    }
+
+    private static String getStringByLocalBefore17(Context context,int resId, String language) {
+        Resources currentResources = context.getResources();
+        AssetManager assets = currentResources.getAssets();
+        DisplayMetrics metrics = currentResources.getDisplayMetrics();
+        Configuration config = new Configuration(currentResources.getConfiguration());
+        Locale locale = new Locale(language);
+        Locale.setDefault(locale);
+        config.locale = locale;
+        /*
+         * Note: This (temporarily) changes the devices locale!
+         * You should find a better way to get the string in the specific locale
+         */
+        Resources defaultLocaleResources = new Resources(assets, metrics, config);
+        String string = defaultLocaleResources.getString(resId);
+        // Restore device-specific locale
+        new Resources(assets, metrics, currentResources.getConfiguration());
+        return string;
+    }
+
+    // Returns string array from selected languages' resources
+    @NonNull
+    public static String[] getStringArrayByLocal(int resId) {
+        Context context = MyApplication.context;
+        String locale = LocaleHelper.getLanguageLabel(DatabaseData.appLanguage);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1)
+            return getStringArrayByLocalPlus17(context, resId, locale);
+        else
+            return getStringArrayByLocalBefore17(context, resId, locale);
+    }
+
+    @NonNull
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
+    private static String[] getStringArrayByLocalPlus17(Context context, int resId, String locale) {
+        Configuration configuration = new Configuration(context.getResources().getConfiguration());
+        configuration.setLocale(new Locale(locale));
+        return context.createConfigurationContext(configuration).getResources().getStringArray(resId);
+    }
+
+    private static String[] getStringArrayByLocalBefore17(Context context,int resId, String language) {
+        Resources currentResources = context.getResources();
+        AssetManager assets = currentResources.getAssets();
+        DisplayMetrics metrics = currentResources.getDisplayMetrics();
+        Configuration config = new Configuration(currentResources.getConfiguration());
+        Locale locale = new Locale(language);
+        Locale.setDefault(locale);
+        config.locale = locale;
+        /*
+         * Note: This (temporarily) changes the devices locale! TODO find a
+         * better way to get the string in the specific locale
+         */
+        Resources defaultLocaleResources = new Resources(assets, metrics, config);
+        String[] stringArr = defaultLocaleResources.getStringArray(resId);
+        // Restore device-specific locale
+        new Resources(assets, metrics, currentResources.getConfiguration());
+        return stringArr;
     }
 
     // For different languages support

@@ -24,6 +24,7 @@ import com.justchill.android.learnachord.intervalOrChord.IntervalsList;
 import com.justchill.android.learnachord.database.DataContract;
 import com.justchill.android.learnachord.database.DatabaseData;
 import com.justchill.android.learnachord.database.DatabaseHandler;
+import com.justchill.android.learnachord.notifications.NotificationHandler;
 
 // Options activity
 public class SettingsActivity extends AppCompatActivity {
@@ -169,6 +170,8 @@ public class SettingsActivity extends AppCompatActivity {
                 return true;
             case R.id.action_more_info: // Open help dialog
                 showSettingsActivityExplanationDialog();
+                // TODO: remove this
+                NotificationHandler.showReminderNotification();
                 break;
         }
         return super.onOptionsItemSelected(item);

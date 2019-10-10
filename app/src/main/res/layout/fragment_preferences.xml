@@ -19,7 +19,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/settings_shadow_translation_x_inverted"
-            android:background="@color/settingsBackground"
+            android:background="@color/settingsElevatedBackground"
             android:elevation="@dimen/settings_shadow_elevation"
             android:orientation="vertical"
             android:translationX="@dimen/settings_shadow_translation_x">
@@ -225,7 +225,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/settings_shadow_translation_x_inverted"
-            android:background="@color/settingsBackground"
+            android:background="@color/settingsElevatedBackground"
             android:elevation="@dimen/settings_shadow_elevation"
             android:orientation="vertical"
             android:translationX="@dimen/settings_shadow_translation_x">
@@ -336,7 +336,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/settings_shadow_translation_x_inverted"
-            android:background="@color/settingsBackground"
+            android:background="@color/settingsElevatedBackground"
             android:elevation="@dimen/settings_shadow_elevation"
             android:orientation="vertical"
             android:translationX="@dimen/settings_shadow_translation_x">
@@ -401,7 +401,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/settings_shadow_translation_x_inverted"
-            android:background="@color/settingsBackground"
+            android:background="@color/settingsElevatedBackground"
             android:elevation="@dimen/settings_shadow_elevation"
             android:orientation="vertical"
             android:translationX="@dimen/settings_shadow_translation_x">
@@ -489,7 +489,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/settings_shadow_translation_x_inverted"
-            android:background="@color/settingsBackground"
+            android:background="@color/settingsElevatedBackground"
             android:elevation="@dimen/settings_shadow_elevation"
             android:orientation="vertical"
             android:translationX="@dimen/settings_shadow_translation_x">
@@ -607,7 +607,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/settings_shadow_translation_x_inverted"
             android:layout_marginBottom="@dimen/settings_shadow_elevation"
-            android:background="@color/settingsBackground"
+            android:background="@color/settingsElevatedBackground"
             android:elevation="@dimen/settings_shadow_elevation"
             android:orientation="vertical"
             android:translationX="@dimen/settings_shadow_translation_x">
@@ -639,14 +639,14 @@
 
             </LinearLayout>
 
-            <!--TODO: make this prettier-->
             <LinearLayout
                 android:id="@+id/custom_reminder_parent_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingBottom="@dimen/settings_layout_separations_half"
                 android:orientation="horizontal"
-                android:gravity="center">
+                android:gravity="center"
+                android:background="@color/settingsDarkerBackground">
 
                 <View
                     android:layout_width="0dp"

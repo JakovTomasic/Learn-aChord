@@ -177,19 +177,10 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-        // Get screen width and height in pixels
-        Display display = getWindowManager().getDefaultDisplay();
-        Point size = new Point();
-        display.getSize(size);
-        displayWidth = size.x;
-        displayHeight = size.y;
-
         // Save smaller dimension of the screen so image doesn't go out of screen
         if(MyApplication.smallerDisplayDimensionPX == null) {
-            MyApplication.smallerDisplayDimensionPX = Math.min(displayWidth, displayHeight);
+            MyApplication.updateSmallerDisplayDimensionPX(this);
         }
-
-
 
         if(MyApplication.isPlaying()) {
             chordTextViewLayout.setVisibility(View.VISIBLE);
@@ -478,11 +469,13 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    // For split screen support
+    // Called when screen size is changed (phone unfolded)
     @Override
     public void onConfigurationChanged(Configuration newConfig) { // TODO: add better split screen support
         super.onConfigurationChanged(newConfig);
+        MyApplication.updateSmallerDisplayDimensionPX(this);
         updatePlayStopButton();
+//        invalidateOptionsMenu(); // TODO: this is not working, find solution (on unfold 3 dots don't go to icons)
     }
 
     @Override

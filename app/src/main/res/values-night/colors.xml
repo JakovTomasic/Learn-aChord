@@ -4,41 +4,43 @@
     <!-- Drawable colors must be hardcoded for backward compatibility -->
     <!-- Change them in their .xml file -->
 
-    <color name="colorPrimary">#38ac38</color>
-    <color name="colorPrimaryDark">#224225</color>
-    <color name="colorAccent">#397b39</color>
-    <color name="navBarColor">#224225</color>
+<!--    TODO: test login activity UI with night and dark mode-->
 
-    <color name="TabLayoutBackground">#319631</color>
-    <color name="darkTextColor">#224225</color>
-    <color name="lightTextColor">#60AA60</color>
+    <color name="colorPrimary">#214424</color>
+    <color name="colorPrimaryDark">#000000</color>
+    <color name="colorAccent">#38ac38</color>
+    <color name="navBarColor">#000000</color>
 
-    <color name="playButton">#38ac38</color>
-    <color name="stopButton">#ab2929</color>
+    <color name="TabLayoutBackground">#224225</color>
+    <color name="darkTextColor">#30a430</color>
+    <color name="lightTextColor">#224225</color>
 
-    <color name="mainActivityBackground">#f2fff2</color>
-    <color name="settingsBackground">#f2fff2</color>
-    <color name="settingsElevatedBackground">#f2fff2</color>
-    <color name="settingsDarkerBackground">#e2eee2</color>
+    <color name="playButton">#289c28</color>
+    <color name="stopButton">#9b1919</color>
+
+    <color name="mainActivityBackground">#000000</color>
+    <color name="settingsBackground">#222822</color>
+    <color name="settingsElevatedBackground">#333933</color>
+    <color name="settingsDarkerBackground">#404040</color>
 
     <color name="grayForProgressBar">#ef595959</color>
-    <color name="progressBarColor">#58FF58</color>
+    <color name="progressBarColor">#224225</color>
 
-    <color name="unloadedColor">#797979</color>
+    <color name="unloadedColor">#505050</color>
 
-    <color name="questionMarkColor">#4b4b4b</color>
-
-
-    <color name="preferencesFragmentSeparationLineColor">#30004000</color>
+    <color name="questionMarkColor">#224225</color>
 
 
-    <color name="whatIntervalListViewBackground">#38FF38</color>
-    <color name="whatIntervalListViewBorder">#00AA00</color>
+    <color name="preferencesFragmentSeparationLineColor">#30909090</color>
+
+
+    <color name="whatIntervalListViewBackground">#289c28</color>
+    <color name="whatIntervalListViewBorder">#006600</color>
 
 
     <color name="rangeSeekBarBackgroundLineColor">#50224225</color>
-    <color name="rangeSeekBarActiveRangeLineColor">#38ac38</color>
-    <color name="rangeSeekBarThumbCenterColor">#38ac38</color>
+    <color name="rangeSeekBarActiveRangeLineColor">#289c28</color>
+    <color name="rangeSeekBarThumbCenterColor">#289c28</color>
     <color name="rangeSeekBarThumbNormalBackground">#5038ac38</color>
     <color name="rangeSeekBarThumbDisabledBackground">#40777777</color>
 

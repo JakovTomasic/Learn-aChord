@@ -9,7 +9,7 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
-    <supports-screens android:largeScreens="true" android:xlargeScreens="true" />
+    <supports-screens android:anyDensity="true" android:largeScreens="true" android:xlargeScreens="true" />
 
 
 
@@ -28,6 +28,7 @@
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
+            android:configChanges="screenSize|smallestScreenSize|screenLayout"
             android:resizeableActivity="true"
             tools:targetApi="n">
             <intent-filter>
@@ -35,16 +36,18 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-            <layout android:defaultHeight="500dp"
-                android:defaultWidth="600dp"
-                android:gravity="top|end"
-                android:minHeight="450dp"
-                android:minWidth="300dp" />
+<!--            TODO: maybe uncomment this, better don't do it-->
+<!--            <layout android:defaultHeight="500dp"-->
+<!--                android:defaultWidth="600dp"-->
+<!--                android:gravity="top|end"-->
+<!--                android:minHeight="450dp"-->
+<!--                android:minWidth="300dp" />-->
         </activity>
         <activity
             android:name=".settings.SettingsActivity"
             android:label="@string/options"
             android:parentActivityName=".MainActivity"
+            android:configChanges="screenSize|smallestScreenSize|screenLayout"
             tools:targetApi="jelly_bean">
             <!-- To support android 4.0 and lower: -->
             <meta-data
@@ -60,6 +63,7 @@
             android:name=".quiz.ChooseQuizModeActivity"
             android:label="@string/quiz"
             android:parentActivityName=".MainActivity"
+            android:configChanges="screenSize|smallestScreenSize|screenLayout"
             tools:targetApi="jelly_bean">
             <!-- To support android 4.0 and lower: -->
             <meta-data
@@ -73,6 +77,7 @@
         <activity android:name=".quiz.ModeOneActivity"
             android:label="@string/quiz_mode_one_title"
             android:parentActivityName=".quiz.ChooseQuizModeActivity"
+            android:configChanges="screenSize|smallestScreenSize|screenLayout"
             tools:targetApi="jelly_bean">
             <!-- To support android 4.0 and lower: -->
             <meta-data
@@ -86,6 +91,7 @@
         <activity android:name=".quiz.ModeTwoActivity"
             android:label="@string/quiz_mode_two_title"
             android:parentActivityName=".quiz.ChooseQuizModeActivity"
+            android:configChanges="screenSize|smallestScreenSize|screenLayout"
             tools:targetApi="jelly_bean">
             <!-- To support android 4.0 and lower: -->
             <meta-data
@@ -99,6 +105,7 @@
         <activity android:name=".quiz.ModeThreeActivity"
             android:label="@string/quiz_mode_three_title"
             android:parentActivityName=".quiz.ChooseQuizModeActivity"
+            android:configChanges="screenSize|smallestScreenSize|screenLayout"
             tools:targetApi="jelly_bean">
             <!-- To support android 4.0 and lower: -->
             <meta-data
@@ -112,6 +119,7 @@
         <activity android:name=".firebase.UserProfileActivity"
             android:label="@string/user_profile_activity_label"
             android:parentActivityName=".MainActivity"
+            android:configChanges="screenSize|smallestScreenSize|screenLayout"
             tools:targetApi="jelly_bean">
             <!-- To support android 4.0 and lower: -->
             <meta-data

@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
@@ -64,6 +65,8 @@ public class UserProfileActivity extends AppCompatActivity {
     private View photoTwitterSeparationView;
     private ImageView photoOptionChooseFromPhoneCircleIV;
 
+    // Clickable parent view of profile photo
+    private View profileLinearLayoutLoginClickable;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -89,14 +92,11 @@ public class UserProfileActivity extends AppCompatActivity {
         photoTwitterSeparationView = findViewById(R.id.choose_profile_photo_separation_view_twitter);
         photoOptionChooseFromPhoneCircleIV = findViewById(R.id.choose_profile_photo_circle_image_view_from_phone);
 
-        View profileLinearLayoutLoginClickable = findViewById(R.id.profile_linear_layout_login_clickable);
+        profileLinearLayoutLoginClickable = findViewById(R.id.profile_linear_layout_login_clickable);
         final TextView userDisplayNameTV = findViewById(R.id.user_display_name_text_view);
 
 
-        // Resize user profile photo to fit the screen properly
-        profilePhotoCircleIV.getLayoutParams().width = (int)(MyApplication.smallerDisplayDimensionPX/2.5f);
-        profilePhotoCircleIV.getLayoutParams().height = (int)(MyApplication.smallerDisplayDimensionPX/2.5f);
-        profileLinearLayoutLoginClickable.requestLayout();
+        setUserPhotoSize();
 
 
         // When user clicks on picture or name, try to log him in (in case user is logged out)
@@ -281,6 +281,13 @@ public class UserProfileActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    // Resize user profile photo to fit the screen properly
+    private void setUserPhotoSize() {
+        profilePhotoCircleIV.getLayoutParams().width = (int)(MyApplication.smallerDisplayDimensionPX/2.5f);
+        profilePhotoCircleIV.getLayoutParams().height = (int)(MyApplication.smallerDisplayDimensionPX/2.5f);
+        profileLinearLayoutLoginClickable.requestLayout();
     }
 
     /*
@@ -594,6 +601,14 @@ public class UserProfileActivity extends AppCompatActivity {
             DatabaseData.userProfileActivityHelpShowed = DataContract.UserPrefEntry.BOOLEAN_TRUE;
             DatabaseHandler.updateDatabaseOnSeparateThread();
         }
+    }
+
+    // Called when screen size is changed (phone unfolded)
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        MyApplication.updateSmallerDisplayDimensionPX(this);
+        setUserPhotoSize();
     }
 
 }

@@ -3,6 +3,7 @@ package com.justchill.android.learnachord.quiz;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.res.Configuration;
 import android.media.AudioManager;
 import android.os.Bundle;
 import androidx.annotation.Nullable;
@@ -110,36 +111,8 @@ public class ModeOneActivity extends AppCompatActivity {
         achievementIconView = findViewById(R.id.achievement_icon_image_view);
 
 
-        // Setup interval and chord text size
-        MyApplication.setupIntervalAndChordTextSize(chordTextView, chordNumOneTextView, chordNumTwoTextView, 1);
-
-        // Setup score text view text size
-        scoreTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(MyApplication.smallerDisplayDimensionPX / 16) * DatabaseData.scaledDensity);
+        setLayoutSizes();
         scoreTextView.setText(String.valueOf(QuizData.quizScore));
-
-        // Setup achievement milestone popup size
-        achievementIconView.getLayoutParams().height = MyApplication.smallerDisplayDimensionPX / 8;
-        achievementIconView.getLayoutParams().width = MyApplication.smallerDisplayDimensionPX / 8;
-
-        // Setup progress bar size
-        ViewGroup.LayoutParams progressBarSizeRules = timeLeftToPlayProgressBar.getLayoutParams();
-        progressBarSizeRules.width = MyApplication.smallerDisplayDimensionPX / 8;
-        progressBarSizeRules.height = MyApplication.smallerDisplayDimensionPX / 8;
-        timeLeftToPlayProgressBar.setLayoutParams(progressBarSizeRules);
-
-
-        // Setup start button size
-        ViewGroup.LayoutParams startImageViewSizeRules = startClickableImageView.getLayoutParams();
-        int height_width_value, padding;
-
-        // Logic copied from MainActivity
-        height_width_value = (int)(MyApplication.smallerDisplayDimensionPX * 0.75 / 2) - MyApplication.smallerDisplayDimensionPX / 120;
-        padding = height_width_value/3;
-
-        startClickableImageView.setPadding(padding, padding, padding, padding);
-        startImageViewSizeRules.width = height_width_value;
-        startImageViewSizeRules.height = height_width_value;
-        startClickableImageView.setLayoutParams(startImageViewSizeRules);
 
 
         startClickableImageView.setOnClickListener(new View.OnClickListener() {
@@ -155,32 +128,6 @@ public class ModeOneActivity extends AppCompatActivity {
                 }
             }
         });
-
-
-        // Setup pause button size
-        ViewGroup.LayoutParams pauseImageViewSizeRules = pauseClickableImageView.getLayoutParams();
-
-        // Logic copied from MainActivity
-        height_width_value = (int)(MyApplication.smallerDisplayDimensionPX * 0.75 / 5.3125);
-        pauseImageViewSizeRules.width = height_width_value;
-        pauseImageViewSizeRules.height = height_width_value;
-        pauseClickableImageView.setLayoutParams(pauseImageViewSizeRules);
-
-
-        // Setup true answer button size
-        ViewGroup.LayoutParams trueAnswerViewSizeRules = trueAnswer.getLayoutParams();
-
-        trueAnswerViewSizeRules.width = MyApplication.smallerDisplayDimensionPX / 6;
-        trueAnswerViewSizeRules.height = MyApplication.smallerDisplayDimensionPX / 6;
-        trueAnswer.setLayoutParams(trueAnswerViewSizeRules);
-
-
-        // Setup true answer button size
-        ViewGroup.LayoutParams falseAnswerViewSizeRules = falseAnswer.getLayoutParams();
-
-        falseAnswerViewSizeRules.width = MyApplication.smallerDisplayDimensionPX / 6;
-        falseAnswerViewSizeRules.height = MyApplication.smallerDisplayDimensionPX / 6;
-        falseAnswer.setLayoutParams(falseAnswerViewSizeRules);
 
 
         // Set what is visible and what not
@@ -271,6 +218,63 @@ public class ModeOneActivity extends AppCompatActivity {
         // Show interval/chord/tone that needs to be shown
         showChord();
 
+    }
+
+    // Set all layout sizes that depends on screen size (for foldable phone support)
+    private void setLayoutSizes() {
+        // Setup interval and chord text size
+        MyApplication.setupIntervalAndChordTextSize(chordTextView, chordNumOneTextView, chordNumTwoTextView, 1);
+
+        // Setup score text view text size
+        scoreTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)(MyApplication.smallerDisplayDimensionPX / 16) * DatabaseData.scaledDensity);
+
+        // Setup achievement milestone popup size
+        achievementIconView.getLayoutParams().height = MyApplication.smallerDisplayDimensionPX / 8;
+        achievementIconView.getLayoutParams().width = MyApplication.smallerDisplayDimensionPX / 8;
+
+        // Setup progress bar size
+        ViewGroup.LayoutParams progressBarSizeRules = timeLeftToPlayProgressBar.getLayoutParams();
+        progressBarSizeRules.width = MyApplication.smallerDisplayDimensionPX / 8;
+        progressBarSizeRules.height = MyApplication.smallerDisplayDimensionPX / 8;
+        timeLeftToPlayProgressBar.setLayoutParams(progressBarSizeRules);
+
+        // Setup start button size
+        ViewGroup.LayoutParams startImageViewSizeRules = startClickableImageView.getLayoutParams();
+        int height_width_value, padding;
+
+        // Logic copied from MainActivity
+        height_width_value = (int)(MyApplication.smallerDisplayDimensionPX * 0.75 / 2) - MyApplication.smallerDisplayDimensionPX / 120;
+        padding = height_width_value/3;
+
+        startClickableImageView.setPadding(padding, padding, padding, padding);
+        startImageViewSizeRules.width = height_width_value;
+        startImageViewSizeRules.height = height_width_value;
+        startClickableImageView.setLayoutParams(startImageViewSizeRules);
+
+        // Setup pause button size
+        ViewGroup.LayoutParams pauseImageViewSizeRules = pauseClickableImageView.getLayoutParams();
+
+        // Logic copied from MainActivity
+        height_width_value = (int)(MyApplication.smallerDisplayDimensionPX * 0.75 / 5.3125);
+        pauseImageViewSizeRules.width = height_width_value;
+        pauseImageViewSizeRules.height = height_width_value;
+        pauseClickableImageView.setLayoutParams(pauseImageViewSizeRules);
+
+
+        // Setup true answer button size
+        ViewGroup.LayoutParams trueAnswerViewSizeRules = trueAnswer.getLayoutParams();
+
+        trueAnswerViewSizeRules.width = MyApplication.smallerDisplayDimensionPX / 6;
+        trueAnswerViewSizeRules.height = MyApplication.smallerDisplayDimensionPX / 6;
+        trueAnswer.setLayoutParams(trueAnswerViewSizeRules);
+
+
+        // Setup true answer button size
+        ViewGroup.LayoutParams falseAnswerViewSizeRules = falseAnswer.getLayoutParams();
+
+        falseAnswerViewSizeRules.width = MyApplication.smallerDisplayDimensionPX / 6;
+        falseAnswerViewSizeRules.height = MyApplication.smallerDisplayDimensionPX / 6;
+        falseAnswer.setLayoutParams(falseAnswerViewSizeRules);
     }
 
     // Play next interval, chord or tone
@@ -859,6 +863,13 @@ public class ModeOneActivity extends AppCompatActivity {
         alertDialog.show();
     }
 
+    // Called when screen size is changed (phone unfolded)
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        MyApplication.updateSmallerDisplayDimensionPX(this);
+        setLayoutSizes();
+    }
 
 
 }

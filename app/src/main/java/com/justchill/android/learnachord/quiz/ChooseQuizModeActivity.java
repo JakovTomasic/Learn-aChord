@@ -5,10 +5,13 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.media.AudioManager;
 import android.os.Bundle;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
+
 import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -40,8 +43,6 @@ public class ChooseQuizModeActivity extends AppCompatActivity {
     // Parent of whole activity
     private View parentLayout;
 
-    // Dimensions of each quiz mode button
-    private int height, width;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -80,14 +81,7 @@ public class ChooseQuizModeActivity extends AppCompatActivity {
             findViewById(R.id.quiz_mode_three_description_text_view)
         };
 
-
-        height = MyApplication.smallerDisplayDimensionPX/2;
-        width = height/3*2;
-
-        // Set size for all modes
-        for(int i = 0; i < quizModeParentLayout.length; i++) {
-            setQuizModeSize(i);
-        }
+        setAllQuizModeSizes();
 
         // On quiz mode button click, open that quiz mode
         quizModeParentLayout[0].setOnClickListener(new View.OnClickListener() {
@@ -118,8 +112,20 @@ public class ChooseQuizModeActivity extends AppCompatActivity {
 
     }
 
+    // Loop through all quiz modes and set theirs button (clickable view) sizes
+    private void setAllQuizModeSizes() {
+        // Dimensions of each quiz mode button
+        int height = MyApplication.smallerDisplayDimensionPX/2;
+        int width = height/3*2;
+
+        // Set size for all modes
+        for(int i = 0; i < quizModeParentLayout.length; i++) {
+            setQuizModeSize(i, width, height);
+        }
+    }
+
     // Sets up sizes for quiz mode buttons (for scaling, for all device display support)
-    private void setQuizModeSize(int modeID) {
+    private void setQuizModeSize(int modeID, int width, int height) {
         // Setup quizModeParentLayout size and padding
         ViewGroup.LayoutParams quizModeParentSizeRules = quizModeParentLayout[modeID].getLayoutParams();
 
@@ -233,6 +239,8 @@ public class ChooseQuizModeActivity extends AppCompatActivity {
                 return true;
             case R.id.action_more_info: // Open help dialog
                 showQuizExplanationDialog();
+                // TODO: remove this
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
                 return true;
             case R.id.action_reset_mode_one:
                 showQuizHighScoreDeleteDialog(1);
@@ -341,6 +349,15 @@ public class ChooseQuizModeActivity extends AppCompatActivity {
             DatabaseHandler.updateDatabaseOnSeparateThread();
         }
 
+    }
+
+
+    // Called when screen size is changed (phone unfolded)
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        MyApplication.updateSmallerDisplayDimensionPX(this);
+        setAllQuizModeSizes();
     }
 
 

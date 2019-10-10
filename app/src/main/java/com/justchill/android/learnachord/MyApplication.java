@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.res.AssetManager;
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.graphics.Point;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
@@ -22,6 +23,7 @@ import androidx.appcompat.app.AppCompatDelegate;
 import android.os.Build;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -110,6 +112,7 @@ public class MyApplication extends Application {
 
         startServicePlayerService();
 
+        // TODO: this may not be needed or maybe it will be
         // Turns off night mode in the app - fix for some weird UI changes (colors)
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
     }
@@ -556,14 +559,27 @@ public class MyApplication extends Application {
         Locale.setDefault(locale);
         config.locale = locale;
         /*
-         * Note: This (temporarily) changes the devices locale! TODO find a
-         * better way to get the string in the specific locale
+         * Note: This (temporarily) changes the devices locale!
+         * You should find a better way to get the string in the specific locale
          */
         Resources defaultLocaleResources = new Resources(assets, metrics, config);
         String[] stringArr = defaultLocaleResources.getStringArray(resId);
         // Restore device-specific locale
         new Resources(assets, metrics, currentResources.getConfiguration());
         return stringArr;
+    }
+
+    // Checks for screens sizes sand saves smaller one for UI scaling
+    public static void updateSmallerDisplayDimensionPX(Activity activity) {
+        // Get screen width and height in pixels
+        Display display = activity.getWindowManager().getDefaultDisplay(); // TODO: this code is duplicate, create function for it
+        Point size = new Point();
+        display.getSize(size);
+        int displayWidth = size.x;
+        int displayHeight = size.y;
+
+        // Save smaller dimension of the screen so image doesn't go out of screen
+        MyApplication.smallerDisplayDimensionPX = Math.min(displayWidth, displayHeight);
     }
 
     // For different languages support

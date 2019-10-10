@@ -3,6 +3,7 @@ package com.justchill.android.learnachord.settings;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.res.Configuration;
 import android.media.AudioManager;
 import android.os.Bundle;
 import androidx.annotation.Nullable;
@@ -281,6 +282,13 @@ public class SettingsActivity extends AppCompatActivity {
             DatabaseHandler.updateDatabaseOnSeparateThread();
         }
 
+    }
+
+    // Called when screen size is changed (phone unfolded)
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        MyApplication.updateSmallerDisplayDimensionPX(this);
     }
 
 }

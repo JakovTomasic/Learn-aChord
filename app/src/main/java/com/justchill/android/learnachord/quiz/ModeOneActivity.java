@@ -207,8 +207,6 @@ public class ModeOneActivity extends AppCompatActivity {
                 } else {
                     gameOver();
                 }
-
-
             }
         });
 
@@ -419,8 +417,13 @@ public class ModeOneActivity extends AppCompatActivity {
                     }
                 }
 
-                updateProgressBarAnimation((long)playingDuration);
-
+                final long finalPlayingDuration = (long)playingDuration;
+                ModeOneActivity.this.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        updateProgressBarAnimation(finalPlayingDuration);
+                    }
+                });
 
                 // Logic copy-pasted (and changed) from ServicePlayer.Play()
                 if(DatabaseData.playingMode == DataContract.UserPrefEntry.PLAYING_MODE_CUSTOM) {

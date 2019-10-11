@@ -449,11 +449,16 @@ public class ServicePlayer extends Service {
             globalNumberOfIntervalsToShow = i;
             if(soundPool != null) {
                 try {
+                    Thread.sleep(1);
                     if(directionToPlay == MyApplication.directionDownID) {
                         soundPool.play(keySounds[key.get(key.size()-i-1) - 1], 1, 1, 0, 0, 1);
                     } else {
                         soundPool.play(keySounds[key.get(i)-1], 1, 1, 0, 0, 1);
                     }
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                    // If thread is interrupted, exit this function (sounds are already stopped)
+                    return false;
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -469,6 +474,7 @@ public class ServicePlayer extends Service {
                     Thread.sleep(oneKeyTime);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
+                    return false;
                 }
                 milisecPassed += oneKeyTime;
 
@@ -489,6 +495,7 @@ public class ServicePlayer extends Service {
                 Thread.sleep(betweenDelayMilisec);
             } catch (InterruptedException e) {
                 e.printStackTrace();
+                return false;
             }
             milisecPassed += betweenDelayMilisec;
 
@@ -497,12 +504,20 @@ public class ServicePlayer extends Service {
                     Thread.sleep(oneKeyTime * (intervals.length+1));
                 } catch (InterruptedException e) {
                     e.printStackTrace();
+                    return false;
                 }
                 milisecPassed += oneKeyTime * (intervals.length+1);
             }
         }
 
-        stopSounds();
+        try {
+            Thread.sleep(1);
+            stopSounds();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+            // If thread is interrupted, exit this function (sounds are already stopped)
+            return false;
+        }
 
         return true;
     }

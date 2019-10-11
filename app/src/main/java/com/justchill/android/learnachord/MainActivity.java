@@ -37,6 +37,9 @@ import com.justchill.android.learnachord.settings.SettingsActivity;
 // Main activity, also main practicing mode
 public class MainActivity extends AppCompatActivity {
 
+    // TODO: check if reminder need setup (in case of app update)
+
+
     // For recreating activity on language change (if it is being recycled when returning from options)
     public static boolean languageChanged = false;
 

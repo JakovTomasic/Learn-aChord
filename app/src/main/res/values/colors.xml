@@ -18,7 +18,7 @@
 
     <color name="mainActivityBackground">#f2fff2</color>
     <color name="settingsBackground">#f2fff2</color>
-    <color name="settingsElevatedBackground">#f2fff2</color>
+    <color name="settingsElevatedBackground">#ebf9eb</color>
     <color name="settingsDarkerBackground">#e2eee2</color>
 
     <color name="grayForProgressBar">#ef595959</color>
@@ -33,7 +33,9 @@
 
 
     <color name="whatIntervalListViewBackground">#38FF38</color>
-    <color name="whatIntervalListViewBorder">#00AA00</color>
+    <color name="whatIntervalListViewBorder">#60AA60</color>
+    <color name="whatIntervalListPlayedInterval">#224225</color>
+    <color name="whatIntervalListNotPlayedInterval">#60AA60</color>
 
 
     <color name="rangeSeekBarBackgroundLineColor">#50224225</color>
@@ -51,6 +53,9 @@
     <color name="quizTimeLeftToPlayProgressBar">#BB444444</color>
 
 
+    <color name="quizModeBackground">#397b39</color>
+    <color name="quizModeInnerBackground">#38ac38</color>
+
     <color name="quizModeThreeListViewUnselectedBackgroundColor">#00000000</color>
     <color name="quizModeThreeListViewSelectedBackgroundColor">#389938</color>
     <color name="quizModeThreeListViewBackgroundDrawableColor">#38bb38</color>
@@ -58,6 +63,8 @@
 
     <color name="settingsTabSelectedColor">#FFFFFF</color>
     <color name="settingsTabIndicatorColor">#FFFFFF</color>
+    <color name="optionsCheckBoxTint">#397b39</color>
+    <color name="optionsListViewDivider">#20000000</color>
 
 
 

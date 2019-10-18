@@ -6,6 +6,8 @@ import android.content.DialogInterface;
 import android.content.res.Configuration;
 import android.media.AudioManager;
 import android.os.Bundle;
+
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import android.text.Editable;
@@ -76,9 +78,7 @@ public class ModeThreeActivity extends AppCompatActivity {
     // Just a little delay between playing
     private static final long addMS = 100;
 
-
-    // Thickness of playing progress bar in dp
-    private static final int timeLeftToPlayProgressThicknessDP = 4;
+    // TODO: fix on rotation editText is auto-selected
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -103,8 +103,8 @@ public class ModeThreeActivity extends AppCompatActivity {
         scoreTextView = findViewById(R.id.quiz_score_text_view);
 
 
-        startClickableImageView = (ImageView) findViewById(R.id.start_clickable_image_view);
-        pauseClickableImageView = (ImageView) findViewById(R.id.pause_clickable_image_view);
+        startClickableImageView = findViewById(R.id.start_clickable_image_view);
+        pauseClickableImageView = findViewById(R.id.pause_clickable_image_view);
 
         parentSearchAndListView = findViewById(R.id.quiz_mode_three_all_answers_list_parent_layout);
 
@@ -579,7 +579,7 @@ public class ModeThreeActivity extends AppCompatActivity {
     private void justPlayThis(Integer directionToPlay, int playingID) {
         try {
             Thread.sleep(10);
-        } catch (Exception e) {}
+        } catch (Exception ignored) {}
 
         if(playingID != QuizData.quizPlayingID) {
             return;
@@ -590,19 +590,19 @@ public class ModeThreeActivity extends AppCompatActivity {
 
             try {
                 Thread.sleep((long) DatabaseData.tonesSeparationTime * 2 + (long) DatabaseData.delayBetweenChords + addMS);
-            } catch (Exception e) {}
+            } catch (Exception ignored) {}
         } else if(QuizData.quizChordToPlay != null && directionToPlay != null) {
             MyApplication.playChord(QuizData.quizChordToPlay.getAllIntervals(), QuizData.quizLowestKey, directionToPlay);
 
             try {
                 Thread.sleep((long) DatabaseData.tonesSeparationTime * (QuizData.quizChordToPlay.getToneNumber()) + (long) DatabaseData.delayBetweenChords + addMS);
-            } catch (Exception e) {}
+            } catch (Exception ignored) {}
         } else if(DatabaseData.playWhatTone || DatabaseData.playWhatOctave) {
             MyApplication.playKey(QuizData.quizLowestKey);
 
             try {
                 Thread.sleep((long) DatabaseData.tonesSeparationTime + (long) DatabaseData.delayBetweenChords + addMS);
-            } catch (Exception e) {}
+            } catch (Exception ignored) {}
         }
     }
 
@@ -808,7 +808,7 @@ public class ModeThreeActivity extends AppCompatActivity {
 
     // Called when screen size is changed (phone unfolded)
     @Override
-    public void onConfigurationChanged(Configuration newConfig) {
+    public void onConfigurationChanged(@NonNull Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         MyApplication.updateSmallerDisplayDimensionPX(this);
         setLayoutSizes();

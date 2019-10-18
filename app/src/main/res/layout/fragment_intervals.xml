@@ -26,6 +26,7 @@
             android:layout_height="match_parent"
             android:layout_marginLeft="@dimen/settings_check_box_margin_left"
             android:layout_marginRight="@dimen/settings_check_box_margin_right"
+            android:buttonTint="@color/optionsCheckBoxTint"
             android:clickable="true"
             android:focusable="true"
             android:gravity="center" />
@@ -35,6 +36,8 @@
     <ListView
         android:id="@+id/settings_interval_list_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:divider="@color/optionsListViewDivider"
+        android:dividerHeight="1dp"/>
 
 </LinearLayout>

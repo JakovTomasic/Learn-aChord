@@ -54,7 +54,7 @@ public class WhatIntervalsAdapter extends ArrayAdapter<Interval> {
         if(currentInterval != null) {
             if(currentInterval.getDifference() == 6) {
                 // Pov 4
-                intervalTextView.setText(MyApplication.getAppContext().getResources().getString(R.string.interval_povecana_kvarta));
+                intervalTextView.setText(MyApplication.getStringByLocal(R.string.interval_povecana_kvarta));
             } else {
                 intervalTextView.setText(currentInterval.getName());
             }
@@ -66,9 +66,9 @@ public class WhatIntervalsAdapter extends ArrayAdapter<Interval> {
             }
 
             if(tempForComparison < numberOfIntervalsToShow) {
-                intervalTextView.setTextColor(readResource(R.color.darkTextColor));
+                intervalTextView.setTextColor(readResource(R.color.whatIntervalListPlayedInterval));
             } else {
-                intervalTextView.setTextColor(readResource(R.color.lightTextColor));
+                intervalTextView.setTextColor(readResource(R.color.whatIntervalListNotPlayedInterval));
             }
 
         }

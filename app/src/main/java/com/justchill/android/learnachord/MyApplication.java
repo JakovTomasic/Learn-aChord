@@ -22,6 +22,7 @@ import androidx.appcompat.app.AppCompatDelegate;
 
 import android.os.Build;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Display;
 import android.view.LayoutInflater;
@@ -114,7 +115,8 @@ public class MyApplication extends Application {
 
         // TODO: this may not be needed or maybe it will be
         // Turns off night mode in the app - fix for some weird UI changes (colors)
-        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        // TODO: If it isn't changed in settings, it should be MODE_NIGHT_AUTO_BATTERY
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
     }
 
     // Starts service for playing tones if it isn't started already, fix for when app starts before UI (on boot)
@@ -176,6 +178,14 @@ public class MyApplication extends Application {
 
         // App is being used
         DatabaseHandler.writeLastTimeAppUsedOnSeparateThread();
+
+        // Set correct theme
+        Resources.Theme theme = mActivity.getTheme();
+        if(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
+            theme.applyStyle(R.style.AppNightTheme, true);
+        } else {
+            theme.applyStyle(R.style.AppTheme, true);
+        }
     }
 
     // Play just one key
@@ -572,7 +582,7 @@ public class MyApplication extends Application {
     // Checks for screens sizes sand saves smaller one for UI scaling
     public static void updateSmallerDisplayDimensionPX(Activity activity) {
         // Get screen width and height in pixels
-        Display display = activity.getWindowManager().getDefaultDisplay(); // TODO: this code is duplicate, create function for it
+        Display display = activity.getWindowManager().getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);
         int displayWidth = size.x;

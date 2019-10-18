@@ -240,7 +240,7 @@ public class ChooseQuizModeActivity extends AppCompatActivity {
             case R.id.action_more_info: // Open help dialog
                 showQuizExplanationDialog();
                 // TODO: remove this
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
                 return true;
             case R.id.action_reset_mode_one:
                 showQuizHighScoreDeleteDialog(1);

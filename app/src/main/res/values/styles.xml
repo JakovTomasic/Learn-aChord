@@ -13,6 +13,19 @@
 
     </style>
 
+    <!-- Night mode application theme. -->
+    <style name="AppNightTheme" parent="ThemeOverlay.MaterialComponents.Dark">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:navigationBarColor" tools:targetApi="lollipop">@color/navBarColor</item>
+
+        <!--Sets the default font for a whole application-->
+        <item name="android:fontFamily">@font/coda</item>
+
+    </style>
+
     <style name="settingsTextStyle">
         <item name="android:textColor">@color/darkTextColor</item>
         <item name="android:textSize">16sp</item>

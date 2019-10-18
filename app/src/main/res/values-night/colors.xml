@@ -8,34 +8,36 @@
 
     <color name="colorPrimary">#214424</color>
     <color name="colorPrimaryDark">#000000</color>
-    <color name="colorAccent">#38ac38</color>
+    <color name="colorAccent">#307c30</color>
     <color name="navBarColor">#000000</color>
 
-    <color name="TabLayoutBackground">#224225</color>
-    <color name="darkTextColor">#30a430</color>
+    <color name="TabLayoutBackground">#214424</color>
+    <color name="darkTextColor">#307c30</color>
     <color name="lightTextColor">#224225</color>
 
-    <color name="playButton">#289c28</color>
-    <color name="stopButton">#9b1919</color>
+    <color name="playButton">#307c30</color>
+    <color name="stopButton">#7b1919</color>
 
-    <color name="mainActivityBackground">#000000</color>
-    <color name="settingsBackground">#222822</color>
-    <color name="settingsElevatedBackground">#333933</color>
+    <color name="mainActivityBackground">#121212</color>
+    <color name="settingsBackground">#121212</color>
+    <color name="settingsElevatedBackground">#242424</color>
     <color name="settingsDarkerBackground">#404040</color>
 
-    <color name="grayForProgressBar">#ef595959</color>
-    <color name="progressBarColor">#224225</color>
+    <color name="grayForProgressBar">#ef505050</color>
+    <color name="progressBarColor">#214424</color>
 
-    <color name="unloadedColor">#505050</color>
+    <color name="unloadedColor">#363636</color>
 
-    <color name="questionMarkColor">#224225</color>
+    <color name="questionMarkColor">#214424</color>
 
 
     <color name="preferencesFragmentSeparationLineColor">#30909090</color>
 
 
-    <color name="whatIntervalListViewBackground">#289c28</color>
-    <color name="whatIntervalListViewBorder">#006600</color>
+    <color name="whatIntervalListViewBackground">#214424</color>
+    <color name="whatIntervalListViewBorder">#226225</color>
+    <color name="whatIntervalListPlayedInterval">#307c30</color>
+    <color name="whatIntervalListNotPlayedInterval">#225825</color>
 
 
     <color name="rangeSeekBarBackgroundLineColor">#50224225</color>
@@ -49,24 +51,29 @@
     <color name="half_transparent">#90000000</color>
 
 
-    <color name="quizBackgroundColor">#f2fff2</color>
+    <color name="quizBackgroundColor">#121212</color>
     <color name="quizTimeLeftToPlayProgressBar">#BB444444</color>
 
 
+    <color name="quizModeBackground">#214424</color>
+    <color name="quizModeInnerBackground">#243824</color>
+
     <color name="quizModeThreeListViewUnselectedBackgroundColor">#00000000</color>
-    <color name="quizModeThreeListViewSelectedBackgroundColor">#389938</color>
-    <color name="quizModeThreeListViewBackgroundDrawableColor">#38bb38</color>
+    <color name="quizModeThreeListViewSelectedBackgroundColor">#364a36</color>
+    <color name="quizModeThreeListViewBackgroundDrawableColor">#243824</color>
 
 
     <color name="settingsTabSelectedColor">#FFFFFF</color>
     <color name="settingsTabIndicatorColor">#FFFFFF</color>
+    <color name="optionsCheckBoxTint">#224225</color>
+    <color name="optionsListViewDivider">#122412</color>
 
 
 
-    <color name="userProfileActivityBackground">#f2fff2</color>
+    <color name="userProfileActivityBackground">#121212</color>
 
-    <color name="achievementProgressUnlockedColor">#AA38ac38</color>
-    <color name="achievementProgressLockedColor">#10000000</color>
+    <color name="achievementProgressUnlockedColor">#80289c28</color>
+    <color name="achievementProgressLockedColor">#11FFFFFF</color>
 
     <!--These three colors should be similar (in brightness etc.) -->
     <color name="achievementColorGreen">#38ac38</color>

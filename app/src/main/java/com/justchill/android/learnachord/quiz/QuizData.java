@@ -125,7 +125,7 @@ public class QuizData {
             if (aList == null) {
                 continue;
             }
-            aList.setBackgroundColor(MyApplication.getAppContext().getResources().getColor(color));
+            aList.setBackgroundColor(MyApplication.getActivity().getResources().getColor(color));
         }
     }
 
@@ -137,13 +137,13 @@ public class QuizData {
         quizModeThreeSelectedID = quizModeThreeListOfPossibleAnswerIDs.get(position);
 
         // Set selected background
-        quizModeThreeListViews[position].setBackgroundColor(MyApplication.getAppContext().getResources().getColor(R.color.quizModeThreeListViewSelectedBackgroundColor));
+        quizModeThreeListViews[position].setBackgroundColor(MyApplication.getActivity().getResources().getColor(R.color.quizModeThreeListViewSelectedBackgroundColor));
 
     }
 
 
     // Get base key to play in a quiz(checking for key range and is key loaded)
-    public static int getRandomKey(Random rand) {
+    static int getRandomKey(Random rand) {
         // There must be at least two octaves loaded, so this will always work
         int lowKeyId = Math.max(ServicePlayer.lowestReadyKey, DatabaseData.downKeyBorder);
         int highKeyId = Math.min(ServicePlayer.highestReadyKey, DatabaseData.upKeyBorder);

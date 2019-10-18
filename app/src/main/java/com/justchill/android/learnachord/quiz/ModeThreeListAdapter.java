@@ -59,9 +59,9 @@ public class ModeThreeListAdapter extends ArrayAdapter<Integer> {
 
         // Set background (depending on if this view has been selected or not)
         if(QuizData.quizModeThreeSelectedID != null && QuizData.quizModeThreeSelectedID.equals(itemID)) {
-            itemView.setBackgroundColor(MyApplication.getAppContext().getResources().getColor(R.color.quizModeThreeListViewSelectedBackgroundColor));
+            itemView.setBackgroundColor(MyApplication.getActivity().getResources().getColor(R.color.quizModeThreeListViewSelectedBackgroundColor));
         } else {
-            itemView.setBackgroundColor(MyApplication.getAppContext().getResources().getColor(R.color.quizModeThreeListViewUnselectedBackgroundColor));
+            itemView.setBackgroundColor(MyApplication.getActivity().getResources().getColor(R.color.quizModeThreeListViewUnselectedBackgroundColor));
         }
 
 

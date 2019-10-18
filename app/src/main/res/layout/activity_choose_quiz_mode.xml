@@ -67,7 +67,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
                         android:layout_weight="1"
-                        android:background="@color/colorPrimary"
+                        android:background="@color/quizModeInnerBackground"
                         android:gravity="center"
                         android:text=""
                         android:textSize="16dp" />
@@ -151,7 +151,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
                         android:layout_weight="1"
-                        android:background="@color/colorPrimary"
+                        android:background="@color/quizModeInnerBackground"
                         android:gravity="center"
                         android:text=""
                         android:textSize="16dp" />
@@ -209,7 +209,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
                         android:layout_weight="1"
-                        android:background="@color/colorPrimary"
+                        android:background="@color/quizModeInnerBackground"
                         android:gravity="center"
                         android:text=""
                         android:textSize="16dp" />

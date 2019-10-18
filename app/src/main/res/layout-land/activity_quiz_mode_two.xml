@@ -139,7 +139,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
                         android:layout_weight="1"
-                        android:background="@color/colorPrimary">
+                        android:background="@color/quizModeInnerBackground">
 
                         <LinearLayout
                             android:id="@+id/option_one_chord_text_view_linear_layout"
@@ -250,7 +250,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
                         android:layout_weight="1"
-                        android:background="@color/colorPrimary">
+                        android:background="@color/quizModeInnerBackground">
 
                         <LinearLayout
                             android:id="@+id/option_two_chord_text_view_linear_layout"
@@ -362,7 +362,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
                         android:layout_weight="1"
-                        android:background="@color/colorPrimary">
+                        android:background="@color/quizModeInnerBackground">
 
                         <LinearLayout
                             android:id="@+id/option_three_chord_text_view_linear_layout"
@@ -473,7 +473,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
                         android:layout_weight="1"
-                        android:background="@color/colorPrimary">
+                        android:background="@color/quizModeInnerBackground">
 
                         <LinearLayout
                             android:id="@+id/option_four_chord_text_view_linear_layout"

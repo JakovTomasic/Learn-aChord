@@ -21,6 +21,6 @@
         <!--android:color="@color/colorAccent"-->
         <!--/>-->
     <solid
-        android:color="@color/colorAccent"
+        android:color="@color/quizModeBackground"
         />
 </shape>

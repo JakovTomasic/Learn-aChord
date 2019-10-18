@@ -75,6 +75,7 @@
             android:layout_marginLeft="@dimen/settings_check_box_margin_left"
             android:layout_marginRight="@dimen/settings_check_box_margin_right"
             android:background="@color/transparent"
+            android:buttonTint="@color/optionsCheckBoxTint"
             android:clickable="false"
             android:gravity="center" />
 

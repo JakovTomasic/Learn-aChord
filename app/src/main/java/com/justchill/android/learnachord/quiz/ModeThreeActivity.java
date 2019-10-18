@@ -4,6 +4,8 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.res.Configuration;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.media.AudioManager;
 import android.os.Bundle;
 
@@ -761,7 +763,7 @@ public class ModeThreeActivity extends AppCompatActivity {
     // Dialog shows when user chooses a wrong answer
     private void showGameOverDialog(int score) {
         // Create an AlertDialog.Builder and set the message, and click listeners for the positive and negative buttons on the dialog.
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.AlertDialogCustom);
 
         // Set view of a dialog that displays score and the correct answer
         builder.setView(MyApplication.getQuizGameOverDialogLayour(ModeThreeActivity.this, score));
@@ -803,7 +805,11 @@ public class ModeThreeActivity extends AppCompatActivity {
         alertDialog.setCancelable(false);
         alertDialog.setCanceledOnTouchOutside(false);
 
+        alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         alertDialog.show();
+
+        alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.colorAccent));
+        alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(getResources().getColor(R.color.colorAccent));
     }
 
     // Called when screen size is changed (phone unfolded)

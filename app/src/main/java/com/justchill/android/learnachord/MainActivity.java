@@ -6,7 +6,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.graphics.Point;
+import android.graphics.drawable.ColorDrawable;
 import android.media.AudioManager;
 import android.os.Bundle;
 import androidx.annotation.Nullable;
@@ -501,7 +503,7 @@ public class MainActivity extends AppCompatActivity {
     // Dialog explains what main activity does. It automatically opens when user starts the app for the first time
     private void showMainActivityExplanationDialog() {
         // Create an AlertDialog.Builder and set the message, and click listener for the positive (OK) button on the dialog.
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.AlertDialogCustom);
         builder.setTitle(R.string.main_activity_explanation_dialog_title);
         builder.setMessage(R.string.main_activity_explanation_dialog_text);
         builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
@@ -513,10 +515,12 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
         // Create and show the AlertDialog
         AlertDialog alertDialog = builder.create();
+        alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         alertDialog.show();
+
+        alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.colorAccent));
 
 
         // Save to the database (and as variable in app) that this dialog has been showed if this is the first time
@@ -536,7 +540,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         // Create an AlertDialog.Builder and set the message, and click listeners for the three buttons on the dialog.
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.AlertDialogCustom);
         builder.setTitle(R.string.log_in_help_dialog_title);
         builder.setMessage(R.string.log_in_help_dialog_text);
         // Login button
@@ -597,7 +601,13 @@ public class MainActivity extends AppCompatActivity {
         alertDialog.setCancelable(false);
         alertDialog.setCanceledOnTouchOutside(false);
 
+        alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         alertDialog.show();
+
+
+        alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.colorAccent));
+        alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(getResources().getColor(R.color.colorAccent));
+        alertDialog.getButton(AlertDialog.BUTTON_NEUTRAL).setTextColor(getResources().getColor(R.color.colorAccent));
 
     }
 

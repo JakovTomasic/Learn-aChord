@@ -12,7 +12,7 @@
     <color name="navBarColor">#000000</color>
 
     <color name="TabLayoutBackground">#214424</color>
-    <color name="darkTextColor">#307c30</color>
+    <color name="darkTextColor">#90A090</color>
     <color name="lightTextColor">#224225</color>
 
     <color name="playButton">#307c30</color>
@@ -22,6 +22,9 @@
     <color name="settingsBackground">#121212</color>
     <color name="settingsElevatedBackground">#242424</color>
     <color name="settingsDarkerBackground">#404040</color>
+
+    <color name="alertDialogBackground">#363636</color>
+    <color name="alertDialogTextColor">#AAAAAA</color>
 
     <color name="grayForProgressBar">#ef505050</color>
     <color name="progressBarColor">#214424</color>
@@ -40,11 +43,12 @@
     <color name="whatIntervalListNotPlayedInterval">#225825</color>
 
 
-    <color name="rangeSeekBarBackgroundLineColor">#50224225</color>
-    <color name="rangeSeekBarActiveRangeLineColor">#289c28</color>
-    <color name="rangeSeekBarThumbCenterColor">#289c28</color>
-    <color name="rangeSeekBarThumbNormalBackground">#5038ac38</color>
-    <color name="rangeSeekBarThumbDisabledBackground">#40777777</color>
+    <color name="preferencesRoundButtonColor">#214424</color>
+    <color name="rangeSeekBarBackgroundLineColor">#363636</color>
+    <color name="rangeSeekBarActiveRangeLineColor">#214424</color>
+    <color name="rangeSeekBarThumbCenterColor">#214424</color>
+    <color name="rangeSeekBarThumbNormalBackground">#50214424</color>
+    <color name="rangeSeekBarThumbDisabledBackground">#303030</color>
 
 
     <color name="transparent">#00000000</color>
@@ -52,6 +56,7 @@
 
 
     <color name="quizBackgroundColor">#121212</color>
+    <color name="quizElevatedBackground">#242424</color>
     <color name="quizTimeLeftToPlayProgressBar">#BB444444</color>
 
 

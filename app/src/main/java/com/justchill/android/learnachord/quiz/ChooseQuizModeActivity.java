@@ -6,6 +6,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.media.AudioManager;
 import android.os.Bundle;
 import androidx.annotation.Nullable;
@@ -258,7 +260,7 @@ public class ChooseQuizModeActivity extends AppCompatActivity {
     // Show dialog that is explaining all quiz modes
     private void showQuizExplanationDialog() {
         // Create an AlertDialog.Builder and set the message, and click listeners for the positive (ok) button on the dialog.
-        AlertDialog.Builder builder = new AlertDialog.Builder(ChooseQuizModeActivity.this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(ChooseQuizModeActivity.this, R.style.AlertDialogCustom);
         builder.setTitle(R.string.quiz_explanation_dialog_title);
         builder.setMessage(R.string.quiz_explanation_dialog_text);
         builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
@@ -271,13 +273,16 @@ public class ChooseQuizModeActivity extends AppCompatActivity {
 
         // Create and show the AlertDialog
         AlertDialog alertDialog = builder.create();
+        alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         alertDialog.show();
+
+        alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.colorAccent));
     }
 
     // Show "are you sure you want to delete high score..." dialog
     private void showQuizHighScoreDeleteDialog(final int quizMode) {
         // Create an AlertDialog.Builder and set the message, and click listeners for the positive and negative buttons on the dialog.
-        AlertDialog.Builder builder = new AlertDialog.Builder(ChooseQuizModeActivity.this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(ChooseQuizModeActivity.this, R.style.AlertDialogCustom);
         switch (quizMode) {
             case 1:
                 builder.setMessage(R.string.quiz_reset_mode_one_highscore_message);
@@ -318,14 +323,18 @@ public class ChooseQuizModeActivity extends AppCompatActivity {
 
         // Create and show the AlertDialog
         AlertDialog alertDialog = builder.create();
+        alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         alertDialog.show();
+
+        alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.colorAccent));
+        alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(getResources().getColor(R.color.colorAccent));
     }
 
 
     // Dialog explains what quiz activity does. It automatically opens when user starts the app for the first time
     private void showQuizActivityExplanationDialog() {
         // Create an AlertDialog.Builder and set the message, and click listener for the positive button on the dialog.
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.AlertDialogCustom);
         builder.setTitle(R.string.quiz_activity_explanation_dialog_title);
         builder.setMessage(R.string.quiz_activity_explanation_dialog_text);
         builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
@@ -340,7 +349,10 @@ public class ChooseQuizModeActivity extends AppCompatActivity {
 
         // Create and show the AlertDialog
         AlertDialog alertDialog = builder.create();
+        alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         alertDialog.show();
+
+        alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.colorAccent));
 
 
         // Save to the database (and as variable in app) that this dialog has been showed if this is the first time

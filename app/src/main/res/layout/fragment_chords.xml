@@ -17,7 +17,7 @@
             android:layout_weight="1"
             android:gravity="center_vertical"
             android:text="@string/settings_chords"
-            android:textColor="@color/colorPrimary"
+            android:textColor="@color/colorAccent"
             android:textSize="@dimen/settings_title_text_size" />
 
         <CheckBox

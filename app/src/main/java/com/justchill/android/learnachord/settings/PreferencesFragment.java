@@ -6,6 +6,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
@@ -330,10 +332,7 @@ public class PreferencesFragment extends Fragment {
         });
 
 
-        // Set color of range borders to play color instead of stop button color
-        // This don't need to be here as color is updated on stop playing in main activity, this is here just in case shit happens
-        MyApplication.setupPlayButtonColor(context, downBorderTextView, R.color.playButton);
-        MyApplication.setupPlayButtonColor(context, upBorderTextView, R.color.playButton);
+
 
         // Set order of playing directions
         updatePlayingModeViews();
@@ -942,7 +941,7 @@ public class PreferencesFragment extends Fragment {
     // Show explanation dialog when user clicks on question mark help icon
     private void showDirectionExplanationDialog() {
         // Create an AlertDialog.Builder and set the message, and click listeners for the positive and negative buttons on the dialog.
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.AlertDialogCustom);
         builder.setMessage(R.string.direction_explanation_dialog);
         builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
@@ -954,7 +953,10 @@ public class PreferencesFragment extends Fragment {
 
         // Create and show the AlertDialog
         AlertDialog alertDialog = builder.create();
+        alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         alertDialog.show();
+
+        alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.colorAccent));
     }
 
 }

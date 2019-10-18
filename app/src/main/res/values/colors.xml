@@ -21,6 +21,9 @@
     <color name="settingsElevatedBackground">#ebf9eb</color>
     <color name="settingsDarkerBackground">#e2eee2</color>
 
+    <color name="alertDialogBackground">#FFFFFF</color>
+    <color name="alertDialogTextColor">#000000</color>
+
     <color name="grayForProgressBar">#ef595959</color>
     <color name="progressBarColor">#58FF58</color>
 
@@ -38,6 +41,7 @@
     <color name="whatIntervalListNotPlayedInterval">#60AA60</color>
 
 
+    <color name="preferencesRoundButtonColor">#38ac38</color>
     <color name="rangeSeekBarBackgroundLineColor">#50224225</color>
     <color name="rangeSeekBarActiveRangeLineColor">#38ac38</color>
     <color name="rangeSeekBarThumbCenterColor">#38ac38</color>
@@ -50,6 +54,7 @@
 
 
     <color name="quizBackgroundColor">#f2fff2</color>
+    <color name="quizElevatedBackground">#ebf9eb</color>
     <color name="quizTimeLeftToPlayProgressBar">#BB444444</color>
 
 

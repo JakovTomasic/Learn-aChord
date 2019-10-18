@@ -15,8 +15,9 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/settings_shadow_translation_x_inverted"
             android:layout_marginLeft="@dimen/settings_shadow_translation_x_inverted"
-            android:background="@color/settingsElevatedBackground"
+            android:background="@drawable/background_elevated"
             android:elevation="@dimen/settings_shadow_elevation"
             android:orientation="vertical"
             android:translationX="@dimen/settings_shadow_translation_x">
@@ -69,7 +70,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/settings_shadow_translation_x_inverted"
             android:layout_marginBottom="@dimen/settings_shadow_elevation"
-            android:background="@color/settingsElevatedBackground"
+            android:background="@drawable/background_elevated"
             android:elevation="@dimen/settings_shadow_elevation"
             android:orientation="vertical"
             android:translationX="@dimen/settings_shadow_translation_x">

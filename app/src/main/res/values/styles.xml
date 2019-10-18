@@ -26,6 +26,12 @@
 
     </style>
 
+    <style name="AlertDialogCustom" parent="Theme.MaterialComponents.Dialog.Alert">
+        <item name="android:background">@drawable/background_alert_dialog</item>
+        <item name="android:textColor">@color/darkTextColor</item>
+        <item name="android:textColorPrimary">@color/alertDialogTextColor</item>
+    </style>
+
     <style name="settingsTextStyle">
         <item name="android:textColor">@color/darkTextColor</item>
         <item name="android:textSize">16sp</item>

@@ -8,7 +8,7 @@
 
     <dimen name="settings_shadow_elevation">2dp</dimen>
     <dimen name="settings_shadow_translation_x">-2dp</dimen>
-    <dimen name="settings_shadow_translation_x_inverted">2dp</dimen>
+    <dimen name="settings_shadow_translation_x_inverted">3dp</dimen>
     <dimen name="settings_separation">10dp</dimen>
 
     <dimen name="play_button_elevation">3dp</dimen>

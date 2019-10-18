@@ -4,6 +4,8 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.res.Configuration;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.media.AudioManager;
 import android.os.Bundle;
 import androidx.annotation.Nullable;
@@ -181,7 +183,7 @@ public class SettingsActivity extends AppCompatActivity {
     // Show error if none of the playing directions is selected
     private void showNoDirectionConfirmationDialog() {
         // Create an AlertDialog.Builder and set the message, and click listeners for the positive and negative buttons on the dialog.
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.AlertDialogCustom);
         builder.setTitle(R.string.settings_warning_dialogs_title);
         builder.setMessage(R.string.all_directions_unchecked_error);
         builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
@@ -200,13 +202,17 @@ public class SettingsActivity extends AppCompatActivity {
 
         // Create and show the AlertDialog
         AlertDialog alertDialog = builder.create();
+        alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         alertDialog.show();
+
+        alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.colorAccent));
+        alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(getResources().getColor(R.color.colorAccent));
     }
 
     // Show error if none of the intervals/chords/tones is selected
     private void showNoIntervalsOrChordsConfirmationDialog() {
         // Create an AlertDialog.Builder and set the message, and click listeners for the positive and negative buttons on the dialog.
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.AlertDialogCustom);
         builder.setTitle(R.string.settings_warning_dialogs_title);
         builder.setMessage(R.string.all_intervals_and_chords_unchecked_error);
         builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
@@ -225,13 +231,17 @@ public class SettingsActivity extends AppCompatActivity {
 
         // Create and show the AlertDialog
         AlertDialog alertDialog = builder.create();
+        alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         alertDialog.show();
+
+        alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.colorAccent));
+        alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(getResources().getColor(R.color.colorAccent));
     }
 
     // Show error if set range is too small for some selected/checked intervals/chords
     private void showSmallRangeConfirmationDialog() {
         // Create an AlertDialog.Builder and set the message, and click listeners for the positive and negative buttons on the dialog.
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.AlertDialogCustom);
         builder.setTitle(R.string.settings_warning_dialogs_title);
         builder.setMessage(R.string.too_small_range_error);
         builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
@@ -252,13 +262,17 @@ public class SettingsActivity extends AppCompatActivity {
 
         // Create and show the AlertDialog
         AlertDialog alertDialog = builder.create();
+        alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         alertDialog.show();
+
+        alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.colorAccent));
+        alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(getResources().getColor(R.color.colorAccent));
     }
 
     // Dialog explains what settings (options) activity does. It automatically opens when user starts the app for the first time
     private void showSettingsActivityExplanationDialog() {
         // Create an AlertDialog.Builder and set the message, and click listener for the positive button on the dialog.
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.AlertDialogCustom);
         builder.setTitle(R.string.settings_activity_explanation_dialog_title);
         builder.setMessage(R.string.settings_activity_explanation_dialog_text);
         builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
@@ -273,7 +287,10 @@ public class SettingsActivity extends AppCompatActivity {
 
         // Create and show the AlertDialog
         AlertDialog alertDialog = builder.create();
+        alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         alertDialog.show();
+
+        alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.colorAccent));
 
 
         // Save to the database (and as variable in app) that this dialog has been showed if this is the first time

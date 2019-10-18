@@ -18,8 +18,9 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/settings_shadow_translation_x_inverted"
             android:layout_marginLeft="@dimen/settings_shadow_translation_x_inverted"
-            android:background="@color/settingsElevatedBackground"
+            android:background="@drawable/background_elevated"
             android:elevation="@dimen/settings_shadow_elevation"
             android:orientation="vertical"
             android:translationX="@dimen/settings_shadow_translation_x">
@@ -228,7 +229,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/settings_shadow_translation_x_inverted"
-            android:background="@color/settingsElevatedBackground"
+            android:background="@drawable/background_elevated"
             android:elevation="@dimen/settings_shadow_elevation"
             android:orientation="vertical"
             android:translationX="@dimen/settings_shadow_translation_x">
@@ -339,7 +340,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/settings_shadow_translation_x_inverted"
-            android:background="@color/settingsElevatedBackground"
+            android:background="@drawable/background_elevated"
             android:elevation="@dimen/settings_shadow_elevation"
             android:orientation="vertical"
             android:translationX="@dimen/settings_shadow_translation_x">
@@ -404,7 +405,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/settings_shadow_translation_x_inverted"
-            android:background="@color/settingsElevatedBackground"
+            android:background="@drawable/background_elevated"
             android:elevation="@dimen/settings_shadow_elevation"
             android:orientation="vertical"
             android:translationX="@dimen/settings_shadow_translation_x">
@@ -433,7 +434,7 @@
                         android:id="@+id/down_border_text_view"
                         android:layout_width="@dimen/settings_preferences_play_tone_button_size"
                         android:layout_height="@dimen/settings_preferences_play_tone_button_size"
-                        android:background="@drawable/round_button"
+                        android:background="@drawable/preferences_round_button"
                         android:clickable="true"
                         android:contentDescription="@string/play_lower_key_bound_content_description"
                         android:focusable="true"
@@ -454,7 +455,7 @@
                         android:id="@+id/up_border_text_view"
                         android:layout_width="@dimen/settings_preferences_play_tone_button_size"
                         android:layout_height="@dimen/settings_preferences_play_tone_button_size"
-                        android:background="@drawable/round_button"
+                        android:background="@drawable/preferences_round_button"
                         android:clickable="true"
                         android:contentDescription="@string/play_upper_key_bound_content_description"
                         android:focusable="true"
@@ -492,7 +493,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/settings_shadow_translation_x_inverted"
-            android:background="@color/settingsElevatedBackground"
+            android:background="@drawable/background_elevated"
             android:elevation="@dimen/settings_shadow_elevation"
             android:orientation="vertical"
             android:translationX="@dimen/settings_shadow_translation_x">
@@ -612,7 +613,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/settings_shadow_translation_x_inverted"
             android:layout_marginBottom="@dimen/settings_shadow_elevation"
-            android:background="@color/settingsElevatedBackground"
+            android:background="@drawable/background_elevated"
             android:elevation="@dimen/settings_shadow_elevation"
             android:orientation="vertical"
             android:translationX="@dimen/settings_shadow_translation_x">

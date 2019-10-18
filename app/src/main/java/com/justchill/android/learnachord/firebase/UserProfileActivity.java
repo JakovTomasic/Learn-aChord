@@ -7,6 +7,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import androidx.annotation.Nullable;
@@ -319,18 +321,17 @@ public class UserProfileActivity extends AppCompatActivity {
     // Try to add profile photo to the UI
     public void setProfilePhoto() {
         try {
-            // Get size of default profile photo for scaling bitmap, scale it down if it's too big
-            int sizeToSet = Math.min(photoOptionDefaultCircleIV.getHeight(), FirebaseHandler.user.photo.getHeight());
-
             ImageView profilePhotoCircleIV = findViewById(R.id.user_profile_photo_circle_image_view);
             if(FirebaseHandler.user.photo == null) {
                 // If there is no photo, set the default one
                 profilePhotoCircleIV.setImageResource(R.drawable.ic_default_user_profile_photo);
             } else {
+                // Get size of default profile photo for scaling bitmap, scale it down if it's too big
+                int sizeToSet = Math.min(photoOptionDefaultCircleIV.getHeight(), FirebaseHandler.user.photo.getHeight());
                 // Set the photo
                 profilePhotoCircleIV.setImageBitmap(Bitmap.createScaledBitmap(FirebaseHandler.user.photo, sizeToSet, sizeToSet, true));
-                profilePhotoCircleIV.requestLayout();
             }
+            profilePhotoCircleIV.requestLayout();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -578,7 +579,7 @@ public class UserProfileActivity extends AppCompatActivity {
     // Dialog explains what user profile activity does. It automatically opens when user starts the app for the first time
     private void showUserProfileActivityExplanationDialog() {
         // Create an AlertDialog.Builder and set the message, and click listener for the positive button on the dialog.
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.AlertDialogCustom);
         builder.setTitle(R.string.user_profile_activity_explanation_dialog_title);
         builder.setMessage(R.string.user_profile_activity_explanation_dialog_text);
         builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
@@ -593,7 +594,10 @@ public class UserProfileActivity extends AppCompatActivity {
 
         // Create and show the AlertDialog
         AlertDialog alertDialog = builder.create();
+        alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         alertDialog.show();
+
+        alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.colorAccent));
 
 
         // Save to the database (and as variable in app) that this dialog has been showed if this is the first time

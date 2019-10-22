@@ -38,6 +38,8 @@
             android:layout_toRightOf="@id/ring_playing_progress_bar"
             android:layout_marginRight="8dp"
             android:textColor="@color/darkTextColor"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
             tools:text="16" />
 
         <de.hdodenhof.circleimageview.CircleImageView
@@ -92,7 +94,8 @@
         android:layout_height="match_parent"
         android:layout_below="@id/HUD_parent_layout"
         android:layout_marginTop="30dp"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:background="@drawable/background_elevated">
 
         <EditText
             android:id="@+id/quiz_mode_three_search_text_input"

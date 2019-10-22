@@ -112,11 +112,6 @@ public class MyApplication extends Application {
         MyApplication.context = getApplicationContext();
 
         startServicePlayerService();
-
-        // TODO: this may not be needed or maybe it will be
-        // Turns off night mode in the app - fix for some weird UI changes (colors)
-        // TODO: If it isn't changed in settings, it should be MODE_NIGHT_AUTO_BATTERY
-        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
     }
 
     // Starts service for playing tones if it isn't started already, fix for when app starts before UI (on boot)

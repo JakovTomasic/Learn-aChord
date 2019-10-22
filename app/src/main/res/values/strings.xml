@@ -49,7 +49,7 @@
     <string name="chord_mali_molski">min</string> <!-- 7 -->
     <string name="chord_mali_smanjeni">hdim</string> <!-- 7 -->
     <string name="chord_veliki_molski">mM</string> <!-- 7 -->
-    <string name="chord_veliki_povecani"></string> <!-- 7 -->
+    <string name="chord_veliki_povecani">aug</string> <!-- 7 -->
     <string name="chord_smanjeni_septakord">dim</string> <!-- 7 -->
     <string name="chord_veliki_dominantni"></string> <!-- 9 -->
     <string name="chord_mali_durski_nonakord"></string> <!-- 9 -->
@@ -102,6 +102,7 @@
     <string name="show_progress_bar">Show progress circle</string>
     <string name="show_what_intervals">Show chord\'s intervals</string>
     <string name="chord_text_size">Text size</string>
+    <string name="dark_mode">App theme</string>
     <string name="reminder_interval">Reminder</string>
     <string name="question_mark" translatable="false">\?</string>
 
@@ -122,6 +123,11 @@
     <!--Playing mode options-->
     <string name="random">Random</string>
     <string name="custom">Custom</string>
+
+    <!--Layout theme options-->
+    <string name="dark_mode_auto">Auto</string>
+    <string name="dark_mode_light">Light</string>
+    <string name="dark_mode_dark">Dark</string>
 
     <!--Chord text size options-->
     <string name="auto">Auto</string>

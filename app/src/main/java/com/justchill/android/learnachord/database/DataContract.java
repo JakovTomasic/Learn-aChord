@@ -5,6 +5,8 @@ import android.content.ContentUris;
 import android.net.Uri;
 import android.provider.BaseColumns;
 
+import androidx.appcompat.app.AppCompatDelegate;
+
 import com.justchill.android.learnachord.MyApplication;
 import com.justchill.android.learnachord.R;
 
@@ -172,6 +174,16 @@ public final class DataContract {
         static boolean isBooleanDataSavedAsIntValid(int value) {
             return (value == BOOLEAN_TRUE || value == BOOLEAN_FALSE);
         }
+
+
+        static final int DEFAULT_NIGHT_MODE = AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY;
+
+        static boolean isNightModeIdValid(int value) {
+            return (value == AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY ||
+                    value == AppCompatDelegate.MODE_NIGHT_YES || value == AppCompatDelegate.MODE_NIGHT_NO);
+        }
+
+
     }
 
     // Custom method to concatenate two String arrays

@@ -104,6 +104,7 @@
     <string name="show_progress_bar">Prikaz trajanja</string>
     <string name="show_what_intervals">Prikaz intervala akorda</string>
     <string name="chord_text_size">Veličina slova</string>
+    <string name="dark_mode">Tema</string>
     <string name="reminder_interval">Podsjetnik</string>
 
     <!--Tones option settings-->
@@ -122,6 +123,11 @@
     <!--Playing mode options-->
     <string name="random">Nasumično</string>
     <string name="custom">Prilagodljivo</string>
+
+    <!--Layout theme options-->
+    <string name="dark_mode_auto">Automatska</string>
+    <string name="dark_mode_light">Svjetla</string>
+    <string name="dark_mode_dark">Tamna</string>
 
     <!--Chord text size options-->
     <string name="auto">Automatska</string>

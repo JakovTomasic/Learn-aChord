@@ -11,7 +11,10 @@ import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
+
+import android.provider.ContactsContract;
 import android.text.TextUtils;
 import android.view.ContextMenu;
 import android.view.KeyEvent;
@@ -29,7 +32,6 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.justchill.android.learnachord.LocaleHelper;
 import com.justchill.android.learnachord.MyApplication;
 import com.justchill.android.learnachord.R;
 import com.justchill.android.learnachord.RangeSeekBar;
@@ -91,6 +93,8 @@ public class PreferencesFragment extends Fragment {
     private View showWhatIntervalsView;
     private CheckBox showWhatIntervalsCheckBox;
 
+    // Spinner for changing layout theme
+    private Spinner darkModeSpinner;
     // Spinner for changing text size
     private Spinner chordTextSizeSpinner;
 
@@ -151,6 +155,7 @@ public class PreferencesFragment extends Fragment {
         showWhatIntervalsView = fragmentView.findViewById(R.id.show_what_intervals_parent_layout);
         showWhatIntervalsCheckBox = fragmentView.findViewById(R.id.settings_what_intervals_check_box);
 
+        darkModeSpinner = fragmentView.findViewById(R.id.dark_mode_spinner);
         chordTextSizeSpinner = fragmentView.findViewById(R.id.chord_text_size_spinner);
 
         reminderIntervalSpinner = fragmentView.findViewById(R.id.reminder_interval_spinner);
@@ -308,6 +313,7 @@ public class PreferencesFragment extends Fragment {
             }
         });
 
+        setupDarkModeSpinner();
         setupChordTextSizeSpinner();
 
         setupReminderIntervalSpinner();
@@ -688,6 +694,63 @@ public class PreferencesFragment extends Fragment {
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
                 languageSpinner.setSelection(DatabaseData.appLanguage);
+            }
+        });
+    }
+
+    // Return order number of selected mode in dark mode spinner
+    private int getDarkModeSelection(int modeId) {
+        switch (modeId) {
+            case AppCompatDelegate.MODE_NIGHT_NO:
+                return 1;
+            case AppCompatDelegate.MODE_NIGHT_YES:
+                return 2;
+            default: // auto
+                return 0;
+        }
+    }
+
+    // Sets up spinner for choosing layout theme
+    private void setupDarkModeSpinner() {
+        // Apply the adapter to the spinner
+        // Specify dropdown layout style - custom spinner item - to change text and background color
+        darkModeSpinner.setAdapter(new ArrayAdapter<>(context, R.layout.spinner_item,
+                getResources().getStringArray(R.array.dark_mode_options)));
+
+        darkModeSpinner.setSelection(getDarkModeSelection(DatabaseData.nightModeId));
+
+        darkModeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String selection = (String) parent.getItemAtPosition(position);
+                int modeBeforeChange = DatabaseData.nightModeId;
+                if (!TextUtils.isEmpty(selection)) {
+                    if (selection.equals(getString(R.string.dark_mode_light))) {
+                        DatabaseData.nightModeId = AppCompatDelegate.MODE_NIGHT_NO;
+                    } else if (selection.equals(getString(R.string.dark_mode_dark))) {
+                        DatabaseData.nightModeId = AppCompatDelegate.MODE_NIGHT_YES;
+                    } else { // automatic mode
+                        DatabaseData.nightModeId = AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY;
+                    }
+
+                    // If theme is changed, change ui
+                    if(modeBeforeChange != DatabaseData.nightModeId) {
+                        // Set new app theme
+                        AppCompatDelegate.setDefaultNightMode(DatabaseData.nightModeId);
+                        DatabaseHandler.setDoesDbNeedUpdate(true);
+
+                        try {
+                            getActivity().recreate();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                darkModeSpinner.setSelection(getDarkModeSelection(DatabaseData.nightModeId));
             }
         });
     }

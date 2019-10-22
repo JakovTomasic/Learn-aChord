@@ -512,6 +512,15 @@ public class DataProvider extends ContentProvider {
             throw new IllegalArgumentException("Last time app has been used in millis data not valid: " + longTemp);
         }
 
+        // Id for night mode (Google employees doesn't know difference between dark and night mode)
+        temp = values.getAsInteger(preferenceKeys[30]);
+        if(temp == null) {
+            throw new IllegalArgumentException("Data cannot be null");
+        }
+        if(!DataContract.UserPrefEntry.isNightModeIdValid(temp)) {
+            throw new IllegalArgumentException("Night mode id invalid: " + temp);
+        }
+
 
 
         // Get all achievement' progress keys (column names)
@@ -609,6 +618,7 @@ public class DataProvider extends ContentProvider {
                 values.put(preferenceKeys[27], 1);
                 values.put(preferenceKeys[28], DataContract.UserPrefEntry.REMINDER_TIME_INTERVAL_WEEK);
                 values.put(preferenceKeys[29], DatabaseData.lastTimeAppUsedInMillis = System.currentTimeMillis());
+                values.put(preferenceKeys[30], DataContract.UserPrefEntry.DEFAULT_NIGHT_MODE);
 
                 String[] achievementProgressKeys = MyApplication.getAppContext().getResources().getStringArray(R.array.achievement_progress_keys);
                 for (int i = 0; i < achievementProgressKeys.length; i++) {

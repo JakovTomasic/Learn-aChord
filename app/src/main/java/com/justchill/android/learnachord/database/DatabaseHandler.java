@@ -4,6 +4,8 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.net.Uri;
 
+import androidx.appcompat.app.AppCompatDelegate;
+
 import com.justchill.android.learnachord.MyApplication;
 import com.justchill.android.learnachord.R;
 import com.justchill.android.learnachord.firebase.FirebaseHandler;
@@ -290,6 +292,7 @@ public class DatabaseHandler {
             DatabaseData.reminderTimeIntervalNumber = cursor.getInt(cursor.getColumnIndex(preferenceKeys[27]));
             DatabaseData.reminderTimeIntervalMode = cursor.getInt(cursor.getColumnIndex(preferenceKeys[28]));
             DatabaseData.lastTimeAppUsedInMillis = cursor.getLong(cursor.getColumnIndex(preferenceKeys[29]));
+            DatabaseData.nightModeId = cursor.getInt(cursor.getColumnIndex(preferenceKeys[30]));
 
 
         } finally {
@@ -299,6 +302,17 @@ public class DatabaseHandler {
 
         // User preferences' data has just been got from database, no need to update it (anymore)
         setDoSettingsNeedUpdate(false);
+
+        // Sets new app theme in case it has been changed
+        try {
+            MyApplication.getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    AppCompatDelegate.setDefaultNightMode(DatabaseData.nightModeId);
+                }
+            });
+        } catch (Exception ignored) {}
+
 
         // Refresh counter for number of checked directions (in case it has been changed)
         DataContract.UserPrefEntry.refreshDirectionsCount();
@@ -368,6 +382,9 @@ public class DatabaseHandler {
                     : DataContract.UserPrefEntry.CHECKBOX_NOT_CHECKED);
         }
 
+        // Fix after removing veliki_povecani_kvintsekstakord (removing it from DB was hard, and it was late, ok?)
+        values.put("veliki_povecani_kvintsekstakord", DataContract.UserPrefEntry.CHECKBOX_NOT_CHECKED);
+
 
         // Get all preferences' DB keys
         String[] preferenceKeys = MyApplication.getAppContext().getResources().getStringArray(R.array.preference_keys);
@@ -418,6 +435,7 @@ public class DatabaseHandler {
         values.put(preferenceKeys[27], DatabaseData.reminderTimeIntervalNumber);
         values.put(preferenceKeys[28], DatabaseData.reminderTimeIntervalMode);
         values.put(preferenceKeys[29], DatabaseData.lastTimeAppUsedInMillis = System.currentTimeMillis());
+        values.put(preferenceKeys[30], DatabaseData.nightModeId);
 
         // Update the database with ContentValues data, returns how many rows were affected
         int newRowUri = MyApplication.getAppContext().getContentResolver().update(DataContract.UserPrefEntry.CONTENT_URI_FIRST_ROW,

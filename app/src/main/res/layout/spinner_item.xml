@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
 
     android:id="@android:id/text1"
-    android:layout_width="match_parent"
+    android:layout_width="100sp"
     android:layout_height="?android:attr/listPreferredItemHeight"
     android:textSize="18sp"
     android:gravity="left|center_vertical"
@@ -12,7 +12,7 @@
     android:padding="5dp"
     android:paddingLeft="32dp"
     android:paddingRight="32dp"
-    tools:text="Test"
+    tools:text="Testtest"
 
     style="?android:attr/dropDownItemStyle"
     android:textAppearance="?android:attr/textAppearanceLargePopupMenu"

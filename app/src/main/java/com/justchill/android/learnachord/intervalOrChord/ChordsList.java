@@ -106,26 +106,26 @@ public final class ChordsList {
         ALL_CHORDS.add(new Chord(29, new Interval[]{IntervalsList.getInterval(1), IntervalsList.getInterval(3), IntervalsList.getInterval(4)}, MyApplication.getStringByLocal(R.string.chord_veliki_molski), 2));
 
         // Povećani (veliki povećani) 7
+        // English theory for these are somewhere in https://www.hdgpp.hr/assets/files/natjecanja/solfeggio/51-solfeggio-2013.pdf
         ALL_CHORDS.add(new Chord(30, new Interval[]{IntervalsList.getInterval(4), IntervalsList.getInterval(4), IntervalsList.getInterval(3)}, MyApplication.getStringByLocal(R.string.chord_veliki_povecani), 7));
-        ALL_CHORDS.add(new Chord(31, new Interval[]{IntervalsList.getInterval(4), IntervalsList.getInterval(3), IntervalsList.getInterval(1)}, MyApplication.getStringByLocal(R.string.chord_veliki_povecani), 6, 5));
-        ALL_CHORDS.add(new Chord(32, new Interval[]{IntervalsList.getInterval(3), IntervalsList.getInterval(1), IntervalsList.getInterval(4)}, MyApplication.getStringByLocal(R.string.chord_veliki_povecani), 4, 3));
-        ALL_CHORDS.add(new Chord(33, new Interval[]{IntervalsList.getInterval(1), IntervalsList.getInterval(4), IntervalsList.getInterval(4)}, MyApplication.getStringByLocal(R.string.chord_veliki_povecani), 2));
+        ALL_CHORDS.add(new Chord(31, new Interval[]{IntervalsList.getInterval(4), IntervalsList.getInterval(2), IntervalsList.getInterval(4)}, MyApplication.getStringByLocal(R.string.chord_veliki_povecani), 4, 3));
+        ALL_CHORDS.add(new Chord(32, new Interval[]{IntervalsList.getInterval(2), IntervalsList.getInterval(4), IntervalsList.getInterval(4)}, MyApplication.getStringByLocal(R.string.chord_veliki_povecani), 2));
 
         // Smanjeni (smanjeno smanjeni) 7 - zvuči jednako u svim oblicima (obratima)
-        ALL_CHORDS.add(new Chord(34, new Interval[]{IntervalsList.getInterval(3), IntervalsList.getInterval(3), IntervalsList.getInterval(3)}, MyApplication.getStringByLocal(R.string.chord_smanjeni_septakord), 7));
+        ALL_CHORDS.add(new Chord(33, new Interval[]{IntervalsList.getInterval(3), IntervalsList.getInterval(3), IntervalsList.getInterval(3)}, MyApplication.getStringByLocal(R.string.chord_smanjeni_septakord), 7));
 
 
         // Veliki dominantni 9
-        ALL_CHORDS.add(new Chord(35, new Interval[]{IntervalsList.getInterval(4), IntervalsList.getInterval(3), IntervalsList.getInterval(3), IntervalsList.getInterval(4)}, MyApplication.getStringByLocal(R.string.chord_veliki_dominantni), 9));
+        ALL_CHORDS.add(new Chord(34, new Interval[]{IntervalsList.getInterval(4), IntervalsList.getInterval(3), IntervalsList.getInterval(3), IntervalsList.getInterval(4)}, MyApplication.getStringByLocal(R.string.chord_veliki_dominantni), 9));
 
         // Mali durski/(dominantni) 9
-        ALL_CHORDS.add(new Chord(36, new Interval[]{IntervalsList.getInterval(4), IntervalsList.getInterval(3), IntervalsList.getInterval(3), IntervalsList.getInterval(3)}, MyApplication.getStringByLocal(R.string.chord_mali_durski_nonakord), 9));
+        ALL_CHORDS.add(new Chord(35, new Interval[]{IntervalsList.getInterval(4), IntervalsList.getInterval(3), IntervalsList.getInterval(3), IntervalsList.getInterval(3)}, MyApplication.getStringByLocal(R.string.chord_mali_durski_nonakord), 9));
 
         // Mali molski 9
-        ALL_CHORDS.add(new Chord(37, new Interval[]{IntervalsList.getInterval(3), IntervalsList.getInterval(4), IntervalsList.getInterval(3), IntervalsList.getInterval(4)}, MyApplication.getStringByLocal(R.string.chord_mali_molski_nonakord), 9));
+        ALL_CHORDS.add(new Chord(36, new Interval[]{IntervalsList.getInterval(3), IntervalsList.getInterval(4), IntervalsList.getInterval(3), IntervalsList.getInterval(4)}, MyApplication.getStringByLocal(R.string.chord_mali_molski_nonakord), 9));
 
         // Veliki durski 9
-        ALL_CHORDS.add(new Chord(38, new Interval[]{IntervalsList.getInterval(4), IntervalsList.getInterval(3), IntervalsList.getInterval(4), IntervalsList.getInterval(3)}, MyApplication.getStringByLocal(R.string.chord_veliki_durski), 9));
+        ALL_CHORDS.add(new Chord(37, new Interval[]{IntervalsList.getInterval(4), IntervalsList.getInterval(3), IntervalsList.getInterval(4), IntervalsList.getInterval(3)}, MyApplication.getStringByLocal(R.string.chord_veliki_durski), 9));
 
 
     }
@@ -180,14 +180,13 @@ public final class ChordsList {
         getChord(30).setName(MyApplication.getStringByLocal(R.string.chord_veliki_povecani));
         getChord(31).setName(MyApplication.getStringByLocal(R.string.chord_veliki_povecani));
         getChord(32).setName(MyApplication.getStringByLocal(R.string.chord_veliki_povecani));
-        getChord(33).setName(MyApplication.getStringByLocal(R.string.chord_veliki_povecani));
 
-        getChord(34).setName(MyApplication.getStringByLocal(R.string.chord_smanjeni_septakord));
+        getChord(33).setName(MyApplication.getStringByLocal(R.string.chord_smanjeni_septakord));
 
-        getChord(35).setName(MyApplication.getStringByLocal(R.string.chord_veliki_dominantni));
-        getChord(36).setName(MyApplication.getStringByLocal(R.string.chord_mali_durski_nonakord));
-        getChord(37).setName(MyApplication.getStringByLocal(R.string.chord_mali_molski_nonakord));
-        getChord(38).setName(MyApplication.getStringByLocal(R.string.chord_veliki_durski_nonakord));
+        getChord(34).setName(MyApplication.getStringByLocal(R.string.chord_veliki_dominantni));
+        getChord(35).setName(MyApplication.getStringByLocal(R.string.chord_mali_durski_nonakord));
+        getChord(36).setName(MyApplication.getStringByLocal(R.string.chord_mali_molski_nonakord));
+        getChord(37).setName(MyApplication.getStringByLocal(R.string.chord_veliki_durski_nonakord));
 
     }
 

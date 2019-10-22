@@ -78,7 +78,6 @@
         <item>"veliki_molski_sekundakord"</item>
 
         <item>"veliki_povecani_septakord"</item>
-        <item>"veliki_povecani_kvintsekstakord"</item>
         <item>"veliki_povecani_terckvartakord"</item>
         <item>"veliki_povecani_sekundakord"</item>
 
@@ -131,6 +130,8 @@
         <item>"reminder_time_interval_number"</item>
         <item>"reminder_interval_mode"</item>
         <item>"last_time_app_used_millis"</item>
+
+        <item>"ui_theme_mode_id"</item>
     </string-array>
 
     <string-array name="key_symbols">
@@ -164,6 +165,12 @@
     <string-array name="playing_mode_options">
         <item>@string/random</item>
         <item>@string/custom</item>
+    </string-array>
+
+    <string-array name="dark_mode_options">
+        <item>@string/dark_mode_auto</item>
+        <item>@string/dark_mode_light</item>
+        <item>@string/dark_mode_dark</item>
     </string-array>
 
     <string-array name="chord_text_size_options">

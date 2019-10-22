@@ -104,6 +104,7 @@
     <string name="show_progress_bar">Show progress circle</string>
     <string name="show_what_intervals">Show chord\'s intervals</string>
     <string name="chord_text_size">Text size</string>
+    <string name="dark_mode">App theme</string>
     <string name="reminder_interval">Reminder</string>
 
     <!--Tones option settings-->
@@ -122,6 +123,11 @@
     <!--Playing mode options-->
     <string name="random">Random</string>
     <string name="custom">Custom</string>
+
+    <!--Layout theme options-->
+    <string name="dark_mode_auto">Auto</string>
+    <string name="dark_mode_light">Light</string>
+    <string name="dark_mode_dark">Dark</string>
 
     <!--Chord text size options-->
     <string name="auto">Auto</string>

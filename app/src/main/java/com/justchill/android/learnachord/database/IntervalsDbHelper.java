@@ -14,7 +14,7 @@ public class IntervalsDbHelper extends SQLiteOpenHelper {
     /**
      * database version. If you change the database schema, you must increment the database version.
      */
-    private static final int DATABASE_VERSION = 12;
+    private static final int DATABASE_VERSION = 13;
     private static final String DATABASE_NAME = "settings.db";
 
     /**
@@ -67,6 +67,9 @@ public class IntervalsDbHelper extends SQLiteOpenHelper {
 
             stringBuilder.append(endString);
         }
+
+        // Fix after removing veliki_povecani_kvintsekstakord (removing it from DB was hard, and it was late, ok?)
+        stringBuilder.append("veliki_povecani_kvintsekstakord INTEGER NOT NULL DEFAULT 0").append(endString);
 
 
         // Add preferences
@@ -131,6 +134,8 @@ public class IntervalsDbHelper extends SQLiteOpenHelper {
                 .append(DataContract.UserPrefEntry.REMINDER_TIME_INTERVAL_WEEK).append(endString);
         stringBuilder.append(preferenceKeys[29]).append(" INTEGER NOT NULL DEFAULT ")
                 .append(0).append(endString);
+        stringBuilder.append(preferenceKeys[30]).append(" INTEGER NOT NULL DEFAULT ")
+                .append(DataContract.UserPrefEntry.DEFAULT_NIGHT_MODE).append(endString);
 
 
         // Add achievement progress
@@ -171,6 +176,10 @@ public class IntervalsDbHelper extends SQLiteOpenHelper {
             stringBuilder.append(key).append(endString);
         }
 
+        // Fix after removing veliki_povecani_kvintsekstakord (removing it from DB was hard, and it was late, ok?)
+        stringBuilder.append("veliki_povecani_kvintsekstakord").append(endString);
+
+
         for (int i = 0; i < preferenceKeys.length; i++) {
             // Column at 21 won't be added (is null by default)
             if(i != 21) {
@@ -206,6 +215,10 @@ public class IntervalsDbHelper extends SQLiteOpenHelper {
             }
         }
 
+        // Fix after removing veliki_povecani_kvintsekstakord (removing it from DB was hard, and it was late, ok?)
+        stringBuilder.append(DataContract.UserPrefEntry.CHECKBOX_NOT_CHECKED).append(endString);
+
+
         stringBuilder.append(DataContract.UserPrefEntry.CHECKBOX_CHECKED).append(endString);
         stringBuilder.append(DataContract.UserPrefEntry.CHECKBOX_NOT_CHECKED).append(endString);
         stringBuilder.append(DataContract.UserPrefEntry.CHECKBOX_NOT_CHECKED).append(endString);
@@ -236,6 +249,7 @@ public class IntervalsDbHelper extends SQLiteOpenHelper {
         stringBuilder.append(1).append(endString);
         stringBuilder.append(DataContract.UserPrefEntry.REMINDER_TIME_INTERVAL_WEEK).append(endString);
         stringBuilder.append(System.currentTimeMillis()).append(endString);
+        stringBuilder.append(DataContract.UserPrefEntry.DEFAULT_NIGHT_MODE).append(endString);
 
         for (int i = 0; i < achievementProgressKeys.length; i++) {
             if(i >= achievementProgressKeys.length-1) {
@@ -265,6 +279,10 @@ public class IntervalsDbHelper extends SQLiteOpenHelper {
             db.execSQL("ALTER TABLE " + DataContract.UserPrefEntry.TABLE_NAME + " ADD COLUMN " + preferenceKeys[27] + " INTEGER NOT NULL DEFAULT 1;");
             db.execSQL("ALTER TABLE " + DataContract.UserPrefEntry.TABLE_NAME + " ADD COLUMN " + preferenceKeys[28] + " INTEGER NOT NULL DEFAULT " + DataContract.UserPrefEntry.REMINDER_TIME_INTERVAL_WEEK + ";");
             db.execSQL("ALTER TABLE " + DataContract.UserPrefEntry.TABLE_NAME + " ADD COLUMN " + preferenceKeys[29] + " INTEGER NOT NULL DEFAULT 0;");
+        }
+        if(oldVersion < 13) {
+            // In db version 13 veliki_povecani_kvintsekstakord was removed, but it is late so it's handled programmatically
+            db.execSQL("ALTER TABLE " + DataContract.UserPrefEntry.TABLE_NAME + " ADD COLUMN " + preferenceKeys[30] + " INTEGER NOT NULL DEFAULT " + DataContract.UserPrefEntry.DEFAULT_NIGHT_MODE + ";");
         }
 
     }

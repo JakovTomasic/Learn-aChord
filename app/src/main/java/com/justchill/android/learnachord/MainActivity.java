@@ -7,13 +7,11 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Color;
-import android.graphics.Point;
 import android.graphics.drawable.ColorDrawable;
 import android.media.AudioManager;
 import android.os.Bundle;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import android.view.Display;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -38,8 +36,6 @@ import com.justchill.android.learnachord.settings.SettingsActivity;
 
 // Main activity, also main practicing mode
 public class MainActivity extends AppCompatActivity {
-
-    // TODO: check if reminder need setup (in case of app update)
 
 
     // For recreating activity on language change (if it is being recycled when returning from options)
@@ -476,7 +472,7 @@ public class MainActivity extends AppCompatActivity {
 
     // Called when screen size is changed (phone unfolded)
     @Override
-    public void onConfigurationChanged(Configuration newConfig) { // TODO: add better split screen support
+    public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         MyApplication.updateSmallerDisplayDimensionPX(this);
         updatePlayStopButton();

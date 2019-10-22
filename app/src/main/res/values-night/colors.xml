@@ -4,8 +4,6 @@
     <!-- Drawable colors must be hardcoded for backward compatibility -->
     <!-- Change them in their .xml file -->
 
-<!--    TODO: test login activity UI with night and dark mode-->
-
     <color name="colorPrimary">#214424</color>
     <color name="colorPrimaryDark">#000000</color>
     <color name="colorAccent">#307c30</color>
@@ -21,7 +19,7 @@
     <color name="mainActivityBackground">#121212</color>
     <color name="settingsBackground">#121212</color>
     <color name="settingsElevatedBackground">#242424</color>
-    <color name="settingsDarkerBackground">#404040</color>
+    <color name="settingsDarkerBackground">#363636</color>
 
     <color name="alertDialogBackground">#363636</color>
     <color name="alertDialogTextColor">#AAAAAA</color>

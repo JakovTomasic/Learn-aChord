@@ -14,8 +14,6 @@ import java.util.Random;
 // List of all chords and methods for using that list
 public final class ChordsList {
 
-    // TODO: fix pov7
-
     /*
      * Useful for english chord abbreviations:
      * https://en.wikibooks.org/wiki/Music_Theory/Complete_List_of_Chord_Patterns

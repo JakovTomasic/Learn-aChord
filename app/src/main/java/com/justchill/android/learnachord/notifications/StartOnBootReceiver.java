@@ -62,9 +62,8 @@ public class StartOnBootReceiver extends BroadcastReceiver {
     public static void scheduleRepeatingAlarm() {
         cancelRepeatingAlarm();
         try {
-            // TODO: maybe change RTC to something else (if it doesn't show reminder when checked or if it wakes the screen up)
             if(DatabaseData.reminderTimeIntervalMode != DataContract.UserPrefEntry.REMINDER_TIME_INTERVAL_NEVER)
-                alarmMgr.setInexactRepeating(AlarmManager.RTC, SystemClock.elapsedRealtime() +
+                alarmMgr.setInexactRepeating(AlarmManager.RTC_WAKEUP, SystemClock.elapsedRealtime() +
                         AlarmManager.INTERVAL_HALF_HOUR, AlarmManager.INTERVAL_HALF_HOUR, alarmIntent);
         } catch (Exception ignored) {}
     }

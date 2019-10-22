@@ -181,6 +181,8 @@ public class MyApplication extends Application {
         } else {
             theme.applyStyle(R.style.AppTheme, true);
         }
+        AppCompatDelegate.setDefaultNightMode(DatabaseData.nightModeId);
+
     }
 
     // Play just one key

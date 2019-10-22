@@ -36,12 +36,6 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-<!--            TODO: maybe uncomment this, better don't do it-->
-<!--            <layout android:defaultHeight="500dp"-->
-<!--                android:defaultWidth="600dp"-->
-<!--                android:gravity="top|end"-->
-<!--                android:minHeight="450dp"-->
-<!--                android:minWidth="300dp" />-->
         </activity>
         <activity
             android:name=".settings.SettingsActivity"

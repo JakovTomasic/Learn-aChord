@@ -76,7 +76,8 @@ public class NotificationHandler extends ContextWrapper {
 
     // Creates and displays reminder notification
     public static void showReminderNotification() {
-        NotificationCompat.Builder builder = reminderNotification(MyApplication.readResource(R.string.app_name, null), "Text");
+        NotificationCompat.Builder builder = reminderNotification(MyApplication.readResource(R.string.reminder_title, null),
+                MyApplication.readResource(R.string.reminder_text, null));
         // Create one channel all reminders will be sent to
         createChannel();
         getManager().notify(NOTIFICATION_ID, builder.build());

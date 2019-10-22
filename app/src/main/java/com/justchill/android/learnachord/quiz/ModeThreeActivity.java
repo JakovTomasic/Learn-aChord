@@ -80,8 +80,6 @@ public class ModeThreeActivity extends AppCompatActivity {
     // Just a little delay between playing
     private static final long addMS = 100;
 
-    // TODO: fix on rotation editText is auto-selected
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

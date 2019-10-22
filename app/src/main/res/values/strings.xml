@@ -213,6 +213,11 @@
     <string name="h">"b"</string>
 
 
+    <!--Reminder notification text-->
+    <string name="reminder_title">Reminder</string>
+    <string name="reminder_text">Practice makes perfect</string>
+
+
 
 
     <!--Firebase-->

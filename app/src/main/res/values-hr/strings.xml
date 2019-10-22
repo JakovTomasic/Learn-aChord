@@ -136,7 +136,7 @@
     <string name="large">Velika</string>
 
     <!--Reminder time interval options-->
-    <string name="never">Nikada</string> <!--TODO: nikada or nikad-->
+    <string name="never">Nikad</string>
     <string name="hour">Sat</string>
     <string name="day">Dan</string>
     <string name="week">Tjedan</string>
@@ -210,6 +210,11 @@
     <string name="a">"a"</string>
     <string name="ais">"ais"</string>
     <string name="h">"h"</string>
+
+
+    <!--Reminder notification text-->
+    <string name="reminder_title">Podsjetnik</string>
+    <string name="reminder_text">Vježbom do savršenstva</string>
 
 
 

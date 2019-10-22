@@ -23,7 +23,6 @@ import java.util.Locale;
  */
 public class LocaleHelper {
 
-    // TODO: this class may not be needed (get lang label is needed)
 
     private static final String SELECTED_LANGUAGE = "Locale.Helper.Selected.Language";
 

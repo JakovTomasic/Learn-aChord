@@ -176,10 +176,10 @@ public final class DataContract {
         }
 
 
-        static final int DEFAULT_NIGHT_MODE = AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY;
+        static final int DEFAULT_NIGHT_MODE = AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM;
 
         static boolean isNightModeIdValid(int value) {
-            return (value == AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY ||
+            return (value == AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM ||
                     value == AppCompatDelegate.MODE_NIGHT_YES || value == AppCompatDelegate.MODE_NIGHT_NO);
         }
 

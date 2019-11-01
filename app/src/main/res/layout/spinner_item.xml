@@ -4,8 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
 
     android:id="@android:id/text1"
-    android:layout_width="100sp"
+    android:layout_width="wrap_content"
     android:layout_height="?android:attr/listPreferredItemHeight"
+    android:minWidth="100sp"
     android:textSize="18sp"
     android:gravity="left|center_vertical"
     android:textColor="@color/darkTextColor"

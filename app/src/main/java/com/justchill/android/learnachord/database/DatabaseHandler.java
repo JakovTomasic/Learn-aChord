@@ -300,8 +300,6 @@ public class DatabaseHandler {
             cursor.close();
         }
 
-        // User preferences' data has just been got from database, no need to update it (anymore)
-        setDoSettingsNeedUpdate(false);
 
         // Sets new app theme in case it has been changed
         try {
@@ -309,9 +307,14 @@ public class DatabaseHandler {
                 @Override
                 public void run() {
                     AppCompatDelegate.setDefaultNightMode(DatabaseData.nightModeId);
+                    // Set this to false only after mode is changed, so logInDialog doesn't show twice (light and dark version)
+                    setDoSettingsNeedUpdate(false);
                 }
             });
-        } catch (Exception ignored) {}
+        } catch (Exception e) {
+            // User preferences' data has just been got from database, no need to update it (anymore)
+            setDoSettingsNeedUpdate(false);
+        }
 
 
         // Refresh counter for number of checked directions (in case it has been changed)

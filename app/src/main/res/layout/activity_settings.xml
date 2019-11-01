@@ -6,7 +6,8 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:id="@+id/settings_activity_parent_view"
-    tools:context="com.justchill.android.learnachord.settings.SettingsActivity">
+    tools:context="com.justchill.android.learnachord.settings.SettingsActivity"
+    android:background="@color/settingsBackground">
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/sliding_tabs"

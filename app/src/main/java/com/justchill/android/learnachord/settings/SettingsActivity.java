@@ -173,8 +173,6 @@ public class SettingsActivity extends AppCompatActivity {
                 return true;
             case R.id.action_more_info: // Open help dialog
                 showSettingsActivityExplanationDialog();
-                // TODO: remove this
-                NotificationHandler.showReminderNotification();
                 break;
         }
         return super.onOptionsItemSelected(item);

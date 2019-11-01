@@ -259,8 +259,7 @@
 
     <string name="log_in_help_dialog_title">Prijava?</string>
     <string name="log_in_help_dialog_text">
-        Želite li se prijaviti?\n
-        Bez prijave može doći do gubitka rekorda i napretka.
+        Želite li se prijaviti?
     </string>
     <string name="ask_me_later">
         Pitaj me kasnije

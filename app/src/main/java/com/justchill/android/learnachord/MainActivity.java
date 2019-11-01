@@ -12,6 +12,7 @@ import android.media.AudioManager;
 import android.os.Bundle;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -65,11 +66,10 @@ public class MainActivity extends AppCompatActivity {
     // Open quiz button
     private ViewGroup quizClickableIcon;
 
-    // These two are replacing each other when rotating screen
-    private int displayWidth;
-    private int displayHeight;
-
     private final int progressBarThicknessDB = 4;
+
+    // Thread for showing dialogs when activity is opened
+    private Thread showMainActivityDialogsThread;
 
 
     @Override
@@ -395,13 +395,18 @@ public class MainActivity extends AppCompatActivity {
         /*
          * Show initial help dialog for this activity if it hasn't been showed yet
          * (if this is the first time user opened this activity)
-         * Show it only after one second for UX reasons and for app to read DB fist
-         * (and get info if this dialog has been displayed before)
+         * Show it only after one second for UX reasons and after app has read DB
+         * (got info if this dialog has been displayed before)
          */
-        Thread showMainActivityExplanationDialogDelayThread = new Thread(new Runnable() {
+        showMainActivityDialogsThread = new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
+                    // Wait until DB is loaded
+                    while(DatabaseHandler.doSettingsNeedUpdate()) {
+                        Thread.sleep(100);
+                    }
+
                     // Wait one second
                     Thread.sleep(1000);
 
@@ -434,7 +439,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
-        showMainActivityExplanationDialogDelayThread.start();
+        showMainActivityDialogsThread.start();
 
         // If servicePlayer isn't running, start it
         MyApplication.startServicePlayerService();
@@ -616,5 +621,13 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        // If activity is stopped, don't show dialogs, fix for dark theme adjusting on start
+        if(showMainActivityDialogsThread != null) {
+            showMainActivityDialogsThread.interrupt();
+            showMainActivityDialogsThread = null;
+        }
+    }
 }
-

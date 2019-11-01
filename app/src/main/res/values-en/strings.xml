@@ -258,8 +258,7 @@
 
     <string name="log_in_help_dialog_title">Log in?</string>
     <string name="log_in_help_dialog_text">
-        Do you want to log in?\n
-        Without logging in, losing your progress will be possible.
+        Do you want to log in?
     </string>
     <string name="ask_me_later">
         Ask me later

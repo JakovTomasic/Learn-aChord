@@ -730,7 +730,7 @@ public class PreferencesFragment extends Fragment {
                     } else if (selection.equals(getString(R.string.dark_mode_dark))) {
                         DatabaseData.nightModeId = AppCompatDelegate.MODE_NIGHT_YES;
                     } else { // automatic mode
-                        DatabaseData.nightModeId = AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY;
+                        DatabaseData.nightModeId = AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM;
                     }
 
                     // If theme is changed, change ui

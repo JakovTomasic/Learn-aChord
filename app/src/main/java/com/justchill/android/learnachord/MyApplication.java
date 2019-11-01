@@ -178,7 +178,7 @@ public class MyApplication extends Application {
         Resources.Theme theme = mActivity.getTheme();
         if(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
             theme.applyStyle(R.style.AppNightTheme, true);
-        } else {
+        } else if(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_NO) {
             theme.applyStyle(R.style.AppTheme, true);
         }
         AppCompatDelegate.setDefaultNightMode(DatabaseData.nightModeId);
@@ -582,6 +582,7 @@ public class MyApplication extends Application {
         Display display = activity.getWindowManager().getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);
+        // These two are replacing each other when rotating screen
         int displayWidth = size.x;
         int displayHeight = size.y;
 

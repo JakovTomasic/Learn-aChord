@@ -12,7 +12,6 @@ import android.media.AudioManager;
 import android.os.Bundle;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
 
 import android.util.TypedValue;
 import android.view.Menu;

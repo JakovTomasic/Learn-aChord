@@ -1,9 +1,5 @@
 package com.justchill.android.learnachord.intervalOrChord;
 
-import android.content.Context;
-import android.content.res.Resources;
-
-import com.justchill.android.learnachord.LocaleHelper;
 import com.justchill.android.learnachord.MyApplication;
 import com.justchill.android.learnachord.R;
 import com.justchill.android.learnachord.database.DatabaseData;

@@ -10,7 +10,6 @@ import android.widget.CheckBox;
 import android.widget.ListView;
 
 import com.justchill.android.learnachord.settings.adapters.ChordAdapter;
-import com.justchill.android.learnachord.LocaleHelper;
 import com.justchill.android.learnachord.R;
 import com.justchill.android.learnachord.intervalOrChord.ChordsList;
 import com.justchill.android.learnachord.database.DatabaseHandler;

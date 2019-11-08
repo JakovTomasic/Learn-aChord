@@ -27,7 +27,6 @@ import com.justchill.android.learnachord.intervalOrChord.IntervalsList;
 import com.justchill.android.learnachord.database.DataContract;
 import com.justchill.android.learnachord.database.DatabaseData;
 import com.justchill.android.learnachord.database.DatabaseHandler;
-import com.justchill.android.learnachord.notifications.NotificationHandler;
 
 // Options activity
 public class SettingsActivity extends AppCompatActivity {

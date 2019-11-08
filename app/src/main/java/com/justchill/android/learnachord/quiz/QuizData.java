@@ -150,14 +150,17 @@ public class QuizData {
 
         if(QuizData.quizIntervalToPlay != null) {
             // Interval is playing (we need to know this to calculate with interval's range)
-            return rand.nextInt(highKeyId - lowKeyId - QuizData.quizIntervalToPlay.getDifference()) + lowKeyId;
+            int tempKeyDifference = highKeyId - lowKeyId - QuizData.quizIntervalToPlay.getDifference();
+            return rand.nextInt(tempKeyDifference > 0 ? tempKeyDifference : 0) + lowKeyId;
         }
 
         if(QuizData.quizChordToPlay != null) {
             // Chord is playing (we need to know this to calculate with chord's range)
-            return rand.nextInt(highKeyId - lowKeyId - QuizData.quizChordToPlay.getDifference()) + lowKeyId;
+            int tempKeyDifference = highKeyId - lowKeyId - QuizData.quizChordToPlay.getDifference();
+            return rand.nextInt(tempKeyDifference > 0 ? tempKeyDifference : 0) + lowKeyId;
         }
 
+        if(highKeyId <= lowKeyId) return lowKeyId;
         return rand.nextInt(highKeyId - lowKeyId) + lowKeyId;
     }
 

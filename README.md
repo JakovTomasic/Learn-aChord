@@ -40,6 +40,9 @@ Coming soon:
 
 ## Features
 
+
+<!------------------------------------------------------------------------------------------------------------------------------->
+
 ### Main Activity
 
 The main activity. Here you can listen to the interval, chords, and tones you chose in the options.<br/><br/>
@@ -48,6 +51,8 @@ The main activity. Here you can listen to the interval, chords, and tones you ch
 When a chord is playing its intervals will be displayed.<br/><br/>
 <img height="400" src="https://i.ibb.co/fqr8v7r/Screenshot-20200729-113510-Learn-a-Chord.jpg" alt="Main activity picture3" border="0">
 
+
+<!------------------------------------------------------------------------------------------------------------------------------->
 
 <br/><br/>
 ### Options
@@ -68,6 +73,8 @@ In the <strong>Tones</strong> section, you can choose how tones for practicing m
 In the <strong>Settings</strong>, there are all the other settings.<br/><br/>
 <img height="400" src="https://i.ibb.co/QrfjTQH/Screenshot-20200729-113203-Learn-a-Chord.jpg" alt="Options settings section1" border="0"> <img height="400" src="https://i.ibb.co/yRG9mns/Screenshot-20200729-113310-Learn-a-Chord.jpg" alt="Options settings section2" border="0"> <img height="400" src="https://i.ibb.co/rpj96bJ/Screenshot-20200729-113922-Learn-a-Chord.jpg" alt="Options settings section1 dark" border="0"> <img height="400" src="https://i.ibb.co/PcKygGg/Screenshot-20200729-113929-Learn-a-Chord.jpg" alt="Options settings section2 dark" border="0"><br/><br/>
 
+
+<!------------------------------------------------------------------------------------------------------------------------------->
 
 <br/><br/>
 ### Quiz
@@ -90,6 +97,8 @@ In the <strong>Hard mode</strong>, you will have to select exactly what is playe
 <img height="400" src="https://i.ibb.co/r6TbvRd/Screenshot-20200729-113635-Learn-a-Chord.jpg" alt="Hard quiz" border="0"> <img height="400" src="https://i.ibb.co/bJS80GF/Screenshot-20200729-114008-Learn-a-Chord.jpg" alt="Hard quiz dark" border="0"><br/><br/>
 
 
+<!------------------------------------------------------------------------------------------------------------------------------->
+
 <br/><br/>
 ### Profile
 
@@ -103,6 +112,7 @@ Also, a user can here change the profile picture. The picture can be taken from 
 <img height="400" src="https://i.ibb.co/8zcMFVb/Screenshot-20200729-114018-Learn-a-Chord.jpg" alt="User profile activity dark" border="0"> <img height="400" src="https://i.ibb.co/gzTHs3M/Screenshot-20200729-114023-Learn-a-Chord.jpg" alt="User profile activity2 dark" border="0"> <img height="400" src="https://i.ibb.co/0tB2dwj/Screenshot-20200729-114028-Learn-a-Chord.jpg" alt="User picture dark" border="0"><br/><br/>
 
 
+<!------------------------------------------------------------------------------------------------------------------------------->
 
 <br/><br/>
 ### Explanation dialog
@@ -114,6 +124,9 @@ Some examples:<br/><br/>
 
 <img height="400" src="https://i.ibb.co/6W5KM0b/Screenshot-20200729-113431-Learn-a-Chord.jpg" alt="Main activity explanation dialog" border="0"> <img height="400" src="https://i.ibb.co/SvpQNSD/Screenshot-20200729-113317-Learn-a-Chord.jpg" alt="Options explanation dialog" border="0"> <img height="400" src="https://i.ibb.co/R0f2FSp/Screenshot-20200729-113936-Learn-a-Chord.jpg" alt="Main activity explanation dialog" border="0">
 
+
+<!------------------------------------------------------------------------------------------------------------------------------->
+
 <br/><br/>
 ### User errors
 
@@ -122,10 +135,13 @@ Here are some examples:<br/><br/>
 
 <img height="400" src="https://i.ibb.co/zbYq8QY/Screenshot-20200729-113344-Learn-a-Chord.jpg" alt="Error dialog" border="0"> <img height="400" src="https://i.ibb.co/MZGcKVj/Screenshot-20200729-113356-Learn-a-Chord.jpg" alt="Error toast" border="0"><br/><br/>
 
+
+<!------------------------------------------------------------------------------------------------------------------------------->
+
 <br/><br/>
 ### Reminders
 
 Practice needs to be consistent. This application has a reminder feature. In settings, a user can adjust how often will (s)he be reminded to practice. 
 
-<img height="400" src="https://i.ibb.co/kxLzFvQ/Screenshot-20200729-114354-Learn-a-Chord.jpg" alt="Reminder option" border="0"> <a height="400" href="https://ibb.co/pnHbWvq"><img height="400" src="https://i.ibb.co/vDNVsx9/Screenshot-20200729-125932-Nova-Launcher.jpg" alt="Reminder notification" border="0">
+<img height="400" src="https://i.ibb.co/kxLzFvQ/Screenshot-20200729-114354-Learn-a-Chord.jpg" alt="Reminder option" border="0"> <img height="400" src="https://i.ibb.co/vDNVsx9/Screenshot-20200729-125932-Nova-Launcher.jpg" alt="Reminder notification" border="0">
 

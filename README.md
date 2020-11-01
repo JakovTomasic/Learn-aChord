@@ -141,7 +141,7 @@ Here are some examples:<br/><br/>
 <br/><br/>
 ### Reminders
 
-Practice needs to be consistent. This application has a reminder feature. In settings, a user can adjust how often will (s)he be reminded to practice. 
+Practice needs to be consistent. This application has a reminder feature. In settings, a user can adjust how often will (s)he get reminded to practice. 
 
 <img height="400" src="https://i.ibb.co/kxLzFvQ/Screenshot-20200729-114354-Learn-a-Chord.jpg" alt="Reminder option" border="0"> <img height="400" src="https://i.ibb.co/vDNVsx9/Screenshot-20200729-125932-Nova-Launcher.jpg" alt="Reminder notification" border="0">
 

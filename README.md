@@ -3,7 +3,7 @@
 <a href="https://play.google.com/store/apps/details?id=com.justchill.android.learnachord"><img height="50" src="https://i.ibb.co/YdnQYFd/pngfuel-com.png" alt="pngfuel-com" border="0"></a>
 
 
-Simple-to-use application for training musical hearing. Targeted specifically to the musicians (from the start of the musical education until retirement.<br/>
+A simple-to-use application for training musical hearing. Targeted specifically for musicians (from the start of the musical education until retirement).<br/>
 
 
 ## About

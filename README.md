@@ -40,8 +40,6 @@ Various customization options for your application:
 	<li>Set reminders so you don't forget to practice</li>
 	<li>Light and dark theme available</li>
 	<li>And other application appearance options</li>
-	<li>Select</li>
-	<li>Select</li>
 </ul>
 
 Coming soon:

@@ -17,21 +17,32 @@ We also offer the ability to train perfect pitch. If you choose to listen to the
 
 
 Various customization options for your application:
- - Select those intervals and chords you want to listen to
- - Choose how intervals and chords will play:
-	1) Ascending
-	2) Descending
-	3) At the same time
- - Choose how the application chooses between these directions:
-	1) Random Mode: randomly plays every interval/chord in one of the selected directions
-	2) Customizable mode: plays every interval/chord in all selected directions in the selected order
- - Choose the duration of each tone in the interval/chord and the time interval between each interval/chord
- - Language of application: English or Croatian
- - The tone range in which the intervals will play. No interval and chord will consist of tones outside this range
- - Set reminders so you don't forget to practice
- - Light and dark theme available
- - And other application appearance options
-
+<ul>
+	<li>Select those intervals and chords you want to listen to</li>
+	<li>
+		Choose how intervals and chords will play:
+		<ol type="1">
+			<li>Ascending</li>
+			<li>Descending</li>
+			<li>At the same time</li>
+		</ol>
+	</li>
+	<li>
+		Choose how the application chooses between these directions:
+		<ol type="1">
+			<li>Random Mode: randomly plays every interval/chord in one of the selected directions</li>
+			<li>Customizable mode: plays every interval/chord in all selected directions in the selected order</li>
+		</ol>
+	</li>
+	<li>Choose the duration of each tone in the interval/chord and the time interval between each interval/chord</li>
+	<li>Language of application: English or Croatian</li>
+	<li>The tone range in which the intervals will play. No interval and chord will consist of tones outside this range</li>
+	<li>Set reminders so you don't forget to practice</li>
+	<li>Light and dark theme available</li>
+	<li>And other application appearance options</li>
+	<li>Select</li>
+	<li>Select</li>
+</ul>
 
 Coming soon:
  - More information about every interval and chord

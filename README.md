@@ -112,10 +112,9 @@ In the <strong>Hard mode</strong>, you will have to select exactly what is playe
 ### Profile
 
 In the profile activity, you can see all your achievements. There are 15 achievements in total, five for each quiz difficulty.<br/>
-Users can log into his profile via the Google, Twitter, or Facebook account or create the new traditional e-mail and password account for this application.<br/>
+Users can log into their profiles via Google, Twitter, or Facebook accounts or create a new traditional e-mail and password account for this application.<br/>
 Account management and authentication are handled by the Firebase auth API. Also, when a user is logged in, all achievements and the quiz high scores are saved in the cloud (Firebase database).<br/>
-Also, a user can here change the profile picture. The picture can be taken from any logged-in social media account or from locally from the device.<br/><br/>
-
+Here, a user can also change the profile picture. The picture can be taken from any logged-in social media account or uploaded from the device.<br/><br/>
 
 <img height="400" src="https://i.ibb.co/dfFYxWq/Screenshot-20200729-113839-Learn-a-Chord.jpg" alt="User profile activity" border="0"> <img height="400" src="https://i.ibb.co/0FwndRf/Screenshot-20200729-113845-Learn-a-Chord.jpg" alt="User profile activity2" border="0"> <img height="400" src="https://i.ibb.co/wrj66nm/Screenshot-20200729-113850-Learn-a-Chord.jpg" alt="User picture" border="0"><br/>
 <img height="400" src="https://i.ibb.co/8zcMFVb/Screenshot-20200729-114018-Learn-a-Chord.jpg" alt="User profile activity dark" border="0"> <img height="400" src="https://i.ibb.co/gzTHs3M/Screenshot-20200729-114023-Learn-a-Chord.jpg" alt="User profile activity2 dark" border="0"> <img height="400" src="https://i.ibb.co/0tB2dwj/Screenshot-20200729-114028-Learn-a-Chord.jpg" alt="User picture dark" border="0"><br/><br/>
